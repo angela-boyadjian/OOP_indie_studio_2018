@@ -1,0 +1,4 @@
+/home/vincent/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/191.6707.69/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/vincent/prog/cpp/OOP_indie_studio_2018
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/vincent/prog/cpp/OOP_indie_studio_2018/cmake-build-debug
