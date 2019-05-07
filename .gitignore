@@ -3,5 +3,5 @@
 .idea/
 
 # CMAKE
-.cmake-build-debug/
+cmake-build-debug/
 build
