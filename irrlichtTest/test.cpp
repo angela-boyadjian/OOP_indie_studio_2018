@@ -21,7 +21,8 @@ int main()
     IGUIEnvironment* guienv = device->getGUIEnvironment();
     guienv->addStaticText(L"Hello World! This is the Irrlicht Software renderer!",
                           rect<s32>(10,10,260,22), true);
-    IAnimatedMesh* mesh = smgr->getMesh("./../LibIrrlicht/media/sydney.md2");
+    IAnimatedMesh* mesh = smgr->getMesh("./../LibIrrlicht/media/faerie.md2");
+    IAnimatedMesh* mesh2 = smgr->getMesh("./../LibIrrlicht/media/sydney.md2");
     if (!mesh)
     {
         device->drop();
@@ -32,7 +33,14 @@ int main()
     {
         node->setMaterialFlag(EMF_LIGHTING, false);
         node->setMD2Animation(scene::EMAT_STAND);
-        node->setMaterialTexture( 0, driver->getTexture("./../LibIrrlicht/media/sydney.bmp") );
+        node->setMaterialTexture( 0, driver->getTexture("./../LibIrrlicht/media/faerie2.bmp") );
+    }
+    IAnimatedMeshSceneNode* node2 = smgr->addAnimatedMeshSceneNode( mesh2 );
+    if (node2)
+    {
+        node2->setMaterialFlag(EMF_LIGHTING, false);
+        node2->setMD2Animation(scene::EMAT_STAND);
+        node2->setMaterialTexture( 0, driver->getTexture("./../LibIrrlicht/media/sydney.bmp") );
     }
     smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,5,0));
     while(device->run())
