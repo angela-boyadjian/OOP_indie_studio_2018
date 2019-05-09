@@ -7,12 +7,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -lXxf86vm -lXext -lX11 -lGL -
 
 add_executable(bomberman
         Game/Characters/ACharacter.cpp
+        Game/Display/Display.cpp
         irrlichtTest/test.cpp)
 
 target_include_directories(bomberman PRIVATE
+        LibIrrlicht/include/
         Game/Characters/
-        Game/Events
-        Game/Display
-        LibIrrlicht/include/)
+        Game/Display/
+        Game/Events/
+        Game/Logic/)
 
 target_link_libraries(bomberman Irrlicht)
