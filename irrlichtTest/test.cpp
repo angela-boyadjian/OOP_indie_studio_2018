@@ -1,24 +1,18 @@
 #include <irrlicht.h>
 
-using namespace irr;
-
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
+#include "Events.hpp"
 
 int main()
 {
-    IrrlichtDevice *device =
-            createDevice(video::EDT_SOFTWARE, dimension2d<u32>(640, 480), 16,
+    irr::IrrlichtDevice *device =
+            irr::createDevice(irr::video::EDT_SOFTWARE, irr::core::dimension2d<irr::u32>(640, 480), 16,
                           false, false, false, 0);
     if (!device)
         return 1;
     device->setWindowCaption(L"Hello World! - Irrlicht Engine Demo");
-    IVideoDriver* driver = device->getVideoDriver();
-    ISceneManager* smgr = device->getSceneManager();
-    IGUIEnvironment* guienv = device->getGUIEnvironment();
+    irr::video::IVideoDriver* driver = device->getVideoDriver();
+    irr::scene::ISceneManager* smgr = device->getSceneManager();
+    irr::gui::IGUIEnvironment* guienv = device->getGUIEnvironment();
     guienv->addStaticText(L"Hello World! This is the Irrlicht Software renderer!",
                           rect<s32>(10,10,260,22), true);
     IAnimatedMesh* mesh = smgr->getMesh("../resources/models/Character/Bomberman.MD3");
