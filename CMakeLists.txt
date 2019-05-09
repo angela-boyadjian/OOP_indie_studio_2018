@@ -6,12 +6,17 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU")
 
 include_directories(LibIrrlicht/include)
-include_directories(srcs/Game/Map)
+include_directories(
+        srcs/Game/Map
+        srcs/Game/Display
+)
 
 add_executable(${PROJECT_NAME}
         srcs/main.cpp
         srcs/Game/Map/Map.cpp
         srcs/Game/Map/Map.hpp
+        srcs/Game/Display/Display.cpp
+        srcs/Game/Display/Display.hpp
 )
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)
