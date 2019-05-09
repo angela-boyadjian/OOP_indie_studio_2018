@@ -1,12 +1,19 @@
+/*
+** EPITECH PROJECT, 2019
+** OOP_indie_studio_2018
+** File description:
+** ACharacter
+*/
 #pragma once
 
 #include <tuple>
 
-using MapPos = std::tuple<std::size_t, std::size_t>;
 
 class ACharacter {
 public:
-    // DIRECTION OF THE CHARACTER
+    using MapPos = std::tuple<std::size_t, std::size_t>;
+
+    // NOTE DIRECTION OF THE CHARACTER
     enum class Direction {
         UP,
         DOWN,
@@ -14,7 +21,7 @@ public:
         RIGHT
     };
 
-    // CONSTRUCTOR / DESTRUCTOR
+    // NOTE CONSTRUCTOR / DESTRUCTOR
     ACharacter(const MapPos &);
     ~ACharacter() = default;
 
@@ -23,7 +30,7 @@ public:
     const std::size_t   &getFireRange() const;
     const Direction     &getDirection() const;
 
-    // INCREASER
+    // NOTE INCREASER
     void    increaseSpeed();
     void    increaseFireRange();
     void    increaseBombNumber();

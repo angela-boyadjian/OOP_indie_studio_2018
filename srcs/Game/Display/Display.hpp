@@ -1,40 +1,47 @@
+/*
+** EPITECH PROJECT, 2019
+** OOP_indie_studio_2018
+** File description:
+** Display
+*/
 #pragma once
 
 #include <irrlicht.h>
 #include <memory>
 #include <vector>
 
-using Device = irr::IrrlichtDevice *;
-using Gui = irr::gui::IGUIEnvironment *;
-using VideoDriver = irr::video::IVideoDriver *;
-using SceneManager = irr::scene::ISceneManager *;
-using AnimatedMeshs = std::vector<irr::scene::IAnimatedMesh *>;
-using AnimatedMeshsScene = std::vector<irr::scene::IAnimatedMeshSceneNode *>;
-
-static const wchar_t *windowName = L"Bomberman";
+// static const wchar_t *windowName = "Bomberman";
 
 class Display {
 public:
-    // CONSTRUCTOR / DESTRUCTOR
+    using Device = irr::IrrlichtDevice *;
+    using Gui = irr::gui::IGUIEnvironment *;
+    using VideoDriver = irr::video::IVideoDriver *;
+    using SceneManager = irr::scene::ISceneManager *;
+    using AnimatedMeshs = std::vector<irr::scene::IAnimatedMesh *>;
+    using AnimatedMeshsScene = std::vector<irr::scene::IAnimatedMeshSceneNode *>;
+
+    // NOTE CONSTRUCTOR / DESTRUCTOR
     Display();
     ~Display() = default;
 
-    // MESH FUNCTIONS
-    void    addNewMesh(const char *);
-    void    addNewMeshScene(const char *);
-    void    addNewAnimation(const char *, const char *);
+    // NOTE MESH FUNCTIONS
+    void    addNewAnimation(const char *, const char *, irr::core::vector3df);
 
-    // IS ON
+    // NOTE IS ON
     bool    isRunning() const;
 
-    // GUI FUNCTIONS
+    // NOTE GUI FUNCTIONS
     void    setGuiMessage(const wchar_t *);
 
-    // CAMERA FUNCTIONS
+    // NOTE CAMERA FUNCTIONS
     void    setCameraScene();
 
-    // DRAW FUNCTIONS
+    // NOTE DRAW FUNCTIONS
     void    draw();
+private:
+    void    addNewMesh(const char *);
+    void    addNewMeshScene(const char *, irr::core::vector3df);
 private:
     Gui                 _gui;
     AnimatedMeshs       _meshs;
