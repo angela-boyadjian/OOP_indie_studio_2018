@@ -5,7 +5,7 @@ project(bomberman)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU")
 
-include_directories(LibIrrlicht/include)
+include_directories(lib/irrLicht/include)
 include_directories(
         srcs/Game/Map
         srcs/Game/Display
