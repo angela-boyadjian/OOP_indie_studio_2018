@@ -1,13 +1,17 @@
 cmake_minimum_required(VERSION 3.11)
+
 project(OOP_indie_studio_2018)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -lXxf86vm -lXext -lX11 -lGL -lGLU")
+include_directories(LibIrrlicht/include)
+include_directories(srcs/Game/Map)
 
-include_directories(LibIrrlicht/include/)
+add_executable(${PROJECT_NAME}
+        srcs/main.cpp
+        srcs/Game/Map/Map.cpp
+        srcs/Game/Map/Map.hpp
+)
 
-add_executable(OOP_indie_studio_2018
-        irrlichtTest/test.cpp)
-
-target_link_libraries(OOP_indie_studio_2018 Irrlicht)
+target_link_libraries(${PROJECT_NAME} Irrlicht)
