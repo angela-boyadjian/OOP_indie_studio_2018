@@ -20,8 +20,12 @@ public:
     Bomberman();
     ~Bomberman();
 
+    // NOTE load resources
+    void loadGame();
+
     // NOTE Game loop
     void run();
 private:
     std::unique_ptr<Player> _player;
+    Display                 _display;
 };

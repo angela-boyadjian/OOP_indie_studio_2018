@@ -13,6 +13,7 @@ int main()
 {
     core::Bomberman b;
 
+    b.loadGame();
     b.run();
     return 0;
 }

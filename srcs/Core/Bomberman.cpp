@@ -17,12 +17,13 @@ core::Bomberman::~Bomberman()
 
 void core::Bomberman::run()
 {
-    Display d;
-
-    _player = std::make_unique<Player>(std::make_tuple(1, 2), d);
-    _player->loadPlayer();
-
-    d.setCameraScene();
-    while (d.isRunning())
+    while (_display.isRunning())
         _player->displayPlayer();
+}
+
+void core::Bomberman::loadGame()
+{
+    _display.setCameraScene();
+    _player = std::make_unique<Player>(std::make_tuple(1, 2), _display);
+    _player->loadPlayer();
 }
