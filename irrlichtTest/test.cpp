@@ -1,5 +1,7 @@
 #include <irrlicht.h>
 
+#include "Events.hpp"
+
 using namespace irr;
 
 using namespace core;
