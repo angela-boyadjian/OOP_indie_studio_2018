@@ -12,7 +12,7 @@
 
 class Player : public ACharacter {
 public:
-    Player(MapPos const &pos, Display &display);
+    Player(Color, MapPos const &pos, Display &display);
     ~Player();
 
     void loadPlayer();
@@ -22,4 +22,5 @@ public:
     void move();
 private:
     Display _display;
+    Color _color;
 };

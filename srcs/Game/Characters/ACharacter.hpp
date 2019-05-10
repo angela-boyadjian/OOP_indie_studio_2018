@@ -7,7 +7,7 @@
 #pragma once
 
 #include <tuple>
-
+#include <vector>
 
 class ACharacter {
 public:
@@ -19,6 +19,13 @@ public:
         DOWN,
         LEFT,
         RIGHT
+    };
+
+    enum class Color {
+        BLACK,
+        PINK,
+        RED,
+        WHITE
     };
 
     // NOTE CONSTRUCTOR / DESTRUCTOR
@@ -35,14 +42,15 @@ public:
     void    increaseFireRange();
     void    increaseBombNumber();
 
-    // DEPLACEMENTS
+    // NOTE MOVE
     virtual void    move() = 0;
-
+public:
+    std::vector<std::string>    _textures;
 private:
-    MapPos          _pos;
-    std::size_t     _speed;
-    Direction       _direction;
-    std::size_t     _fireRange;
-    std::size_t     _bombNumber;
-    std::size_t     _maxBombNumber;
+    MapPos                      _pos;
+    std::size_t                 _speed;
+    Direction                   _direction;
+    std::size_t                 _fireRange;
+    std::size_t                 _bombNumber;
+    std::size_t                 _maxBombNumber;
 };

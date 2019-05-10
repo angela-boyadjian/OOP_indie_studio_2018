@@ -8,7 +8,12 @@
 
 // NOTE CONSTRUCTOR / DESTRUCTOR
 ACharacter::ACharacter(const MapPos &pos) :
-    _pos(pos), _speed(1), _fireRange(1), _bombNumber(1), _maxBombNumber(1)
+    _textures({"../resources/models/Character/BlackBombermanTextures.png",
+    "../resources/models/Character/PinkBombermanTextures.png", 
+    "../resources/models/Character/RedBombermanTextures.png",
+    "../resources/models/Character/WhiteBombermanTextures.png"}),
+    _pos(pos), _speed(1),
+    _fireRange(1), _bombNumber(1), _maxBombNumber(1)
 {
     
 }

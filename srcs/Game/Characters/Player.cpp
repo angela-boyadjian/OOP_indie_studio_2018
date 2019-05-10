@@ -7,8 +7,10 @@
 
 #include "Player.hpp"
 
-Player::Player(MapPos const &pos, Display &display) : ACharacter(pos),
-    _display(display)
+static const char *res = "../resources/models/Character/Bomberman.MD3";
+
+Player::Player(ACharacter::Color color, MapPos const &pos, Display &display) :
+    ACharacter(pos), _display(display), _color(color)
 {
 }
 
@@ -18,8 +20,7 @@ Player::~Player()
 
 void Player::loadPlayer()
 {
-    _display.addNewAnimation("../resources/models/Character/Bomberman.MD3",
-        "../resources/models/Character/RedBombermanTextures.png",
+    _display.addNewAnimation(res, _textures[static_cast<int>(_color)].c_str(),
         irr::core::vector3df(6, 6, 6));
 }
 

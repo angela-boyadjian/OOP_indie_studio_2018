@@ -5,7 +5,9 @@
 ** Bomberman
 */
 #include <iostream>
+
 #include "Bomberman.hpp"
+#include "ACharacter.hpp"
 
 core::Bomberman::Bomberman()
 {
@@ -24,6 +26,7 @@ void core::Bomberman::run()
 void core::Bomberman::loadGame()
 {
     _display.setCameraScene();
-    _player = std::make_unique<Player>(std::make_tuple(1, 2), _display);
+    _player = std::make_unique<Player>(ACharacter::Color::BLACK,
+        std::make_tuple(1, 2), _display);
     _player->loadPlayer();
 }
