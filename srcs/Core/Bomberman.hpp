@@ -17,6 +17,8 @@ namespace core {
 
 class core::Bomberman {
 public:
+    using playerVec = std::vector<std::unique_ptr<Player>>;
+
     Bomberman();
     ~Bomberman();
 
@@ -26,6 +28,6 @@ public:
     // NOTE Game loop
     void run();
 private:
-    std::unique_ptr<Player> _player;
+    playerVec               _players;
     Display                 _display;
 };

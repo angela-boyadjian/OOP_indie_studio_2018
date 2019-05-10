@@ -20,13 +20,15 @@ core::Bomberman::~Bomberman()
 void core::Bomberman::run()
 {
     while (_display.isRunning())
-        _player->displayPlayer();
+        for (auto const &player : _players)
+            player->displayPlayer();
 }
 
 void core::Bomberman::loadGame()
 {
     _display.setCameraScene();
-    _player = std::make_unique<Player>(ACharacter::Color::BLACK,
-        std::make_tuple(1, 2), _display);
-    _player->loadPlayer();
+    _players.push_back(std::make_unique<Player>(ACharacter::Color::BLACK,
+        std::make_tuple(1, 2), _display));
+    for (auto const &player : _players)
+        player->loadPlayer();
 }

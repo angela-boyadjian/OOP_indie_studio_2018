@@ -12,7 +12,7 @@
 
 class Player : public ACharacter {
 public:
-    Player(Color, MapPos const &pos, Display &display);
+    Player(ACharacter::Color, MapPos const &pos, Display &display);
     ~Player();
 
     void loadPlayer();
