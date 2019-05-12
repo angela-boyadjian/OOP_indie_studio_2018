@@ -19,6 +19,7 @@ public:
 
     void displayPlayer();
 
+
     void move();
 private:
     Display _display;

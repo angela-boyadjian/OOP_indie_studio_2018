@@ -68,3 +68,9 @@ void    Display::draw()
     _gui->drawAll();
     _driver->endScene();
 }
+
+void Display::setButton()
+{
+    _gui->addButton(irr::core::rect<irr::s32>(10, 240, 110, 240 + 32), 0,
+    101, L"Quit", L"Exits Program");
+}

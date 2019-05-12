@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "Player.hpp"
+#include "Menu.hpp"
 
 namespace core {
     class Bomberman;
@@ -18,6 +19,7 @@ namespace core {
 class core::Bomberman {
 public:
     using playerVec = std::vector<std::unique_ptr<Player>>;
+    using menu = std::unique_ptr<Menu>;
 
     Bomberman();
     ~Bomberman();
@@ -30,4 +32,5 @@ public:
 private:
     playerVec               _players;
     Display                 _display;
+    menu                    _menu;
 };

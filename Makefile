@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -258,6 +258,33 @@ srcs/Game/Map/Map.cpp.s:
 	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Map/Map.cpp.s
 .PHONY : srcs/Game/Map/Map.cpp.s
 
+srcs/Game/Menu/Menu.o: srcs/Game/Menu/Menu.cpp.o
+
+.PHONY : srcs/Game/Menu/Menu.o
+
+# target to build an object file
+srcs/Game/Menu/Menu.cpp.o:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Menu/Menu.cpp.o
+.PHONY : srcs/Game/Menu/Menu.cpp.o
+
+srcs/Game/Menu/Menu.i: srcs/Game/Menu/Menu.cpp.i
+
+.PHONY : srcs/Game/Menu/Menu.i
+
+# target to preprocess a source file
+srcs/Game/Menu/Menu.cpp.i:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Menu/Menu.cpp.i
+.PHONY : srcs/Game/Menu/Menu.cpp.i
+
+srcs/Game/Menu/Menu.s: srcs/Game/Menu/Menu.cpp.s
+
+.PHONY : srcs/Game/Menu/Menu.s
+
+# target to generate assembly for a file
+srcs/Game/Menu/Menu.cpp.s:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Menu/Menu.cpp.s
+.PHONY : srcs/Game/Menu/Menu.cpp.s
+
 srcs/main.o: srcs/main.cpp.o
 
 .PHONY : srcs/main.o
@@ -309,6 +336,9 @@ help:
 	@echo "... srcs/Game/Map/Map.o"
 	@echo "... srcs/Game/Map/Map.i"
 	@echo "... srcs/Game/Map/Map.s"
+	@echo "... srcs/Game/Menu/Menu.o"
+	@echo "... srcs/Game/Menu/Menu.i"
+	@echo "... srcs/Game/Menu/Menu.s"
 	@echo "... srcs/main.o"
 	@echo "... srcs/main.i"
 	@echo "... srcs/main.s"

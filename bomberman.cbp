@@ -11,25 +11,25 @@
 				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
 				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="bomberman">
-				<Option output="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/bomberman" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018"/>
+				<Option output="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/bin/bomberman" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -38,18 +38,25 @@
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Menu"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Core"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/x86_64-redhat-linux"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 bomberman"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 bomberman"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="bomberman/fast">
-				<Option output="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/bomberman" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018"/>
+				<Option output="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/bin/bomberman" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -58,23 +65,30 @@
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Menu"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Core"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/x86_64-redhat-linux"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 bomberman/fast"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 bomberman/fast"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
 				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -j4 -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
@@ -106,6 +120,12 @@
 			<Option target="bomberman"/>
 		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map/Map.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Menu/Menu.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Menu/Menu.hpp">
 			<Option target="bomberman"/>
 		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/main.cpp">

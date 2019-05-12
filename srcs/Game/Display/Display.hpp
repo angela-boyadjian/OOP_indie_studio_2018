@@ -33,15 +33,18 @@ public:
 
     // NOTE GUI FUNCTIONS
     void    setGuiMessage(const wchar_t *);
+    void    setButton();
 
     // NOTE CAMERA FUNCTIONS
     void    setCameraScene();
 
     // NOTE DRAW FUNCTIONS
     void    draw();
+
 private:
     void    addNewMesh(const char *);
     void    addNewMeshScene(const char *, irr::core::vector3df);
+
 private:
     Gui                 _gui;
     AnimatedMeshs       _meshs;
