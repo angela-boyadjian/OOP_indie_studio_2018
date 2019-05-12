@@ -9,7 +9,7 @@ Display::Display()
     irr::core::dimension2d<irr::u32>(640, 480));
     if (!_device)
         throw DeviceCreationError();
-    _device->setWindowCaption(windowName);
+    _device->setWindowCaption(L"Bomberman");
     _gui = _device->getGUIEnvironment();
     _driver = _device->getVideoDriver();
     _scenes = _device->getSceneManager();
@@ -17,27 +17,33 @@ Display::Display()
 
 void    Display::addNewMesh(const char *meshPath)
 {
-    auto    newMesh = _scenes->getMesh(meshPath);
+    auto newMesh = _scenes->getMesh(meshPath);
     if (!newMesh)
         throw MeshCreationError();
     _meshs.push_back(newMesh);
 }
 
-void    Display::addNewMeshScene(const char *scenePath)
+void    Display::addNewMeshScene(const char *scenePath, irr::core::vector3df scale)
 {
-    auto    newScene = _scenes->addAnimatedMeshSceneNode(_meshs.back());
+    auto newScene = _scenes->addAnimatedMeshSceneNode(_meshs.back());
     if (!newScene)
         throw MeshSceneCreationError();
     newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
     newScene->setMD2Animation(irr::scene::EMAT_STAND);
-    newScene->setMaterialTexture( 0, _driver->getTexture(scenePath));
+    newScene->setScale(scale);
+    newScene->setRotation(irr::core::vector3df(0, 0, 0));
+    newScene->setAnimationSpeed(30);
+    newScene->setLoopMode(true);
+    newScene->setFrameLoop(27, 76);
+    newScene->setMaterialTexture(0, _driver->getTexture(scenePath));
     _meshsScene.push_back(newScene);
 }
 
-void    Display::addNewAnimation(const char *meshPath, const char *scenePath)
+void    Display::addNewAnimation(const char *meshPath, const char *scenePath,
+    irr::core::vector3df scale)
 {
     addNewMesh(meshPath);
-    addNewMeshScene(scenePath);
+    addNewMeshScene(scenePath, scale);
 }
 
 bool    Display::isRunning() const

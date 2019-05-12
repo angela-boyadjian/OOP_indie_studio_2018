@@ -9,6 +9,8 @@ include_directories(lib/irrLicht/include)
 include_directories(
         srcs/Game/Map
         srcs/Game/Display
+        srcs/Game/Characters
+        srcs/Core
 )
 
 add_executable(${PROJECT_NAME}
@@ -17,6 +19,12 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Map/Map.hpp
         srcs/Game/Display/Display.cpp
         srcs/Game/Display/Display.hpp
+        srcs/Game/Characters/ACharacter.cpp
+        srcs/Game/Characters/ACharacter.hpp
+        srcs/Game/Characters/Player.cpp
+        srcs/Game/Characters/Player.hpp
+        srcs/Core/Bomberman.cpp
+        srcs/Core/Bomberman.hpp
 )
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)

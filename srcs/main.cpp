@@ -5,19 +5,15 @@
 ** main
 */
 
-#include "Map.hpp"
-#include "Display.hpp"
+#include "Bomberman.hpp"
 
 #include <irrlicht.h>
 
 int main()
 {
-    Display d;
+    core::Bomberman b;
 
-    d.addNewAnimation("../resources/models/Character/Bomberman.MD3",
-        "../resources/models/Character/RedBombermanTextures.png");
-    d.setCameraScene();
-    while (d.isRunning())
-        d.draw();
+    b.loadGame();
+    b.run();
     return 0;
 }
