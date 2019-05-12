@@ -19,7 +19,7 @@ public:
 
     void displayPlayer();
 
-    void move();
+    void move(const std::vector<std::string> &);
 private:
     Display _display;
     Color _color;

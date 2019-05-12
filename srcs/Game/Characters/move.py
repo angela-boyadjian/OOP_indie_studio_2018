@@ -202,8 +202,6 @@ def choose_direction(t_map, bot_x, bot_y):
 
 map, bot, enemys = get_data(sys.argv[1])
 t_map = transoform_map(map)
-pos_x = 0
-pos_y = 0
 direction = 0
 
 for i in range(5):
@@ -223,7 +221,6 @@ for i in range(5):
     move(bot, direction)
     print('step number =', i, 'direction =', direction)
     print('bot pos = x:', bot.X, 'y:', bot.Y)
-    print('enemy pos = x:', pos_x, 'y:', pos_y, '\n')
     for line in t_map:
         print(line)
     bot.LastDirection = direction
