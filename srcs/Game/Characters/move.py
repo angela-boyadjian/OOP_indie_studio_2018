@@ -151,7 +151,6 @@ def get_out_danger(t_map, bot):
     outs.append(get_distacnce_to_survive(t_map, bot, ACTIONS['LEFT']))
     outs.append(get_distacnce_to_survive(t_map, bot, ACTIONS['RIGHT']))
 
-    print('outs =', outs)
     get_min = np.argmin(outs)
     if get_min == 0:
         return ACTIONS['UP']
@@ -209,12 +208,16 @@ direction = 0
 
 for i in range(5):
     print('----------------------------------------------------\n')
+    if i % 1 == 0:
+        bomb_explosion(t_map)
+        bot.Bomb = True
     if not bot.Bomb:
         direction = get_out_danger(t_map, bot)
     elif is_moment_for_bomb(t_map, bot):
         put_bomb(t_map, bot.X, bot.Y)
-        bot.Bomb = False
+        print('Bomb Planted')
         direction = ACTIONS['BOMB']
+        bot.Bomb = False
     else:
         direction = choose_direction(t_map, bot.X, bot.Y)
     move(bot, direction)
