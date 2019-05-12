@@ -1,4 +1,24 @@
+import numpy as np
+import random
 import sys
+
+
+class Bot:
+    def __init__(self, x, y):
+        self.X = x
+        self.Y = y
+        self.LastDirection = 0
+        self.Bomb = True
+
+
+ACTIONS = {
+    'UP':       0,
+    'DOWN':     1,
+    'LEFT':     2,
+    'RIGHT':    3,
+    'BOMB':     4,
+    'WAIT':     5
+}
 
 
 def get_data(path):
@@ -48,111 +68,14 @@ def transoform_map(map):
     return tmp
 
 
-DIRECTIONS = {
-    'UP': 0,
-    'DOWN': 1,
-    'LEFT': 2,
-    'RIGHT': 3,
-    'WAIT': 4,
-    'BOMB': 5
-}
-
-
-class Bot:
-    def __init__(self, x, y):
-        self.X = x
-        self.Y = y
-        self.putBomb = False
-
-
-def find_shortest_enemy(enemys, bot):
-    dif = []
-    for enemy in enemys:
-        dif.append([enemy.X - bot.X, enemy.Y - bot.Y])
-        if dif[-1][0] < 0:
-            dif[-1][0] *= -1
-        if dif[-1][1] < 0:
-            dif[-1][1] *= -1
-    dif_X = dif[0][0]
-    dif_Y = dif[0][1]
-    dif.pop()
-    for d in dif:
-        if d[0] < dif_X and d[1] < dif_Y:
-            dif_X = d[0]
-            dif_Y = d[1]
-    return dif_X, dif_Y
-
-
-def is_in_danger(map, x, y):
-    if map[y][x] == '-1':
-        return True
-    else:
-        return False
-
-
-def get_out_danger(map, x, y):
-    if x > 0 and map[y][x - 1] == '0':
-        return DIRECTIONS['LEFT']
-    elif x < len(map[y]) and map[y][x + 1] == '0':
-        return DIRECTIONS['RIGHT']
-    elif y > 0 and map[y - 1][x] == '0':
-        return DIRECTIONS['UP']
-    elif y < len(map) and map[y + 1][x] == '0':
-        return DIRECTIONS['DOWN']
-    else:
-        return DIRECTIONS['UP']
-
-
-def get_direction_to_shortest_enemy(bot, enemy_x, enemy_y):
-    dif_X = bot.X - enemy_x
-    dif_Y = bot.Y - enemy_y
-    if dif_X < 0:
-        dif_X *= -1
-    if dif_Y < 0:
-        dif_Y *= -1
-    if dif_X > dif_Y:
-        if bot.X < enemy_x:
-            return DIRECTIONS['RIGHT']
-        else:
-            return DIRECTIONS['LEFT']
-    else:
-        if bot.Y < enemy_y:
-            return DIRECTIONS['DOWN']
-        else:
-            return DIRECTIONS['UP']
-
-
-def go_to_shortest_enemy(t_map, bot, enemy_x, enemy_y):
-    direction = get_direction_to_shortest_enemy(bot, enemy_x, enemy_y)
-    if direction == DIRECTIONS['RIGHT']:
-        if t_map[bot.Y][bot.X + 1] == '2':
-            return DIRECTIONS['BOMB']
-    elif direction == DIRECTIONS['LEFT']:
-        if t_map[bot.Y][bot.X - 1] == '2':
-            return DIRECTIONS['BOMB']
-    elif direction == DIRECTIONS['UP']:
-        if t_map[bot.Y - 1][bot.X] == '2':
-            return DIRECTIONS['BOMB']
-    else:
-        if t_map[bot.Y + 1][bot.X] == '2':
-            return DIRECTIONS['BOMB']
-    return direction
-
-
-def choose_direction(t_map, bot):
-    if is_in_danger(t_map, bot.X, bot.Y):
-        return get_out_danger(t_map, bot.X, bot.Y)
-    return DIRECTIONS['WAIT']
-
-
-def move(bot, direction):
-    if direction == DIRECTIONS['UP']:
+def move(bot, action):
+    if action == ACTIONS['UP']:
         bot.Y -= 1
-    elif direction == DIRECTIONS['DOWN']:
+    elif action == ACTIONS['DOWN']:
         bot.Y += 1
-    elif direction == DIRECTIONS['RIGHT']:
+    elif action == ACTIONS['RIGHT']:
         bot.X += 1
-    elif direction == DIRECTIONS['LEFT']:
+    elif action == ACTIONS['LEFT']:
         bot.X -= 1
 
 
@@ -183,31 +106,121 @@ def bomb_explosion(t_map):
                     t_map[j][i + 1] = '0'
 
 
+def is_danger(t_map, bot):
+    if t_map[bot.Y][bot.X] == '-1' or t_map[bot.Y][bot.X] == '-2':
+        return True
+    return False
+
+
+def get_distacnce_to_survive(t_map, bot, direction):
+    count = 0
+    j = bot.Y
+    i = bot.X
+
+    if direction == ACTIONS['UP']:
+        while j > 0:
+            j -= 1
+            if t_map[j][i] == '0':
+                return count
+            count += 1
+    elif direction == ACTIONS['DOWN']:
+        while j < len(t_map):
+            j += 1
+            if t_map[j][i] == '0':
+                return count
+            count += 1
+    elif direction == ACTIONS['LEFT']:
+        while i > 0:
+            i -= 1
+            if t_map[j][i] == '0':
+                return count
+            count += 1
+    elif direction == ACTIONS['RIGHT']:
+        while i < len(t_map[j]):
+            i += 1
+            if t_map[j][i] == '0':
+                return count
+            count += 1
+    return 84
+
+
+def get_out_danger(t_map, bot):
+    outs = []
+    outs.append(get_distacnce_to_survive(t_map, bot, ACTIONS['UP']))
+    outs.append(get_distacnce_to_survive(t_map, bot, ACTIONS['DOWN']))
+    outs.append(get_distacnce_to_survive(t_map, bot, ACTIONS['LEFT']))
+    outs.append(get_distacnce_to_survive(t_map, bot, ACTIONS['RIGHT']))
+
+    print('outs =', outs)
+    get_min = np.argmin(outs)
+    if get_min == 0:
+        return ACTIONS['UP']
+    if get_min == 1:
+            return ACTIONS['DOWN']
+    if get_min == 2:
+            return ACTIONS['LEFT']
+    if get_min == 3:
+        return ACTIONS['RIGHT']
+
+
+def count_block(t_map, bot_x, bot_y):
+    count = 0
+    if bot_y < len(t_map) and (t_map[bot_y + 1][bot_x] == '2' or t_map[bot_y + 1][bot_x] == '1'):
+        count += 1
+    if bot_y > 0 and (t_map[bot_y - 1][bot_x] == '2' or t_map[bot_y - 1][bot_x] == '1'):
+        count += 1
+    if bot_x < len(t_map[bot_y]) and (t_map[bot_y][bot_x + 1] == '2' or t_map[bot_y][bot_x + 1] == '1'):
+        count += 1
+    if bot_x > 0 and (t_map[bot_y][bot_x - 1] == '2' or t_map[bot_y][bot_x - 1] == '1'):
+        count += 1
+    return count
+
+
+def is_moment_for_bomb(t_map, bot):
+    if not bot.Bomb:
+        return False
+    elif count_block(t_map, bot.X, bot.Y) >= 2:
+        return True
+    else:
+        return False
+
+
+def choose_direction(t_map, bot_x, bot_y):
+    direction = []
+    if bot_y > 0 and t_map[bot_y - 1][bot_x] == '0':
+        direction.append('UP')
+    if bot_y < len(t_map) and t_map[bot_y + 1][bot_x] == '0':
+        direction.append('DOWN')
+    if bot_x < len(t_map[bot_y]) and t_map[bot_y][bot_x + 1] == '0':
+        direction.append('RIGHT')
+    if bot_x > 0 and t_map[bot_y][bot_x - 1] == '0':
+        direction.append('LEFT')
+    if len(direction) == 0:
+        return ACTIONS['WAIT']
+    choice = random.randint(0, len(direction) - 1)
+    return ACTIONS[direction[choice]]
+
+
 map, bot, enemys = get_data(sys.argv[1])
 t_map = transoform_map(map)
 pos_x = 0
 pos_y = 0
+direction = 0
 
-for i in range(10):
+for i in range(5):
     print('----------------------------------------------------\n')
-    direction = choose_direction(t_map, bot)
-    if direction != DIRECTIONS['WAIT']:
-        move(bot, direction)
+    if not bot.Bomb:
+        direction = get_out_danger(t_map, bot)
+    elif is_moment_for_bomb(t_map, bot):
+        put_bomb(t_map, bot.X, bot.Y)
+        bot.Bomb = False
+        direction = ACTIONS['BOMB']
     else:
-        if bot.putBomb:
-            bomb_explosion(t_map)
-            bot.putBomb = False
-        else:
-            pos_x, pos_y = find_shortest_enemy(enemys, bot)
-            direction = go_to_shortest_enemy(t_map, bot, pos_x, pos_y)
-            if direction == DIRECTIONS['BOMB']:
-                print('\nBomb Planted')
-                bot.putBomb = True
-                put_bomb(t_map, bot.X, bot.Y)
-                direction = choose_direction(t_map, bot)
-            move(bot, direction)
-    print('step number ', i, direction)
+        direction = choose_direction(t_map, bot.X, bot.Y)
+    move(bot, direction)
+    print('step number =', i, 'direction =', direction)
     print('bot pos = x:', bot.X, 'y:', bot.Y)
     print('enemy pos = x:', pos_x, 'y:', pos_y, '\n')
     for line in t_map:
         print(line)
+    bot.LastDirection = direction
