@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="bomberman"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="bomberman">
+				<Option output="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/bomberman" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/lib/irrLicht/include"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Core"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 bomberman"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="bomberman/fast">
+				<Option output="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/bomberman" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/lib/irrLicht/include"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Core"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 bomberman/fast"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Core/Bomberman.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Core/Bomberman.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters/ACharacter.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters/ACharacter.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters/Player.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters/Player.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display/Display.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display/Display.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map/Map.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map/Map.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/main.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
