@@ -14,8 +14,9 @@
 #include "SpriteInfo.hpp"
 
 struct MapData {
-    std::vector<std::string> _mapData;
-    std::unordered_map<char, SpriteInfo> _rules;
+    std::vector<std::string> _mapWall;
+    std::unordered_map<char, SpriteInfo> _rulesWall;
+    std::unordered_map<char, SpriteInfo> _rulesGround;
     unsigned int _time;
     unsigned int _nbEnnemie;
 

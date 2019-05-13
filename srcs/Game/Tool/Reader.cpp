@@ -50,7 +50,6 @@ std::vector<SpriteInfo> Reader::readSpriteInfo(const std::string &filename)
         std::vector<std::string> splitLine;
         std::string segment;
         boost::split(splitLine, line, boost::is_any_of(";"));
-        std::cout << splitLine[3] << " " << splitLine[4] << " " << splitLine[5] << std::endl;
         vec.emplace_back(splitLine[0], splitLine[1], splitLine[2],
                          irr::core::vector3df(std::stof(splitLine[3]),
                                               std::stof(splitLine[4]),

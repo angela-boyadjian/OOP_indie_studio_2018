@@ -15,8 +15,7 @@
 
 class Map {
     public:
-        using Cube = irr::scene::ISceneNode;
-        using Wall = irr::scene::IAnimatedMeshSceneNode;
+        using Tile = irr::scene::ISceneNode;
 
         Map(std::string const &);
         ~Map();
@@ -25,12 +24,13 @@ class Map {
         // LOAD MAP
         void preload();
         void load(Display &);
-        void addTileToMap(Display &, char, irr::core::vector3df);
+        void loadWall(Display &);
+        void loadGround(Display &);
+        void addTileToMap(Display &, char, irr::core::vector3df, std::unordered_map<char, SpriteInfo> &, float size);
 
         void displayMap(Display &);
     private:
         std::string _filename;
         MapData _data;
-        std::vector<std::unique_ptr<Cube>> _3dMap;
-
+        std::vector<std::unique_ptr<Tile>> _3dMap;
 };
