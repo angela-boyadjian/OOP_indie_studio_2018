@@ -13,7 +13,6 @@
 
 #include <irrlicht.h>
 
-
 int main()
 {
     Map map("./../resources/maps/1");
