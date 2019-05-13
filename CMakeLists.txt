@@ -28,6 +28,9 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Characters/Bot.hpp
         srcs/Core/Bomberman.cpp
         srcs/Core/Bomberman.hpp
-        srcs/Game/Tool/Reader.cpp srcs/Game/Tool/Reader.hpp srcs/Game/Map/MapData.hpp srcs/Game/Tool/SpriteInfo.hpp srcs/Game/Tool/bite.hpp srcs/Game/Tool/bite.hpp)
+        srcs/Game/Tool/Reader.cpp
+        srcs/Game/Tool/Reader.hpp
+        srcs/Game/Map/MapData.hpp
+        srcs/Game/Tool/SpriteInfo.hpp)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)
