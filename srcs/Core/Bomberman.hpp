@@ -9,6 +9,7 @@
 
 #include <memory>
 
+#include "Game.hpp"
 #include "Player.hpp"
 
 namespace core {
@@ -28,6 +29,7 @@ public:
     // NOTE Game loop
     void run();
 private:
+    Game                    _game;
     playerVec               _players;
     Display                 _display;
 };
