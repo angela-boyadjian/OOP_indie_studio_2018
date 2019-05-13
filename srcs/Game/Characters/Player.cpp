@@ -29,7 +29,7 @@ void Player::displayPlayer()
     _display.draw();
 }
 
-void Player::move()
+void Player::move(const std::vector<std::string> &)
 {
 
 }

@@ -24,6 +24,8 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Characters/ACharacter.hpp
         srcs/Game/Characters/Player.cpp
         srcs/Game/Characters/Player.hpp
+        srcs/Game/Characters/Bot.cpp
+        srcs/Game/Characters/Bot.hpp
         srcs/Core/Bomberman.cpp
         srcs/Core/Bomberman.hpp
         srcs/Game/Tool/Reader.cpp srcs/Game/Tool/Reader.hpp srcs/Game/Map/MapData.hpp srcs/Game/Tool/SpriteInfo.hpp srcs/Game/Tool/bite.hpp srcs/Game/Tool/bite.hpp)

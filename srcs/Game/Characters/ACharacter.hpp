@@ -4,21 +4,25 @@
 ** File description:
 ** ACharacter
 */
+
 #pragma once
 
 #include <tuple>
 #include <vector>
+#include <string>
 
 class ACharacter {
 public:
     using MapPos = std::tuple<std::size_t, std::size_t>;
 
-    // NOTE DIRECTION OF THE CHARACTER
-    enum class Direction {
+    // DIRECTION OF THE CHARACTER
+    enum class Action {
         UP,
         DOWN,
         LEFT,
-        RIGHT
+        RIGHT,
+        BOMB,
+        WAIT
     };
 
     enum class Color {
@@ -28,28 +32,28 @@ public:
         WHITE
     };
 
-    // NOTE CONSTRUCTOR / DESTRUCTOR
+    // CONSTRUCTOR / DESTRUCTOR
     ACharacter(const MapPos &);
     ~ACharacter() = default;
 
     // GETTERS
     const MapPos        &getMapPos() const;
     const std::size_t   &getFireRange() const;
-    const Direction     &getDirection() const;
+    const Action        &getDirection() const;
 
-    // NOTE INCREASER
+    // INCREASER
     void    increaseSpeed();
     void    increaseFireRange();
     void    increaseBombNumber();
 
-    // NOTE MOVE
-    virtual void    move() = 0;
+    // DEPLACEMENT
+    virtual void    move(const std::vector<std::string> &) = 0;
 public:
     std::vector<std::string>    _textures;
-private:
+protected:
     MapPos                      _pos;
     std::size_t                 _speed;
-    Direction                   _direction;
+    Action                      _action;
     std::size_t                 _fireRange;
     std::size_t                 _bombNumber;
     std::size_t                 _maxBombNumber;
