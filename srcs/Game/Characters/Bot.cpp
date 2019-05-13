@@ -56,24 +56,70 @@ bool            Bot::isInDanger()
     return false;
 }
 
-// TO IMPLEMENT
-std::size_t     Bot::getDistanceToSurvive(const ACharacter::Action &)
+std::size_t Bot::getDistanceUp(std::size_t x, std::size_t y)
 {
     std::size_t count {0};
-    std::size_t posX {std::get<0>(_pos)};
-    std::size_t posY {std::get<1>(_pos)};
-    return 0;
+    while (y > 0) {
+        y -= 1;
+        if (_transformedMap[y][x] == '0')
+            return count;
+        count += 1;
+    }
+    return 84;
+}
+
+std::size_t Bot::getDistanceDown(std::size_t x, std::size_t y)
+{
+    std::size_t count {0};
+    while (y < _transformedMap.size()) {
+        y += 1;
+        if (_transformedMap[y][x] == '0')
+            return count;
+        count += 1;
+    }
+    return 84;
+}
+
+std::size_t Bot::getDistanceLeft(std::size_t x, std::size_t y)
+{
+    std::size_t count {0};
+    while (x > 0) {
+        x -= 1;
+        if (_transformedMap[y][x] == '0')
+            return count;
+        count += 1;
+    }
+    return 84;
+}
+
+std::size_t Bot::getDistanceRight(std::size_t x, std::size_t y)
+{
+    std::size_t count {0};
+    while (x < _transformedMap[y].size()) {
+        x += 1;
+        if (_transformedMap[y][x] == '0')
+            return count;
+        count += 1;
+    }
+    return 84;
+}
+
+std::vector<std::size_t> Bot::getDistancesToSurvive()
+{
+    auto    posX = std::get<0>(_pos);
+    auto    posY = std::get<1>(_pos);
+    return std::vector<std::size_t> {
+        getDistanceUp(posX, posY),
+        getDistanceDown(posX, posY),
+        getDistanceLeft(posX, posY),
+        getDistanceRight(posX, posY)
+    };
 }
 
 ACharacter::Action  Bot::getOutOfDanger()
 {
     std::size_t index {0};
-    std::vector<std::size_t>    distances {
-        getDistanceToSurvive(ACharacter::Action::UP),
-        getDistanceToSurvive(ACharacter::Action::DOWN),
-        getDistanceToSurvive(ACharacter::Action::LEFT),
-        getDistanceToSurvive(ACharacter::Action::RIGHT)
-    };
+    auto            distances = getDistancesToSurvive();
     auto    minElement = std::min_element(distances.begin(), distances.end());
     for (auto tmp {distances.begin()}; tmp != minElement; ++tmp)
         index += 1;

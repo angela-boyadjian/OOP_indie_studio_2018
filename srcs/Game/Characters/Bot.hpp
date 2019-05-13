@@ -22,17 +22,21 @@ public:
     // SURVIVE
     bool        isInDanger();
     Action      getOutOfDanger();
-    std::size_t getDistanceToSurvive(const Action &);
+    std::size_t getDistanceUp(std::size_t, std::size_t);
+    std::size_t getDistanceDown(std::size_t, std::size_t);
+    std::size_t getDistanceLeft(std::size_t, std::size_t);
+    std::size_t getDistanceRight(std::size_t, std::size_t);
+    std::vector<std::size_t> getDistancesToSurvive();
 
     // BOMB
     bool        isMomentForBomb();
 
     // MOVE
-    bool        isSafe(const std::size_t &, const std::size_t &);
     Action      getDirection();
     Action      chooseDirection();
     void        changePosition(const Action &);
     void        move(const std::vector<std::string> &);
+    bool        isSafe(const std::size_t &, const std::size_t &);
 
 private:
     Action                      _lastDirection;
