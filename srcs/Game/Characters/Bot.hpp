@@ -32,10 +32,9 @@ public:
     bool        isMomentForBomb();
 
     // MOVE
-    Action      getDirection();
     Action      chooseDirection();
     void        changePosition(const Action &);
-    void        move(const std::vector<std::string> &);
+    void        move(const std::vector<std::string> &) final;
     bool        isSafe(const std::size_t &, const std::size_t &);
 
 private:

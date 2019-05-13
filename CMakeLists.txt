@@ -8,6 +8,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU"
 include_directories(lib/irrLicht/include)
 include_directories(
         srcs/Game/Map
+        srcs/Game/Logic
+        srcs/Game/Events
         srcs/Game/Display
         srcs/Game/Characters
         srcs/Core
@@ -27,6 +29,6 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Characters/Bot.hpp
         srcs/Core/Bomberman.cpp
         srcs/Core/Bomberman.hpp
-)
+        srcs/Game/Logic/Game.cpp)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)
