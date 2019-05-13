@@ -39,14 +39,18 @@ public:
 
     // NOTE DRAW FUNCTIONS
     void    draw();
+
+        SceneManager        _scenes; // TEMPO
+        VideoDriver         _driver;
 private:
     void    addNewMesh(const char *);
     void    addNewMeshScene(const char *, irr::core::vector3df);
+
 private:
     Gui                 _gui;
     AnimatedMeshs       _meshs;
     Device              _device;
-    VideoDriver         _driver;
-    SceneManager        _scenes;
+
+    //SceneManager        _scenes;
     AnimatedMeshsScene  _meshsScene;
 };
