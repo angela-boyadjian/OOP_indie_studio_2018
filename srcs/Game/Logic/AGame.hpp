@@ -11,6 +11,7 @@ public:
     using Map = std::vector<std::string>;
     using Bots = std::vector<std::unique_ptr<Bot>>;
     using Players = std::vector<std::unique_ptr<Player>>;
+    using Event = std::unique_ptr<Events<irr::IEventReceiver>>;
     using Timer = std::chrono::time_point<std::chrono::system_clock>;
 
     // CONSTRUCOR / DESTRUCTOR
@@ -29,7 +30,7 @@ public:
 
     // DEPLACEMENTS (PURE METHODS)
     virtual void    moveBots(const Map &) = 0;
-    virtual void    movePlayers(const Events &, const Map &) = 0;
+    virtual void    movePlayers(const Event &, const Map &) = 0;
 
 protected:
     Bots        _bots;

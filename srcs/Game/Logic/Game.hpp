@@ -15,5 +15,5 @@ public:
     Game(Players &, Bots &);
     ~Game() = default;
     void    moveBots(const Map &) final;
-    void    movePlayers(const Events &, const Map &) final;
+    void    movePlayers(const Event &, const Map &) final;
 };
