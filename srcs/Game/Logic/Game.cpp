@@ -7,8 +7,7 @@
 
 #include "Game.hpp"
 
-Game::Game(Players &p, Bots &b) :
-    _bots(std::move(b)), _players(std::move(p))
+Game::Game(Players &p, Bots &b) : AGame(p, b)
 {
 }
 
