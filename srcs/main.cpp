@@ -10,6 +10,7 @@
 
 #include "Map.hpp"
 #include "Display.hpp"
+#include "Events.hpp"
 
 #include <irrlicht.h>
 

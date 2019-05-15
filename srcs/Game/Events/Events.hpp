@@ -1,7 +1,7 @@
 #pragma once
 
 #include <irrlicht.h>
-#include "driverChoice.h"
+#include <driverChoice.h>
 
 class Events : public irr::IEventReceiver {
 public:

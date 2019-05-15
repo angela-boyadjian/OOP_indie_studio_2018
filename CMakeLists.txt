@@ -35,6 +35,6 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Tool/Reader.hpp
         srcs/Game/Map/MapData.hpp
         srcs/Game/Tool/SpriteInfo.hpp
-        srcs/Game/Display/IDisplay.hpp srcs/Game/Logic/IGame.hpp srcs/Game/Map/IMap.hpp)
+        srcs/Game/Display/IDisplay.hpp srcs/Game/Logic/IGame.hpp srcs/Game/Map/IMap.hpp srcs/Game/Events/IEvent.hpp)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)
