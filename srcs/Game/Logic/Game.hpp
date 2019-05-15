@@ -11,7 +11,6 @@ class Game : public AGame {
 public:
     using Map = std::vector<std::string>;
 
-    Game() = default;
     Game(Players &, Bots &);
     ~Game() = default;
     void    moveBots(const Map &) final;

@@ -17,6 +17,13 @@ core::Bomberman::~Bomberman()
 {
 }
 
+// SETTERS
+
+void    core::Bomberman::setDisplayer(std::unique_ptr<IDisplay> &d)
+{
+    _display = std::move(d);
+}
+
 void core::Bomberman::run()
 {
     while (_display->isRunning())
