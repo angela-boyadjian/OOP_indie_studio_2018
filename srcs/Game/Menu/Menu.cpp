@@ -18,8 +18,6 @@ Menu::~Menu()
 
 }
 
-void handleEvents
-
 void Menu::load(Display &display)
 {
     Display::Gui gui = display.getGui();

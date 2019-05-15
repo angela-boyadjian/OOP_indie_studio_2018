@@ -15,7 +15,6 @@ class Menu : public IMenu {
     ~Menu();
 
     void load(Display &) override;
-    void handleButtons(Display &, const Events &events);
 
     enum {
         GUI_ID_QUIT_BUTTON = 101,
