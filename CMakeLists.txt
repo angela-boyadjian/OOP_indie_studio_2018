@@ -22,30 +22,34 @@ add_executable(${PROJECT_NAME}
         srcs/main.cpp
         srcs/Game/Map/Map.cpp
         srcs/Game/Map/Map.hpp
-        srcs/Game/Display/Display.cpp
-        srcs/Game/Display/Display.hpp
-        srcs/Game/Characters/ACharacter.cpp
-        srcs/Game/Characters/ACharacter.hpp
-        srcs/Game/Characters/Player.cpp
-        srcs/Game/Characters/Player.hpp
-        srcs/Game/Characters/Bot.cpp
-        srcs/Game/Characters/Bot.hpp
-        srcs/Core/Bomberman.cpp
+        srcs/Game/Map/IMap.hpp
+        srcs/Game/Map/ATile.cpp
+        srcs/Game/Map/ATile.hpp
         srcs/Core/Bomberman.hpp
         srcs/Game/Menu/IMenu.hpp
         srcs/Game/Menu/Menu.cpp
         srcs/Game/Menu/Menu.hpp
+        srcs/Core/Bomberman.cpp
         srcs/Game/Logic/Game.cpp
         srcs/Game/Tool/Reader.cpp
         srcs/Game/Tool/Reader.hpp
         srcs/Game/Map/MapData.hpp
+        srcs/Game/Logic/AGame.hpp
+        srcs/Game/Characters/Bot.cpp
+        srcs/Game/Characters/Bot.hpp
         srcs/Game/Tool/SpriteInfo.hpp
+        srcs/Game/Display/Display.cpp
+        srcs/Game/Display/Display.hpp
         srcs/Game/Display/IDisplay.hpp
         srcs/Game/Map/IMap.hpp
         srcs/Game/Map/ATile.cpp
         srcs/Game/Map/ATile.hpp
         srcs/Game/Display/DisplayLoader.cpp
         srcs/Game/Display/DisplayLoader.hpp
-        srcs/Game/Logic/AGame.hpp)
+        srcs/Game/Characters/Player.cpp
+        srcs/Game/Characters/Player.hpp
+        srcs/Game/Characters/ACharacter.cpp
+        srcs/Game/Characters/ACharacter.hpp
+)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)
