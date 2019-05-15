@@ -21,7 +21,7 @@ Map::~Map()
 
 void Map::displayMap(Display &d)
 {
-
+    // NOTE DISPLAY AVEC LE SCENE MANAGEUR NORMALEMENT
 }
 
 // NOTE Load les data qui serviront a load les objets 3D
@@ -161,4 +161,13 @@ void Map::load(Display &d)
     preload();
     loadGround(d);
     loadWall(d);
+}
+
+
+
+
+
+MapData Map::getMapData() const
+{
+    return _data;
 }

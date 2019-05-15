@@ -41,8 +41,6 @@ public:
     // NOTE DRAW FUNCTIONS
     void    draw() final;
 
-        SceneManager        _scenes; // TEMPO
-        VideoDriver         _driver;
 private:
     void    addNewMesh(const char *);
     void    addNewMeshScene(const char *, irr::core::vector3df);

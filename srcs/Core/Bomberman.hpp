@@ -11,6 +11,8 @@
 
 #include "Game.hpp"
 #include "Player.hpp"
+#include "Map.hpp"
+#include "AGame.hpp"
 
 namespace core {
     class Bomberman;

@@ -12,6 +12,8 @@
 
 #include "Display.hpp"
 #include "MapData.hpp"
+#include "IMap.hpp"
+#include "ATile.hpp"
 
 class Map {
     public:
@@ -30,6 +32,14 @@ class Map {
         bool addTileToMap(Display &, const SpriteInfo &, float);
 
         void displayMap(Display &);
+
+        MapData getMapData() const;
+
+
+    private:
+        std::vector<ATile> _mapTiled;
+
+        // NOTE
     private:
         std::string _filename;
         MapData _data;
