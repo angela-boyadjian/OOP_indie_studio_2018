@@ -7,7 +7,6 @@
 
 #include "Bomberman.hpp"
 
-
 #include "Map.hpp"
 #include "Display.hpp"
 #include "Events.hpp"
@@ -22,7 +21,6 @@ int main()
     map.load(d);
     while (d.isRunning())
         d.draw();
-    return 0;
     core::Bomberman b;
 
     b.loadGame();
