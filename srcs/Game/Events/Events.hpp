@@ -10,12 +10,12 @@ public:
             _keyIsPressed[i] = false;
     }
 
-    virtual bool    OnEvent(const irr::SEvent& event) {
+    bool    OnEvent(const irr::SEvent& event) final {
         if (event.EventType == irr::EET_KEY_INPUT_EVENT)
             _keyIsPressed[event.KeyInput.Key] = event.KeyInput.PressedDown;
         return false;
     }
-    virtual bool    IsKeyDown(irr::EKEY_CODE keyCode) const { return _keyIsPressed[keyCode]; }
+    bool    IsKeyDown(irr::EKEY_CODE keyCode) const { return _keyIsPressed[keyCode]; }
 
 private:
     bool    _keyIsPressed[irr::KEY_KEY_CODES_COUNT];
