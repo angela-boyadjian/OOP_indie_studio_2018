@@ -37,7 +37,7 @@ public:
     };
 
     // CONSTRUCTOR / DESTRUCTOR
-    ACharacter(const MapPos &);
+    explicit ACharacter(const MapPos &);
     ~ACharacter() = default;
 
     // SETTERS
