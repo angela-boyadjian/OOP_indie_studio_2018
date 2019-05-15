@@ -13,6 +13,7 @@ public:
     using Bots = std::vector<std::unique_ptr<Bot>>;
     using Players = std::vector<std::unique_ptr<Player>>;
 
+    Game() = default;
     Game(Players &, Bots &);
     ~Game() = default;
     void    moveBots(const Map &);
