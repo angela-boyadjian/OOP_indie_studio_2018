@@ -10,9 +10,10 @@
 #include <memory>
 #include <vector>
 
+#include "IDisplay.hpp"
 // static const wchar_t *windowName = "Bomberman";
 
-class Display {
+class Display : public IDisplay {
 public:
     using Device = irr::IrrlichtDevice *;
     using Gui = irr::gui::IGUIEnvironment *;
@@ -29,17 +30,25 @@ public:
     void    addNewAnimation(const char *, const char *, irr::core::vector3df);
 
     // NOTE IS ON
-    bool    isRunning() const;
+    bool    isRunning() const final;
 
     // NOTE GUI FUNCTIONS
-    void    setGuiMessage(const wchar_t *);
-    void    setButton();
+
+    void    setGuiMessage(const wchar_t *) final;
 
     // NOTE CAMERA FUNCTIONS
-    void    setCameraScene();
+    void    setCameraScene() final;
 
     // NOTE DRAW FUNCTIONS
-    void    draw();
+    void    draw() final;
+
+    SceneManager        _scenes; // TEMPO
+    VideoDriver         _driver;
+
+    // NOTE GET
+    irr::core::dimension2du const &getScreenSize();
+    Display::Device const getDevice();
+    Gui const getGui();
 
 private:
     void    addNewMesh(const char *);
@@ -49,7 +58,7 @@ private:
     Gui                 _gui;
     AnimatedMeshs       _meshs;
     Device              _device;
-    VideoDriver         _driver;
-    SceneManager        _scenes;
+
+    //SceneManager        _scenes;
     AnimatedMeshsScene  _meshsScene;
 };

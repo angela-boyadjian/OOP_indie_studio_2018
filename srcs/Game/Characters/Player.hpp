@@ -12,16 +12,13 @@
 
 class Player : public ACharacter {
 public:
-    Player(ACharacter::Color, MapPos const &pos, Display &display);
+    // ADD KEYMAP PARAM TO CHANGE THE PLAYER KEYMAP
+    Player(ACharacter::Color, MapPos const &pos);
     ~Player();
 
     void loadPlayer();
-
     void displayPlayer();
-
-
-    void move();
+    void move(const std::vector<std::string> &) final;
 private:
-    Display _display;
-    Color _color;
+    Color   _color;
 };

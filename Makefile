@@ -177,6 +177,33 @@ srcs/Game/Characters/ACharacter.cpp.s:
 	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Characters/ACharacter.cpp.s
 .PHONY : srcs/Game/Characters/ACharacter.cpp.s
 
+srcs/Game/Characters/Bot.o: srcs/Game/Characters/Bot.cpp.o
+
+.PHONY : srcs/Game/Characters/Bot.o
+
+# target to build an object file
+srcs/Game/Characters/Bot.cpp.o:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Characters/Bot.cpp.o
+.PHONY : srcs/Game/Characters/Bot.cpp.o
+
+srcs/Game/Characters/Bot.i: srcs/Game/Characters/Bot.cpp.i
+
+.PHONY : srcs/Game/Characters/Bot.i
+
+# target to preprocess a source file
+srcs/Game/Characters/Bot.cpp.i:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Characters/Bot.cpp.i
+.PHONY : srcs/Game/Characters/Bot.cpp.i
+
+srcs/Game/Characters/Bot.s: srcs/Game/Characters/Bot.cpp.s
+
+.PHONY : srcs/Game/Characters/Bot.s
+
+# target to generate assembly for a file
+srcs/Game/Characters/Bot.cpp.s:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Characters/Bot.cpp.s
+.PHONY : srcs/Game/Characters/Bot.cpp.s
+
 srcs/Game/Characters/Player.o: srcs/Game/Characters/Player.cpp.o
 
 .PHONY : srcs/Game/Characters/Player.o
@@ -230,6 +257,33 @@ srcs/Game/Display/Display.s: srcs/Game/Display/Display.cpp.s
 srcs/Game/Display/Display.cpp.s:
 	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Display/Display.cpp.s
 .PHONY : srcs/Game/Display/Display.cpp.s
+
+srcs/Game/Logic/Game.o: srcs/Game/Logic/Game.cpp.o
+
+.PHONY : srcs/Game/Logic/Game.o
+
+# target to build an object file
+srcs/Game/Logic/Game.cpp.o:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Logic/Game.cpp.o
+.PHONY : srcs/Game/Logic/Game.cpp.o
+
+srcs/Game/Logic/Game.i: srcs/Game/Logic/Game.cpp.i
+
+.PHONY : srcs/Game/Logic/Game.i
+
+# target to preprocess a source file
+srcs/Game/Logic/Game.cpp.i:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Logic/Game.cpp.i
+.PHONY : srcs/Game/Logic/Game.cpp.i
+
+srcs/Game/Logic/Game.s: srcs/Game/Logic/Game.cpp.s
+
+.PHONY : srcs/Game/Logic/Game.s
+
+# target to generate assembly for a file
+srcs/Game/Logic/Game.cpp.s:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Logic/Game.cpp.s
+.PHONY : srcs/Game/Logic/Game.cpp.s
 
 srcs/Game/Map/Map.o: srcs/Game/Map/Map.cpp.o
 
@@ -285,6 +339,33 @@ srcs/Game/Menu/Menu.cpp.s:
 	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Menu/Menu.cpp.s
 .PHONY : srcs/Game/Menu/Menu.cpp.s
 
+srcs/Game/Tool/Reader.o: srcs/Game/Tool/Reader.cpp.o
+
+.PHONY : srcs/Game/Tool/Reader.o
+
+# target to build an object file
+srcs/Game/Tool/Reader.cpp.o:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Tool/Reader.cpp.o
+.PHONY : srcs/Game/Tool/Reader.cpp.o
+
+srcs/Game/Tool/Reader.i: srcs/Game/Tool/Reader.cpp.i
+
+.PHONY : srcs/Game/Tool/Reader.i
+
+# target to preprocess a source file
+srcs/Game/Tool/Reader.cpp.i:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Tool/Reader.cpp.i
+.PHONY : srcs/Game/Tool/Reader.cpp.i
+
+srcs/Game/Tool/Reader.s: srcs/Game/Tool/Reader.cpp.s
+
+.PHONY : srcs/Game/Tool/Reader.s
+
+# target to generate assembly for a file
+srcs/Game/Tool/Reader.cpp.s:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Tool/Reader.cpp.s
+.PHONY : srcs/Game/Tool/Reader.cpp.s
+
 srcs/main.o: srcs/main.cpp.o
 
 .PHONY : srcs/main.o
@@ -327,18 +408,27 @@ help:
 	@echo "... srcs/Game/Characters/ACharacter.o"
 	@echo "... srcs/Game/Characters/ACharacter.i"
 	@echo "... srcs/Game/Characters/ACharacter.s"
+	@echo "... srcs/Game/Characters/Bot.o"
+	@echo "... srcs/Game/Characters/Bot.i"
+	@echo "... srcs/Game/Characters/Bot.s"
 	@echo "... srcs/Game/Characters/Player.o"
 	@echo "... srcs/Game/Characters/Player.i"
 	@echo "... srcs/Game/Characters/Player.s"
 	@echo "... srcs/Game/Display/Display.o"
 	@echo "... srcs/Game/Display/Display.i"
 	@echo "... srcs/Game/Display/Display.s"
+	@echo "... srcs/Game/Logic/Game.o"
+	@echo "... srcs/Game/Logic/Game.i"
+	@echo "... srcs/Game/Logic/Game.s"
 	@echo "... srcs/Game/Map/Map.o"
 	@echo "... srcs/Game/Map/Map.i"
 	@echo "... srcs/Game/Map/Map.s"
 	@echo "... srcs/Game/Menu/Menu.o"
 	@echo "... srcs/Game/Menu/Menu.i"
 	@echo "... srcs/Game/Menu/Menu.s"
+	@echo "... srcs/Game/Tool/Reader.o"
+	@echo "... srcs/Game/Tool/Reader.i"
+	@echo "... srcs/Game/Tool/Reader.s"
 	@echo "... srcs/main.o"
 	@echo "... srcs/main.i"
 	@echo "... srcs/main.s"

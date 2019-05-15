@@ -4,6 +4,7 @@
 ** File description:
 ** ACharacter
 */
+
 #include "ACharacter.hpp"
 
 // NOTE CONSTRUCTOR / DESTRUCTOR
@@ -15,15 +16,24 @@ ACharacter::ACharacter(const MapPos &pos) :
     _pos(pos), _speed(1),
     _fireRange(1), _bombNumber(1), _maxBombNumber(1)
 {
-    
 }
 
-// NOTE GETTERS
+// SETTERS
+void    ACharacter::setAction(const ACharacter::Action &action)
+{
+    _action = action;
+}
+
+// GETTERS
+ACharacter::KeyMap          &ACharacter::getKeyMap() { return _keyMap; }
 const ACharacter::MapPos    &ACharacter::getMapPos() const { return _pos; }
 const std::size_t           &ACharacter::getFireRange() const { return _fireRange; }
-const ACharacter::Direction &ACharacter::getDirection() const { return _direction; }
+const ACharacter::Action    &ACharacter::getDirection() const { return _action; }
 
-// NOTE INCREASER
+// INCREASER
 void    ACharacter::increaseSpeed() { _speed += 1; }
 void    ACharacter::increaseFireRange() { _fireRange += 1; }
 void    ACharacter::increaseBombNumber() { _bombNumber += 1; }
+
+// DECREASER
+void    ACharacter::decreaseBombNumber() { _bombNumber -= 1; }

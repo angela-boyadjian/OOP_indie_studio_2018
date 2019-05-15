@@ -9,6 +9,7 @@
 
 #include <memory>
 
+#include "Game.hpp"
 #include "Player.hpp"
 #include "Menu.hpp"
 
@@ -30,7 +31,8 @@ public:
     // NOTE Game loop
     void run();
 private:
-    playerVec               _players;
-    Display                 _display;
     menu                    _menu;
+    std::unique_ptr<IGame>      _game;
+    playerVec                   _players;
+    std::unique_ptr<IDisplay>   _display;
 };

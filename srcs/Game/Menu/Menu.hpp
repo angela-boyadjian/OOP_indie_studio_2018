@@ -6,21 +6,12 @@
 
 #include "Display.hpp"
 #include "ACharacter.hpp"
+#include "IMenu.hpp"
 
-class Menu {
+class Menu : public IMenu {
     public:
-    Menu(Display &display);
-
+    Menu();
     ~Menu();
 
-    void loadMenu();
-
-    void displayMenu();
-
-    enum class Event{
-        GUI_ID_QUIT_BUTTON = 101,
-    };
-
-    private:
-        Display _display;
+    void load(Display &) override;
 };

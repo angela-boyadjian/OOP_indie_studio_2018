@@ -69,8 +69,17 @@ void    Display::draw()
     _driver->endScene();
 }
 
-void Display::setButton()
+Display::Gui const Display::getGui()
 {
-    _gui->addButton(irr::core::rect<irr::s32>(10, 240, 110, 240 + 32), 0,
-    101, L"Quit", L"Exits Program");
+    return _gui;
+}
+
+Display::Device const Display::getDevice()
+{
+    return _device;
+}
+
+irr::core::dimension2du const &Display::getScreenSize()
+{
+    return _driver->getScreenSize();
 }

@@ -9,9 +9,12 @@ set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 include_directories(lib/irrLicht/include)
 include_directories(
         srcs/Game/Map
+        srcs/Game/Logic
+        srcs/Game/Events
         srcs/Game/Display
         srcs/Game/Characters
         srcs/Game/Menu
+        srcs/Game/Tool
         srcs/Core
 )
 
@@ -25,9 +28,20 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Characters/ACharacter.hpp
         srcs/Game/Characters/Player.cpp
         srcs/Game/Characters/Player.hpp
+        srcs/Game/Characters/Bot.cpp
+        srcs/Game/Characters/Bot.hpp
         srcs/Core/Bomberman.cpp
         srcs/Core/Bomberman.hpp
         srcs/Game/Menu/Menu.cpp
-        srcs/Game/Menu/Menu.hpp)
+        srcs/Game/Menu/Menu.hpp
+        srcs/Game/Logic/Game.cpp
+        srcs/Game/Tool/Reader.cpp
+        srcs/Game/Tool/Reader.hpp
+        srcs/Game/Map/MapData.hpp
+        srcs/Game/Tool/SpriteInfo.hpp
+        srcs/Game/Display/IDisplay.hpp
+        srcs/Game/Logic/IGame.hpp
+        srcs/Game/Map/IMap.hpp
+        srcs/Game/Menu/IMenu.hpp)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)
