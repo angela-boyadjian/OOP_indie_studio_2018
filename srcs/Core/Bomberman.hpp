@@ -11,7 +11,6 @@
 
 #include "Game.hpp"
 #include "Player.hpp"
-#include "Menu.hpp"
 
 namespace core {
     class Bomberman;
@@ -20,19 +19,24 @@ namespace core {
 class core::Bomberman {
 public:
     using playerVec = std::vector<std::unique_ptr<Player>>;
-    using menu = std::unique_ptr<Menu>;
+    using Event = std::unique_ptr<Events<irr::IEventReceiver>>;
 
     Bomberman();
     ~Bomberman();
 
-    // NOTE load resources
+    // SETTERS
+    void    setGame(std::unique_ptr<AGame> &);
+    void    setDisplayer(std::unique_ptr<IDisplay> &);
+
+    // load resources
     void loadGame();
 
-    // NOTE Game loop
+    // Game loop
     void run();
 private:
-    menu                    _menu;
-    std::unique_ptr<IGame>      _game;
+    std::unique_ptr<AGame>      _game;
+    Event                       _event;
+
     playerVec                   _players;
     std::unique_ptr<IDisplay>   _display;
 };

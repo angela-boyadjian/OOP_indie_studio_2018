@@ -128,7 +128,16 @@
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display/Display.hpp">
 			<Option target="bomberman"/>
 		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display/DisplayLoader.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display/DisplayLoader.hpp">
+			<Option target="bomberman"/>
+		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display/IDisplay.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Logic/AGame.hpp">
 			<Option target="bomberman"/>
 		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Logic/Game.cpp">
@@ -137,7 +146,10 @@
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Logic/Game.hpp">
 			<Option target="bomberman"/>
 		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Logic/IGame.hpp">
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map/ATile.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map/ATile.hpp">
 			<Option target="bomberman"/>
 		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map/IMap.hpp">

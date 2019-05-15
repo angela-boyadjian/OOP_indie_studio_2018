@@ -32,6 +32,7 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Characters/Bot.hpp
         srcs/Core/Bomberman.cpp
         srcs/Core/Bomberman.hpp
+        srcs/Game/Menu/IMenu.hpp
         srcs/Game/Menu/Menu.cpp
         srcs/Game/Menu/Menu.hpp
         srcs/Game/Logic/Game.cpp
@@ -40,8 +41,11 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Map/MapData.hpp
         srcs/Game/Tool/SpriteInfo.hpp
         srcs/Game/Display/IDisplay.hpp
-        srcs/Game/Logic/IGame.hpp
         srcs/Game/Map/IMap.hpp
-        srcs/Game/Menu/IMenu.hpp)
+        srcs/Game/Map/ATile.cpp
+        srcs/Game/Map/ATile.hpp
+        srcs/Game/Display/DisplayLoader.cpp
+        srcs/Game/Display/DisplayLoader.hpp
+        srcs/Game/Logic/AGame.hpp)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)

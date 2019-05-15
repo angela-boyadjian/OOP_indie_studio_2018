@@ -258,6 +258,33 @@ srcs/Game/Display/Display.cpp.s:
 	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Display/Display.cpp.s
 .PHONY : srcs/Game/Display/Display.cpp.s
 
+srcs/Game/Display/DisplayLoader.o: srcs/Game/Display/DisplayLoader.cpp.o
+
+.PHONY : srcs/Game/Display/DisplayLoader.o
+
+# target to build an object file
+srcs/Game/Display/DisplayLoader.cpp.o:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Display/DisplayLoader.cpp.o
+.PHONY : srcs/Game/Display/DisplayLoader.cpp.o
+
+srcs/Game/Display/DisplayLoader.i: srcs/Game/Display/DisplayLoader.cpp.i
+
+.PHONY : srcs/Game/Display/DisplayLoader.i
+
+# target to preprocess a source file
+srcs/Game/Display/DisplayLoader.cpp.i:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Display/DisplayLoader.cpp.i
+.PHONY : srcs/Game/Display/DisplayLoader.cpp.i
+
+srcs/Game/Display/DisplayLoader.s: srcs/Game/Display/DisplayLoader.cpp.s
+
+.PHONY : srcs/Game/Display/DisplayLoader.s
+
+# target to generate assembly for a file
+srcs/Game/Display/DisplayLoader.cpp.s:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Display/DisplayLoader.cpp.s
+.PHONY : srcs/Game/Display/DisplayLoader.cpp.s
+
 srcs/Game/Logic/Game.o: srcs/Game/Logic/Game.cpp.o
 
 .PHONY : srcs/Game/Logic/Game.o
@@ -284,6 +311,33 @@ srcs/Game/Logic/Game.s: srcs/Game/Logic/Game.cpp.s
 srcs/Game/Logic/Game.cpp.s:
 	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Logic/Game.cpp.s
 .PHONY : srcs/Game/Logic/Game.cpp.s
+
+srcs/Game/Map/ATile.o: srcs/Game/Map/ATile.cpp.o
+
+.PHONY : srcs/Game/Map/ATile.o
+
+# target to build an object file
+srcs/Game/Map/ATile.cpp.o:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Map/ATile.cpp.o
+.PHONY : srcs/Game/Map/ATile.cpp.o
+
+srcs/Game/Map/ATile.i: srcs/Game/Map/ATile.cpp.i
+
+.PHONY : srcs/Game/Map/ATile.i
+
+# target to preprocess a source file
+srcs/Game/Map/ATile.cpp.i:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Map/ATile.cpp.i
+.PHONY : srcs/Game/Map/ATile.cpp.i
+
+srcs/Game/Map/ATile.s: srcs/Game/Map/ATile.cpp.s
+
+.PHONY : srcs/Game/Map/ATile.s
+
+# target to generate assembly for a file
+srcs/Game/Map/ATile.cpp.s:
+	$(MAKE) -f CMakeFiles/bomberman.dir/build.make CMakeFiles/bomberman.dir/srcs/Game/Map/ATile.cpp.s
+.PHONY : srcs/Game/Map/ATile.cpp.s
 
 srcs/Game/Map/Map.o: srcs/Game/Map/Map.cpp.o
 
@@ -417,9 +471,15 @@ help:
 	@echo "... srcs/Game/Display/Display.o"
 	@echo "... srcs/Game/Display/Display.i"
 	@echo "... srcs/Game/Display/Display.s"
+	@echo "... srcs/Game/Display/DisplayLoader.o"
+	@echo "... srcs/Game/Display/DisplayLoader.i"
+	@echo "... srcs/Game/Display/DisplayLoader.s"
 	@echo "... srcs/Game/Logic/Game.o"
 	@echo "... srcs/Game/Logic/Game.i"
 	@echo "... srcs/Game/Logic/Game.s"
+	@echo "... srcs/Game/Map/ATile.o"
+	@echo "... srcs/Game/Map/ATile.i"
+	@echo "... srcs/Game/Map/ATile.s"
 	@echo "... srcs/Game/Map/Map.o"
 	@echo "... srcs/Game/Map/Map.i"
 	@echo "... srcs/Game/Map/Map.s"

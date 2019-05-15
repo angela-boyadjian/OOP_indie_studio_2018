@@ -18,6 +18,8 @@ Menu::~Menu()
 
 }
 
+void handleEvents
+
 void Menu::load(Display &display)
 {
     Display::Gui gui = display.getGui();
@@ -28,6 +30,4 @@ void Menu::load(Display &display)
     101, L"Quit", L"Exits Program");
     gui->addButton(irr::core::rect<irr::s32>(screenSize.Width - 110, 240, screenSize.Width - 10, 240 + 32), 0,
         101, L"Start Game", L"Start Game");
-
-    Events receiver(device);
 }

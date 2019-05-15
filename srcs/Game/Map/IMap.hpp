@@ -10,15 +10,13 @@
 #include <memory>
 
 #include "IDisplay.hpp"
+#include "SpriteInfo.hpp"
+#include "MapData.hpp"
 
 class IMap {
-public:
-    // LOAD MAP
-    virtual void preload() = 0;
-    virtual void load(std::unique_ptr<IDisplay> &) = 0;
-    virtual void loadWall(std::unique_ptr<IDisplay> &) = 0;
-    virtual void loadGround(std::unique_ptr<IDisplay> &) = 0;
-//    void addTileToMap(std::unique_ptr<IDisplay> &, char, irr::core::vector3df, std::unordered_map<char, SpriteInfo> &, float size);
+    public:
 
-    virtual void displayMap(std::unique_ptr<IDisplay> &) = 0;
+        // LOAD MAP
+        virtual void load(std::unique_ptr<IDisplay> &) = 0;
+        virtual MapData getMapData() const = 0;
 };

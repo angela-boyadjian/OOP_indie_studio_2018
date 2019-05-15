@@ -10,6 +10,8 @@
 
 class IDisplay {
 public:
+        using SceneManager = irr::scene::ISceneManager *;
+        using VideoDriver = irr::video::IVideoDriver *;
     // NOTE MESH FUNCTIONS
     // void    addNewAnimation(const char *, const char *, irr::core::vector3df);
 
@@ -21,4 +23,8 @@ public:
     virtual void    setCameraScene() = 0;
     //    // NOTE DRAW FUNCTIONS
     virtual void    draw() = 0;
+
+    // TEMPO
+    SceneManager        _scenes;
+    VideoDriver         _driver;
 };

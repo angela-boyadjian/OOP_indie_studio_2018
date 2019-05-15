@@ -7,6 +7,7 @@
 #include "Display.hpp"
 #include "ACharacter.hpp"
 #include "IMenu.hpp"
+#include "Events.hpp"
 
 class Menu : public IMenu {
     public:
@@ -14,4 +15,9 @@ class Menu : public IMenu {
     ~Menu();
 
     void load(Display &) override;
+    void handleButtons(Display &, const Events &events);
+
+    enum {
+        GUI_ID_QUIT_BUTTON = 101,
+    };
 };

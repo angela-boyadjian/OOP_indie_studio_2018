@@ -1,36 +1,36 @@
 #pragma once
 
 #include <irrlicht.h>
-#include "driverChoice.h"
-#include "Display.hpp"
 
-class Events : public irr::IEventReceiver {
-    public:
-    Events(Display::Device device) : _device(device) {
-        for (irr::u32 i = 0; i < irr::KEY_KEY_CODES_COUNT; ++i)
+#include <driverChoice.h>
+
+static const size_t KEY_COUNT = irr::KEY_KEY_CODES_COUNT;
+static const size_t INPUT_EVENT = irr::EET_KEY_INPUT_EVENT;
+static const size_t GUI_EVENT = irr::EET_GUI_EVENT;
+
+template <typename T>
+class Events : public T {
+public:
+    using index = irr::u32;
+    Events() {
+        for (index i = 0; i < KEY_COUNT; ++i)
             _keyIsPressed[i] = false;
     }
 
-    bool    OnEvent(const irr::SEvent& event) final {
-        if (event.EventType == irr::EET_KEY_INPUT_EVENT)
-            _keyIsPressed[event.KeyInput.Key] = event.KeyInput.PressedDown;
-        if (event.EventType == irr::EET_GUI_EVENT && event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
-            irr::s32 id = event.GUIEvent.Caller->getID();
-            switch (id) {
-            case GUI_ID_QUIT_BUTTON:
-                _device->closeDevice();
-                return true;
-            }
-        }
-        return false;
+    template <typename U> // U ->irr::SEvent::EventType
+    bool    isInputEvent(const U &eventType) { return eventType == INPUT_EVENT; }
+
+    template <typename U>
+    bool    isGuiEvent(const U &eventType) { return eventType == GUI_EVENT; }
+
+    template <typename U> // U -> irr::SEvent::KeyInput::Key
+    void    OnEvent(const U& key) {
+        _keyIsPressed[key] = true;
     }
 
-    bool    IsKeyDown(irr::EKEY_CODE keyCode) const { return _keyIsPressed[keyCode]; }
+    template <typename V> // V -> irr::EKEY_CODE
+    bool    IsKeyDown(const V &keyCode) const { return _keyIsPressed[keyCode]; }
 
-    enum {
-        GUI_ID_QUIT_BUTTON = 101,
-    };
 private:
-    bool    _keyIsPressed[irr::KEY_KEY_CODES_COUNT];
-    Display::Device _device;
+    bool    _keyIsPressed[KEY_COUNT];
 };

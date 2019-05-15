@@ -12,6 +12,8 @@
 
 #include "Display.hpp"
 #include "MapData.hpp"
+#include "IMap.hpp"
+#include "ATile.hpp"
 
 class Map {
     public:
@@ -26,11 +28,20 @@ class Map {
         void load(Display &);
         void loadWall(Display &);
         void loadGround(Display &);
-        void addTileToMap(Display &, char, irr::core::vector3df, std::unordered_map<char, SpriteInfo> &, float size);
+        void preloadWall(Display &);
+        bool addTileToMap(Display &, const SpriteInfo &, float);
 
         void displayMap(Display &);
+
+        MapData getMapData() const;
+
+
+    private:
+        std::vector<ATile> _mapTiled;
+
+        // NOTE
     private:
         std::string _filename;
         MapData _data;
-        std::vector<std::unique_ptr<Tile>> _3dMap;
+        std::vector<std::unique_ptr<Tile>> _3dWall;
 };

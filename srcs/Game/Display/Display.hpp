@@ -42,9 +42,6 @@ public:
     // NOTE DRAW FUNCTIONS
     void    draw() final;
 
-    SceneManager        _scenes; // TEMPO
-    VideoDriver         _driver;
-
     // NOTE GET
     irr::core::dimension2du const &getScreenSize();
     Display::Device const getDevice();
