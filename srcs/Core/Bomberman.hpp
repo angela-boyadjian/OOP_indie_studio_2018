@@ -29,7 +29,7 @@ public:
     // NOTE Game loop
     void run();
 private:
-    Game                    _game;
+    std::unique_ptr<Game>   _game;
     playerVec               _players;
     Display                 _display;
 };

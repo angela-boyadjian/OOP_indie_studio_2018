@@ -40,8 +40,8 @@ void Player::move(const std::vector<std::string> &map)
             std::get<0>(_pos) -= 1;
         case ACharacter::Action::RIGHT:
             std::get<0>(_pos) += 1;
-        case ACharacter::Action::BOMB:
-            decreaseBombNumber();
+//        case ACharacter::Action::BOMB:
+//            decreaseBombNumber();
         default:
             return;
     }

@@ -88,7 +88,7 @@ void Map::loadWall(Display &d)
                      _data._rulesWall, 10.0f);
         x += 10.0f;
     }
-    for (int i = 0;  i != _data._mapWall.size() + 2; i++) {
+    for (std::size_t i = 0;  i != _data._mapWall.size() + 2; i++) {
         addTileToMap(d, '/', irr::core::vector3df(x, y, 40.0f),
                      _data._rulesWall, 10.0f);
         addTileToMap(d, '/', irr::core::vector3df(0 - 10.0f, y, 40.0f),
