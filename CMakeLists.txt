@@ -42,5 +42,6 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Map/ATile.hpp
         srcs/Game/Display/DisplayLoader.cpp
         srcs/Game/Display/DisplayLoader.hpp)
+        srcs/Game/Display/IDisplay.hpp srcs/Game/Logic/AGame.hpp srcs/Game/Map/IMap.hpp)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)
