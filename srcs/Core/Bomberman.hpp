@@ -25,6 +25,7 @@ public:
     ~Bomberman();
 
     // SETTERS
+    void    setGame(std::unique_ptr<AGame> &);
     void    setDisplayer(std::unique_ptr<IDisplay> &);
 
     // load resources

@@ -18,6 +18,10 @@ core::Bomberman::~Bomberman()
 }
 
 // SETTERS
+void    core::Bomberman::setGame(std::unique_ptr<AGame> &g)
+{
+    _game = std::move(g);
+}
 
 void    core::Bomberman::setDisplayer(std::unique_ptr<IDisplay> &d)
 {
