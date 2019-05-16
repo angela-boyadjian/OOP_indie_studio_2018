@@ -69,6 +69,20 @@ void    Display::draw()
     _driver->endScene();
 }
 
+Display::Gui const &Display::getGui()
+{
+    return _gui;
+}
+
+Display::Device const &Display::getDevice()
+{
+    return _device;
+}
+
+irr::core::dimension2du const &Display::getScreenSize()
+{
+    return _driver->getScreenSize();
+}
 IDisplay::Map3D &Display::getMap()
 {
     return _map3d;

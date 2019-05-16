@@ -5,6 +5,7 @@ project(bomberman)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU")
 
+set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 include_directories(lib/irrLicht/include)
 include_directories(
         srcs/Game/Map
@@ -12,6 +13,7 @@ include_directories(
         srcs/Game/Events
         srcs/Game/Display
         srcs/Game/Characters
+        srcs/Game/Menu
         srcs/Game/Tool
         srcs/Core
 )
@@ -24,6 +26,9 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Map/ATile.cpp
         srcs/Game/Map/ATile.hpp
         srcs/Core/Bomberman.hpp
+        srcs/Game/Menu/IMenu.hpp
+        srcs/Game/Menu/Menu.cpp
+        srcs/Game/Menu/Menu.hpp
         srcs/Core/Bomberman.cpp
         srcs/Game/Logic/Game.cpp
         srcs/Game/Tool/Reader.cpp
@@ -36,6 +41,11 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Display/Display.cpp
         srcs/Game/Display/Display.hpp
         srcs/Game/Display/IDisplay.hpp
+        srcs/Game/Map/IMap.hpp
+        srcs/Game/Map/ATile.cpp
+        srcs/Game/Map/ATile.hpp
+        srcs/Game/Display/DisplayLoader.cpp
+        srcs/Game/Display/DisplayLoader.hpp
         srcs/Game/Characters/Player.cpp
         srcs/Game/Characters/Player.hpp
         srcs/Game/Characters/ACharacter.cpp

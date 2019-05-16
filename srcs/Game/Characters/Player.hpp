@@ -21,5 +21,4 @@ public:
     void move(const std::vector<std::string> &) final;
 
 private:
-    Color   _color;
 };

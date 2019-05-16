@@ -33,6 +33,7 @@ public:
     bool    isRunning() const final;
 
     // NOTE GUI FUNCTIONS
+
     void    setGuiMessage(const wchar_t *) final;
 
     // NOTE CAMERA FUNCTIONS
@@ -41,6 +42,10 @@ public:
     // NOTE DRAW FUNCTIONS
     void    draw() final;
 
+    // NOTE GET
+    irr::core::dimension2du const &getScreenSize();
+    Display::Device const &getDevice();
+    Display::Gui const &getGui();
     Map3D   &getMap() override;
 
 private:

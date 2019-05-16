@@ -7,6 +7,11 @@ cmake-build-debug/
 
 # CMAKE
 build
+CMakeFiles
+CMakeCache.txt
 
 # LIB
 lib
+
+# BIN
+bin
