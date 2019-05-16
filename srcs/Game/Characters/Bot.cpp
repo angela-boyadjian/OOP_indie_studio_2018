@@ -15,7 +15,7 @@ bool            Bot::isBlock(const std::size_t &x, const std::size_t &y)
     return y > 0 and y < _transformedMap.size()
             and x > 0 and x < _transformedMap[y].size()
             and (_transformedMap[y][x] == '1'
-            or _transformedMap[y][x] == '2') ? true : false;
+            or _transformedMap[y][x] == '2');
 }
 
 std::size_t     Bot::countBlock()
