@@ -9,10 +9,11 @@
 
 #include <memory>
 
-#include "Game.hpp"
-#include "Player.hpp"
 #include "Map.hpp"
+#include "Game.hpp"
 #include "AGame.hpp"
+#include "Player.hpp"
+#include "DisplayLoader.hpp"
 
 namespace core {
     class Bomberman;
@@ -20,6 +21,7 @@ namespace core {
 
 class core::Bomberman {
 public:
+    using botVec = std::vector<std::unique_ptr<Bot>>;
     using playerVec = std::vector<std::unique_ptr<Player>>;
     using Event = std::unique_ptr<Events<irr::IEventReceiver>>;
 
@@ -31,13 +33,13 @@ public:
     void    setDisplayer(std::unique_ptr<IDisplay> &);
 
     // load resources
-    void loadGame();
+    void loadGame(const std::string &, playerVec &, botVec &);
 
     // Game loop
     void run();
 private:
-    std::unique_ptr<AGame>      _game;
-    Event                       _event;
-    playerVec                   _players;
-    std::shared_ptr<IDisplay>   _display;
+    std::unique_ptr<AGame>          _game;
+    Event                           _event;
+    std::shared_ptr<IDisplay>       _display;
+    DisplayLoader                   _dispLoader;
 };

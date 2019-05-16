@@ -18,7 +18,8 @@
 class DisplayLoader {
 
     public:
-        DisplayLoader(const std::shared_ptr<IDisplay> &);
+        DisplayLoader() = default;
+        explicit DisplayLoader(const std::shared_ptr<IDisplay> &);
         ~DisplayLoader() = default;
 
 
