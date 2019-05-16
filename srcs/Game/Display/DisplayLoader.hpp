@@ -16,7 +16,7 @@
 #include "IMap.hpp"
 #include "IDisplayLoader.hpp"
 
-class DisplayLoader : public IDisplayLoader{
+class DisplayLoader : public IDisplayLoader {
 
     public:
         DisplayLoader(const std::shared_ptr<IDisplay> &);
