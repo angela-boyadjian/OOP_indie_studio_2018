@@ -28,8 +28,9 @@ int main()
             std::size_t(0)))));
     auto game = std::unique_ptr<AGame>(new Game(players, bots));
     core::Bomberman b;
-    auto disp = std::unique_ptr<IDisplay>(new Display());
-    b.setDisplayer(disp);
+    auto disp = std::shared_ptr<IDisplay>(new Display());
+    auto dispLoader = std::unique_ptr<IDisplayLoader>(new DisplayLoader(disp));
+    b.setDisplayer(disp, dispLoader);
     b.loadGame("./../resources/maps/3", game);
     b.run();
     return 0;

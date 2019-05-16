@@ -23,10 +23,11 @@ void core::Bomberman::setGame(std::unique_ptr<AGame> &g)
     _game = std::move(g);
 }
 
-void core::Bomberman::setDisplayer(std::unique_ptr<IDisplay> &d)
+void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
+        std::unique_ptr<IDisplayLoader> &dl)
 {
     _display = std::move(d);
-    _dispLoader = DisplayLoader(_display);
+    _dispLoader = std::move(dl);
 }
 
 void core::Bomberman::run()
@@ -41,6 +42,6 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
     map->load();
     _game = std::move(game);
     _display->setCameraScene();
-    _dispLoader.loadGame(_game);
-    _dispLoader.loadMap(map->getMapData());
+    _dispLoader->loadGame(_game);
+    _dispLoader->loadMap(map->getMapData());
 }

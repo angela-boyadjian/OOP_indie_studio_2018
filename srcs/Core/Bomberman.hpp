@@ -13,7 +13,7 @@
 #include "Game.hpp"
 #include "AGame.hpp"
 #include "Player.hpp"
-#include "DisplayLoader.hpp"
+#include "IDisplayLoader.hpp"
 
 namespace core {
     class Bomberman;
@@ -30,16 +30,17 @@ public:
 
     // SETTERS
     void    setGame(std::unique_ptr<AGame> &);
-    void    setDisplayer(std::unique_ptr<IDisplay> &);
+    void    setDisplayer(std::shared_ptr<IDisplay> &, std::unique_ptr<IDisplayLoader> &);
 
     // load resources
     void loadGame(const std::string &, std::unique_ptr<AGame> &);
 
     // Game loop
     void run();
+
 private:
     std::unique_ptr<AGame>          _game;
     Event                           _event;
     std::shared_ptr<IDisplay>       _display;
-    DisplayLoader                   _dispLoader;
+    std::unique_ptr<IDisplayLoader> _dispLoader;
 };
