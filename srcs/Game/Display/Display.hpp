@@ -41,6 +41,8 @@ public:
     // NOTE DRAW FUNCTIONS
     void    draw() final;
 
+    Map3D   &getMap() override;
+
 private:
     void    addNewMesh(const char *);
     void    addNewMeshScene(const char *, irr::core::vector3df);
@@ -52,4 +54,6 @@ private:
 
     //SceneManager        _scenes;
     AnimatedMeshsScene  _meshsScene;
+    Map3D _map3d;
+
 };

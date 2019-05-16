@@ -39,5 +39,5 @@ private:
     std::unique_ptr<AGame>      _game;
     Event                       _event;
     playerVec                   _players;
-    std::unique_ptr<IDisplay>   _display;
+    std::shared_ptr<IDisplay>   _display;
 };

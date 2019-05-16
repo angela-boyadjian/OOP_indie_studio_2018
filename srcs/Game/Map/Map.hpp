@@ -15,7 +15,7 @@
 #include "IMap.hpp"
 #include "ATile.hpp"
 
-class Map {
+class Map : public IMap {
     public:
         using Tile = irr::scene::ISceneNode;
 
@@ -24,17 +24,8 @@ class Map {
 
 
         // LOAD MAP
-        void preload();
-        void load(Display &);
-        void loadWall(Display &);
-        void loadGround(Display &);
-        void preloadWall(Display &);
-        bool addTileToMap(Display &, const SpriteInfo &, float);
-
-        void displayMap(Display &);
-
-        MapData getMapData() const;
-
+        void load() override;
+        MapData getMapData() const override;
 
     private:
         std::vector<ATile> _mapTiled;

@@ -68,3 +68,8 @@ void    Display::draw()
     _gui->drawAll();
     _driver->endScene();
 }
+
+IDisplay::Map3D &Display::getMap()
+{
+    return _map3d;
+}
