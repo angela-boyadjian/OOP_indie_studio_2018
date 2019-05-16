@@ -14,8 +14,9 @@
 #include <memory>
 
 #include "IMap.hpp"
+#include "IDisplayLoader.hpp"
 
-class DisplayLoader {
+class DisplayLoader : public IDisplayLoader{
 
     public:
         DisplayLoader(const std::shared_ptr<IDisplay> &);
@@ -23,11 +24,11 @@ class DisplayLoader {
 
 
         // NOTE MAP LOAD
-        void loadMap(const MapData &);
-        void loadMapWall(const MapData &);
-        void loadMapGround(const MapData &);
-        void preloadMapWall(const MapData &);
-        bool addTileToMap(const SpriteInfo &, float);
+        void loadMap(const MapData &) override;
+        void loadMapWall(const MapData &) override;
+        void loadMapGround(const MapData &) override;
+        void preloadMapWall(const MapData &) override;
+        bool addTileToMap(const SpriteInfo &, float) override;
 
 
     private:

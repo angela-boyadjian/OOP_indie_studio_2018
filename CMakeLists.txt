@@ -42,6 +42,6 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Characters/ACharacter.hpp
         srcs/Game/Display/DisplayLoader.cpp
         srcs/Game/Display/DisplayLoader.hpp
-)
+        srcs/Game/Display/IDisplayLoader.hpp)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)
