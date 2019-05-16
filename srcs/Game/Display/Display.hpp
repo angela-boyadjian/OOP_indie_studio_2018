@@ -15,12 +15,12 @@
 
 class Display : public IDisplay {
 public:
-    using Device = irr::IrrlichtDevice *;
-    using Gui = irr::gui::IGUIEnvironment *;
-    using VideoDriver = irr::video::IVideoDriver *;
-    using SceneManager = irr::scene::ISceneManager *;
-    using AnimatedMeshs = std::vector<irr::scene::IAnimatedMesh *>;
-    using AnimatedMeshsScene = std::vector<irr::scene::IAnimatedMeshSceneNode *>;
+    using Device = std::unique_ptr<irr::IrrlichtDevice>;
+    using Gui = std::unique_ptr<irr::gui::IGUIEnvironment>;
+    using VideoDriver = std::unique_ptr<irr::video::IVideoDriver>;
+    using SceneManager = std::unique_ptr<irr::scene::ISceneManager>;
+    using AnimatedMeshs = std::vector<std::unique_ptr<irr::scene::IAnimatedMesh>>;
+    using AnimatedMeshsScene = std::vector<std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>>;
 
     // NOTE CONSTRUCTOR / DESTRUCTOR
     Display();
