@@ -43,17 +43,5 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Display/DisplayLoader.cpp
         srcs/Game/Display/DisplayLoader.hpp
 )
-#[[
-=======
-        srcs/Game/Map/IMap.hpp
-        srcs/Game/Map/ATile.cpp
-        srcs/Game/Map/ATile.hpp
-        srcs/Game/Display/DisplayLoader.cpp
-        srcs/Game/Display/DisplayLoader.hpp
-        srcs/Game/Display/IDisplay.hpp
-        srcs/Game/Logic/AGame.hpp)
-
->>>>>>> Stashed changes
-]]
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)
