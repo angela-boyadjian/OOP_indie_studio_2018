@@ -20,6 +20,5 @@ public:
     void displayPlayer();
     void move(const std::vector<std::string> &) final;
 
-    Color   _color;
 private:
 };
