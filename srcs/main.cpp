@@ -28,9 +28,10 @@ int main()
     bots.push_back(std::make_unique<Bot>(Bot(std::make_tuple(std::size_t(0),
             std::size_t(0)))));
 
+    auto game = std::unique_ptr<AGame>(new Game(players, bots));
     auto disp = std::unique_ptr<IDisplay>(new Display());
     b.setDisplayer(disp);
-    b.loadGame("./../resources/maps/3", players, bots);
+    b.loadGame("./../resources/maps/3", game);
     b.run();
     return 0;
 }

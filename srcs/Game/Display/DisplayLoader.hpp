@@ -14,6 +14,7 @@
 #include <memory>
 
 #include "IMap.hpp"
+#include "AGame.hpp"
 #include "ACharacter.hpp"
 
 class DisplayLoader {
@@ -31,7 +32,8 @@ class DisplayLoader {
         void preloadMapWall(const MapData &);
         bool addTileToMap(const SpriteInfo &, float);
 
-        // PLAYER LOAD
+    // PLAYER LOAD
+        void    loadGame(const std::unique_ptr<AGame> &);
         void    loadPlayer(const ACharacter::Color &, const std::vector<std::string> &);
 
     private:

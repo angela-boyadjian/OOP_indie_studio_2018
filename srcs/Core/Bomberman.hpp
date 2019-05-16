@@ -33,7 +33,7 @@ public:
     void    setDisplayer(std::unique_ptr<IDisplay> &);
 
     // load resources
-    void loadGame(const std::string &, playerVec &, botVec &);
+    void loadGame(const std::string &, std::unique_ptr<AGame> &);
 
     // Game loop
     void run();
