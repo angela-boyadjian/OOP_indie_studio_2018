@@ -38,9 +38,12 @@ void core::Bomberman::run()
 void core::Bomberman::loadGame(const std::string &mapPath, playerVec &pv,
         botVec &bv)
 {
-    auto loader = DisplayLoader(_display);
     auto map = std::unique_ptr<IMap>(new Map(mapPath));
     map->load();
+    for (auto &p : pv)
+        _dispLoader.loadPlayer(p->_color, p->_textures);
+    for (auto &b : bv)
+        _dispLoader.loadPlayer(b->_color, b->_textures);
     _game = std::unique_ptr<AGame>(new Game(pv, bv));
     _dispLoader.loadMap(map->getMapData());
     _display->setCameraScene();

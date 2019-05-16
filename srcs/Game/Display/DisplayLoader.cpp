@@ -105,3 +105,12 @@ void DisplayLoader::loadMap(const MapData &map)
     loadMapWall(map);
     loadMapGround(map);
 }
+
+static const char *res = "../resources/models/Character/Bomberman.MD3";
+
+void    DisplayLoader::loadPlayer(const ACharacter::Color &color,
+        const std::vector<std::string> &textures)
+{
+    _d->addNewAnimation(res, textures[static_cast<int>(color)].c_str(),
+     irr::core::vector3df(6, 6, 6));
+}
