@@ -19,8 +19,8 @@ Menu::~Menu()
 
 void Menu::load(Display &display)
 {
-    Display::Gui gui = display.getGui();
-    Display::Device const device = display.getDevice();
+    Display::Gui const &gui = display.getGui();
+    Display::Device const &device = display.getDevice();
     auto screenSize = display.getScreenSize();
 
     gui->addButton(irr::core::rect<irr::s32>(10, 240, 110, 240 + 32), 0,

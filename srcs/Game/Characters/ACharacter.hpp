@@ -37,7 +37,7 @@ public:
     };
 
     // CONSTRUCTOR / DESTRUCTOR
-    explicit ACharacter(const MapPos &);
+    explicit ACharacter(const MapPos &, const Color & = Color::PINK);
     ~ACharacter() = default;
 
     // SETTERS
@@ -61,6 +61,7 @@ public:
     virtual void    move(const std::vector<std::string> &) = 0;
 
 public:
+    Color                       _color;
     std::vector<std::string>    _textures;
 
 protected:

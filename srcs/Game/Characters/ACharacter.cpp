@@ -8,12 +8,12 @@
 #include "ACharacter.hpp"
 
 // NOTE CONSTRUCTOR / DESTRUCTOR
-ACharacter::ACharacter(const MapPos &pos) :
+ACharacter::ACharacter(const MapPos &pos, const Color &color) :
     _textures({"../resources/models/Character/BlackBombermanTextures.png",
     "../resources/models/Character/PinkBombermanTextures.png", 
     "../resources/models/Character/RedBombermanTextures.png",
     "../resources/models/Character/WhiteBombermanTextures.png"}),
-    _pos(pos), _speed(1),
+    _pos(pos), _color(color), _speed(1),
     _fireRange(1), _bombNumber(1), _maxBombNumber(1)
 {
 }

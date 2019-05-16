@@ -14,7 +14,7 @@ public:
     using index = irr::u32;
     using Event = irr::SEvent;
 
-    Events(const Display::Device &device) : _device(device) {
+    Events(Display::Device const &device) : _device(device) {
         for (index i = 0; i < KEY_COUNT; ++i)
             _keyIsPressed[i] = false;
     }
@@ -46,5 +46,5 @@ public:
     };
 private:
     bool    _keyIsPressed[KEY_COUNT];
-    Display::Device _device;
+    Display::Device const &_device;
 };

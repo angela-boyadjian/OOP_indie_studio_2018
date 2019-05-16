@@ -5,12 +5,12 @@
 
 Display::Display()
 {
-    _device = irr::createDevice(irr::video::EDT_OPENGL,
-    irr::core::dimension2d<irr::u32>(640, 480));
+    _device = std::unique_ptr<irr::IrrlichtDevice>(irr::createDevice(irr::video::EDT_OPENGL,
+    irr::core::dimension2d<irr::u32>(640, 480)));
     if (!_device)
         throw DeviceCreationError();
     _device->setWindowCaption(L"Bomberman");
-    _gui = _device->getGUIEnvironment();
+    _gui = std::unique_ptr<irr::gui::IGUIEnvironment>(_device->getGUIEnvironment());
     _driver = _device->getVideoDriver();
     _scenes = _device->getSceneManager();
 }
@@ -20,12 +20,12 @@ void    Display::addNewMesh(const char *meshPath)
     auto newMesh = _scenes->getMesh(meshPath);
     if (!newMesh)
         throw MeshCreationError();
-    _meshs.push_back(newMesh);
+    _meshs.push_back(std::unique_ptr<irr::scene::IAnimatedMesh>(newMesh));
 }
 
 void    Display::addNewMeshScene(const char *scenePath, irr::core::vector3df scale)
 {
-    auto newScene = _scenes->addAnimatedMeshSceneNode(_meshs.back());
+    auto newScene = _scenes->addAnimatedMeshSceneNode(_meshs.back().get());
     if (!newScene)
         throw MeshSceneCreationError();
     newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
@@ -36,7 +36,7 @@ void    Display::addNewMeshScene(const char *scenePath, irr::core::vector3df sca
     newScene->setLoopMode(true);
     newScene->setFrameLoop(27, 76);
     newScene->setMaterialTexture(0, _driver->getTexture(scenePath));
-    _meshsScene.push_back(newScene);
+    _meshsScene.push_back(std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>(newScene));
 }
 
 void    Display::addNewAnimation(const char *meshPath, const char *scenePath,
@@ -69,12 +69,12 @@ void    Display::draw()
     _driver->endScene();
 }
 
-Display::Gui const Display::getGui()
+Display::Gui const &Display::getGui()
 {
     return _gui;
 }
 
-Display::Device const Display::getDevice()
+Display::Device const &Display::getDevice()
 {
     return _device;
 }
@@ -82,4 +82,8 @@ Display::Device const Display::getDevice()
 irr::core::dimension2du const &Display::getScreenSize()
 {
     return _driver->getScreenSize();
+}
+IDisplay::Map3D &Display::getMap()
+{
+    return _map3d;
 }

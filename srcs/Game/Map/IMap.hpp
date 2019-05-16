@@ -17,6 +17,6 @@ class IMap {
     public:
 
         // LOAD MAP
-        virtual void load(std::unique_ptr<IDisplay> &) = 0;
+        virtual void load() = 0;
         virtual MapData getMapData() const = 0;
 };

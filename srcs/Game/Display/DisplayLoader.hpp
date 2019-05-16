@@ -14,24 +14,27 @@
 #include <memory>
 
 #include "IMap.hpp"
+#include "AGame.hpp"
+#include "ACharacter.hpp"
 
 class DisplayLoader {
 
-        using Object = irr::scene::ISceneNode;
-        using Map3D = std::vector<std::unique_ptr<DisplayLoader::Object>>;
-
     public:
-        DisplayLoader(const std::shared_ptr<IDisplay> &);
-        ~DisplayLoader();
+        DisplayLoader() = default;
+        explicit DisplayLoader(const std::shared_ptr<IDisplay> &);
+        ~DisplayLoader() = default;
 
 
         // NOTE MAP LOAD
-        Map3D loadMap(std::unique_ptr<IMap> &);
-        void loadMapWall(Map3D &, std::unique_ptr<IMap> &);
-        void loadMapGround(Map3D &, std::unique_ptr<IMap> &);
-        void preloadMapWall(Map3D &, std::unique_ptr<IMap> &);
-        bool addTileToMap(const SpriteInfo &, float , DisplayLoader::Map3D &);
+        void loadMap(const MapData &);
+        void loadMapWall(const MapData &);
+        void loadMapGround(const MapData &);
+        void preloadMapWall(const MapData &);
+        bool addTileToMap(const SpriteInfo &, float);
 
+    // PLAYER LOAD
+        void    loadGame(const std::unique_ptr<AGame> &);
+        void    loadPlayer(const ACharacter::Color &, const std::vector<std::string> &);
 
     private:
         std::shared_ptr<IDisplay> _d;

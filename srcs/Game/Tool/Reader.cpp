@@ -44,9 +44,9 @@ std::vector<SpriteInfo> Reader::readSpriteInfo(const std::string &filename)
 {
     auto v = vectorRead(filename);
     std::vector<SpriteInfo> vec;
+    int i = 0;
 
     for (auto &line : v) {
-        std::stringstream test(line);
         std::vector<std::string> splitLine;
         std::string segment;
         boost::split(splitLine, line, boost::is_any_of(";"));
@@ -54,6 +54,7 @@ std::vector<SpriteInfo> Reader::readSpriteInfo(const std::string &filename)
                          irr::core::vector3df(std::stof(splitLine[3]),
                                               std::stof(splitLine[4]),
                                               std::stof(splitLine[5])));
+        i++;
     }
     return vec;
 }

@@ -16,28 +16,11 @@
 #include "Menu.hpp"
 
 #include <irrlicht.h>
+#include <DisplayLoader.hpp>
 
 int main()
 {
-//    Map map("./../resources/maps/1");
-//    Display d;
-    Menu menu;
-    Display d;
-
-    menu.load(d);
-    while (d.isRunning()) {
-        d.draw();
-    }
-//    map.load(d);
-//    while (d.isRunning())
-//        d.draw();
-//    return 0;
-//   core::Bomberman b;
-
- //   b.loadGame();
- //   b.run();
-
-/*    core::Bomberman b;
+    core::Bomberman b;
 
     auto players = std::vector<std::unique_ptr<Player>>();
     players.push_back(std::make_unique<Player>(Player(ACharacter::Color::BLACK,
@@ -45,11 +28,11 @@ int main()
     auto bots = std::vector<std::unique_ptr<Bot>>();
     bots.push_back(std::make_unique<Bot>(Bot(std::make_tuple(std::size_t(0),
             std::size_t(0)))));
-    auto game = std::unique_ptr<AGame>(new Game(players, bots));
 
+    auto game = std::unique_ptr<AGame>(new Game(players, bots));
     auto disp = std::unique_ptr<IDisplay>(new Display());
     b.setDisplayer(disp);
-    b.loadGame();
-    b.run();*/
+    b.loadGame("./../resources/maps/3", game);
+    b.run();
     return 0;
 }
