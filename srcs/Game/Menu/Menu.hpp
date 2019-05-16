@@ -14,9 +14,6 @@ class Menu : public IMenu {
     Menu();
     ~Menu();
 
-    void load(Display &) override;
 
-    enum {
-        GUI_ID_QUIT_BUTTON = 101,
-    };
+    void load(Display &) override;
 };

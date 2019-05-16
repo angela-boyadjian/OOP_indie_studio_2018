@@ -1,6 +1,7 @@
 #pragma once
 
 #include <irrlicht.h>
+#include "Display.hpp"
 
 #include <driverChoice.h>
 
@@ -8,29 +9,42 @@ static const size_t KEY_COUNT = irr::KEY_KEY_CODES_COUNT;
 static const size_t INPUT_EVENT = irr::EET_KEY_INPUT_EVENT;
 static const size_t GUI_EVENT = irr::EET_GUI_EVENT;
 
-template <typename T>
-class Events : public T {
+class Events : public irr::IEventReceiver {
 public:
     using index = irr::u32;
-    Events() {
+    using Event = irr::SEvent;
+
+    Events(const Display::Device &device) : _device(device) {
         for (index i = 0; i < KEY_COUNT; ++i)
             _keyIsPressed[i] = false;
     }
 
-    template <typename U> // U ->irr::SEvent::EventType
-    bool    isInputEvent(const U &eventType) { return eventType == INPUT_EVENT; }
+    bool    isInputEvent(Event const &event) { return event.EventType == INPUT_EVENT; }
 
-    template <typename U>
-    bool    isGuiEvent(const U &eventType) { return eventType == GUI_EVENT; }
+    bool    isGuiEvent(Event const &event) { return event.EventType == GUI_EVENT; }
 
-    template <typename U> // U -> irr::SEvent::KeyInput::Key
-    void    OnEvent(const U& key) {
+    void    OnEvent(const irr::EKEY_CODE &key) {
         _keyIsPressed[key] = true;
     }
 
-    template <typename V> // V -> irr::EKEY_CODE
-    bool    IsKeyDown(const V &keyCode) const { return _keyIsPressed[keyCode]; }
+    bool    OnEvent(const Event& event)
+    {
+        if(isGuiEvent(event)) {
+            index id = event.GUIEvent.Caller->getID();
+            if (id == GUI_ID_QUIT_BUTTON && event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
+                _device->closeDevice();
+                return true;
+            }
+        }
+        return false;
+    }
 
+    bool    IsKeyDown(const irr::EKEY_CODE &keyCode) const { return _keyIsPressed[keyCode]; }
+
+    enum {
+        GUI_ID_QUIT_BUTTON = 101,
+    };
 private:
     bool    _keyIsPressed[KEY_COUNT];
+    Display::Device _device;
 };

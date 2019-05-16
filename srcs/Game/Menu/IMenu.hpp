@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Display.hpp"
+#include "Events.hpp"
 
 class IMenu {
     public:

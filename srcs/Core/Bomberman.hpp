@@ -19,7 +19,7 @@ namespace core {
 class core::Bomberman {
 public:
     using playerVec = std::vector<std::unique_ptr<Player>>;
-    using Event = std::unique_ptr<Events<irr::IEventReceiver>>;
+    using Event = std::unique_ptr<Events>;
 
     Bomberman();
     ~Bomberman();
