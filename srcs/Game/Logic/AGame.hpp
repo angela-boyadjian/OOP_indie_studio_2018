@@ -3,6 +3,7 @@
 #include <vector>
 #include <chrono>
 
+#include "Bot.hpp"
 #include "Events.hpp"
 #include "Player.hpp"
 
@@ -27,6 +28,9 @@ public:
         return std::chrono::duration_cast<std::chrono::seconds>(
                 std::chrono::system_clock::now() - _secondsElapsed).count();
     }
+    const Bots      &getBots() { return _bots; }
+    const Players   &getPlayers() { return _players; }
+
 
     // DEPLACEMENTS (PURE METHODS)
     virtual void    moveBots(const Map &) = 0;

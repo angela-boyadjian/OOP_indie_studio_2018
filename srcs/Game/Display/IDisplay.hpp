@@ -15,8 +15,8 @@ public:
         using Object = irr::scene::ISceneNode;
         using Map3D = std::vector<std::unique_ptr<IDisplay::Object>>;
     // NOTE MESH FUNCTIONS
-    // void    addNewAnimation(const char *, const char *, irr::core::vector3df);
-
+    virtual void    addNewAnimation(const char *meshPath, const char *scenePath,
+                                     irr::core::vector3df scale) = 0;
     // NOTE IS ON
     virtual bool    isRunning() const = 0;
     // NOTE GUI FUNCTIONS

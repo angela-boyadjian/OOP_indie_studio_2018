@@ -26,26 +26,21 @@ void core::Bomberman::setGame(std::unique_ptr<AGame> &g)
 void core::Bomberman::setDisplayer(std::unique_ptr<IDisplay> &d)
 {
     _display = std::move(d);
+    _dispLoader = DisplayLoader(_display);
 }
 
 void core::Bomberman::run()
 {
     while (_display->isRunning())
-        for (auto const &player : _players) {
-            player->displayPlayer();
-            _display->draw();
-        }
+        _display->draw();
 }
 
-void core::Bomberman::loadGame()
+void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
 {
-    DisplayLoader loader(_display);
-    auto map = std::unique_ptr<IMap>(new Map("./../resources/maps/3"));
+    auto map = std::unique_ptr<IMap>(new Map(mapPath));
     map->load();
-    loader.loadMap(map->getMapData());
+    _game = std::move(game);
     _display->setCameraScene();
-    _players.push_back(std::make_unique<Player>(ACharacter::Color::BLACK,
-                                                std::make_tuple(1, 2)));
-    for (auto const &player : _players)
-        player->loadPlayer();
+    _dispLoader.loadGame(_game);
+    _dispLoader.loadMap(map->getMapData());
 }

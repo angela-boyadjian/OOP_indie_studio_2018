@@ -19,26 +19,17 @@
 
 int main()
 {
-   /* Map map("./../resources/maps/3");
-    Display d;
-
-    map.load();
-    while (d.isRunning())
-        d.draw();*/
-
-    core::Bomberman b;
-
     /*auto players = std::vector<std::unique_ptr<Player>>();
     players.push_back(std::make_unique<Player>(Player(ACharacter::Color::BLACK,
             std::make_tuple(std::size_t(0), std::size_t(0)))));
     auto bots = std::vector<std::unique_ptr<Bot>>();
     bots.push_back(std::make_unique<Bot>(Bot(std::make_tuple(std::size_t(0),
             std::size_t(0)))));
-    auto game = std::unique_ptr<AGame>(new Game(players, bots));
-
-    */auto disp = std::unique_ptr<IDisplay>(new Display());
+    auto game = std::unique_ptr<AGame>(new Game(players, bots));*/
+    core::Bomberman b;
+    auto disp = std::unique_ptr<IDisplay>(new Display());
     b.setDisplayer(disp);
-    b.loadGame();
+    b.loadGame("./../resources/maps/3", game);
     b.run();
     return 0;
 }

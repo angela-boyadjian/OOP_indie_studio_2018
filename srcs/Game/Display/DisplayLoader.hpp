@@ -14,12 +14,15 @@
 #include <memory>
 
 #include "IMap.hpp"
+#include "AGame.hpp"
+#include "ACharacter.hpp"
 #include "IDisplayLoader.hpp"
 
 class DisplayLoader : public IDisplayLoader {
 
     public:
-        DisplayLoader(const std::shared_ptr<IDisplay> &);
+        DisplayLoader() = default;
+        explicit DisplayLoader(const std::shared_ptr<IDisplay> &);
         ~DisplayLoader() = default;
 
 
@@ -30,6 +33,9 @@ class DisplayLoader : public IDisplayLoader {
         void preloadMapWall(const MapData &) override;
         bool addTileToMap(const SpriteInfo &, float) override;
 
+    // PLAYER LOAD
+        void    loadGame(const std::unique_ptr<AGame> &);
+        void    loadPlayer(const ACharacter::Color &, const std::vector<std::string> &);
 
     private:
         std::shared_ptr<IDisplay> _d;
