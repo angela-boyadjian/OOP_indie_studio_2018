@@ -37,7 +37,7 @@ std::size_t     Bot::countBlock()
 
 bool            Bot::isMomentForBomb()
 {
-    return _bombNumber > 0 and countBlock() >= 2 ? false : true;
+    return _bombNumber > 0 and countBlock() >= 2;
 }
 
 bool            Bot::isInDanger()
@@ -45,8 +45,7 @@ bool            Bot::isInDanger()
     std::size_t posX {std::get<0>(_pos)};
     std::size_t posY {std::get<1>(_pos)};
 
-    return _transformedMap[posY][posX]==-1
-            or _transformedMap[posY][posX]==-2 ? true : false;
+    return _transformedMap[posY][posX] == -1 or _transformedMap[posY][posX] == -2;
 }
 
 std::size_t Bot::getDistanceUp(std::size_t x, std::size_t y)
@@ -121,11 +120,9 @@ ACharacter::Action  Bot::getOutOfDanger()
 
 bool            Bot::isSafe(const std::size_t &x, const std::size_t &y)
 {
-    if (y > 0 and y < _transformedMap.size()
+    return y > 0 and y < _transformedMap.size()
         and x > 0 and x < _transformedMap[y].size()
-        and _transformedMap[y][x] == '0')
-        return true;
-    return false;
+        and _transformedMap[y][x] == '0';
 }
 
 ACharacter::Action  Bot::chooseDirection()
