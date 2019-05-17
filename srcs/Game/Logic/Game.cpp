@@ -31,5 +31,6 @@ void    Game::movePlayers(const Event &events, const Map &map)
         else if (events->IsKeyDown(_players[i]->getKeyMap()["BOMB"]))
             _players[i]->setAction(ACharacter::Action::BOMB);
         _players[i]->move(map);
+        _players[i]->setAction(ACharacter::Action::WAIT);
     }
 }

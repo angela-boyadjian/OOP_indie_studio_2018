@@ -16,6 +16,10 @@ ACharacter::ACharacter(const MapPos &pos, const Color &color) :
     _pos(pos), _color(color), _speed(1),
     _fireRange(1), _bombNumber(1), _maxBombNumber(1)
 {
+    _keyMap["UP"] = irr::EKEY_CODE::KEY_UP;
+    _keyMap["DOWN"] = irr::EKEY_CODE::KEY_DOWN;
+    _keyMap["LEFT"] = irr::EKEY_CODE::KEY_LEFT;
+    _keyMap["RIGHT"] = irr::EKEY_CODE::KEY_RIGHT;
 }
 
 // SETTERS
