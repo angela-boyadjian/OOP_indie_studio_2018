@@ -45,3 +45,19 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
     _dispLoader->loadGame(_game);
     _dispLoader->loadMap(map->getMapData());
 }
+
+void    core::Bomberman::lauch()
+{
+    auto players = std::vector<std::unique_ptr<Player>>();
+    players.push_back(std::make_unique<Player>(Player(ACharacter::Color::BLACK,
+                                                      std::make_tuple(std::size_t(0), std::size_t(0)))));
+    auto bots = std::vector<std::unique_ptr<Bot>>();
+    bots.push_back(std::make_unique<Bot>(Bot(std::make_tuple(std::size_t(0),
+                                                             std::size_t(0)))));
+    auto game = std::unique_ptr<AGame>(new Game(players, bots));
+    auto disp = std::shared_ptr<IDisplay>(new Display());
+    auto dispLoader = std::unique_ptr<IDisplayLoader>(new DisplayLoader(disp));
+    setDisplayer(disp, dispLoader);
+    loadGame("./../resources/maps/3", game);
+    run();
+}

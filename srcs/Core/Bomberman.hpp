@@ -38,6 +38,9 @@ public:
     // Game loop
     void run();
 
+    // LAUNCH CORE
+    void    lauch();
+
 private:
     std::unique_ptr<AGame>          _game;
     Event                           _event;
