@@ -1,7 +1,7 @@
 #pragma once
 
+#include <memory>
 #include <irrlicht.h>
-#include "Display.hpp"
 
 #include <driverChoice.h>
 
@@ -11,10 +11,12 @@ static const size_t GUI_EVENT = irr::EET_GUI_EVENT;
 
 class Events : public irr::IEventReceiver {
 public:
+    using Device = std::shared_ptr<irr::IrrlichtDevice>;
     using index = irr::u32;
     using Event = irr::SEvent;
 
-    Events(Display::Device const &device) : _device(device) {
+    Events(Device const &device) {
+        _device = device;
         for (index i = 0; i < KEY_COUNT; ++i)
             _keyIsPressed[i] = false;
     }
@@ -46,5 +48,5 @@ public:
     };
 private:
     bool    _keyIsPressed[KEY_COUNT];
-    Display::Device const &_device;
+    Device  _device;
 };

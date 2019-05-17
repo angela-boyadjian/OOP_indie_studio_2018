@@ -4,6 +4,7 @@
 ** File description:
 ** Bomberman
 */
+
 #include <iostream>
 #include <DisplayLoader.hpp>
 
@@ -11,7 +12,8 @@
 #include "ACharacter.hpp"
 
 core::Bomberman::Bomberman()
-{}
+{
+}
 
 core::Bomberman::~Bomberman()
 {
@@ -32,8 +34,9 @@ void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
 
 void core::Bomberman::run()
 {
-    while (_display->isRunning())
+    while (_display->isRunning()) {
         _display->draw();
+    }
 }
 
 void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
@@ -48,6 +51,18 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
 
 void    core::Bomberman::lauch()
 {
+    auto disp = std::shared_ptr<IDisplay>(new Display());
+    std::cout << "1" << std::endl;
+    _event = std::make_unique<Events>(Events(disp->_device));
+    disp->setDisplay(_event.get());
+    auto dispLoader = std::unique_ptr<IDisplayLoader>(new DisplayLoader(disp));
+    setDisplayer(disp, dispLoader);
+    initGame();
+    run();
+}
+
+void    core::Bomberman::initGame()
+{
     auto players = std::vector<std::unique_ptr<Player>>();
     players.push_back(std::make_unique<Player>(Player(ACharacter::Color::BLACK,
                                                       std::make_tuple(std::size_t(0), std::size_t(0)))));
@@ -55,9 +70,5 @@ void    core::Bomberman::lauch()
     bots.push_back(std::make_unique<Bot>(Bot(std::make_tuple(std::size_t(0),
                                                              std::size_t(0)))));
     auto game = std::unique_ptr<AGame>(new Game(players, bots));
-    auto disp = std::shared_ptr<IDisplay>(new Display());
-    auto dispLoader = std::unique_ptr<IDisplayLoader>(new DisplayLoader(disp));
-    setDisplayer(disp, dispLoader);
     loadGame("./../resources/maps/3", game);
-    run();
 }

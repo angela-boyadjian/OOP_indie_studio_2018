@@ -8,12 +8,20 @@
 
 #pragma once
 
+#include "Events.hpp"
+
+class Events;
+
 class IDisplay {
 public:
-        using SceneManager = irr::scene::ISceneManager *;
-        using VideoDriver = irr::video::IVideoDriver *;
-        using Object = irr::scene::ISceneNode;
-        using Map3D = std::vector<std::unique_ptr<IDisplay::Object>>;
+    using Device = std::shared_ptr<irr::IrrlichtDevice>;
+    using SceneManager = irr::scene::ISceneManager *;
+    using VideoDriver = irr::video::IVideoDriver *;
+    using Object = irr::scene::ISceneNode;
+    using Map3D = std::vector<std::unique_ptr<IDisplay::Object>>;
+
+    // SET OBJECT
+    virtual void    setDisplay(Events *) = 0;
     // NOTE MESH FUNCTIONS
     virtual void    addNewAnimation(const char *meshPath, const char *scenePath,
                                      irr::core::vector3df scale) = 0;
@@ -31,4 +39,7 @@ public:
     // TEMPO
     SceneManager        _scenes;
     VideoDriver         _driver;
+
+public:
+    Device              _device;
 };

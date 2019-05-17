@@ -6,16 +6,17 @@
 */
 #pragma once
 
-#include <irrlicht.h>
 #include <memory>
 #include <vector>
+#include <irrlicht.h>
 
+#include "Events.hpp"
 #include "IDisplay.hpp"
 // static const wchar_t *windowName = "Bomberman";
 
 class Display : public IDisplay {
 public:
-    using Device = std::unique_ptr<irr::IrrlichtDevice>;
+    using Device = std::shared_ptr<irr::IrrlichtDevice>;
     using Gui = std::unique_ptr<irr::gui::IGUIEnvironment>;
     using VideoDriver = std::unique_ptr<irr::video::IVideoDriver>;
     using SceneManager = std::unique_ptr<irr::scene::ISceneManager>;
@@ -26,14 +27,16 @@ public:
     Display();
     ~Display() = default;
 
+    // SET OBJECT
+    void    setDisplay(Events *) final;
+
     // NOTE MESH FUNCTIONS
-    void    addNewAnimation(const char *, const char *, irr::core::vector3df);
+    void    addNewAnimation(const char *, const char *, irr::core::vector3df) final;
 
     // NOTE IS ON
     bool    isRunning() const final;
 
     // NOTE GUI FUNCTIONS
-
     void    setGuiMessage(const wchar_t *) final;
 
     // NOTE CAMERA FUNCTIONS
@@ -55,7 +58,6 @@ private:
 private:
     Gui                 _gui;
     AnimatedMeshs       _meshs;
-    Device              _device;
 
     //SceneManager        _scenes;
     AnimatedMeshsScene  _meshsScene;

@@ -40,6 +40,7 @@ public:
 
     // LAUNCH CORE
     void    lauch();
+    void    initGame();
 
 private:
     std::unique_ptr<AGame>          _game;
