@@ -36,6 +36,8 @@ void core::Bomberman::run()
 {
     while (_display->isRunning()) {
         _display->draw();
+        if (_event->IsKeyDown(irr::EKEY_CODE::KEY_LEFT))
+            std::cout << "KEY_LEFT PRESSED" << std::endl;
     }
 }
 

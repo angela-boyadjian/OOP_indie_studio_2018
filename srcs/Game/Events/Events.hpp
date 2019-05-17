@@ -31,6 +31,8 @@ public:
 
     bool    OnEvent(const Event& event)
     {
+        if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+            _keyIsPressed[event.KeyInput.Key] = event.KeyInput.PressedDown;
         if(isGuiEvent(event)) {
             index id = event.GUIEvent.Caller->getID();
             if (id == GUI_ID_QUIT_BUTTON && event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
