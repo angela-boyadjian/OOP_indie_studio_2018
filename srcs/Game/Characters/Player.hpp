@@ -13,7 +13,7 @@
 class Player : public ACharacter {
 public:
     // ADD KEYMAP PARAM TO CHANGE THE PLAYER KEYMAP
-    Player(ACharacter::Color, MapPos const &pos);
+    Player(const std::size_t &, ACharacter::Color, MapPos const &pos);
     ~Player();
 
     void loadPlayer();

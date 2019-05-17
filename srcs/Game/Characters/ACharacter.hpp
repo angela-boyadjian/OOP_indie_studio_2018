@@ -37,7 +37,8 @@ public:
     };
 
     // CONSTRUCTOR / DESTRUCTOR
-    explicit ACharacter(const MapPos &, const Color & = Color::PINK);
+    explicit ACharacter(const std::size_t &, const MapPos &,
+            const Color & = Color::PINK);
     ~ACharacter() = default;
 
     // SETTERS
@@ -46,6 +47,7 @@ public:
     // GETTERS
     KeyMap              &getKeyMap();
     const MapPos        &getMapPos() const;
+    const std::size_t   &getEntityNb() const;
     const std::size_t   &getFireRange() const;
     const Action        &getDirection() const;
 
@@ -69,6 +71,7 @@ protected:
     std::size_t                 _speed;
     KeyMap                      _keyMap;
     Action                      _action;
+    std::size_t                 _entityNb;
     std::size_t                 _fireRange;
     std::size_t                 _bombNumber;
     std::size_t                 _maxBombNumber;

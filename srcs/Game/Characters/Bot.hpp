@@ -12,7 +12,7 @@
 class Bot : public ACharacter {
 public:
     // CONSTRUCTOR / DESTRUCTOR
-    Bot(const MapPos &pos) : ACharacter(pos) {};
+    Bot(const std::size_t &enb, const MapPos &pos) : ACharacter(enb, pos) {};
     ~Bot() = default;
 
     // BLOCKS

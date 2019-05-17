@@ -38,11 +38,11 @@ void core::Bomberman::run()
         _display->draw();
         auto a = _game->movePlayers(_event, _map->getMapData()._mapWall);
         if (a != ACharacter::Action::WAIT)
-            _display->changeModelPos(0, irr::core::vector3df(std::get<0>(_game->getPlayers()[0]->getMapPos()),
+            _display->changeModelPos(_game->getPlayers()[0]->getEntityNb(), irr::core::vector3df(std::get<0>(_game->getPlayers()[0]->getMapPos()),
                     std::get<1>(_game->getPlayers()[0]->getMapPos()), 0));
         auto b = _game->moveBots(_map->getMapData()._mapWall);
         if (b != ACharacter::Action::WAIT)
-            _display->changeModelPos(1, irr::core::vector3df(std::get<0>(_game->getBots()[0]->getMapPos()),
+            _display->changeModelPos(_game->getBots()[0]->getEntityNb(), irr::core::vector3df(std::get<0>(_game->getBots()[0]->getMapPos()),
                                                           std::get<1>(_game->getBots()[0]->getMapPos()), 0));
     }
 }
@@ -72,10 +72,10 @@ void    core::Bomberman::lauch()
 void    core::Bomberman::initGame()
 {
     auto players = std::vector<std::unique_ptr<Player>>();
-    players.push_back(std::make_unique<Player>(Player(ACharacter::Color::BLACK,
+    players.push_back(std::make_unique<Player>(Player(0, ACharacter::Color::BLACK,
                                                       std::make_tuple(std::size_t(0), std::size_t(0)))));
     auto bots = std::vector<std::unique_ptr<Bot>>();
-    bots.push_back(std::make_unique<Bot>(Bot(std::make_tuple(std::size_t(0),
+    bots.push_back(std::make_unique<Bot>(Bot(1, std::make_tuple(std::size_t(0),
                                                              std::size_t(0)))));
     auto game = std::unique_ptr<AGame>(new Game(players, bots));
     loadGame("./../resources/maps/3", game);

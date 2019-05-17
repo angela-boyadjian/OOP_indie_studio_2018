@@ -8,8 +8,8 @@
 #include "Player.hpp"
 
 
-Player::Player(ACharacter::Color color, MapPos const &pos) :
-    ACharacter(pos, color)
+Player::Player(const std::size_t &enb, ACharacter::Color color, MapPos const &pos) :
+    ACharacter(enb, pos, color)
 {
     _action = ACharacter::Action::WAIT;
 }
