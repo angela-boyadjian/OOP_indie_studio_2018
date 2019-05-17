@@ -36,7 +36,10 @@ void core::Bomberman::run()
 {
     while (_display->isRunning()) {
         _display->draw();
-        _game->movePlayers(_event, std::vector<std::string>());
+        auto a = _game->movePlayers(_event, std::vector<std::string>());
+        if (a != ACharacter::Action::WAIT)
+            _display->changeModelPos(irr::core::vector3df(std::get<0>(_game->getPlayers()[0]->getMapPos()),
+                    std::get<1>(_game->getPlayers()[0]->getMapPos()), 0));
     }
 }
 
