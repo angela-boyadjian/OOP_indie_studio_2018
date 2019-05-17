@@ -33,7 +33,7 @@ public:
 
     // DEPLACEMENTS (PURE METHODS)
     virtual void    moveBots(const Map &) = 0;
-    virtual void    movePlayers(const Event &, const Map &) = 0;
+    virtual ACharacter::Action  movePlayers(const Event &, const Map &) = 0;
 
 protected:
     Bots        _bots;

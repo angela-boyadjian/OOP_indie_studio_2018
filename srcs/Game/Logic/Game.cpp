@@ -17,20 +17,24 @@ void    Game::moveBots(const Game::Map &map)
         _bots[i]->move(map);
 }
 
-void    Game::movePlayers(const Event &events, const Map &map)
+ACharacter::Action  Game::movePlayers(const Event &events, const Map &map)
 {
+    ACharacter::Action  tmp = ACharacter::Action::WAIT;
+
     for (std::size_t i {0}; i < _players.size(); ++i) {
         if (events->IsKeyDown(_players[i]->getKeyMap()["UP"]))
-            _players[i]->setAction(ACharacter::Action::UP);
+            tmp = ACharacter::Action::UP;
         else if (events->IsKeyDown(_players[i]->getKeyMap()["DOWN"]))
-            _players[i]->setAction(ACharacter::Action::DOWN);
+            tmp = ACharacter::Action::DOWN;
         else if (events->IsKeyDown(_players[i]->getKeyMap()["LEFT"]))
-            _players[i]->setAction(ACharacter::Action::LEFT);
+            tmp = ACharacter::Action::LEFT;
         else if (events->IsKeyDown(_players[i]->getKeyMap()["RIGHT"]))
-            _players[i]->setAction(ACharacter::Action::RIGHT);
+            tmp = ACharacter::Action::RIGHT;
         else if (events->IsKeyDown(_players[i]->getKeyMap()["BOMB"]))
-            _players[i]->setAction(ACharacter::Action::BOMB);
+            tmp = ACharacter::Action::BOMB;
+        _players[i]->setAction(tmp);
         _players[i]->move(map);
         _players[i]->setAction(ACharacter::Action::WAIT);
     }
+    return tmp;
 }
