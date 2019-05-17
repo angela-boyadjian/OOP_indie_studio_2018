@@ -92,7 +92,7 @@ IDisplay::Map3D &Display::getMap()
     return _map3d;
 }
 
-void    Display::changeModelPos(const irr::core::vector3df vec)
+void    Display::changeModelPos(const std::size_t &i, const irr::core::vector3df vec)
 {
-    _meshsScene[0]->setPosition(vec);
+    _meshsScene[i]->setPosition(vec);
 }

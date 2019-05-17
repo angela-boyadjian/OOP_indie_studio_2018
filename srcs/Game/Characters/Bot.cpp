@@ -156,6 +156,9 @@ void    Bot::changePosition(const ACharacter::Action &a)
 
 void    Bot::move(const std::vector<std::string> &)
 {
+    _lastDirection = Action(rand() % 4);
+    changePosition(_lastDirection);
+    return;
     Action  a;
     if (_bombNumber == 0) {
         a = getOutOfDanger();

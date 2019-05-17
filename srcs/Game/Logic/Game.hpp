@@ -13,6 +13,6 @@ public:
 
     Game(Players &, Bots &);
     ~Game() = default;
-    void    moveBots(const Map &) final;
+    ACharacter::Action  moveBots(const Map &) final;
     ACharacter::Action  movePlayers(const Event &, const Map &) final;
 };

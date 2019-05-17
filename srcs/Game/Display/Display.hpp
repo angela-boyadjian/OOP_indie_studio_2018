@@ -51,7 +51,7 @@ public:
     Display::Gui const &getGui();
     Map3D   &getMap() override;
 
-    void    changeModelPos(const irr::core::vector3df) final;
+    void    changeModelPos(const std::size_t &, const irr::core::vector3df) final;
 
 private:
     void    addNewMesh(const char *);

@@ -32,7 +32,7 @@ public:
     const Players   &getPlayers() { return _players; }
 
     // DEPLACEMENTS (PURE METHODS)
-    virtual void    moveBots(const Map &) = 0;
+    virtual ACharacter::Action  moveBots(const Map &) = 0;
     virtual ACharacter::Action  movePlayers(const Event &, const Map &) = 0;
 
 protected:

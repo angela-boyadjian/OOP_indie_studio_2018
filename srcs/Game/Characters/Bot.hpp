@@ -37,7 +37,7 @@ public:
     void        move(const std::vector<std::string> &) final;
     bool        isSafe(const std::size_t &, const std::size_t &);
 
-private:
     Action                      _lastDirection;
+private:
     std::vector<std::string>    _transformedMap;
 };

@@ -11,10 +11,12 @@ Game::Game(Players &p, Bots &b) : AGame(p, b)
 {
 }
 
-void    Game::moveBots(const Game::Map &map)
+ACharacter::Action  Game::moveBots(const Game::Map &map)
 {
-    for (std::size_t i {0}; i < _bots.size(); ++i)
+    for (std::size_t i {0}; i < _bots.size(); ++i) {
         _bots[i]->move(map);
+        return _bots[i]->_lastDirection;
+    }
 }
 
 ACharacter::Action  Game::movePlayers(const Event &events, const Map &map)
