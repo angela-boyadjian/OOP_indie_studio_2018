@@ -15,7 +15,6 @@
 
 class IMap {
     public:
-
         // LOAD MAP
         virtual void load() = 0;
         virtual MapData getMapData() const = 0;

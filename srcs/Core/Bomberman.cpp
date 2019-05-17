@@ -45,12 +45,12 @@ void core::Bomberman::run()
 
 void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
 {
-    auto map = std::unique_ptr<IMap>(new Map(mapPath));
-    map->load();
+    _map = std::unique_ptr<IMap>(new Map(mapPath));
+    _map->load();
     _game = std::move(game);
     _display->setCameraScene();
     _dispLoader->loadGame(_game);
-    _dispLoader->loadMap(map->getMapData());
+    _dispLoader->loadMap(_map->getMapData());
 }
 
 void    core::Bomberman::lauch()

@@ -43,6 +43,7 @@ public:
     void    initGame();
 
 private:
+    std::unique_ptr<IMap>           _map;
     std::unique_ptr<AGame>          _game;
     Event                           _event;
     std::shared_ptr<IDisplay>       _display;
