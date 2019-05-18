@@ -97,7 +97,6 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
     _map = std::unique_ptr<IMap>(new Map(mapPath));
     _map->load();
     _game = std::move(game);
-    _display->setCameraScene();
     _dispLoader->loadGame(_game);
     _dispLoader->loadMap(_map->getMapData());
 }

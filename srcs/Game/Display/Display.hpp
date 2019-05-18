@@ -67,8 +67,8 @@ private:
 private:
     Gui                 _gui;
     AnimatedMeshs       _meshs;
-    irr::scene::ITerrainSceneNode   *_terrain;
     Camera              _camera;
+    irr::scene::ITerrainSceneNode   *_terrain;
     //SceneManager        _scenes;
     AnimatedMeshsScene  _meshsScene;
     Map3D _map3d;

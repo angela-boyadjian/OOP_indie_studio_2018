@@ -17,12 +17,10 @@ void    Display::setDisplay(Events *events)
     _gui = std::unique_ptr<irr::gui::IGUIEnvironment>(_device->getGUIEnvironment());
     _driver = _device->getVideoDriver();
     _scenes = _device->getSceneManager();
-    _camera = std::unique_ptr<irr::scene::ICameraSceneNode>(_scenes->addCameraSceneNodeFPS(0, 100.0f, 1.2f));
-    _camera->setPosition(irr::core::vector3df(2700*2,255*2,2600*2));
-    _camera->setTarget(irr::core::vector3df(2397*2,343*2,2700*2));
-    _camera->setFarValue(42000.0f);
-    // disable mouse cursor
-    _device->getCursorControl()->setVisible(false);
+    setCameraScene();
+    std::cout << "X = " << _camera->getPosition().X
+            << " Y = " <<  _camera->getPosition().Y
+            << " Z = " << _camera->getPosition().Z << std::endl;
     setTerrain();
     setSkyDome();
 }
@@ -31,15 +29,9 @@ void    Display::setTerrain()
 {
     _terrain = _scenes->addTerrainSceneNode(
             "../lib/irrLicht/media/terrain-heightmap.bmp",
-            nullptr,                  // parent node
-            -1,                 // node id
-            irr::core::vector3df(0.f, 0.f, 0.f),     // position
-            irr::core::vector3df(0.f, 0.f, 0.f),     // rotation
-            irr::core::vector3df(40.f, 4.4f, 40.f),  // scale
-            irr::video::SColor ( 255, 255, 255, 255 ),   // vertexColor
-            5,                  // maxLOD
-            irr::scene::ETPS_17,             // patchSize
-            4                   // smoothFactor
+            nullptr, -1, irr::core::vector3df(0.f, 0.f, 0.f),
+            irr::core::vector3df(0.f, 0.f, 0.f), irr::core::vector3df(40.f, 4.4f, 40.f),
+            irr::video::SColor ( 255, 255, 255, 255 ), 5, irr::scene::ETPS_17, 4
     );
     _terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
     _terrain->setMaterialTexture(0, _driver->getTexture("../lib/irrLicht/media/terrain-texture.jpg"));
@@ -49,7 +41,6 @@ void    Display::setTerrain()
     irr::scene::ITriangleSelector* selector
             = _scenes->createTerrainTriangleSelector(_terrain, 0);
     _terrain->setTriangleSelector(selector);
-
     // create collision response animator and attach it to the camera
     irr::scene::ISceneNodeAnimator* anim = _scenes->createCollisionResponseAnimator(
             selector, _camera.get(), irr::core::vector3df(60,100,60),
@@ -98,8 +89,8 @@ void    Display::addNewMeshScene(const char *scenePath, irr::core::vector3df sca
     newScene->setScale(scale);
     newScene->setRotation(irr::core::vector3df(0, 0, 0));
     newScene->setAnimationSpeed(30);
+    newScene->setPosition(irr::core::vector3df(5400, 800, 5200));
     newScene->setLoopMode(true);
-//    newScene->setFrameLoop(27, 76);
     newScene->setFrameLoop(0, 27);
     newScene->setMaterialTexture(0, _driver->getTexture(scenePath));
     _meshsScene.push_back(std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>(newScene));
@@ -124,8 +115,11 @@ void    Display::setGuiMessage(const wchar_t *message)
 
 void    Display::setCameraScene()
 {
-//    _scenes->addCameraSceneNode(nullptr,
-//            irr::core::vector3df(0, 0, -120), irr::core::vector3df(0, 0, 0));
+    _camera = std::unique_ptr<irr::scene::ICameraSceneNode>(_scenes->addCameraSceneNodeFPS(0, 100.0f, 1.2f));
+    _camera->setPosition(irr::core::vector3df(2700*2,255*2,2600*2));
+    _camera->setTarget(irr::core::vector3df(2397*2,343*2,2700*2));
+    _camera->setFarValue(42000.0f);
+    _device->getCursorControl()->setVisible(false);
 }
 
 void    Display::draw()
