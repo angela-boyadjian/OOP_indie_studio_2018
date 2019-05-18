@@ -10,7 +10,7 @@ Display::Display()
 void    Display::setDisplay(Events *events)
 {
     _device = std::unique_ptr<irr::IrrlichtDevice>(irr::createDevice(irr::video::EDT_OPENGL,
-                                         irr::core::dimension2d<irr::u32>(640, 480), 16, false, false, false, events));
+                                         irr::core::dimension2d<irr::u32>(1200, 800), 16, false, false, false, events));
     if (!_device)
         throw DeviceCreationError();
     _device->setWindowCaption(L"Bomberman");
@@ -101,4 +101,9 @@ void    Display::changeModelPos(const std::size_t &i, const irr::core::vector3df
 void    Display::changeModelRot(const std::size_t &i, const irr::core::vector3df vec)
 {
     _meshsScene[i]->setRotation(vec);
+}
+
+void    Display::changeModelFrame(const std::size_t &i, const std::size_t &a, const std::size_t &b)
+{
+    _meshsScene[i]->setFrameLoop(a, b);
 }

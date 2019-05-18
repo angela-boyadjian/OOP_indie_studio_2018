@@ -38,6 +38,7 @@ public:
 
     virtual void    changeModelPos(const std::size_t &, const irr::core::vector3df) = 0;
     virtual void    changeModelRot(const std::size_t &, const irr::core::vector3df) = 0;
+    virtual void    changeModelFrame(const std::size_t  &, const std::size_t &, const std::size_t &) = 0;
 
     // TEMPO
     SceneManager        _scenes;
