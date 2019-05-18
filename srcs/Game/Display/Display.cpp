@@ -18,9 +18,6 @@ void    Display::setDisplay(Events *events)
     _driver = _device->getVideoDriver();
     _scenes = _device->getSceneManager();
     setCameraScene();
-    std::cout << "X = " << _camera->getPosition().X
-            << " Y = " <<  _camera->getPosition().Y
-            << " Z = " << _camera->getPosition().Z << std::endl;
     setTerrain();
     setSkyDome();
 }
@@ -83,19 +80,34 @@ void    Display::addNewMesh(const char *meshPath)
     _meshs.push_back(std::unique_ptr<irr::scene::IAnimatedMesh>(newMesh));
 }
 
+void    Display::setMeshPosRot(irr::scene::IAnimatedMeshSceneNode *newScene)
+{
+    newScene->setRotation(irr::core::vector3df(0, 0, 0));
+    newScene->setPosition(irr::core::vector3df(5400, 800, 5200));
+}
+
+void    Display::setMeshFrames(irr::scene::IAnimatedMeshSceneNode *newScene)
+{
+    newScene->setAnimationSpeed(30);
+    newScene->setLoopMode(true);
+    newScene->setFrameLoop(0, 27);
+}
+
+void    Display::setMeshAnimation(irr::scene::IAnimatedMeshSceneNode *newScene)
+{
+    newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    newScene->setMD2Animation(irr::scene::EMAT_STAND);
+}
+
 void    Display::addNewMeshScene(const char *scenePath, irr::core::vector3df scale)
 {
     auto newScene = _scenes->addAnimatedMeshSceneNode(_meshs.back().get());
     if (!newScene)
         throw MeshSceneCreationError();
-    newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    newScene->setMD2Animation(irr::scene::EMAT_STAND);
+    setMeshAnimation(newScene);
     newScene->setScale(scale);
-    newScene->setRotation(irr::core::vector3df(0, 0, 0));
-    newScene->setAnimationSpeed(30);
-    newScene->setPosition(irr::core::vector3df(5400, 800, 5200));
-    newScene->setLoopMode(true);
-    newScene->setFrameLoop(0, 27);
+    setMeshPosRot(newScene);
+    setMeshFrames(newScene);
     newScene->setMaterialTexture(0, _driver->getTexture(scenePath));
     _meshsScene.push_back(std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>(newScene));
 }

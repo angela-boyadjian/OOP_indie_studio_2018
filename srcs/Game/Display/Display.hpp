@@ -41,6 +41,9 @@ public:
     void    setTerrainMaterial();
 
     // NOTE MESH FUNCTIONS
+    void    setMeshPosRot(irr::scene::IAnimatedMeshSceneNode *);
+    void    setMeshFrames(irr::scene::IAnimatedMeshSceneNode *);
+    void    setMeshAnimation(irr::scene::IAnimatedMeshSceneNode *);
     void    addNewAnimation(const char *, const char *, const pos3d &) final;
 
     // NOTE IS ON
