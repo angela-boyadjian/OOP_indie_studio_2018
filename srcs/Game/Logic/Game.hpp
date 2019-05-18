@@ -13,6 +13,7 @@ public:
 
     Game(Players &, Bots &);
     ~Game() = default;
+    ACharacter::Action              pressKeyAction(const Event &, const std::size_t &);
     std::vector<ACharacter::Action> moveBots(const Map &) final;
     std::vector<ACharacter::Action> movePlayers(const Event &, const Map &) final;
 };
