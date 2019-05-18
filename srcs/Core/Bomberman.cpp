@@ -34,19 +34,22 @@ void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
 
 void core::Bomberman::run()
 {
-    auto tmp = ACharacter::Action::WAIT;
-    auto tmp2 = ACharacter::Action::WAIT;
     while (_display->isRunning()) {
-        auto a = _game->movePlayers(_event, _map->getMapData()._mapWall);
-        changeFrameAndPos(_game->getPlayers()[0].get(), a, tmp);
-        auto b = _game->moveBots(_map->getMapData()._mapWall);
-        changeFrameAndPos(_game->getBots()[0].get(), b, tmp2);
-        changeAnimation(_game->getPlayers()[0]->getEntityNb(), a, tmp);
-        changeAnimation(_game->getBots()[0]->getEntityNb(), a, tmp);
-        _lastActions[_game->getBots()[0]->getEntityNb()] = b;
-        _lastActions[_game->getPlayers()[0]->getEntityNb()] = a;
+        action();
         _display->draw();
     }
+}
+
+void    core::Bomberman::action()
+{
+    auto a = _game->movePlayers(_event, _map->getMapData()._mapWall);
+    changeFrameAndPos(_game->getPlayers()[0].get(), a, _lastActions[_game->getPlayers()[0]->getEntityNb()]);
+    auto b = _game->moveBots(_map->getMapData()._mapWall);
+    changeFrameAndPos(_game->getBots()[0].get(), b, _lastActions[_game->getBots()[0]->getEntityNb()]);
+    changeAnimation(_game->getPlayers()[0]->getEntityNb(), a, _lastActions[_game->getPlayers()[0]->getEntityNb()]);
+    changeAnimation(_game->getBots()[0]->getEntityNb(), b, _lastActions[_game->getBots()[0]->getEntityNb()]);
+    _lastActions[_game->getPlayers()[0]->getEntityNb()] = a;
+    _lastActions[_game->getBots()[0]->getEntityNb()] = b;
 }
 
 void    core::Bomberman::changeAnimation(const std::size_t &i, const ACharacter::Action &curr,
