@@ -68,7 +68,8 @@ void    Display::setGuiMessage(const wchar_t *message)
 
 void    Display::setCameraScene()
 {
-    _scenes->addCameraSceneNode(0, irr::core::vector3df(0,30,-40), irr::core::vector3df(0,5,0));
+    _scenes->addCameraSceneNode(nullptr,
+            irr::core::vector3df(0, 0, -120), irr::core::vector3df(0, 0, 0));
 }
 
 void    Display::draw()
