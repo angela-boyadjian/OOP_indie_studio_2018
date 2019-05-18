@@ -28,17 +28,13 @@ void    Display::setDisplay(Events *events)
 void    Display::setTerrain()
 {
     initTerrain();
-    irr::scene::ITriangleSelector* selector
-            = _scenes->createTerrainTriangleSelector(_terrain, 0);
-    _terrain->setTriangleSelector(selector);
-    // create collision response animator and attach it to the camera
-    irr::scene::ISceneNodeAnimator* anim = _scenes->createCollisionResponseAnimator(
-            selector, _camera.get(), irr::core::vector3df(60,100,60),
-            irr::core::vector3df(0,0,0),
-            irr::core::vector3df(0,50,0));
-    selector->drop();
-    _camera->addAnimator(anim);
-    anim->drop();
+    _selector = std::unique_ptr<irr::scene::ITriangleSelector>
+            (_scenes->createTerrainTriangleSelector(_terrain, 0));
+    _terrain->setTriangleSelector(_selector.get());
+    initAnimTerrain();
+    _selector->drop();
+    _camera->addAnimator(_animTerrain.get());
+    _animTerrain->drop();
 }
 
 void    Display::setSkyDome()
@@ -60,6 +56,13 @@ void    Display::initTerrain()
     _terrain->scaleTexture(1.0f, 20.0f);
 }
 
+void    Display::initAnimTerrain()
+{
+    _animTerrain = std::unique_ptr<irr::scene::ISceneNodeAnimator>(_scenes->createCollisionResponseAnimator(
+            _selector.get(), _camera.get(), irr::core::vector3df(60,100,60),
+            irr::core::vector3df(0,0,0),
+            irr::core::vector3df(0,50,0)));
+}
 void    Display::setTerrainMaterial()
 {
     _terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);

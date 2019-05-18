@@ -20,7 +20,9 @@ public:
     using Gui = std::unique_ptr<irr::gui::IGUIEnvironment>;
     using Camera = std::unique_ptr<irr::scene::ICameraSceneNode>;
     using VideoDriver = std::unique_ptr<irr::video::IVideoDriver>;
+    using Selector = std::unique_ptr<irr::scene::ITriangleSelector>;
     using SceneManager = std::unique_ptr<irr::scene::ISceneManager>;
+    using AnimTerrain = std::unique_ptr<irr::scene::ISceneNodeAnimator>;
     using AnimatedMeshs = std::vector<std::unique_ptr<irr::scene::IAnimatedMesh>>;
     using AnimatedMeshsScene = std::vector<std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>>;
 
@@ -35,6 +37,7 @@ public:
     void    setTerrain();
     void    setSkyDome();
     void    initTerrain();
+    void    initAnimTerrain();
     void    setTerrainMaterial();
 
     // NOTE MESH FUNCTIONS
@@ -70,6 +73,8 @@ private:
     Gui                 _gui;
     AnimatedMeshs       _meshs;
     Camera              _camera;
+    Selector            _selector;
+    AnimTerrain         _animTerrain;
     irr::scene::ITerrainSceneNode   *_terrain;
     //SceneManager        _scenes;
     AnimatedMeshsScene  _meshsScene;
