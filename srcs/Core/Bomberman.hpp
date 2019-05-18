@@ -33,10 +33,12 @@ public:
     void    setDisplayer(std::shared_ptr<IDisplay> &, std::unique_ptr<IDisplayLoader> &);
 
     // load resources
-    void loadGame(const std::string &, std::unique_ptr<AGame> &);
+    void    loadGame(const std::string &, std::unique_ptr<AGame> &);
 
     // Game loop
-    void run();
+    void    run();
+    void    changeAnimation(const std::size_t &, const ACharacter::Action &, const ACharacter::Action &);
+    void    changeFrameAndPos(const std::size_t &, const ACharacter::Action &, const ACharacter::Action &);
 
     // LAUNCH CORE
     void    lauch();
