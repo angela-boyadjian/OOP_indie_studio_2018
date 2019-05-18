@@ -42,14 +42,18 @@ void core::Bomberman::run()
 
 void    core::Bomberman::action()
 {
-    auto a = _game->movePlayers(_event, _map->getMapData()._mapWall);
-    changeFrameAndPos(_game->getPlayers()[0].get(), a, _lastActions[_game->getPlayers()[0]->getEntityNb()]);
-    auto b = _game->moveBots(_map->getMapData()._mapWall);
-    changeFrameAndPos(_game->getBots()[0].get(), b, _lastActions[_game->getBots()[0]->getEntityNb()]);
-    changeAnimation(_game->getPlayers()[0]->getEntityNb(), a, _lastActions[_game->getPlayers()[0]->getEntityNb()]);
-    changeAnimation(_game->getBots()[0]->getEntityNb(), b, _lastActions[_game->getBots()[0]->getEntityNb()]);
-    _lastActions[_game->getPlayers()[0]->getEntityNb()] = a;
-    _lastActions[_game->getBots()[0]->getEntityNb()] = b;
+    auto playersMove = _game->movePlayers(_event, _map->getMapData()._mapWall);
+    for (std::size_t i {0}; i < _game->getPlayers().size(); ++i) {
+        changeFrameAndPos(_game->getPlayers()[i].get(), playersMove[i], _lastActions[_game->getPlayers()[i]->getEntityNb()]);
+        changeAnimation(_game->getPlayers()[i]->getEntityNb(), playersMove[i], _lastActions[_game->getPlayers()[i]->getEntityNb()]);
+        _lastActions[_game->getPlayers()[i]->getEntityNb()] = playersMove[i];
+    }
+    auto botsMove = _game->moveBots(_map->getMapData()._mapWall);
+    for (std::size_t i {0}; i < _game->getBots().size(); ++i) {
+        changeFrameAndPos(_game->getBots()[i].get(), botsMove[i], _lastActions[_game->getBots()[i]->getEntityNb()]);
+        changeAnimation(_game->getBots()[i]->getEntityNb(), botsMove[i], _lastActions[_game->getBots()[i]->getEntityNb()]);
+        _lastActions[_game->getBots()[i]->getEntityNb()] = botsMove[i];
+    }
 }
 
 void    core::Bomberman::changeAnimation(const std::size_t &i, const ACharacter::Action &curr,

@@ -13,6 +13,6 @@ public:
 
     Game(Players &, Bots &);
     ~Game() = default;
-    ACharacter::Action  moveBots(const Map &) final;
-    ACharacter::Action  movePlayers(const Event &, const Map &) final;
+    std::vector<ACharacter::Action> moveBots(const Map &) final;
+    std::vector<ACharacter::Action> movePlayers(const Event &, const Map &) final;
 };

@@ -11,16 +11,19 @@ Game::Game(Players &p, Bots &b) : AGame(p, b)
 {
 }
 
-ACharacter::Action  Game::moveBots(const Game::Map &map)
+std::vector<ACharacter::Action> Game::moveBots(const Game::Map &map)
 {
+    std::vector<ACharacter::Action> actionVector;
     for (std::size_t i {0}; i < _bots.size(); ++i) {
         _bots[i]->move(map);
-        return _bots[i]->_lastDirection;
+        actionVector.push_back(_bots[i]->_lastDirection);
     }
+    return actionVector;
 }
 
-ACharacter::Action  Game::movePlayers(const Event &events, const Map &map)
+std::vector<ACharacter::Action> Game::movePlayers(const Event &events, const Map &map)
 {
+    std::vector<ACharacter::Action> actionVector;
     ACharacter::Action  tmp = ACharacter::Action::WAIT;
 
     for (std::size_t i {0}; i < _players.size(); ++i) {
@@ -37,6 +40,7 @@ ACharacter::Action  Game::movePlayers(const Event &events, const Map &map)
         _players[i]->setAction(tmp);
         _players[i]->move(map);
         _players[i]->setAction(ACharacter::Action::WAIT);
+        actionVector.push_back(tmp);
     }
-    return tmp;
+    return actionVector;
 }
