@@ -38,7 +38,8 @@ void    Display::addNewMeshScene(const char *scenePath, irr::core::vector3df sca
     newScene->setRotation(irr::core::vector3df(0, 0, 0));
     newScene->setAnimationSpeed(30);
     newScene->setLoopMode(true);
-    newScene->setFrameLoop(27, 76);
+//    newScene->setFrameLoop(27, 76);
+    newScene->setFrameLoop(0, 27);
     newScene->setMaterialTexture(0, _driver->getTexture(scenePath));
     _meshsScene.push_back(std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>(newScene));
 }
@@ -95,4 +96,9 @@ IDisplay::Map3D &Display::getMap()
 void    Display::changeModelPos(const std::size_t &i, const irr::core::vector3df vec)
 {
     _meshsScene[i]->setPosition(vec);
+}
+
+void    Display::changeModelRot(const std::size_t &i, const irr::core::vector3df vec)
+{
+    _meshsScene[i]->setRotation(vec);
 }

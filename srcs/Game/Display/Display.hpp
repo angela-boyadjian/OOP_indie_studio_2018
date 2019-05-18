@@ -52,6 +52,7 @@ public:
     Map3D   &getMap() override;
 
     void    changeModelPos(const std::size_t &, const irr::core::vector3df) final;
+    void    changeModelRot(const std::size_t &, const irr::core::vector3df) final;
 
 private:
     void    addNewMesh(const char *);

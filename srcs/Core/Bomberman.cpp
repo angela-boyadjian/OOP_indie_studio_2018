@@ -35,7 +35,6 @@ void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
 void core::Bomberman::run()
 {
     while (_display->isRunning()) {
-        _display->draw();
         auto a = _game->movePlayers(_event, _map->getMapData()._mapWall);
         if (a != ACharacter::Action::WAIT)
             _display->changeModelPos(_game->getPlayers()[0]->getEntityNb(), irr::core::vector3df(std::get<0>(_game->getPlayers()[0]->getMapPos()),
@@ -44,6 +43,21 @@ void core::Bomberman::run()
         if (b != ACharacter::Action::WAIT)
             _display->changeModelPos(_game->getBots()[0]->getEntityNb(), irr::core::vector3df(std::get<0>(_game->getBots()[0]->getMapPos()),
                                                           std::get<1>(_game->getBots()[0]->getMapPos()), 0));
+        switch (a) {
+            case ACharacter::Action::LEFT:
+                _display->changeModelRot(_game->getPlayers()[0]->getEntityNb(), irr::core::vector3df(0, 90, 0));
+                break;
+            case ACharacter::Action::RIGHT:
+                _display->changeModelRot(_game->getPlayers()[0]->getEntityNb(), irr::core::vector3df(0, 270, 0));
+                break;
+            case ACharacter::Action::UP:
+                _display->changeModelRot(_game->getPlayers()[0]->getEntityNb(), irr::core::vector3df(0, 180, 0));
+                break;
+            case ACharacter::Action::DOWN:
+                _display->changeModelRot(_game->getPlayers()[0]->getEntityNb(), irr::core::vector3df(0, 0, 0));
+                break;
+        }
+        _display->draw();
     }
 }
 

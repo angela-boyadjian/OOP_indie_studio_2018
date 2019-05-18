@@ -37,6 +37,8 @@ public:
     virtual Map3D   &getMap() = 0;
 
     virtual void    changeModelPos(const std::size_t &, const irr::core::vector3df) = 0;
+    virtual void    changeModelRot(const std::size_t &, const irr::core::vector3df) = 0;
+
     // TEMPO
     SceneManager        _scenes;
     VideoDriver         _driver;
