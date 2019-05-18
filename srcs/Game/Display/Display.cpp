@@ -60,6 +60,7 @@ void    Display::initAnimTerrain()
             irr::core::vector3df(0,0,0),
             irr::core::vector3df(0,50,0)));
 }
+
 void    Display::setTerrainMaterial()
 {
     _terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
@@ -67,6 +68,7 @@ void    Display::setTerrainMaterial()
     _terrain->setMaterialTexture(1, _driver->getTexture("../lib/irrLicht/media/detailmap3.jpg"));
     _terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
 }
+
 irr::core::vector3df    Display::pos3dToVector(const IDisplay::pos3d &pos)
 {
     return irr::core::vector3df(std::get<0>(pos), std::get<1>(pos), std::get<2>(pos));
@@ -167,7 +169,11 @@ IDisplay::Map3D &Display::getMap()
 
 void    Display::changeModelPos(const std::size_t &i, const pos3d &vec)
 {
-    _meshsScene[i]->setPosition(pos3dToVector(vec));
+    auto newVec = pos3dToVector(vec);
+    newVec.X += 5400;
+    newVec.Y += 800;
+    newVec.Z = 5200;
+    _meshsScene[i]->setPosition(newVec);
 }
 
 void    Display::changeModelRot(const std::size_t &i, const pos3d &vec)
