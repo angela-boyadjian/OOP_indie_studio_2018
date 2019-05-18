@@ -34,6 +34,8 @@ public:
     void    setDisplay(Events *) final;
     void    setTerrain();
     void    setSkyDome();
+    void    initTerrain();
+    void    setTerrainMaterial();
 
     // NOTE MESH FUNCTIONS
     void    addNewAnimation(const char *, const char *, const pos3d &) final;

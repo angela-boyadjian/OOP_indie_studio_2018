@@ -27,17 +27,7 @@ void    Display::setDisplay(Events *events)
 
 void    Display::setTerrain()
 {
-    _terrain = _scenes->addTerrainSceneNode(
-            "../lib/irrLicht/media/terrain-heightmap.bmp",
-            nullptr, -1, irr::core::vector3df(0.f, 0.f, 0.f),
-            irr::core::vector3df(0.f, 0.f, 0.f), irr::core::vector3df(40.f, 4.4f, 40.f),
-            irr::video::SColor ( 255, 255, 255, 255 ), 5, irr::scene::ETPS_17, 4
-    );
-    _terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    _terrain->setMaterialTexture(0, _driver->getTexture("../lib/irrLicht/media/terrain-texture.jpg"));
-    _terrain->setMaterialTexture(1, _driver->getTexture("../lib/irrLicht/media/detailmap3.jpg"));
-    _terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
-    _terrain->scaleTexture(1.0f, 20.0f);
+    initTerrain();
     irr::scene::ITriangleSelector* selector
             = _scenes->createTerrainTriangleSelector(_terrain, 0);
     _terrain->setTriangleSelector(selector);
@@ -54,18 +44,29 @@ void    Display::setTerrain()
 void    Display::setSkyDome()
 {
     _driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
-
-    irr::scene::ISceneNode* skybox = _scenes->addSkyBoxSceneNode(
-            _driver->getTexture("../lib/irrLicht/media/irrlicht2_up.jpg"),
-            _driver->getTexture("../lib/irrLicht/media/irrlicht2_dn.jpg"),
-            _driver->getTexture("../lib/irrLicht/media/irrlicht2_lf.jpg"),
-            _driver->getTexture("../lib/irrLicht/media/irrlicht2_rt.jpg"),
-            _driver->getTexture("../lib/irrLicht/media/irrlicht2_ft.jpg"),
-            _driver->getTexture("../lib/irrLicht/media/irrlicht2_bk.jpg"));
-    irr::scene::ISceneNode* skydome = _scenes->addSkyDomeSceneNode(_driver->getTexture("../lib/irrLicht/media/skydome.jpg"),16,8,0.95f,2.0f);
+    _scenes->addSkyDomeSceneNode(_driver->getTexture("../lib/irrLicht/media/skydome.jpg"),16,8,0.95f,2.0f);
     _driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 
+void    Display::initTerrain()
+{
+    _terrain = _scenes->addTerrainSceneNode(
+            "../lib/irrLicht/media/terrain-heightmap.bmp",
+            nullptr, -1, irr::core::vector3df(0.f, 0.f, 0.f),
+            irr::core::vector3df(0.f, 0.f, 0.f), irr::core::vector3df(40.f, 4.4f, 40.f),
+            irr::video::SColor ( 255, 255, 255, 255 ), 5, irr::scene::ETPS_17, 4
+    );
+    setTerrainMaterial();
+    _terrain->scaleTexture(1.0f, 20.0f);
+}
+
+void    Display::setTerrainMaterial()
+{
+    _terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    _terrain->setMaterialTexture(0, _driver->getTexture("../lib/irrLicht/media/terrain-texture.jpg"));
+    _terrain->setMaterialTexture(1, _driver->getTexture("../lib/irrLicht/media/detailmap3.jpg"));
+    _terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
+}
 irr::core::vector3df    Display::pos3dToVector(const IDisplay::pos3d &pos)
 {
     return irr::core::vector3df(std::get<0>(pos), std::get<1>(pos), std::get<2>(pos));
