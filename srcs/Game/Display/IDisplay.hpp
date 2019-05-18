@@ -14,17 +14,17 @@ class Events;
 
 class IDisplay {
 public:
-    using Device = std::shared_ptr<irr::IrrlichtDevice>;
-    using SceneManager = irr::scene::ISceneManager *;
-    using VideoDriver = irr::video::IVideoDriver *;
     using Object = irr::scene::ISceneNode;
+    using pos3d = std::tuple<long, long, long>;
+    using VideoDriver = irr::video::IVideoDriver *;
+    using SceneManager = irr::scene::ISceneManager *;
+    using Device = std::shared_ptr<irr::IrrlichtDevice>;
     using Map3D = std::vector<std::unique_ptr<IDisplay::Object>>;
 
     // SET OBJECT
     virtual void    setDisplay(Events *) = 0;
     // NOTE MESH FUNCTIONS
-    virtual void    addNewAnimation(const char *meshPath, const char *scenePath,
-                                     irr::core::vector3df scale) = 0;
+    virtual void    addNewAnimation(const char *, const char *, const pos3d &) = 0;
     // NOTE IS ON
     virtual bool    isRunning() const = 0;
     // NOTE GUI FUNCTIONS
@@ -36,8 +36,8 @@ public:
 
     virtual Map3D   &getMap() = 0;
 
-    virtual void    changeModelPos(const std::size_t &, const irr::core::vector3df) = 0;
-    virtual void    changeModelRot(const std::size_t &, const irr::core::vector3df) = 0;
+    virtual void    changeModelPos(const std::size_t &, const pos3d &) = 0;
+    virtual void    changeModelRot(const std::size_t &, const pos3d &) = 0;
     virtual void    changeModelFrame(const std::size_t  &, const std::size_t &, const std::size_t &) = 0;
 
     // TEMPO

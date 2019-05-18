@@ -27,11 +27,13 @@ public:
     Display();
     ~Display() = default;
 
+    // UTILS
+    irr::core::vector3df    pos3dToVector(const pos3d &);
     // SET OBJECT
     void    setDisplay(Events *) final;
 
     // NOTE MESH FUNCTIONS
-    void    addNewAnimation(const char *, const char *, irr::core::vector3df) final;
+    void    addNewAnimation(const char *, const char *, const pos3d &) final;
 
     // NOTE IS ON
     bool    isRunning() const final;
@@ -51,8 +53,8 @@ public:
     Display::Gui const &getGui();
     Map3D   &getMap() override;
 
-    void    changeModelPos(const std::size_t &, const irr::core::vector3df) final;
-    void    changeModelRot(const std::size_t &, const irr::core::vector3df) final;
+    void    changeModelPos(const std::size_t &, const pos3d &) final;
+    void    changeModelRot(const std::size_t &, const pos3d &) final;
     void    changeModelFrame(const std::size_t  &, const std::size_t &, const std::size_t &) final;
 
 private:

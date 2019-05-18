@@ -61,16 +61,16 @@ void    core::Bomberman::changeAnimation(const std::size_t &i, const ACharacter:
 {
     switch (curr) {
         case ACharacter::Action::LEFT:
-            _display->changeModelRot(i, irr::core::vector3df(0, 90, 0));
+            _display->changeModelRot(i, std::make_tuple(0, 90, 0));
             break;
         case ACharacter::Action::RIGHT:
-            _display->changeModelRot(i, irr::core::vector3df(0, 270, 0));
+            _display->changeModelRot(i, std::make_tuple(0, 270, 0));
             break;
         case ACharacter::Action::UP:
-            _display->changeModelRot(i, irr::core::vector3df(0, 180, 0));
+            _display->changeModelRot(i, std::make_tuple(0, 180, 0));
             break;
         case ACharacter::Action::DOWN:
-            _display->changeModelRot(i, irr::core::vector3df(0, 0, 0));
+            _display->changeModelRot(i, std::make_tuple(0, 0, 0));
             break;
         case ACharacter::Action::WAIT:
             if (last != ACharacter::Action::WAIT)
@@ -87,7 +87,7 @@ void    core::Bomberman::changeFrameAndPos(const ACharacter *cha, const ACharact
     if (curr != ACharacter::Action::WAIT) {
         if (last == ACharacter::Action::WAIT)
             _display->changeModelFrame(cha->getEntityNb(), 0, 27);
-        _display->changeModelPos(cha->getEntityNb(), irr::core::vector3df(std::get<0>(cha->getMapPos()),
+        _display->changeModelPos(cha->getEntityNb(), std::make_tuple(std::get<0>(cha->getMapPos()),
             std::get<1>(cha->getMapPos()), 0));
     }
 }

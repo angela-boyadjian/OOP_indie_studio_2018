@@ -112,7 +112,7 @@ void    DisplayLoader::loadPlayer(const ACharacter::Color &color,
         const std::vector<std::string> &textures)
 {
     _d->addNewAnimation(res, textures[static_cast<int>(color)].c_str(),
-     irr::core::vector3df(6, 6, 6));
+                        std::make_tuple(6, 6, 6));
 }
 
 void    DisplayLoader::loadGame(const std::unique_ptr<AGame> &game)

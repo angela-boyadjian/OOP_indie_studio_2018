@@ -19,6 +19,11 @@ void    Display::setDisplay(Events *events)
     _scenes = _device->getSceneManager();
 }
 
+irr::core::vector3df    Display::pos3dToVector(const IDisplay::pos3d &pos)
+{
+    return irr::core::vector3df(std::get<0>(pos), std::get<1>(pos), std::get<2>(pos));
+}
+
 void    Display::addNewMesh(const char *meshPath)
 {
     auto newMesh = _scenes->getMesh(meshPath);
@@ -45,10 +50,10 @@ void    Display::addNewMeshScene(const char *scenePath, irr::core::vector3df sca
 }
 
 void    Display::addNewAnimation(const char *meshPath, const char *scenePath,
-    irr::core::vector3df scale)
+    const pos3d &scale)
 {
     addNewMesh(meshPath);
-    addNewMeshScene(scenePath, scale);
+    addNewMeshScene(scenePath, pos3dToVector(scale));
 }
 
 bool    Display::isRunning() const
@@ -93,14 +98,14 @@ IDisplay::Map3D &Display::getMap()
     return _map3d;
 }
 
-void    Display::changeModelPos(const std::size_t &i, const irr::core::vector3df vec)
+void    Display::changeModelPos(const std::size_t &i, const pos3d &vec)
 {
-    _meshsScene[i]->setPosition(vec);
+    _meshsScene[i]->setPosition(pos3dToVector(vec));
 }
 
-void    Display::changeModelRot(const std::size_t &i, const irr::core::vector3df vec)
+void    Display::changeModelRot(const std::size_t &i, const pos3d &vec)
 {
-    _meshsScene[i]->setRotation(vec);
+    _meshsScene[i]->setRotation(pos3dToVector(vec));
 }
 
 void    Display::changeModelFrame(const std::size_t &i, const std::size_t &a, const std::size_t &b)
