@@ -35,15 +35,16 @@ void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
 void core::Bomberman::run()
 {
     auto tmp = ACharacter::Action::WAIT;
+    auto tmp2 = ACharacter::Action::WAIT;
     while (_display->isRunning()) {
         auto a = _game->movePlayers(_event, _map->getMapData()._mapWall);
-        changeFrameAndPos(_game->getPlayers()[0]->getEntityNb(), a, tmp);
+        changeFrameAndPos(_game->getPlayers()[0].get(), a, tmp);
         auto b = _game->moveBots(_map->getMapData()._mapWall);
-        if (b != ACharacter::Action::WAIT)
-            _display->changeModelPos(_game->getBots()[0]->getEntityNb(), irr::core::vector3df(std::get<0>(_game->getBots()[0]->getMapPos()),
-                                                          std::get<1>(_game->getBots()[0]->getMapPos()), 0));
+        changeFrameAndPos(_game->getBots()[0].get(), b, tmp2);
         changeAnimation(_game->getPlayers()[0]->getEntityNb(), a, tmp);
+        changeAnimation(_game->getBots()[0]->getEntityNb(), a, tmp);
         tmp = a;
+        tmp2 = b;
         _display->draw();
     }
 }
@@ -73,14 +74,14 @@ void    core::Bomberman::changeAnimation(const std::size_t &i, const ACharacter:
     }
 }
 
-void    core::Bomberman::changeFrameAndPos(const std::size_t &i, const ACharacter::Action &curr,
+void    core::Bomberman::changeFrameAndPos(const ACharacter *cha, const ACharacter::Action &curr,
                                            const ACharacter::Action &last)
 {
     if (curr != ACharacter::Action::WAIT) {
         if (last == ACharacter::Action::WAIT)
-            _display->changeModelFrame(_game->getPlayers()[0]->getEntityNb(), 0, 27);
-        _display->changeModelPos(_game->getPlayers()[0]->getEntityNb(), irr::core::vector3df(std::get<0>(_game->getPlayers()[0]->getMapPos()),
-                                                                                             std::get<1>(_game->getPlayers()[0]->getMapPos()), 0));
+            _display->changeModelFrame(cha->getEntityNb(), 0, 27);
+        _display->changeModelPos(cha->getEntityNb(), irr::core::vector3df(std::get<0>(cha->getMapPos()),
+            std::get<1>(cha->getMapPos()), 0));
     }
 }
 

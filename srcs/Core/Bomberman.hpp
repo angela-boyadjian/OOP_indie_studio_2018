@@ -38,7 +38,7 @@ public:
     // Game loop
     void    run();
     void    changeAnimation(const std::size_t &, const ACharacter::Action &, const ACharacter::Action &);
-    void    changeFrameAndPos(const std::size_t &, const ACharacter::Action &, const ACharacter::Action &);
+    void    changeFrameAndPos(const ACharacter *, const ACharacter::Action &, const ACharacter::Action &);
 
     // LAUNCH CORE
     void    lauch();
