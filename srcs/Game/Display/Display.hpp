@@ -18,6 +18,7 @@ class Display : public IDisplay {
 public:
     using Device = std::shared_ptr<irr::IrrlichtDevice>;
     using Gui = std::unique_ptr<irr::gui::IGUIEnvironment>;
+    using Camera = std::unique_ptr<irr::scene::ICameraSceneNode>;
     using VideoDriver = std::unique_ptr<irr::video::IVideoDriver>;
     using SceneManager = std::unique_ptr<irr::scene::ISceneManager>;
     using AnimatedMeshs = std::vector<std::unique_ptr<irr::scene::IAnimatedMesh>>;
@@ -31,6 +32,8 @@ public:
     irr::core::vector3df    pos3dToVector(const pos3d &);
     // SET OBJECT
     void    setDisplay(Events *) final;
+    void    setTerrain();
+    void    setSkyDome();
 
     // NOTE MESH FUNCTIONS
     void    addNewAnimation(const char *, const char *, const pos3d &) final;
@@ -64,7 +67,8 @@ private:
 private:
     Gui                 _gui;
     AnimatedMeshs       _meshs;
-
+    irr::scene::ITerrainSceneNode   *_terrain;
+    Camera              _camera;
     //SceneManager        _scenes;
     AnimatedMeshsScene  _meshsScene;
     Map3D _map3d;
