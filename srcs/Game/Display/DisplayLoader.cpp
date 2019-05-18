@@ -38,24 +38,26 @@ void DisplayLoader::preloadMapWall(const MapData &map)
 {
     auto x = 0.0f + posX;
     auto y = 10.0f + posY;
+    auto z = 40.0f + posZ;
     auto pos = map._rulesWall.find('/');
 
     for (__attribute__((unused)) auto tile : map._mapWall[0]) {
         addTileToMap(pos->second, 10.0f);
-        _d->getMap().back()->setPosition(irr::core::vector3df(x, 10.0f + posY, 40.0f + posZ));
+        _d->getMap().back()->setPosition(irr::core::vector3df(x, 10.0f + posY, z));
         x += 10.0f;
     }
     for (int i = 0; i != map._mapWall.size() + 2; i++) {
         addTileToMap(pos->second, 10.0f);
-        _d->getMap().back()->setPosition(irr::core::vector3df(x, y, 40.0f + posZ));
+        _d->getMap().back()->setPosition(irr::core::vector3df(x, y, z));
         addTileToMap(pos->second, 10.0f);
-        _d->getMap().back()->setPosition(irr::core::vector3df(0 - 10.0f + posX, y, 40.0f + posZ));
-        y -= 10.0f;
+        _d->getMap().back()->setPosition(irr::core::vector3df(0 - 10.0f + posX, y, z));
+//        y -= 10.0f;
+        z -= 10;
     }
     x = 0.0f + posX;
     for (__attribute__((unused)) auto tile : map._mapWall[0]) {
         addTileToMap(pos->second, 10.0f);
-        _d->getMap().back()->setPosition(irr::core::vector3df(x, y + 10.0f, 40.0f + posZ));
+        _d->getMap().back()->setPosition(irr::core::vector3df(x, y, z + 10));
         x += 10.0f;
     }
 }
@@ -63,7 +65,8 @@ void DisplayLoader::preloadMapWall(const MapData &map)
 void DisplayLoader::loadMapWall(const MapData &map)
 {
     auto x = 0.0f + posX;
-    auto y = 0.0f + posY;
+    auto y = 10.0f + posY;
+    auto z = 30.0f + posZ;
 
     preloadMapWall(map);
     for (auto &line : map._mapWall) {
@@ -71,12 +74,13 @@ void DisplayLoader::loadMapWall(const MapData &map)
             auto pos = map._rulesWall.find(tile);
             if (pos != map._rulesWall.end()) {
                 addTileToMap(pos->second, 9.0f);
-                _d->getMap().back()->setPosition(irr::core::vector3df(x, y, 40.0f + posZ));
+                _d->getMap().back()->setPosition(irr::core::vector3df(x, y, z));
             }
             x += 10.0f;
         }
-        x = 0 + posX;
-        y -= 10.0f;
+        x = 0.0f + posX;
+        z -= 10;
+//        y -= 10.0f;
     }
 }
 
@@ -84,7 +88,8 @@ void DisplayLoader::loadMapGround(const MapData &map)
 {
     unsigned int value = 0;
     auto x = 0.0f + posX;
-    auto y = 0.0f + posY;
+    auto y = 10.0f + posY;
+    auto z = 30.0f + posZ;
     auto base = map._rulesGround.begin()->first;
 
     for (auto &line : map._mapWall) {
@@ -92,7 +97,7 @@ void DisplayLoader::loadMapGround(const MapData &map)
             auto pos = map._rulesGround.find(base - value);
             if (pos != map._rulesGround.end()) {
                 addTileToMap(pos->second, 10.0f);
-                _d->getMap().back()->setPosition(irr::core::vector3df(x, y, 50.0f + posZ));
+                _d->getMap().back()->setPosition(irr::core::vector3df(x, y - 10, z));
             }
             value += 1;
             if (value > map._rulesGround.size() - 1)
@@ -100,7 +105,8 @@ void DisplayLoader::loadMapGround(const MapData &map)
             x += 10.0f;
         }
         x = 0 + posX;
-        y -= 10.0f;
+        z -= 10;
+        //        y -= 10.0f;
     }
 }
 
