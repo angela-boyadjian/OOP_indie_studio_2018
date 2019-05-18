@@ -43,8 +43,8 @@ void core::Bomberman::run()
         changeFrameAndPos(_game->getBots()[0].get(), b, tmp2);
         changeAnimation(_game->getPlayers()[0]->getEntityNb(), a, tmp);
         changeAnimation(_game->getBots()[0]->getEntityNb(), a, tmp);
-        tmp = a;
-        tmp2 = b;
+        _lastActions[_game->getBots()[0]->getEntityNb()] = b;
+        _lastActions[_game->getPlayers()[0]->getEntityNb()] = a;
         _display->draw();
     }
 }

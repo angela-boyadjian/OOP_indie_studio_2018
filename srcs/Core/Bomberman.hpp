@@ -50,4 +50,5 @@ private:
     Event                           _event;
     std::shared_ptr<IDisplay>       _display;
     std::unique_ptr<IDisplayLoader> _dispLoader;
+    std::map<std::size_t, ACharacter::Action>   _lastActions;
 };
