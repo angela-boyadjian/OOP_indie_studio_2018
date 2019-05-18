@@ -16,7 +16,7 @@
 
 class ACharacter {
 public:
-    using MapPos = std::tuple<std::size_t, std::size_t>;
+    using MapPos = std::tuple<std::size_t, std::size_t, std::size_t>;
     using KeyMap = std::map<std::string, irr::EKEY_CODE>;
 
     // DIRECTION OF THE CHARACTER

@@ -88,7 +88,7 @@ void    core::Bomberman::changeFrameAndPos(const ACharacter *cha, const ACharact
         if (last == ACharacter::Action::WAIT)
             _display->changeModelFrame(cha->getEntityNb(), 0, 27);
         _display->changeModelPos(cha->getEntityNb(), std::make_tuple(std::get<0>(cha->getMapPos()),
-            std::get<1>(cha->getMapPos()), 0));
+            0, std::get<2>(cha->getMapPos())));
     }
 }
 
@@ -117,10 +117,10 @@ void    core::Bomberman::initGame()
 {
     auto players = std::vector<std::unique_ptr<Player>>();
     players.push_back(std::make_unique<Player>(Player(0, ACharacter::Color::BLACK,
-                                                      std::make_tuple(std::size_t(0), std::size_t(0)))));
+                                                      std::make_tuple(std::size_t(0), std::size_t(0), std::size_t(0)))));
     auto bots = std::vector<std::unique_ptr<Bot>>();
     bots.push_back(std::make_unique<Bot>(Bot(1, std::make_tuple(std::size_t(0),
-                                                             std::size_t(0)))));
+                                                             std::size_t(0), std::size_t(0)))));
     auto game = std::unique_ptr<AGame>(new Game(players, bots));
     loadGame("./../resources/maps/3", game);
 }

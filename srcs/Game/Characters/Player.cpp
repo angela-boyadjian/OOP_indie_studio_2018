@@ -27,9 +27,11 @@ void Player::move(const std::vector<std::string> &map)
     switch (_action) {
         case ACharacter::Action::UP:
             std::get<1>(_pos) += 1;
+            std::get<2>(_pos) += 1;
             return;
         case ACharacter::Action::DOWN:
             std::get<1>(_pos) -= 1;
+            std::get<2>(_pos) -= 1;
             return;
         case ACharacter::Action::LEFT:
             std::get<0>(_pos) -= 1;

@@ -172,7 +172,7 @@ void    Display::changeModelPos(const std::size_t &i, const pos3d &vec)
     auto newVec = pos3dToVector(vec);
     newVec.X += 5400;
     newVec.Y += 800;
-    newVec.Z = 5200;
+    newVec.Z += 5200;
     _meshsScene[i]->setPosition(newVec);
 }
 

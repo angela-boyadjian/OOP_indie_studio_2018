@@ -145,9 +145,9 @@ ACharacter::Action  Bot::chooseDirection()
 void    Bot::changePosition(const ACharacter::Action &a)
 {
     if (a == ACharacter::Action::UP)
-        std::get<1>(_pos) -= 1;
+        std::get<2>(_pos) += 1;
     else if (a == ACharacter::Action::DOWN)
-        std::get<1>(_pos) += 1;
+        std::get<2>(_pos) -= 1;
     else if (a == ACharacter::Action::LEFT)
         std::get<0>(_pos) -= 1;
     else if (a == ACharacter::Action::RIGHT)
