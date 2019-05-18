@@ -85,7 +85,7 @@ void    Display::addNewMesh(const char *meshPath)
 void    Display::setMeshPosRot(irr::scene::IAnimatedMeshSceneNode *newScene)
 {
     newScene->setRotation(irr::core::vector3df(0, 0, 0));
-    newScene->setPosition(irr::core::vector3df(5400, 800, 5200));
+    newScene->setPosition(irr::core::vector3df(5400, 810, 5200));
 }
 
 void    Display::setMeshFrames(irr::scene::IAnimatedMeshSceneNode *newScene)
@@ -171,7 +171,7 @@ void    Display::changeModelPos(const std::size_t &i, const pos3d &vec)
 {
     auto newVec = pos3dToVector(vec);
     newVec.X += 5400;
-    newVec.Y += 800;
+    newVec.Y += 810;
     newVec.Z += 5200;
     _meshsScene[i]->setPosition(newVec);
 }
