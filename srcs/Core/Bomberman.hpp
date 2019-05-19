@@ -38,6 +38,8 @@ public:
     // Game loop
     void    run();
     void    action();
+    void    botsAction();
+    void    playersAction();
     void    changeAnimation(const std::size_t &, const ACharacter::Action &, const ACharacter::Action &);
     void    changeFrameAndPos(const ACharacter *, const ACharacter::Action &, const ACharacter::Action &);
 
