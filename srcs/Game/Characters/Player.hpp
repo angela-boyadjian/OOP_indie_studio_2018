@@ -14,11 +14,15 @@ public:
     // ADD KEYMAP PARAM TO CHANGE THE PLAYER KEYMAP
     Player(const std::size_t &, ACharacter::Color, MapPos const &pos);
     ~Player();
-    void    up();
-    void    down();
-    void    left();
-    void    right();
+    void    moveUp();
+    void    moveDown();
+    void    moveLeft();
+    void    moveRight();
     void    move(const std::vector<std::string> &, IDisplay *) final;
+    void    isWallUp(IDisplay *);
+    void    isWallDown(IDisplay *);
+    void    isWallLeft(IDisplay *);
+    void    isWallRight(IDisplay *);
     void    isWalls(IDisplay *);
 
 private:

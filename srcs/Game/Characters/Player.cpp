@@ -17,51 +17,56 @@ Player::~Player()
 {
 }
 
-void    Player::up()
+void    Player::moveUp()
 {
-    if (!_walls[0] && !(_walls[2] || _walls[3])) {
+    if (!_walls[0]) {
         std::get<1>(_pos) += 1;
         std::get<2>(_pos) += 1;
     }
 }
 
-void    Player::down()
+void    Player::moveDown()
 {
-    if (!_walls[1] && !(_walls[2] || _walls[3])) {
+    if (!_walls[1]) {
         std::get<1>(_pos) -= 1;
         std::get<2>(_pos) -= 1;
     }
 }
 
-void    Player::left()
+void    Player::moveLeft()
 {
-    if (!_walls[2] && !(_walls[0] || _walls[1]))
+    if (!_walls[2])
         std::get<0>(_pos) -= 1;
 }
 
-void    Player::right()
+void    Player::moveRight()
 {
-    if (!_walls[3] && !(_walls[0] || _walls[1]))
+    if (!_walls[3])
         std::get<0>(_pos) += 1;
 }
 
 void    Player::isWalls(IDisplay *d)
 {
     std::get<2>(_pos) += 1;
+    d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[0] = d->isCollision(getEntityNb());
     std::get<2>(_pos) -= 1;
 
     std::get<2>(_pos) -= 1;
+    d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[1] = d->isCollision(getEntityNb());
     std::get<2>(_pos) += 1;
 
     std::get<0>(_pos) -= 1;
+    d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[2] = d->isCollision(getEntityNb());
     std::get<0>(_pos) += 1;
 
     std::get<0>(_pos) += 1;
+    d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[3] = d->isCollision(getEntityNb());
     std::get<0>(_pos) -= 1;
+    d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
 }
 
 void    Player::move(const std::vector<std::string> &map, IDisplay *d)
@@ -69,16 +74,16 @@ void    Player::move(const std::vector<std::string> &map, IDisplay *d)
     isWalls(d);
     switch (_action) {
         case ACharacter::Action::UP:
-            up();
+            moveUp();
             return;
         case ACharacter::Action::DOWN:
-            down();
+            moveDown();
             return;
         case ACharacter::Action::LEFT:
-            left();
+            moveLeft();
             return;
         case ACharacter::Action::RIGHT:
-            right();
+            moveRight();
             return;
         case ACharacter::Action::BOMB:
             decreaseBombNumber();
