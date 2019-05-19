@@ -5,8 +5,6 @@
 ** Player
 */
 
-#include <mutex>
-
 #include "Player.hpp"
 
 Player::Player(const std::size_t &enb, ACharacter::Color color, MapPos const &pos) :
