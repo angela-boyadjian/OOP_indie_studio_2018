@@ -21,6 +21,7 @@ ACharacter::ACharacter(const std::size_t &enb, const MapPos &pos,
     _keyMap["DOWN"] = irr::EKEY_CODE::KEY_KEY_S;
     _keyMap["LEFT"] = irr::EKEY_CODE::KEY_KEY_Q;
     _keyMap["RIGHT"] = irr::EKEY_CODE::KEY_KEY_D;
+    _keyMap["BOMB"] = irr::EKEY_CODE::KEY_KEY_B;
 }
 
 // SETTERS
