@@ -112,5 +112,7 @@ void    Player::move(const std::vector<std::string> &map, IDisplay *d)
         case ACharacter::Action::BOMB:
             bomb(d);
             return;
+        case ACharacter::Action::WAIT:
+            return;
     }
 }
