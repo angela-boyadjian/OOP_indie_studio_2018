@@ -190,7 +190,7 @@ bool    Display::isCollision(const std::size_t &target)
 {
     auto b = _meshsScene[target]->getBoundingBox();
     _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
-    for (std::size_t i {0}; i < _collisionVector.size(); ++i) {
+    for (std::size_t i {0}; i < _meshsScene.size(); ++i) {
         if (i == target)
             continue;
         auto b2 = _meshsScene[i]->getBoundingBox();
