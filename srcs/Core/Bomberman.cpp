@@ -47,10 +47,8 @@ void core::Bomberman::run()
 
 void    core::Bomberman::botsAction()
 {
-    auto botsMove = _game->moveBots(_map->getMapData()._mapWall);
+    auto botsMove = _game->moveBots(_map->getMapData()._mapWall, _display.get());
     for (std::size_t i {0}; i < _game->getBots().size(); ++i) {
-        if (_display->isCollision(_game->getBots()[i]->getEntityNb()))
-            continue;
         changeFrameAndPos(_game->getBots()[i].get(), botsMove[i], _lastActions[_game->getBots()[i]->getEntityNb()]);
         changeAnimation(_game->getBots()[i]->getEntityNb(), botsMove[i], _lastActions[_game->getBots()[i]->getEntityNb()]);
         _lastActions[_game->getBots()[i]->getEntityNb()] = botsMove[i];
@@ -59,10 +57,8 @@ void    core::Bomberman::botsAction()
 
 void    core::Bomberman::playersAction()
 {
-    auto playersMove = _game->movePlayers(_event, _map->getMapData()._mapWall);
+    auto playersMove = _game->movePlayers(_event, _map->getMapData()._mapWall, _display.get());
     for (std::size_t i {0}; i < _game->getPlayers().size(); ++i) {
-        if (_display->isCollision(_game->getPlayers()[i]->getEntityNb()))
-            continue;
         changeFrameAndPos(_game->getPlayers()[i].get(), playersMove[i], _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         changeAnimation(_game->getPlayers()[i]->getEntityNb(), playersMove[i], _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         _lastActions[_game->getPlayers()[i]->getEntityNb()] = playersMove[i];

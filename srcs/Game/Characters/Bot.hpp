@@ -34,7 +34,7 @@ public:
     // MOVE
     Action      chooseDirection();
     void        changePosition(const Action &);
-    void        move(const std::vector<std::string> &) final;
+    void        move(const std::vector<std::string> &, IDisplay *) final;
     bool        isSafe(const std::size_t &, const std::size_t &);
 
     Action                      _lastDirection;

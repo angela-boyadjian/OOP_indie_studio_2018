@@ -32,8 +32,9 @@ public:
     const Players   &getPlayers() { return _players; }
 
     // DEPLACEMENTS (PURE METHODS)
-    virtual std::vector<ACharacter::Action> moveBots(const Map &) = 0;
-    virtual std::vector<ACharacter::Action> movePlayers(const Event &, const Map &) = 0;
+    virtual std::vector<ACharacter::Action> moveBots(const Map &, IDisplay *) = 0;
+    virtual std::vector<ACharacter::Action> movePlayers(const Event &, const Map &,
+            IDisplay *) = 0;
 
 protected:
     Bots        _bots;

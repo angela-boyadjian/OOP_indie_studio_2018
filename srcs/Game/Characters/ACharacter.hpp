@@ -13,10 +13,11 @@
 #include <string>
 
 #include "Events.hpp"
+#include "IDisplay.hpp"
 
 class ACharacter {
 public:
-    using MapPos = std::tuple<std::size_t, std::size_t, std::size_t>;
+    using MapPos = std::tuple<float, float, float>;
     using KeyMap = std::map<std::string, irr::EKEY_CODE>;
 
     // DIRECTION OF THE CHARACTER
@@ -61,7 +62,7 @@ public:
     void    decreaseBombNumber();
 
     // DEPLACEMENT
-    virtual void    move(const std::vector<std::string> &) = 0;
+    virtual void    move(const std::vector<std::string> &, IDisplay *) = 0;
 
 public:
     Color                       _color;

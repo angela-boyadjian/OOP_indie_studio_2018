@@ -154,7 +154,7 @@ void    Bot::changePosition(const ACharacter::Action &a)
         std::get<0>(_pos) += 1;
 }
 
-void    Bot::move(const std::vector<std::string> &)
+void    Bot::move(const std::vector<std::string> &, IDisplay *)
 {
     _lastDirection = Action(rand() % 4);
     changePosition(_lastDirection);
