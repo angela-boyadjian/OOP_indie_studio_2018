@@ -17,54 +17,68 @@ Player::~Player()
 {
 }
 
-void    Player::up(IDisplay *d)
+void    Player::up()
 {
-    std::get<1>(_pos) += 1;
-    std::get<2>(_pos) += 1;
-    if (d->isCollision(getEntityNb())) {
-        std::get<1>(_pos) -= 1;
-        std::get<2>(_pos) -= 1;
-    }
-}
-
-void    Player::down(IDisplay *d)
-{
-    std::get<1>(_pos) -= 1;
-    std::get<2>(_pos) -= 1;
-    if (d->isCollision(getEntityNb())) {
+    if (!_walls[0] && !(_walls[2] || _walls[3])) {
         std::get<1>(_pos) += 1;
         std::get<2>(_pos) += 1;
     }
 }
 
-void    Player::left(IDisplay *d)
+void    Player::down()
 {
-    std::get<0>(_pos) -= 1;
-    if (d->isCollision(getEntityNb()))
+    if (!_walls[1] && !(_walls[2] || _walls[3])) {
+        std::get<1>(_pos) -= 1;
+        std::get<2>(_pos) -= 1;
+    }
+}
+
+void    Player::left()
+{
+    if (!_walls[2] && !(_walls[0] || _walls[1]))
+        std::get<0>(_pos) -= 1;
+}
+
+void    Player::right()
+{
+    if (!_walls[3] && !(_walls[0] || _walls[1]))
         std::get<0>(_pos) += 1;
 }
 
-void    Player::right(IDisplay *d)
+void    Player::isWalls(IDisplay *d)
 {
+    std::get<2>(_pos) += 1;
+    _walls[0] = d->isCollision(getEntityNb());
+    std::get<2>(_pos) -= 1;
+
+    std::get<2>(_pos) -= 1;
+    _walls[1] = d->isCollision(getEntityNb());
+    std::get<2>(_pos) += 1;
+
+    std::get<0>(_pos) -= 1;
+    _walls[2] = d->isCollision(getEntityNb());
     std::get<0>(_pos) += 1;
-    if (d->isCollision(getEntityNb()))
-        std::get<0>(_pos) -= 1;
+
+    std::get<0>(_pos) += 1;
+    _walls[3] = d->isCollision(getEntityNb());
+    std::get<0>(_pos) -= 1;
 }
 
 void    Player::move(const std::vector<std::string> &map, IDisplay *d)
 {
+    isWalls(d);
     switch (_action) {
         case ACharacter::Action::UP:
-            up(d);
+            up();
             return;
         case ACharacter::Action::DOWN:
-            down(d);
+            down();
             return;
         case ACharacter::Action::LEFT:
-            left(d);
+            left();
             return;
         case ACharacter::Action::RIGHT:
-            right(d);
+            right();
             return;
         case ACharacter::Action::BOMB:
             decreaseBombNumber();
