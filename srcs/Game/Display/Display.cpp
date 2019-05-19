@@ -171,7 +171,7 @@ void    Display::changeModelPos(const std::size_t &i, const pos3d &vec)
 {
     auto newVec = pos3dToVector(vec);
     newVec.X += 5400;
-    newVec.Y += 810;
+    newVec.Y += 808;
     newVec.Z += 5200;
     _meshsScene[i]->setPosition(newVec);
 }
@@ -197,4 +197,16 @@ bool    Display::isCollision(const std::size_t &target)
             return true;
     }
     return false;
+}
+
+void    Display::destroyCollision(const std::size_t &target)
+{
+    auto b = _meshsScene[target]->getBoundingBox();
+    _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
+    for (std::size_t i {0}; i < _map3d.size(); ++i) {
+        auto b2 = _map3d[i]->getBoundingBox();
+        _map3d[i]->getRelativeTransformation().transformBoxEx(b2);
+        if (b.intersectsWithBox(b2) && _map3d[i]->isVisible())
+            _map3d[i]->setVisible(false);
+    }
 }

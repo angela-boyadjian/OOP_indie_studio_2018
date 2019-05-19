@@ -105,8 +105,7 @@ void    Player::move(const std::vector<std::string> &map, IDisplay *d)
             return;
         case ACharacter::Action::BOMB:
             decreaseBombNumber();
-            return;
-        default:
+            d->destroyCollision(getEntityNb());
             return;
     }
 }

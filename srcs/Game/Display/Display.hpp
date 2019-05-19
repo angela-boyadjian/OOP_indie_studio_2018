@@ -69,6 +69,7 @@ public:
     void    changeModelFrame(const std::size_t  &, const std::size_t &, const std::size_t &) final;
 
     bool    isCollision(const std::size_t &) final;
+    void    destroyCollision(const std::size_t &) final;
 private:
     void    addNewMesh(const char *);
     void    addNewMeshScene(const char *, const irr::core::vector3df &);

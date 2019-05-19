@@ -41,6 +41,7 @@ public:
     virtual void    changeModelFrame(const std::size_t  &, const std::size_t &, const std::size_t &) = 0;
 
     virtual bool    isCollision(const std::size_t &) = 0;
+    virtual void    destroyCollision(const std::size_t &) = 0;
 
     // TEMPO
     SceneManager        _scenes;
