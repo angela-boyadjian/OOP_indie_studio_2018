@@ -87,6 +87,12 @@ void    Player::isWalls(IDisplay *d)
     isWallRight(d);
 }
 
+void    Player::bomb(IDisplay *d)
+{
+    decreaseBombNumber();
+    d->destroyCollision(getEntityNb());
+}
+
 void    Player::move(const std::vector<std::string> &map, IDisplay *d)
 {
     isWalls(d);
@@ -104,8 +110,7 @@ void    Player::move(const std::vector<std::string> &map, IDisplay *d)
             moveRight();
             return;
         case ACharacter::Action::BOMB:
-            decreaseBombNumber();
-            d->destroyCollision(getEntityNb());
+            bomb(d);
             return;
     }
 }
