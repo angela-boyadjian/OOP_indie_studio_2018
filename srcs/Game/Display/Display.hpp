@@ -68,9 +68,10 @@ public:
     void    changeModelRot(const std::size_t &, const pos3d &) final;
     void    changeModelFrame(const std::size_t  &, const std::size_t &, const std::size_t &) final;
 
+    bool    isCollision(const std::size_t &);
 private:
     void    addNewMesh(const char *);
-    void    addNewMeshScene(const char *, irr::core::vector3df);
+    void    addNewMeshScene(const char *, const irr::core::vector3df &);
 
 private:
     Gui                 _gui;

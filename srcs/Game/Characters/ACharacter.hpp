@@ -43,6 +43,7 @@ public:
 
     // SETTERS
     void    setAction(const Action &);
+    void    setPosZ(const std::size_t &);
 
     // GETTERS
     KeyMap              &getKeyMap();

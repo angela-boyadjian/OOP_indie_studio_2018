@@ -101,7 +101,7 @@ void    Display::setMeshAnimation(irr::scene::IAnimatedMeshSceneNode *newScene)
     newScene->setMD2Animation(irr::scene::EMAT_STAND);
 }
 
-void    Display::addNewMeshScene(const char *scenePath, irr::core::vector3df scale)
+void    Display::addNewMeshScene(const char *scenePath, const irr::core::vector3df &scale)
 {
     auto newScene = _scenes->addAnimatedMeshSceneNode(_meshs.back().get());
     if (!newScene)
@@ -184,4 +184,19 @@ void    Display::changeModelRot(const std::size_t &i, const pos3d &vec)
 void    Display::changeModelFrame(const std::size_t &i, const std::size_t &a, const std::size_t &b)
 {
     _meshsScene[i]->setFrameLoop(a, b);
+}
+
+bool    Display::isCollision(const std::size_t &target)
+{
+    auto b = _meshsScene[target]->getBoundingBox();
+    _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
+    for (std::size_t i {0}; i < _collisionVector.size(); ++i) {
+        if (i == target)
+            continue;
+        auto b2 = _meshsScene[i]->getBoundingBox();
+        _meshsScene[i]->getRelativeTransformation().transformBoxEx(b2);
+        if (b.intersectsWithBox(b2))
+            return true;
+    }
+    return false;
 }

@@ -34,6 +34,11 @@ void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
 
 void core::Bomberman::run()
 {
+    _game->getPlayers()[0]->setPosZ(std::get<2>(_game->getPlayers()[0]->getMapPos()) + 30);
+    _display->changeModelPos(_game->getPlayers()[0]->getEntityNb(), std::make_tuple(
+            std::get<0>(_game->getPlayers()[0]->getMapPos()),
+                    std::get<1>(_game->getPlayers()[0]->getMapPos()),
+                            std::get<2>(_game->getPlayers()[0]->getMapPos())));
     while (_display->isRunning()) {
         action();
         _display->draw();
@@ -42,6 +47,8 @@ void core::Bomberman::run()
 
 void    core::Bomberman::action()
 {
+    if (_display->isCollision(_game->getPlayers()[0]->getEntityNb()))
+        return;
     auto playersMove = _game->movePlayers(_event, _map->getMapData()._mapWall);
     for (std::size_t i {0}; i < _game->getPlayers().size(); ++i) {
         changeFrameAndPos(_game->getPlayers()[i].get(), playersMove[i], _lastActions[_game->getPlayers()[i]->getEntityNb()]);
