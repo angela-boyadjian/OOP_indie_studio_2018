@@ -45,28 +45,46 @@ void    Player::moveRight()
         std::get<0>(_pos) += 1;
 }
 
-void    Player::isWalls(IDisplay *d)
+void    Player::isWallUp(IDisplay *d)
 {
     std::get<2>(_pos) += 1;
     d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[0] = d->isCollision(getEntityNb());
     std::get<2>(_pos) -= 1;
+}
 
+void    Player::isWallDown(IDisplay *d)
+{
     std::get<2>(_pos) -= 1;
     d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[1] = d->isCollision(getEntityNb());
     std::get<2>(_pos) += 1;
+}
 
+
+void    Player::isWallLeft(IDisplay *d)
+{
     std::get<0>(_pos) -= 1;
     d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[2] = d->isCollision(getEntityNb());
     std::get<0>(_pos) += 1;
+}
 
+void    Player::isWallRight(IDisplay *d)
+{
     std::get<0>(_pos) += 1;
     d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[3] = d->isCollision(getEntityNb());
     std::get<0>(_pos) -= 1;
     d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
+}
+
+void    Player::isWalls(IDisplay *d)
+{
+    isWallUp(d);
+    isWallDown(d);
+    isWallLeft(d);
+    isWallRight(d);
 }
 
 void    Player::move(const std::vector<std::string> &map, IDisplay *d)
