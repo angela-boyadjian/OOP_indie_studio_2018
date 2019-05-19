@@ -193,7 +193,7 @@ bool    Display::isCollision(const std::size_t &target)
     for (std::size_t i {0}; i < _map3d.size(); ++i) {
         auto b2 = _map3d[i]->getBoundingBox();
         _map3d[i]->getRelativeTransformation().transformBoxEx(b2);
-        if (b.intersectsWithBox(b2))
+        if (b.intersectsWithBox(b2) && _map3d[i]->isVisible())
             return true;
     }
     return false;
