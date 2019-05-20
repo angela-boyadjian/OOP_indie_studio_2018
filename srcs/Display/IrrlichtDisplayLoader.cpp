@@ -50,11 +50,11 @@ bool IrrlichtDisplayLoader::loadTileMap(const SpriteInfo &info, float size,
 
 void IrrlichtDisplayLoader::loadMapEdgeTop(const MapData &map)
 {
-    auto x = 0.0f + posX;
+    auto x = posX - 10.0f;
     auto z = 40.0f + posZ;
     auto pos = map._rulesWall.find('/');
 
-    for (__attribute__((unused)) auto tile : map._mapWall[0]) {
+    for (__attribute__((unused)) auto i = 0; map._mapWall[0].size() + 2 != i; i++) {
         addTileToMap(irr::core::vector3df(x, 10.0f + posY, z), pos->second,
                      10.0f);
         x += 10.0f;
@@ -63,13 +63,13 @@ void IrrlichtDisplayLoader::loadMapEdgeTop(const MapData &map)
 
 void IrrlichtDisplayLoader::loadMapEdgeSide(const MapData &map)
 {
-    auto x = (map._mapWall[0].size() * 10.0f) + posX;
     auto y = 10.0f + posY;
-    auto z = 40.0f + posZ;
+    auto z = 30.0f + posZ;
     auto pos = map._rulesWall.find('/');
 
-    std::cout << x << std::endl;
-    for (int i = 0; i != map._mapWall.size() + 2; i++) {
+
+    for (int i = 0; i != map._mapWall.size(); i++) {
+        auto x = map._mapWall[i].size() * 10.0f + posX;
         addTileToMap(irr::core::vector3df(x, y, z), pos->second, 10.0f);
         addTileToMap(irr::core::vector3df(posX - 10.0f, y, z), pos->second,
                      10.0f);
@@ -79,13 +79,14 @@ void IrrlichtDisplayLoader::loadMapEdgeSide(const MapData &map)
 
 void IrrlichtDisplayLoader::loadMapEdgeLow(const MapData &map)
 {
-    auto x = posX;
+    auto x = posX - 10.0f;
     auto y = 10.0f + posY;
-    auto z = 40.0f + posZ - ((map._mapWall.size() + 2) * 10);
+    auto z = 30.0f + posZ - (map._mapWall.size() * 10);
     auto pos = map._rulesWall.find('/');
-
-    for (__attribute__((unused)) auto tile : map._mapWall[0]) {
-        addTileToMap(irr::core::vector3df(x, y, z + 10), pos->second, 10.0f);
+    
+    for (__attribute__((unused)) auto i = 0; map._mapWall[0].size() + 2 != i; i++) {
+        addTileToMap(irr::core::vector3df(x, y, z), pos->second,
+                     10.0f);
         x += 10.0f;
     }
 }
