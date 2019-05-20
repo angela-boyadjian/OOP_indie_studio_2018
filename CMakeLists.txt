@@ -7,15 +7,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU"
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 include_directories(lib/irrLicht/include)
+
 include_directories(
         srcs/Map
         srcs/Logic
         srcs/Events
         srcs/Display
         srcs/Characters
-        srcs/Menu
-        srcs/Tool
-        srcs/Core
+        srcs/Objects
 )
 
 add_executable(${PROJECT_NAME}
@@ -41,6 +40,7 @@ add_executable(${PROJECT_NAME}
         srcs/Core/Bomberman.cpp
         srcs/Characters/BombermanPlayers/Bot.cpp
         srcs/Display/IDisplay.hpp
+        srcs/Characters/BombermanPlayers/ABombermanPlayer.cpp
         srcs/Characters/BombermanPlayers/Player.cpp
         srcs/Characters/BombermanPlayers/Player.hpp
         srcs/Characters/ACharacter.cpp
@@ -49,6 +49,8 @@ add_executable(${PROJECT_NAME}
         srcs/Display/IrrlichtDisplay.hpp
         srcs/Display/IrrlichtDisplayLoader.hpp
         srcs/Display/IrrlichtDisplayLoader.cpp
-        srcs/Characters/BombermanPlayers/ABombermanPlayer.hpp srcs/Characters/BombermanPlayers/ABombermanPlayer.cpp)
+        srcs/Objects/Bomb.cpp
+        srcs/Objects/Bomb.hpp
+)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)

@@ -5,6 +5,8 @@
 ** basile.lamarque@epitech.eu
 */
 
+#include "Bomb.hpp"
+
 #include "IrrlichtDisplayLoader.hpp"
 
 #define posX 5400
@@ -135,10 +137,18 @@ void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
                         std::make_tuple(6, 6, 6));
 }
 
+void IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture)
+{
+    _d->addNewAnimation(res, texture.c_str(), std::make_tuple(2, 2, 2));
+}
+
 void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
 {
+    Bomb b;
+
     for (auto &bot : game->getBots())
         loadPlayer(bot->_color, bot->_textures);
     for (auto &player : game->getPlayers())
         loadPlayer(player->_color, player->_textures);
+    loadBomb(b.getRes().c_str(), b.getTexture());
 }
