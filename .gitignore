@@ -1,5 +1,5 @@
 # IDE
-.idea/
+.idea
 
 # CMAKE
 cmake-build-debug/
@@ -17,3 +17,6 @@ lib
 
 # BIN
 bin
+
+# VGCORE
+vgcore*
