@@ -19,6 +19,7 @@ public:
     using VideoDriver = irr::video::IVideoDriver *;
     using SceneManager = irr::scene::ISceneManager *;
     using Device = std::shared_ptr<irr::IrrlichtDevice>;
+    using Gui = std::unique_ptr<irr::gui::IGUIEnvironment>;
     using Map3D = std::vector<std::unique_ptr<IDisplay::Object>>;
 
     // SET OBJECT
@@ -34,6 +35,10 @@ public:
     //    // NOTE DRAW FUNCTIONS
     virtual void    draw() = 0;
 
+    // NOTE GETTER
+    virtual irr::core::dimension2du const &getScreenSize() = 0;
+    virtual Device const &getDevice() = 0;
+    virtual Gui const &getGui() = 0;
     virtual Map3D   &getMap() = 0;
 
     virtual void    changeModelPos(const std::size_t &, const pos3d &) = 0;

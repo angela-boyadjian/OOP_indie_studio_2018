@@ -35,7 +35,12 @@ public:
             _keyIsPressed[event.KeyInput.Key] = event.KeyInput.PressedDown;
         if(isGuiEvent(event)) {
             index id = event.GUIEvent.Caller->getID();
-            if (id == GUI_ID_QUIT_BUTTON && event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
+            if (id == GUI_ID_QUIT_BUTTON &&
+                event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
+                _device->closeDevice();
+                return true;
+            } else if (id == GUI_ID_START_BUTTON &&
+                event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
                 _device->closeDevice();
                 return true;
             }
@@ -47,6 +52,7 @@ public:
 
     enum {
         GUI_ID_QUIT_BUTTON = 101,
+        GUI_ID_START_BUTTON,
     };
 private:
     bool    _keyIsPressed[KEY_COUNT];

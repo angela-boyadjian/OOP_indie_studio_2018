@@ -10,6 +10,7 @@
 
 #include "Bomberman.hpp"
 #include "ACharacter.hpp"
+#include "Menu.hpp"
 
 core::Bomberman::Bomberman()
 {
@@ -34,13 +35,13 @@ void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
 
 void core::Bomberman::run()
 {
-    _game->getPlayers()[0]->setPosZ(std::get<2>(_game->getPlayers()[0]->getMapPos()) + 30);
+/*    _game->getPlayers()[0]->setPosZ(std::get<2>(_game->getPlayers()[0]->getMapPos()) + 30);
     _display->changeModelPos(_game->getPlayers()[0]->getEntityNb(), std::make_tuple(
             std::get<0>(_game->getPlayers()[0]->getMapPos()),
                     std::get<1>(_game->getPlayers()[0]->getMapPos()),
-                            std::get<2>(_game->getPlayers()[0]->getMapPos())));
+                            std::get<2>(_game->getPlayers()[0]->getMapPos())));*/
     while (_display->isRunning()) {
-        action();
+//        action();
         _display->draw();
     }
 }
@@ -109,11 +110,14 @@ void    core::Bomberman::changeFrameAndPos(const ACharacter *cha, const ACharact
 
 void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
 {
-    _map = std::unique_ptr<IMap>(new Map(mapPath));
-    _map->load();
-    _game = std::move(game);
-    _dispLoader->loadGame(_game);
-    _dispLoader->loadMap(_map->getMapData());
+    auto menu = std::unique_ptr<Menu>(new Menu());
+
+//    _map = std::unique_ptr<IMap>(new Map(mapPath));
+//    _map->load();
+//    _game = std::move(game);
+ //   _dispLoader->loadGame(_game);
+ //   _dispLoader->loadMap(_map->getMapData());
+    _dispLoader->loadMenu(menu);
 }
 
 void    core::Bomberman::lauch()
@@ -130,7 +134,7 @@ void    core::Bomberman::lauch()
 
 void    core::Bomberman::initGame()
 {
-    auto players = std::vector<std::unique_ptr<Player>>();
+   auto players = std::vector<std::unique_ptr<Player>>();
     players.push_back(std::make_unique<Player>(Player(0, ACharacter::Color::BLACK,
                                                       std::make_tuple(std::size_t(0), std::size_t(0), std::size_t(0)))));
     auto bots = std::vector<std::unique_ptr<Bot>>();

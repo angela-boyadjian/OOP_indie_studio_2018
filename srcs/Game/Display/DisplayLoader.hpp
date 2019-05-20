@@ -31,6 +31,9 @@ public:
     void preloadMapWall(const MapData &) final;
     bool addTileToMap(const SpriteInfo &, float) final;
 
+    // NOTE MENU LOAD
+    void loadMenu(const std::unique_ptr<Menu> &) final;
+
     // GAME LOAD
     void    loadGame(const std::unique_ptr<AGame> &) final;
     void    loadPlayer(const ACharacter::Color &, const std::vector<std::string> &) final;

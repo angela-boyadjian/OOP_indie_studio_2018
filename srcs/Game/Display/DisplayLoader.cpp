@@ -6,6 +6,7 @@
 */
 
 #include "DisplayLoader.hpp"
+#include "Display.hpp"
 
 #define posX 5400
 #define posY 800
@@ -131,4 +132,18 @@ void    DisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
         loadPlayer(bot->_color, bot->_textures);
     for (auto &player : game->getPlayers())
         loadPlayer(player->_color, player->_textures);
+}
+
+void    DisplayLoader::loadMenu(const std::unique_ptr<Menu> &menu)
+{
+    Display::Gui const &gui = _d->getGui();
+    Display::Device const &device = _d->getDevice();
+    auto screenSize = _d->getScreenSize();
+
+    gui->addButton(irr::core::rect<irr::s32>(10, 240, 110, 240 + 32), 0,
+    101, L"Quit", L"Exits Program");
+    gui->addButton(irr::core::rect<irr::s32>(screenSize.Width - 110, 240, screenSize.Width - 10, 240 + 32), 0,
+        101, L"Start Game", L"Start Game");
+    Events *receiver = new Events(device);
+    device->setEventReceiver(receiver);
 }

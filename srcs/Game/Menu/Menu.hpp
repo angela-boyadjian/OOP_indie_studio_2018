@@ -15,5 +15,5 @@ class Menu : public IMenu {
     ~Menu();
 
 
-    void load(Display &) override;
+    void load() final;
 };
