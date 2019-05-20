@@ -119,6 +119,7 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
 void    core::Bomberman::lauch()
 {
     auto disp = std::shared_ptr<IDisplay>(new IrrlichtDisplay());
+    std::cout << "1" << std::endl;
     _event = std::make_unique<Events>(Events(disp->_device));
     disp->setDisplay(_event.get());
     auto dispLoader = std::unique_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp));
