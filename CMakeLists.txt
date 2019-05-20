@@ -15,6 +15,9 @@ include_directories(
         srcs/Display
         srcs/Characters
         srcs/Objects
+        srcs/Tool
+        srcs/Core
+        srcs/Menu
 )
 
 add_executable(${PROJECT_NAME}
