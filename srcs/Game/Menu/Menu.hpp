@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Display.hpp"
+#include "IrrlichtDisplay.hpp"
 #include "ACharacter.hpp"
 #include "IMenu.hpp"
 #include "Events.hpp"
@@ -15,5 +15,5 @@ class Menu : public IMenu {
     ~Menu();
 
 
-    void load(Display &) override;
+    void load(IrrlichtDisplay &) override;
 };

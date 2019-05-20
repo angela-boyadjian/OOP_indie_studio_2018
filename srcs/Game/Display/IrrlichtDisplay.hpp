@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** OOP_indie_studio_2018
 ** File description:
-** Display
+** IrrlichtDisplay
 */
 #pragma once
 
@@ -14,7 +14,7 @@
 #include "IDisplay.hpp"
 // static const wchar_t *windowName = "Bomberman";
 
-class Display : public IDisplay {
+class IrrlichtDisplay : public IDisplay {
 public:
     using Device = std::shared_ptr<irr::IrrlichtDevice>;
     using Gui = std::unique_ptr<irr::gui::IGUIEnvironment>;
@@ -27,8 +27,8 @@ public:
     using AnimatedMeshsScene = std::vector<std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>>;
 
     // NOTE CONSTRUCTOR / DESTRUCTOR
-    Display();
-    ~Display() = default;
+    IrrlichtDisplay();
+    ~IrrlichtDisplay() = default;
 
     // UTILS
     irr::core::vector3df    pos3dToVector(const pos3d &);
@@ -60,8 +60,8 @@ public:
 
     // NOTE GET
     irr::core::dimension2du const &getScreenSize();
-    Display::Device const &getDevice();
-    Display::Gui const &getGui();
+    IrrlichtDisplay::Device const &getDevice();
+    IrrlichtDisplay::Gui const &getGui();
     Map3D   &getMap() override;
 
     void    changeModelPos(const std::size_t &, const pos3d &) final;

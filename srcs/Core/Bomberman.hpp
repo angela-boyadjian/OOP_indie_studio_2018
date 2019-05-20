@@ -10,7 +10,7 @@
 #include <memory>
 
 #include "Map.hpp"
-#include "Game.hpp"
+#include "BombermanGame.hpp"
 #include "AGame.hpp"
 #include "Player.hpp"
 #include "IDisplayLoader.hpp"
@@ -35,7 +35,7 @@ public:
     // load resources
     void    loadGame(const std::string &, std::unique_ptr<AGame> &);
 
-    // Game loop
+    // BombermanGame loop
     void    run();
     void    action();
     void    botsAction();

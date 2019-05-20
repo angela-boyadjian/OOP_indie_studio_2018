@@ -1,21 +1,21 @@
 /*
 ** EPITECH PROJECT, 2019
-** DisplayLoader.cpp 
+** IrrlichtDisplayLoader.cpp 
 ** File description:
 ** basile.lamarque@epitech.eu
 */
 
-#include "DisplayLoader.hpp"
+#include "IrrlichtDisplayLoader.hpp"
 
 #define posX 5400
 #define posY 800
 #define posZ 5200
 
-DisplayLoader::DisplayLoader(const std::shared_ptr<IDisplay> &d) :
+IrrlichtDisplayLoader::IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &d) :
     _d(d)
 {}
 
-bool DisplayLoader::addTileToMap(const SpriteInfo &info, float size)
+bool IrrlichtDisplayLoader::addTileToMap(const SpriteInfo &info, float size)
 {
     if (info._messPath == "Cube")
         _d->getMap().emplace_back(_d->_scenes->addCubeSceneNode(size, 0, -1));
@@ -34,7 +34,7 @@ bool DisplayLoader::addTileToMap(const SpriteInfo &info, float size)
     return true;
 }
 
-void DisplayLoader::preloadMapWall(const MapData &map)
+void IrrlichtDisplayLoader::preloadMapWall(const MapData &map)
 {
     auto x = 0.0f + posX;
     auto y = 10.0f + posY;
@@ -62,7 +62,7 @@ void DisplayLoader::preloadMapWall(const MapData &map)
     }
 }
 
-void DisplayLoader::loadMapWall(const MapData &map)
+void IrrlichtDisplayLoader::loadMapWall(const MapData &map)
 {
     auto x = 0.0f + posX;
     auto y = 10.0f + posY;
@@ -84,7 +84,7 @@ void DisplayLoader::loadMapWall(const MapData &map)
     }
 }
 
-void DisplayLoader::loadMapGround(const MapData &map)
+void IrrlichtDisplayLoader::loadMapGround(const MapData &map)
 {
     unsigned int value = 0;
     auto x = 0.0f + posX;
@@ -110,7 +110,7 @@ void DisplayLoader::loadMapGround(const MapData &map)
     }
 }
 
-void DisplayLoader::loadMap(const MapData &map)
+void IrrlichtDisplayLoader::loadMap(const MapData &map)
 {
     loadMapWall(map);
     loadMapGround(map);
@@ -118,14 +118,14 @@ void DisplayLoader::loadMap(const MapData &map)
 
 static const char *res = "../resources/models/Character/Bomberman.MD3";
 
-void    DisplayLoader::loadPlayer(const ACharacter::Color &color,
+void    IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
         const std::vector<std::string> &textures)
 {
     _d->addNewAnimation(res, textures[static_cast<int>(color)].c_str(),
                         std::make_tuple(6, 6, 6));
 }
 
-void    DisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
+void    IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
 {
     for (auto &bot : game->getBots())
         loadPlayer(bot->_color, bot->_textures);
