@@ -200,10 +200,16 @@ bool    IrrlichtDisplay::isCollision(const std::size_t &target)
 {
     auto b = _meshsScene[target]->getBoundingBox();
     _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
-    for (std::size_t i {0}; i < _map3d.size(); ++i) {
-        auto b2 = _map3d[i]->getBoundingBox();
-        _map3d[i]->getRelativeTransformation().transformBoxEx(b2);
-        if (b.intersectsWithBox(b2) && _map3d[i]->isVisible())
+    for (std::size_t i {0}; i < _coliMap.size(); ++i) {
+        auto b2 = _coliMap[i]->getBoundingBox();
+        _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
+        if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())
+            return true;
+    }
+    for (std::size_t i {0}; i < _noncoliMap.size(); ++i) {
+        auto b2 = _noncoliMap[i]->getBoundingBox();
+        _noncoliMap[i]->getRelativeTransformation().transformBoxEx(b2);
+        if (b.intersectsWithBox(b2) && _noncoliMap[i]->isVisible())
             return true;
     }
     return false;
@@ -213,10 +219,10 @@ void    IrrlichtDisplay::destroyCollision(const std::size_t &target)
 {
     auto b = _meshsScene[target]->getBoundingBox();
     _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
-    for (std::size_t i {0}; i < _map3d.size(); ++i) {
-        auto b2 = _map3d[i]->getBoundingBox();
-        _map3d[i]->getRelativeTransformation().transformBoxEx(b2);
-        if (b.intersectsWithBox(b2) && _map3d[i]->isVisible())
-            _map3d[i]->setVisible(false);
+    for (std::size_t i {0}; i < _coliMap.size(); ++i) {
+        auto b2 = _coliMap[i]->getBoundingBox();
+        _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
+        if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())
+            _coliMap[i]->setVisible(false);
     }
 }
