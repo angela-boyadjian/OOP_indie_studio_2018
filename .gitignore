@@ -17,3 +17,6 @@ lib
 
 # BIN
 bin
+
+# VGCORE
+vgcore*
