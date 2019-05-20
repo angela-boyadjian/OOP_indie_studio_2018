@@ -9,20 +9,22 @@
 
 #include "IrrlichtDisplayLoader.hpp"
 
-#define posX 5400
-#define posY 800
-#define posZ 5200
+#define posX 5400.0f
+#define posY 800.0f
+#define posZ 5200.0f
 
-IrrlichtDisplayLoader::IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &d) :
+IrrlichtDisplayLoader::IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &d)
+    :
     _d(d)
 {}
 
 void IrrlichtDisplayLoader::loadCube(float size, IDisplay::Map3D &dest)
 {
-   dest.emplace_back(_d->_scenes->addCubeSceneNode(size, 0, -1));
+    dest.emplace_back(_d->_scenes->addCubeSceneNode(size, 0, -1));
 }
 
-void IrrlichtDisplayLoader::loadMess(const SpriteInfo &info, float size, IDisplay::Map3D &dest)
+void IrrlichtDisplayLoader::loadMess(const SpriteInfo &info, float size,
+                                     IDisplay::Map3D &dest)
 {
     auto mesh = _d->_scenes->getMesh(info._messPath.c_str());
     irr::core::vector3df scale(size / info._size.X,
@@ -33,7 +35,8 @@ void IrrlichtDisplayLoader::loadMess(const SpriteInfo &info, float size, IDispla
     dest.back()->setScale(scale);
 }
 
-bool IrrlichtDisplayLoader::loadTileMap(const SpriteInfo &info, float size, IDisplay::Map3D &dest)
+bool IrrlichtDisplayLoader::loadTileMap(const SpriteInfo &info, float size,
+                                        IDisplay::Map3D &dest)
 {
     if (info._messPath == "Cube")
         loadCube(size, dest);
@@ -45,27 +48,53 @@ bool IrrlichtDisplayLoader::loadTileMap(const SpriteInfo &info, float size, IDis
     return true;
 }
 
-void IrrlichtDisplayLoader::preloadMapWall(const MapData &map)
+void IrrlichtDisplayLoader::loadMapEdgeTop(const MapData &map)
 {
     auto x = 0.0f + posX;
-    auto y = 10.0f + posY;
     auto z = 40.0f + posZ;
     auto pos = map._rulesWall.find('/');
 
     for (__attribute__((unused)) auto tile : map._mapWall[0]) {
-        addTileToMap(irr::core::vector3df(x, 10.0f + posY, z), pos->second, 10.0f);
+        addTileToMap(irr::core::vector3df(x, 10.0f + posY, z), pos->second,
+                     10.0f);
         x += 10.0f;
     }
+}
+
+void IrrlichtDisplayLoader::loadMapEdgeSide(const MapData &map)
+{
+    auto x = (map._mapWall[0].size() * 10.0f) + posX;
+    auto y = 10.0f + posY;
+    auto z = 40.0f + posZ;
+    auto pos = map._rulesWall.find('/');
+
+    std::cout << x << std::endl;
     for (int i = 0; i != map._mapWall.size() + 2; i++) {
         addTileToMap(irr::core::vector3df(x, y, z), pos->second, 10.0f);
-        addTileToMap(irr::core::vector3df(0 - 10.0f + posX, y, z), pos->second, 10.0f);
+        addTileToMap(irr::core::vector3df(posX - 10.0f, y, z), pos->second,
+                     10.0f);
         z -= 10;
     }
-    x = 0.0f + posX;
+}
+
+void IrrlichtDisplayLoader::loadMapEdgeLow(const MapData &map)
+{
+    auto x = posX;
+    auto y = 10.0f + posY;
+    auto z = 40.0f + posZ - ((map._mapWall.size() + 2) * 10);
+    auto pos = map._rulesWall.find('/');
+
     for (__attribute__((unused)) auto tile : map._mapWall[0]) {
         addTileToMap(irr::core::vector3df(x, y, z + 10), pos->second, 10.0f);
         x += 10.0f;
     }
+}
+
+void IrrlichtDisplayLoader::preloadMapWall(const MapData &map)
+{
+    loadMapEdgeTop(map);
+    loadMapEdgeSide(map);
+    loadMapEdgeLow(map);
 }
 
 void IrrlichtDisplayLoader::loadMapWall(const MapData &map)
@@ -88,7 +117,8 @@ void IrrlichtDisplayLoader::loadMapWall(const MapData &map)
 }
 
 void
-IrrlichtDisplayLoader::addTileToMap(const irr::core::vector3df &pos, const SpriteInfo &info, float size)
+IrrlichtDisplayLoader::addTileToMap(const irr::core::vector3df &pos,
+                                    const SpriteInfo &info, float size)
 {
     if (info._referTo == "2") {
         loadTileMap(info, size, _d->getColiMap());
@@ -111,7 +141,8 @@ void IrrlichtDisplayLoader::loadMapGround(const MapData &map)
         for (__attribute__((unused)) auto tile : line) {
             auto pos = map._rulesGround.find(base - value);
             if (pos != map._rulesGround.end())
-                addTileToMap(irr::core::vector3df(x, y - 10, z), pos->second, 10.0f);
+                addTileToMap(irr::core::vector3df(x, y - 10, z), pos->second,
+                             10.0f);
             value += 1;
             if (value > map._rulesGround.size() - 1)
                 value = 0;
@@ -131,13 +162,14 @@ void IrrlichtDisplayLoader::loadMap(const MapData &map)
 static const char *res = "../resources/models/Character/Bomberman.MD3";
 
 void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
-                               const std::vector<std::string> &textures)
+                                       const std::vector<std::string> &textures)
 {
     _d->addNewAnimation(res, textures[static_cast<int>(color)].c_str(),
                         std::make_tuple(6, 6, 6));
 }
 
-void IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture)
+void
+IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture)
 {
     _d->addNewAnimation(res, texture.c_str(), std::make_tuple(2, 2, 2));
 }

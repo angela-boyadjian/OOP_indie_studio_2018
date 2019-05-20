@@ -31,6 +31,9 @@ public:
     void loadMapWall(const MapData &) final;
     void addTileToMap(const irr::core::vector3df &, const SpriteInfo &, float);
     void loadMapGround(const MapData &) final;
+    void loadMapEdgeTop(const MapData &map);
+    void loadMapEdgeSide(const MapData &map);
+    void loadMapEdgeLow(const MapData &map);
     void preloadMapWall(const MapData &) final;
     bool loadTileMap(const SpriteInfo &, float, IDisplay::Map3D &);
 
