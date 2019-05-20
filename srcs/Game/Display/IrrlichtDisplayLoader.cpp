@@ -51,19 +51,17 @@ void IrrlichtDisplayLoader::preloadMapWall(const MapData &map)
     auto pos = map._rulesWall.find('/');
 
     for (__attribute__((unused)) auto tile : map._mapWall[0]) {
-        addTileToMap(map, irr::core::vector3df(x, 10.0f + posY, z),
-                     pos->second);
+        addTileToMap(irr::core::vector3df(x, 10.0f + posY, z), pos->second);
         x += 10.0f;
     }
     for (int i = 0; i != map._mapWall.size() + 2; i++) {
-        addTileToMap(map, irr::core::vector3df(x, y, z), pos->second);
-        addTileToMap(map, irr::core::vector3df(0 - 10.0f + posX, y, z),
-                     pos->second);
+        addTileToMap(irr::core::vector3df(x, y, z), pos->second);
+        addTileToMap(irr::core::vector3df(0 - 10.0f + posX, y, z), pos->second);
         z -= 10;
     }
     x = 0.0f + posX;
     for (__attribute__((unused)) auto tile : map._mapWall[0]) {
-        addTileToMap(map, irr::core::vector3df(x, y, z + 10), pos->second);
+        addTileToMap(irr::core::vector3df(x, y, z + 10), pos->second);
         x += 10.0f;
     }
 }
@@ -79,7 +77,7 @@ void IrrlichtDisplayLoader::loadMapWall(const MapData &map)
         for (auto tile : line) {
             auto pos = map._rulesWall.find(tile);
             if (pos != map._rulesWall.end())
-                addTileToMap(map, irr::core::vector3df(x, y, z), pos->second);
+                addTileToMap(irr::core::vector3df(x, y, z), pos->second);
             x += 10.0f;
         }
         x = 0.0f + posX;
@@ -88,9 +86,7 @@ void IrrlichtDisplayLoader::loadMapWall(const MapData &map)
 }
 
 void
-IrrlichtDisplayLoader::addTileToMap(const MapData &map,
-                            const irr::core::vector3df &pos,
-                            const SpriteInfo &info)
+IrrlichtDisplayLoader::addTileToMap(const irr::core::vector3df &pos, const SpriteInfo &info)
 {
     loadTileMap(info, 10.0f);
     _d->getMap().back()->setPosition(pos);
@@ -108,8 +104,7 @@ void IrrlichtDisplayLoader::loadMapGround(const MapData &map)
         for (__attribute__((unused)) auto tile : line) {
             auto pos = map._rulesGround.find(base - value);
             if (pos != map._rulesGround.end())
-                addTileToMap(map, irr::core::vector3df(x, y - 10, z),
-                             pos->second);
+                addTileToMap(irr::core::vector3df(x, y - 10, z), pos->second);
             value += 1;
             if (value > map._rulesGround.size() - 1)
                 value = 0;
