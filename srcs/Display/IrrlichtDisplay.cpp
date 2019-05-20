@@ -26,7 +26,7 @@ void    IrrlichtDisplay::setTerrain()
 {
     initTerrain();
     _selector = std::unique_ptr<irr::scene::ITriangleSelector>
-            (_scenes->createTerrainTriangleSelector(_terrain, 0));
+            (_scenes->createTerrainTriangleSelector(_terrain.get(), 0));
     _terrain->setTriangleSelector(_selector.get());
     initAnimTerrain();
     _selector->drop();
@@ -43,12 +43,12 @@ void    IrrlichtDisplay::setSkyDome()
 
 void    IrrlichtDisplay::initTerrain()
 {
-    _terrain = _scenes->addTerrainSceneNode(
+    _terrain = std::unique_ptr<irr::scene::ITerrainSceneNode>(_scenes->addTerrainSceneNode(
             "../lib/irrLicht/media/terrain-heightmap.bmp",
             nullptr, -1, irr::core::vector3df(0.f, 0.f, 0.f),
             irr::core::vector3df(0.f, 0.f, 0.f), irr::core::vector3df(40.f, 4.4f, 40.f),
             irr::video::SColor ( 255, 255, 255, 255 ), 5, irr::scene::ETPS_17, 4
-    );
+    ));
     setTerrainMaterial();
     _terrain->scaleTexture(1.0f, 20.0f);
 }

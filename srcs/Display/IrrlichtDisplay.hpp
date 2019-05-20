@@ -20,6 +20,7 @@ public:
     using Gui = std::unique_ptr<irr::gui::IGUIEnvironment>;
     using Camera = std::unique_ptr<irr::scene::ICameraSceneNode>;
     using VideoDriver = std::unique_ptr<irr::video::IVideoDriver>;
+    using Terrain = std::unique_ptr<irr::scene::ITerrainSceneNode>;
     using Selector = std::unique_ptr<irr::scene::ITriangleSelector>;
     using SceneManager = std::unique_ptr<irr::scene::ISceneManager>;
     using AnimTerrain = std::unique_ptr<irr::scene::ISceneNodeAnimator>;
@@ -82,11 +83,11 @@ private:
     Camera              _camera;
     Selector            _selector;
     AnimTerrain         _animTerrain;
-    irr::scene::ITerrainSceneNode   *_terrain;
-    //SceneManager        _scenes;
+    Terrain             _terrain;
     AnimatedMeshsScene  _meshsScene;
-    Map3D _map3d; // TEMPO
+
+    // TEMPO
+    Map3D _map3d;
     Map3D _coliMap;
     Map3D _noncoliMap;
-
 };
