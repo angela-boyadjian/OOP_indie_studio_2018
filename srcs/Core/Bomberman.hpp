@@ -10,7 +10,7 @@
 #include <memory>
 
 #include "Map.hpp"
-#include "BombermanGame.hpp"
+#include "Bomberman/BombermanGame.hpp"
 #include "AGame.hpp"
 #include "BombermanPlayers/Player.hpp"
 #include "IDisplayLoader.hpp"

@@ -10,7 +10,7 @@
 #include <string>
 #include <irrlicht.h>
 
-#include "IrrlichtDisplay.hpp"
+#include "IrrlichtDisplay/IrrlichtDisplay.hpp"
 #include "MapData.hpp"
 #include "IMap.hpp"
 #include "ATile.hpp"

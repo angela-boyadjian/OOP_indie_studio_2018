@@ -5,7 +5,7 @@
 #include "Menu.hpp"
 #include "irrlicht.h"
 #include "driverChoice.h"
-#include "IrrlichtDisplay.hpp"
+#include "IrrlichtDisplay/IrrlichtDisplay.hpp"
 #include "Events.hpp"
 
 Menu::Menu()

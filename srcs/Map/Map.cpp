@@ -8,7 +8,7 @@
 #include <zconf.h>
 
 #include "Map.hpp"
-#include "IrrlichtDisplay.hpp"
+#include "IrrlichtDisplay/IrrlichtDisplay.hpp"
 #include "Reader.hpp"
 
 Map::Map(std::string const &filename) : _filename(filename)

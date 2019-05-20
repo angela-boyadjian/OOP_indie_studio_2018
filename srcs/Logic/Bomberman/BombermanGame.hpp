@@ -5,7 +5,7 @@
 #include "BombermanPlayers/Bot.hpp"
 #include "AGame.hpp"
 #include "Events.hpp"
-#include "IrrlichtDisplay.hpp"
+#include "IrrlichtDisplay/IrrlichtDisplay.hpp"
 
 class BombermanGame : public AGame {
 public:

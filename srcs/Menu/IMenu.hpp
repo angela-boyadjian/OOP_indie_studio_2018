@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "IrrlichtDisplay.hpp"
+#include "IrrlichtDisplay/IrrlichtDisplay.hpp"
 #include "Events.hpp"
 
 class IMenu {

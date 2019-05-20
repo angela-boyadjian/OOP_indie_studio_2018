@@ -26,8 +26,8 @@ add_executable(${PROJECT_NAME}
         srcs/Map/Map.hpp
         srcs/Map/IMap.hpp
         srcs/Menu/IMenu.hpp
-        srcs/Menu/Menu.cpp
-        srcs/Menu/Menu.hpp
+        srcs/Menu/BombermanMenu/Menu.cpp
+        srcs/Menu/BombermanMenu/Menu.hpp
         srcs/Map/ATile.cpp
         srcs/Map/ATile.hpp
         srcs/Tool/Reader.cpp
@@ -35,8 +35,8 @@ add_executable(${PROJECT_NAME}
         srcs/Tool/SpriteInfo.hpp
         srcs/Map/MapData.hpp
         srcs/Logic/AGame.hpp
-        srcs/Logic/BombermanGame.cpp
-        srcs/Logic/BombermanGame.hpp
+        srcs/Logic/Bomberman/BombermanGame.cpp
+        srcs/Logic/Bomberman/BombermanGame.hpp
         srcs/Core/Bomberman.hpp
         srcs/Display/IDisplay.hpp
         srcs/Display/IDisplayLoader.hpp
@@ -48,10 +48,10 @@ add_executable(${PROJECT_NAME}
         srcs/Characters/BombermanPlayers/Player.hpp
         srcs/Characters/ACharacter.cpp
         srcs/Display/IDisplayLoader.hpp
-        srcs/Display/IrrlichtDisplay.cpp
-        srcs/Display/IrrlichtDisplay.hpp
-        srcs/Display/IrrlichtDisplayLoader.hpp
-        srcs/Display/IrrlichtDisplayLoader.cpp
+        srcs/Display/IrrlichtDisplay/IrrlichtDisplay.cpp
+        srcs/Display/IrrlichtDisplay/IrrlichtDisplay.hpp
+        srcs/Display/IrrlichtDisplay/IrrlichtDisplayLoader.hpp
+        srcs/Display/IrrlichtDisplay/IrrlichtDisplayLoader.cpp
         srcs/Objects/Bomb.cpp
         srcs/Objects/Bomb.hpp
 )

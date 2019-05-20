@@ -6,7 +6,7 @@
 */
 
 #include <irrlicht.h>
-#include <IrrlichtDisplayLoader.hpp>
+#include <IrrlichtDisplay/IrrlichtDisplayLoader.hpp>
 
 #include "Bomberman.hpp"
 #include "BombermanPlayers/Bot.hpp"
@@ -14,8 +14,8 @@
 #include "AGame.hpp"
 #include "Events.hpp"
 #include "BombermanPlayers/Player.hpp"
-#include "IrrlichtDisplay.hpp"
-#include "Menu.hpp"
+#include "IrrlichtDisplay/IrrlichtDisplay.hpp"
+#include "BombermanMenu/Menu.hpp"
 
 int main()
 {
