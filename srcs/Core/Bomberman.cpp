@@ -6,7 +6,7 @@
 */
 
 #include <iostream>
-#include <DisplayLoader.hpp>
+#include <IrrlichtDisplayLoader.hpp>
 
 #include "Bomberman.hpp"
 #include "ACharacter.hpp"
@@ -118,11 +118,11 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
 
 void    core::Bomberman::lauch()
 {
-    auto disp = std::shared_ptr<IDisplay>(new Display());
+    auto disp = std::shared_ptr<IDisplay>(new IrrlichtDisplay());
     std::cout << "1" << std::endl;
     _event = std::make_unique<Events>(Events(disp->_device));
     disp->setDisplay(_event.get());
-    auto dispLoader = std::unique_ptr<IDisplayLoader>(new DisplayLoader(disp));
+    auto dispLoader = std::unique_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp));
     setDisplayer(disp, dispLoader);
     initGame();
     run();
@@ -136,6 +136,6 @@ void    core::Bomberman::initGame()
     auto bots = std::vector<std::unique_ptr<Bot>>();
     bots.push_back(std::make_unique<Bot>(Bot(1, std::make_tuple(std::size_t(0),
                                                              std::size_t(0), std::size_t(0)))));
-    auto game = std::unique_ptr<AGame>(new Game(players, bots));
+    auto game = std::unique_ptr<AGame>(new BombermanGame(players, bots));
     loadGame("./../resources/maps/3", game);
 }

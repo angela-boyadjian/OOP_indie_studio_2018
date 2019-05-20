@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include "Display.hpp"
+#include "IrrlichtDisplay.hpp"
 #include "Events.hpp"
 
 class IMenu {
     public:
-    virtual void load(Display &) = 0;
+    virtual void load(IrrlichtDisplay &) = 0;
 };

@@ -5,13 +5,13 @@
 ** ACharacter
 */
 
-#include "Game.hpp"
+#include "BombermanGame.hpp"
 
-Game::Game(Players &p, Bots &b) : AGame(p, b)
+BombermanGame::BombermanGame(Players &p, Bots &b) : AGame(p, b)
 {
 }
 
-std::vector<ACharacter::Action> Game::moveBots(const Game::Map &map, IDisplay *d)
+std::vector<ACharacter::Action> BombermanGame::moveBots(const BombermanGame::Map &map, IDisplay *d)
 {
     std::vector<ACharacter::Action> actionVector;
     for (std::size_t i {0}; i < _bots.size(); ++i) {
@@ -21,7 +21,7 @@ std::vector<ACharacter::Action> Game::moveBots(const Game::Map &map, IDisplay *d
     return actionVector;
 }
 
-ACharacter::Action  Game::pressKeyAction(const AGame::Event &events, const std::size_t &i)
+ACharacter::Action  BombermanGame::pressKeyAction(const AGame::Event &events, const std::size_t &i)
 {
     ACharacter::Action  action = ACharacter::Action::WAIT;
 
@@ -38,7 +38,7 @@ ACharacter::Action  Game::pressKeyAction(const AGame::Event &events, const std::
     return action;
 }
 
-std::vector<ACharacter::Action> Game::movePlayers(const Event &events, const Map &map,
+std::vector<ACharacter::Action> BombermanGame::movePlayers(const Event &events, const Map &map,
         IDisplay *d)
 {
     std::vector<ACharacter::Action> actionVector;

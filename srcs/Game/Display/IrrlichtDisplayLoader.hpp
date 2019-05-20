@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** DisplayLoader.hpp 
+** IrrlichtDisplayLoader.hpp
 ** File description:
 ** basile.lamarque@epitech.eu
 */
@@ -18,11 +18,11 @@
 #include "ACharacter.hpp"
 #include "IDisplayLoader.hpp"
 
-class DisplayLoader : public IDisplayLoader {
+class IrrlichtDisplayLoader : public IDisplayLoader {
 public:
-    DisplayLoader() = default;
-    explicit DisplayLoader(const std::shared_ptr<IDisplay> &);
-    ~DisplayLoader() = default;
+    IrrlichtDisplayLoader() = default;
+    explicit IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &);
+    ~IrrlichtDisplayLoader() = default;
 
     // NOTE MAP LOAD
     void loadCube(float);

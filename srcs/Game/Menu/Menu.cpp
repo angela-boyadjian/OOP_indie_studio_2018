@@ -5,7 +5,7 @@
 #include "Menu.hpp"
 #include "irrlicht.h"
 #include "driverChoice.h"
-#include "Display.hpp"
+#include "IrrlichtDisplay.hpp"
 #include "Events.hpp"
 
 Menu::Menu()
@@ -17,16 +17,16 @@ Menu::~Menu()
 {
 }
 
-void Menu::load(Display &display)
+void Menu::load(IrrlichtDisplay &display)
 {
-    Display::Gui const &gui = display.getGui();
-    Display::Device const &device = display.getDevice();
+    IrrlichtDisplay::Gui const &gui = display.getGui();
+    IrrlichtDisplay::Device const &device = display.getDevice();
     auto screenSize = display.getScreenSize();
 
     gui->addButton(irr::core::rect<irr::s32>(10, 240, 110, 240 + 32), 0,
     101, L"Quit", L"Exits Program");
     gui->addButton(irr::core::rect<irr::s32>(screenSize.Width - 110, 240, screenSize.Width - 10, 240 + 32), 0,
-        101, L"Start Game", L"Start Game");
+        101, L"Start BombermanGame", L"Start BombermanGame");
     Events *receiver = new Events(device);
     device->setEventReceiver(receiver);
 }
