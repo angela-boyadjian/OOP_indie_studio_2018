@@ -7,12 +7,13 @@
 
 #pragma once
 
-#include "ACharacter.hpp"
+#include "ABombermanPlayer.hpp"
 
-class Bot : public ACharacter {
+class Bot : public ABombermanPlayer {
 public:
     // CONSTRUCTOR / DESTRUCTOR
-    Bot(const std::size_t &enb, const MapPos &pos) : ACharacter(enb, pos) {};
+    Bot(const std::size_t &enb, const MapPos &pos) : ABombermanPlayer(enb, pos),
+    _lastDirection(ACharacter::Action::WAIT) {};
     ~Bot() = default;
 
     // BLOCKS

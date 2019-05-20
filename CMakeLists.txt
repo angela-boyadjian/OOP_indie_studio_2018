@@ -39,15 +39,16 @@ add_executable(${PROJECT_NAME}
         srcs/Display/IDisplay.hpp
         srcs/Display/IDisplayLoader.hpp
         srcs/Core/Bomberman.cpp
-        srcs/Characters/Bot.cpp
+        srcs/Characters/BombermanPlayers/Bot.cpp
         srcs/Display/IDisplay.hpp
-        srcs/Characters/Player.cpp
-        srcs/Characters/Player.hpp
+        srcs/Characters/BombermanPlayers/Player.cpp
+        srcs/Characters/BombermanPlayers/Player.hpp
         srcs/Characters/ACharacter.cpp
         srcs/Display/IDisplayLoader.hpp
         srcs/Display/IrrlichtDisplay.cpp
         srcs/Display/IrrlichtDisplay.hpp
         srcs/Display/IrrlichtDisplayLoader.hpp
-        srcs/Display/IrrlichtDisplayLoader.cpp)
+        srcs/Display/IrrlichtDisplayLoader.cpp
+        srcs/Characters/BombermanPlayers/ABombermanPlayer.hpp srcs/Characters/BombermanPlayers/ABombermanPlayer.cpp)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)
