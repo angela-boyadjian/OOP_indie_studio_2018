@@ -84,5 +84,6 @@ private:
     //SceneManager        _scenes;
     AnimatedMeshsScene  _meshsScene;
     Map3D _map3d;
+    std::vector<Map3D> _map3dbis;
 
 };

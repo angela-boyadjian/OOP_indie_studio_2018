@@ -25,11 +25,14 @@ public:
     ~DisplayLoader() = default;
 
     // NOTE MAP LOAD
+    void loadCube(float);
+    void loadMess(const SpriteInfo &, float);
     void loadMap(const MapData &) final;
     void loadMapWall(const MapData &) final;
+    void addTileToMap(const MapData &, const irr::core::vector3df &, const SpriteInfo &);
     void loadMapGround(const MapData &) final;
     void preloadMapWall(const MapData &) final;
-    bool addTileToMap(const SpriteInfo &, float) final;
+    bool loadTileMap(const SpriteInfo &, float) final;
 
     // GAME LOAD
     void    loadGame(const std::unique_ptr<AGame> &) final;
