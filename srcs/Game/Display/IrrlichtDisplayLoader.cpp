@@ -15,12 +15,12 @@ IrrlichtDisplayLoader::IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &d)
     _d(d)
 {}
 
-void DisplayLoader::loadCube(float size)
+void IrrlichtDisplayLoader::loadCube(float size)
 {
     _d->getMap().emplace_back(_d->_scenes->addCubeSceneNode(size, 0, -1));
 }
 
-void DisplayLoader::loadMess(const SpriteInfo &info, float size)
+void IrrlichtDisplayLoader::loadMess(const SpriteInfo &info, float size)
 {
     auto mesh = _d->_scenes->getMesh(info._messPath.c_str());
     irr::core::vector3df scale(size / info._size.X,
@@ -31,7 +31,7 @@ void DisplayLoader::loadMess(const SpriteInfo &info, float size)
     _d->getMap().back()->setScale(scale);
 }
 
-bool DisplayLoader::loadTileMap(const SpriteInfo &info, float size)
+bool IrrlichtDisplayLoader::loadTileMap(const SpriteInfo &info, float size)
 {
     if (info._messPath == "Cube")
         loadCube(size);
@@ -88,7 +88,7 @@ void IrrlichtDisplayLoader::loadMapWall(const MapData &map)
 }
 
 void
-DisplayLoader::addTileToMap(const MapData &map,
+IrrlichtDisplayLoader::addTileToMap(const MapData &map,
                             const irr::core::vector3df &pos,
                             const SpriteInfo &info)
 {
@@ -96,7 +96,7 @@ DisplayLoader::addTileToMap(const MapData &map,
     _d->getMap().back()->setPosition(pos);
 }
 
-void DisplayLoader::loadMapGround(const MapData &map)
+void IrrlichtDisplayLoader::loadMapGround(const MapData &map)
 {
     unsigned int value = 0;
     auto x = 0.0f + posX;
@@ -128,14 +128,14 @@ void IrrlichtDisplayLoader::loadMap(const MapData &map)
 
 static const char *res = "../resources/models/Character/Bomberman.MD3";
 
-void DisplayLoader::loadPlayer(const ACharacter::Color &color,
+void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
                                const std::vector<std::string> &textures)
 {
     _d->addNewAnimation(res, textures[static_cast<int>(color)].c_str(),
                         std::make_tuple(6, 6, 6));
 }
 
-void DisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
+void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
 {
     for (auto &bot : game->getBots())
         loadPlayer(bot->_color, bot->_textures);
