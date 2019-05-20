@@ -29,7 +29,7 @@ public:
     void loadMess(const SpriteInfo &, float);
     void loadMap(const MapData &) final;
     void loadMapWall(const MapData &) final;
-    void addTileToMap(const MapData &, const irr::core::vector3df &, const SpriteInfo &);
+    void addTileToMap(const irr::core::vector3df &, const SpriteInfo &);
     void loadMapGround(const MapData &) final;
     void preloadMapWall(const MapData &) final;
     bool loadTileMap(const SpriteInfo &, float) final;
