@@ -3,9 +3,9 @@
 #include <vector>
 #include <chrono>
 
-#include "Bot.hpp"
+#include "BombermanPlayers/Bot.hpp"
 #include "Events.hpp"
-#include "Player.hpp"
+#include "BombermanPlayers/Player.hpp"
 
 class AGame {
 public:

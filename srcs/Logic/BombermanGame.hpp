@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Bot.hpp"
+#include "BombermanPlayers/Bot.hpp"
 #include "AGame.hpp"
 #include "Events.hpp"
 #include "IrrlichtDisplay.hpp"

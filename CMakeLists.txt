@@ -38,10 +38,11 @@ add_executable(${PROJECT_NAME}
         srcs/Logic/BombermanGame.hpp
         srcs/Core/Bomberman.hpp
         srcs/Core/Bomberman.cpp
-        srcs/Characters/Bot.cpp
+        srcs/Characters/BombermanPlayers/Bot.cpp
         srcs/Display/IDisplay.hpp
-        srcs/Characters/Player.cpp
-        srcs/Characters/Player.hpp
+        srcs/Characters/BombermanPlayers/ABombermanPlayer.cpp
+        srcs/Characters/BombermanPlayers/Player.cpp
+        srcs/Characters/BombermanPlayers/Player.hpp
         srcs/Characters/ACharacter.cpp
         srcs/Display/IDisplayLoader.hpp
         srcs/Display/IrrlichtDisplay.cpp

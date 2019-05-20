@@ -9,11 +9,11 @@
 #include <IrrlichtDisplayLoader.hpp>
 
 #include "Bomberman.hpp"
-#include "Bot.hpp"
+#include "BombermanPlayers/Bot.hpp"
 #include "Map.hpp"
 #include "AGame.hpp"
 #include "Events.hpp"
-#include "Player.hpp"
+#include "BombermanPlayers/Player.hpp"
 #include "IrrlichtDisplay.hpp"
 #include "Menu.hpp"
 

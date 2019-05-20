@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include "ACharacter.hpp"
+#include "ABombermanPlayer.hpp"
 
-class Player : public ACharacter {
+class Player : public ABombermanPlayer {
 public:
     // NOTE ADD KEYMAP PARAM TO CHANGE THE PLAYER KEYMAP
     Player(const std::size_t &, ACharacter::Color, MapPos const &pos);
