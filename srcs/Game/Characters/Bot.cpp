@@ -21,8 +21,8 @@ bool            Bot::isBlock(const std::size_t &x, const std::size_t &y)
 std::size_t     Bot::countBlock()
 {
     std::size_t count {0};
-    std::size_t posX {std::get<0>(_pos)};
-    std::size_t posY {std::get<1>(_pos)};
+    auto        posX {std::get<0>(_pos)};
+    auto        posY {std::get<1>(_pos)};
 
     if (isBlock(posX, posY + 1))
         ++count;
@@ -42,9 +42,8 @@ bool            Bot::isMomentForBomb()
 
 bool            Bot::isInDanger()
 {
-    std::size_t posX {std::get<0>(_pos)};
-    std::size_t posY {std::get<1>(_pos)};
-
+    auto    posX {std::get<0>(_pos)};
+    auto    posY {std::get<1>(_pos)};
     return _transformedMap[posY][posX] == -1 or _transformedMap[posY][posX] == -2;
 }
 
@@ -129,8 +128,8 @@ ACharacter::Action  Bot::chooseDirection()
 {
     std::vector<ACharacter::Action> directions;
 
-    std::size_t posX {std::get<0>(_pos)};
-    std::size_t posY {std::get<1>(_pos)};
+    auto    posX {std::get<0>(_pos)};
+    auto    posY {std::get<1>(_pos)};
     if (isSafe(posX, posY - 1))
         directions.push_back(ACharacter::Action::UP);
     if (isSafe(posX, posY + 1))
