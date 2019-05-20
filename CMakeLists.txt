@@ -8,13 +8,13 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU"
 include_directories(lib/irrLicht/include)
 include_directories(
         srcs/Map
+        srcs/Menu
+        srcs/Tool
+        srcs/Core
         srcs/Logic
         srcs/Events
         srcs/Display
         srcs/Characters
-        srcs/Menu
-        srcs/Tool
-        srcs/Core
 )
 
 add_executable(${PROJECT_NAME}
@@ -22,35 +22,31 @@ add_executable(${PROJECT_NAME}
         srcs/Map/Map.cpp
         srcs/Map/Map.hpp
         srcs/Map/IMap.hpp
-        srcs/Map/ATile.cpp
-        srcs/Map/ATile.hpp
-        srcs/Core/Bomberman.hpp
         srcs/Menu/IMenu.hpp
         srcs/Menu/Menu.cpp
         srcs/Menu/Menu.hpp
-        srcs/Core/Bomberman.cpp
-        srcs/Logic/BombermanGame.cpp
+        srcs/Map/ATile.cpp
+        srcs/Map/ATile.hpp
         srcs/Tool/Reader.cpp
         srcs/Tool/Reader.hpp
         srcs/Map/MapData.hpp
         srcs/Logic/AGame.hpp
+        srcs/Core/Bomberman.cpp
+        srcs/Core/Bomberman.hpp
         srcs/Characters/Bot.cpp
         srcs/Characters/Bot.hpp
         srcs/Tool/SpriteInfo.hpp
-        srcs/Display/IrrlichtDisplay.cpp
-        srcs/Display/IrrlichtDisplay.hpp
         srcs/Display/IDisplay.hpp
-        srcs/Map/IMap.hpp
-        srcs/Map/ATile.cpp
-        srcs/Map/ATile.hpp
-        srcs/Display/IrrlichtDisplayLoader.cpp
-        srcs/Display/IrrlichtDisplayLoader.hpp
         srcs/Characters/Player.cpp
         srcs/Characters/Player.hpp
+        srcs/Logic/BombermanGame.cpp
         srcs/Characters/ACharacter.cpp
         srcs/Characters/ACharacter.hpp
+        srcs/Display/IDisplayLoader.hpp
+        srcs/Display/IrrlichtDisplay.cpp
+        srcs/Display/IrrlichtDisplay.hpp
         srcs/Display/IrrlichtDisplayLoader.cpp
         srcs/Display/IrrlichtDisplayLoader.hpp
-        srcs/Display/IDisplayLoader.hpp)
+)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)
