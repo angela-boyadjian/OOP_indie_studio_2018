@@ -17,7 +17,7 @@ public:
     virtual void    loadMapWall(const MapData &) = 0;
     virtual void    loadMapGround(const MapData &) = 0;
     virtual void    preloadMapWall(const MapData &) = 0;
-    virtual bool    addTileToMap(const SpriteInfo &, float) = 0;
+    virtual bool    loadTileMap(const SpriteInfo &, float) = 0;
 
     // NOTE MENU LOAD
     virtual void    loadMenu(const std::unique_ptr<Menu> &) = 0;

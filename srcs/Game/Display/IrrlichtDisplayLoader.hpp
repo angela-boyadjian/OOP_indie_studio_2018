@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** DisplayLoader.hpp 
+** IrrlichtDisplayLoader.hpp
 ** File description:
 ** basile.lamarque@epitech.eu
 */
@@ -18,18 +18,21 @@
 #include "ACharacter.hpp"
 #include "IDisplayLoader.hpp"
 
-class DisplayLoader : public IDisplayLoader {
+class IrrlichtDisplayLoader : public IDisplayLoader {
 public:
-    DisplayLoader() = default;
-    explicit DisplayLoader(const std::shared_ptr<IDisplay> &);
-    ~DisplayLoader() = default;
+    IrrlichtDisplayLoader() = default;
+    explicit IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &);
+    ~IrrlichtDisplayLoader() = default;
 
     // NOTE MAP LOAD
+    void loadCube(float);
+    void loadMess(const SpriteInfo &, float);
     void loadMap(const MapData &) final;
     void loadMapWall(const MapData &) final;
+    void addTileToMap(const MapData &, const irr::core::vector3df &, const SpriteInfo &);
     void loadMapGround(const MapData &) final;
     void preloadMapWall(const MapData &) final;
-    bool addTileToMap(const SpriteInfo &, float) final;
+    bool loadTileMap(const SpriteInfo &, float) final;
 
     // NOTE MENU LOAD
     void loadMenu(const std::unique_ptr<Menu> &) final;
@@ -41,6 +44,3 @@ public:
 private:
     std::shared_ptr<IDisplay> _d;
 };
-
-
-

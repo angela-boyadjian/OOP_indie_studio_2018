@@ -30,7 +30,7 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Menu/Menu.cpp
         srcs/Game/Menu/Menu.hpp
         srcs/Core/Bomberman.cpp
-        srcs/Game/Logic/Game.cpp
+        srcs/Game/Logic/BombermanGame.cpp
         srcs/Game/Tool/Reader.cpp
         srcs/Game/Tool/Reader.hpp
         srcs/Game/Map/MapData.hpp
@@ -38,20 +38,20 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Characters/Bot.cpp
         srcs/Game/Characters/Bot.hpp
         srcs/Game/Tool/SpriteInfo.hpp
-        srcs/Game/Display/Display.cpp
-        srcs/Game/Display/Display.hpp
+        srcs/Game/Display/IrrlichtDisplay.cpp
+        srcs/Game/Display/IrrlichtDisplay.hpp
         srcs/Game/Display/IDisplay.hpp
         srcs/Game/Map/IMap.hpp
         srcs/Game/Map/ATile.cpp
         srcs/Game/Map/ATile.hpp
-        srcs/Game/Display/DisplayLoader.cpp
-        srcs/Game/Display/DisplayLoader.hpp
+        srcs/Game/Display/IrrlichtDisplayLoader.cpp
+        srcs/Game/Display/IrrlichtDisplayLoader.hpp
         srcs/Game/Characters/Player.cpp
         srcs/Game/Characters/Player.hpp
         srcs/Game/Characters/ACharacter.cpp
         srcs/Game/Characters/ACharacter.hpp
-        srcs/Game/Display/DisplayLoader.cpp
-        srcs/Game/Display/DisplayLoader.hpp
+        srcs/Game/Display/IrrlichtDisplayLoader.cpp
+        srcs/Game/Display/IrrlichtDisplayLoader.hpp
         srcs/Game/Display/IDisplayLoader.hpp)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)

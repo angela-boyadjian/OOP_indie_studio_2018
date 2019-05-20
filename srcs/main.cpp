@@ -12,11 +12,11 @@
 #include "AGame.hpp"
 #include "Events.hpp"
 #include "Player.hpp"
-#include "Display.hpp"
+#include "IrrlichtDisplay.hpp"
 #include "Menu.hpp"
 
 #include <irrlicht.h>
-#include <DisplayLoader.hpp>
+#include <IrrlichtDisplayLoader.hpp>
 
 int main()
 {
