@@ -11,7 +11,6 @@ class Bomb {
 public:
     Bomb();
     ~Bomb();
-
 protected:
 private:
 };
