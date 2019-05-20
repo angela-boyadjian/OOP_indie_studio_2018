@@ -71,8 +71,12 @@ public:
     void    changeModelRot(const std::size_t &, const pos3d &) final;
     void    changeModelFrame(const std::size_t  &, const std::size_t &, const std::size_t &) final;
 
+    // COLLISION FUNCTION
     bool    isCollision(const std::size_t &) final;
     void    destroyCollision(const std::size_t &) final;
+    bool    isCollisionFromMap(irr::core::aabbox3d<irr::f32> &) const;
+    bool    isCollisionFromObstacles(irr::core::aabbox3d<irr::f32> &) const;
+
 private:
     void    addNewMesh(const char *);
     void    addNewMeshScene(const char *, const irr::core::vector3df &);

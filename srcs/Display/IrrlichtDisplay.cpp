@@ -196,16 +196,19 @@ void    IrrlichtDisplay::changeModelFrame(const std::size_t &i, const std::size_
     _meshsScene[i]->setFrameLoop(a, b);
 }
 
-bool    IrrlichtDisplay::isCollision(const std::size_t &target)
+bool    IrrlichtDisplay::isCollisionFromMap(irr::core::aabbox3d<irr::f32> &b) const
 {
-    auto b = _meshsScene[target]->getBoundingBox();
-    _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
     for (std::size_t i {0}; i < _coliMap.size(); ++i) {
         auto b2 = _coliMap[i]->getBoundingBox();
         _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
         if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())
             return true;
     }
+    return false;
+}
+
+bool    IrrlichtDisplay::isCollisionFromObstacles(irr::core::aabbox3d<irr::f32> &b) const
+{
     for (std::size_t i {0}; i < _noncoliMap.size(); ++i) {
         auto b2 = _noncoliMap[i]->getBoundingBox();
         _noncoliMap[i]->getRelativeTransformation().transformBoxEx(b2);
@@ -213,6 +216,13 @@ bool    IrrlichtDisplay::isCollision(const std::size_t &target)
             return true;
     }
     return false;
+}
+
+bool    IrrlichtDisplay::isCollision(const std::size_t &target)
+{
+    auto b = _meshsScene[target]->getBoundingBox();
+    _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
+    return isCollisionFromMap(b) || isCollisionFromObstacles(b);
 }
 
 void    IrrlichtDisplay::destroyCollision(const std::size_t &target)
