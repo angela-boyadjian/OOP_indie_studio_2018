@@ -5,6 +5,8 @@
 ** basile.lamarque@epitech.eu
 */
 
+#include "Bomb.hpp"
+
 #include "IrrlichtDisplayLoader.hpp"
 
 #define posX 5400
@@ -54,7 +56,7 @@ void IrrlichtDisplayLoader::preloadMapWall(const MapData &map)
         addTileToMap(irr::core::vector3df(x, 10.0f + posY, z), pos->second);
         x += 10.0f;
     }
-    for (int i = 0; i != map._mapWall.size() + 2; i++) {
+    for (std::size_t i = 0; i != map._mapWall.size() + 2; ++i) {
         addTileToMap(irr::core::vector3df(x, y, z), pos->second);
         addTileToMap(irr::core::vector3df(0 - 10.0f + posX, y, z), pos->second);
         z -= 10;
@@ -130,10 +132,18 @@ void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
                         std::make_tuple(6, 6, 6));
 }
 
+void IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture)
+{
+    _d->addNewAnimation(res, texture.c_str(), std::make_tuple(2, 2, 2));
+}
+
 void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
 {
+    Bomb b;
+
     for (auto &bot : game->getBots())
         loadPlayer(bot->_color, bot->_textures);
     for (auto &player : game->getPlayers())
         loadPlayer(player->_color, player->_textures);
+    loadBomb(b.getRes().c_str(), b.getTexture());
 }

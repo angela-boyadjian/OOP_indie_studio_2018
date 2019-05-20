@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU")
 
 include_directories(lib/irrLicht/include)
+
 include_directories(
         srcs/Map
         srcs/Menu
@@ -15,6 +16,7 @@ include_directories(
         srcs/Events
         srcs/Display
         srcs/Characters
+        srcs/Objects
 )
 
 add_executable(${PROJECT_NAME}
@@ -46,6 +48,8 @@ add_executable(${PROJECT_NAME}
         srcs/Display/IrrlichtDisplay.hpp
         srcs/Display/IrrlichtDisplayLoader.hpp
         srcs/Display/IrrlichtDisplayLoader.cpp
+        srcs/Objects/Bomb.cpp
+        srcs/Objects/Bomb.hpp
 )
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)
