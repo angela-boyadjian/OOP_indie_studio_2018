@@ -167,6 +167,16 @@ IDisplay::Map3D &IrrlichtDisplay::getMap()
     return _map3d;
 }
 
+IDisplay::Map3D &IrrlichtDisplay::getColiMap()
+{
+    return _coliMap;
+}
+
+IDisplay::Map3D &IrrlichtDisplay::getNonColiMap()
+{
+    return _noncoliMap;
+}
+
 void    IrrlichtDisplay::changeModelPos(const std::size_t &i, const pos3d &vec)
 {
     auto newVec = pos3dToVector(vec);

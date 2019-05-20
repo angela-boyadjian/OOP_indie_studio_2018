@@ -62,7 +62,9 @@ public:
     irr::core::dimension2du const &getScreenSize();
     IrrlichtDisplay::Device const &getDevice();
     IrrlichtDisplay::Gui const &getGui();
-    Map3D   &getMap() override;
+    Map3D   &getMap() final;
+    Map3D   &getColiMap() final;
+    Map3D   &getNonColiMap() final;
 
     void    changeModelPos(const std::size_t &, const pos3d &) final;
     void    changeModelRot(const std::size_t &, const pos3d &) final;
@@ -83,7 +85,8 @@ private:
     irr::scene::ITerrainSceneNode   *_terrain;
     //SceneManager        _scenes;
     AnimatedMeshsScene  _meshsScene;
-    Map3D _map3d;
-    std::vector<Map3D> _map3dbis;
+    Map3D _map3d; // TEMPO
+    Map3D _coliMap;
+    Map3D _noncoliMap;
 
 };

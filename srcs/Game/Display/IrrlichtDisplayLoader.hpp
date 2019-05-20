@@ -25,14 +25,14 @@ public:
     ~IrrlichtDisplayLoader() = default;
 
     // NOTE MAP LOAD
-    void loadCube(float);
-    void loadMess(const SpriteInfo &, float);
+    void loadCube(float, IDisplay::Map3D &);
+    void loadMess(const SpriteInfo &, float, IDisplay::Map3D &);
     void loadMap(const MapData &) final;
     void loadMapWall(const MapData &) final;
-    void addTileToMap(const irr::core::vector3df &, const SpriteInfo &);
+    void addTileToMap(const irr::core::vector3df &, const SpriteInfo &, float);
     void loadMapGround(const MapData &) final;
     void preloadMapWall(const MapData &) final;
-    bool loadTileMap(const SpriteInfo &, float) final;
+    bool loadTileMap(const SpriteInfo &, float, IDisplay::Map3D &);
 
     // GAME LOAD
     void    loadGame(const std::unique_ptr<AGame> &) final;
