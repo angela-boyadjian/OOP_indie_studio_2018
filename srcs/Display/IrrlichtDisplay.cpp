@@ -135,7 +135,7 @@ void    IrrlichtDisplay::setCameraScene()
 {
 //    _camera = std::unique_ptr<irr::scene::ICameraSceneNode>(_scenes->addCameraSceneNodeFPS(0, 100.0f, 1.2f));
     _camera = std::unique_ptr<irr::scene::ICameraSceneNode>(_scenes->addCameraSceneNode(nullptr));
-    _camera->setPosition(irr::core::vector3df(2700*2,255*2,2600*2));
+    _camera->setPosition(irr::core::vector3df(2700*2,900,2600*2));
     _camera->setTarget(irr::core::vector3df(2397*2,343*2,2700*2));
     _camera->setFarValue(42000.0f);
     _device->getCursorControl()->setVisible(true);

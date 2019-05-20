@@ -35,14 +35,14 @@
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/lib/irrLicht/include"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Logic"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Events"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Menu"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Tool"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Map"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Menu"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Tool"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Core"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Logic"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Events"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Display"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Characters"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/x86_64-redhat-linux"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/backward"/>
@@ -65,14 +65,14 @@
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/lib/irrLicht/include"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Logic"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Events"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Menu"/>
-					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Tool"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Map"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Menu"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Tool"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Core"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Logic"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Events"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Display"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Characters"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/x86_64-redhat-linux"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/backward"/>
@@ -98,82 +98,40 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Core/Bomberman.cpp">
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Characters/ACharacter.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Characters/ACharacter.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Characters/Bot.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Characters/Bot.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Characters/Player.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Characters/Player.hpp">
 			<Option target="bomberman"/>
 		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Core/Bomberman.hpp">
 			<Option target="bomberman"/>
 		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters/ACharacter.cpp">
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Display/IDisplay.hpp">
 			<Option target="bomberman"/>
 		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters/ACharacter.hpp">
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Display/IDisplayLoader.hpp">
 			<Option target="bomberman"/>
 		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters/Bot.cpp">
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Display/IrrlichtDisplay.cpp">
 			<Option target="bomberman"/>
 		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters/Bot.hpp">
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Display/IrrlichtDisplay.hpp">
 			<Option target="bomberman"/>
 		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters/Player.cpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Characters/Player.hpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display/IDisplay.hpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display/IDisplayLoader.hpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display/IrrlichtDisplay.cpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display/IrrlichtDisplay.hpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display/IrrlichtDisplayLoader.cpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Display/IrrlichtDisplayLoader.hpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Logic/AGame.hpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Logic/BombermanGame.cpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Logic/BombermanGame.hpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map/ATile.cpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map/ATile.hpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map/IMap.hpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map/Map.cpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map/Map.hpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Map/MapData.hpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Menu/IMenu.hpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Menu/Menu.cpp">
-			<Option target="bomberman"/>
-		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Menu/Menu.hpp">
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Display/IrrlichtDisplayLoader.hpp">
 			<Option target="bomberman"/>
 		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/SceneManager/SceneManager.cpp">
@@ -182,13 +140,49 @@
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/SceneManager/SceneManager.hpp">
 			<Option target="bomberman"/>
 		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Tool/Reader.cpp">
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Logic/AGame.hpp">
 			<Option target="bomberman"/>
 		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Tool/Reader.hpp">
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Logic/BombermanGame.cpp">
 			<Option target="bomberman"/>
 		</Unit>
-		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Tool/SpriteInfo.hpp">
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Logic/BombermanGame.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Map/ATile.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Map/ATile.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Map/IMap.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Map/Map.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Map/Map.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Map/MapData.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Menu/IMenu.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Menu/Menu.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Menu/Menu.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Tool/Reader.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Tool/Reader.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Tool/SpriteInfo.hpp">
 			<Option target="bomberman"/>
 		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/main.cpp">
