@@ -12,7 +12,7 @@
 #include "Map.hpp"
 #include "BombermanGame.hpp"
 #include "AGame.hpp"
-#include "Player.hpp"
+#include "BombermanPlayers/Player.hpp"
 #include "IDisplayLoader.hpp"
 
 namespace core {

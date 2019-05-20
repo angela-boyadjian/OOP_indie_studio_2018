@@ -50,16 +50,6 @@ public:
     KeyMap              &getKeyMap();
     const MapPos        &getMapPos() const;
     const std::size_t   &getEntityNb() const;
-    const std::size_t   &getFireRange() const;
-    const Action        &getDirection() const;
-
-    // INCREASER
-    void    increaseSpeed();
-    void    increaseFireRange();
-    void    increaseBombNumber();
-
-    // DECREASER
-    void    decreaseBombNumber();
 
     // DEPLACEMENT
     virtual void    move(const std::vector<std::string> &, IDisplay *) = 0;
@@ -67,14 +57,10 @@ public:
 public:
     Color                       _color;
     std::vector<std::string>    _textures;
-
 protected:
     MapPos                      _pos;
     std::size_t                 _speed;
     KeyMap                      _keyMap;
     Action                      _action;
     std::size_t                 _entityNb;
-    std::size_t                 _fireRange;
-    std::size_t                 _bombNumber;
-    std::size_t                 _maxBombNumber;
 };

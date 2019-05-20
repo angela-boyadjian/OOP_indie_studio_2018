@@ -8,7 +8,7 @@
 #include "Player.hpp"
 
 Player::Player(const std::size_t &enb, ACharacter::Color color, MapPos const &pos) :
-    ACharacter(enb, pos, color)
+    ABombermanPlayer(enb, pos, color)
 {
     _action = ACharacter::Action::WAIT;
 }
