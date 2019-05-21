@@ -32,7 +32,22 @@ public:
     // SETTERS
     void    canShoot();
 
+    // NOTE MOVE
+    void    moveUp();
+    void    moveDown();
+    void    moveLeft();
+    void    moveRight();
+
+    // WALL
+    void    isWallUp(IDisplay *);
+    void    isWallDown(IDisplay *);
+    void    isWallLeft(IDisplay *);
+    void    isWallRight(IDisplay *);
+    void    isWalls(IDisplay *);
+
+    void    bomb(IDisplay *);
 protected:
+    bool        _walls[4];
     bool        _canShoot;
     std::size_t _fireRange;
     std::size_t _bombNumber;

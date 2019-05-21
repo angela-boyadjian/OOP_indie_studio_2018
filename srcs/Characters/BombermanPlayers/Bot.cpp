@@ -157,7 +157,6 @@ void    Bot::move(const std::vector<std::string> &, IDisplay *)
 {
     _lastDirection = Action(rand() % 4);
     changePosition(_lastDirection);
-    _lastDirection = Action::WAIT;
     return;
     Action  a;
     if (_bombNumber == 0) {
