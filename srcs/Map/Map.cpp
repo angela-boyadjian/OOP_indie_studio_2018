@@ -5,7 +5,7 @@
 ** Map
 */
 #include <irrlicht.h>
-#include <zconf.h>
+// #include <zconf.h>
 
 #include "Map.hpp"
 #include "IrrlichtDisplay/IrrlichtDisplay.hpp"
