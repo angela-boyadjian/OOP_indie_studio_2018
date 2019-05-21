@@ -130,7 +130,8 @@ ACharacter::Action  Bot::chooseDirection()
     std::vector<ACharacter::Action> directions;
 
     auto    posX {std::get<0>(_pos)};
-    auto    posY {std::get<2>(_pos) * -1 / 7};
+    auto    posY {(std::get<2>(_pos) * -1 / 10) + 3};
+
     if (isSafe(posX, posY - 1))
         directions.push_back(ACharacter::Action::UP);
     if (isSafe(posX, posY + 1))
@@ -171,6 +172,7 @@ const std::vector<std::string> tmp_map = {
 
 void    Bot::move(const std::vector<std::string> &map, IDisplay *d)
 {
+    std::cout << std::get<2>(_pos) << std::endl;
     _transformedMap = tmp_map;
     Action  a;
     if (_bombNumber == 0) {
