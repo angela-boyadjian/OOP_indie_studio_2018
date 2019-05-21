@@ -128,7 +128,6 @@ bool            Bot::isSafe(const float &x, const float &y)
 ACharacter::Action  Bot::chooseDirection()
 {
     std::vector<ACharacter::Action> directions;
-
     auto    posX {std::get<0>(_pos)};
     auto    posY {(std::get<2>(_pos) * -1 / 10) + 3};
 
@@ -172,7 +171,6 @@ const std::vector<std::string> tmp_map = {
 
 void    Bot::move(const std::vector<std::string> &map, IDisplay *d)
 {
-    std::cout << std::get<2>(_pos) << std::endl;
     _transformedMap = tmp_map;
     Action  a;
     if (_bombNumber == 0) {
