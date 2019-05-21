@@ -44,7 +44,7 @@ public:
 
     // SETTERS
     void    setAction(const Action &);
-    void    setPosZ(const std::size_t &);
+    void    setPosZ(const float &);
 
     // GETTERS
     KeyMap              &getKeyMap();
@@ -63,4 +63,5 @@ protected:
     KeyMap                      _keyMap;
     Action                      _action;
     std::size_t                 _entityNb;
+    std::vector<std::string>    _transformedMap;
 };

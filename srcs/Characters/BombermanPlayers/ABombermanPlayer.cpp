@@ -29,3 +29,80 @@ void    ABombermanPlayer::increaseBombNumber() { _bombNumber += 1; }
 
 // DECREASER
 void    ABombermanPlayer::decreaseBombNumber() { _bombNumber -= 1; }
+
+void    ABombermanPlayer::canShoot() { _canShoot = true; }
+
+void    ABombermanPlayer::moveUp()
+{
+    if (!_walls[0]) {
+        std::get<1>(_pos) += 1;
+        std::get<2>(_pos) += 1;
+    }
+}
+
+void    ABombermanPlayer::moveDown()
+{
+    if (!_walls[1]) {
+        std::get<1>(_pos) -= 1;
+        std::get<2>(_pos) -= 1;
+    }
+}
+
+void    ABombermanPlayer::moveLeft()
+{
+    if (!_walls[2])
+        std::get<0>(_pos) -= 1;
+}
+
+void    ABombermanPlayer::moveRight()
+{
+    if (!_walls[3])
+        std::get<0>(_pos) += 1;
+}
+
+void    ABombermanPlayer::isWallUp(IDisplay *d)
+{
+    std::get<2>(_pos) += 3;
+    d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
+    _walls[0] = d->isCollision(getEntityNb());
+    std::get<2>(_pos) -= 3;
+}
+
+void    ABombermanPlayer::isWallDown(IDisplay *d)
+{
+    std::get<2>(_pos) -= 3;
+    d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
+    _walls[1] = d->isCollision(getEntityNb());
+    std::get<2>(_pos) += 3;
+}
+
+void    ABombermanPlayer::isWallLeft(IDisplay *d)
+{
+    std::get<0>(_pos) -= 3;
+    d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
+    _walls[2] = d->isCollision(getEntityNb());
+    std::get<0>(_pos) += 3;
+}
+
+void    ABombermanPlayer::isWallRight(IDisplay *d)
+{
+    std::get<0>(_pos) += 3;
+    d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
+    _walls[3] = d->isCollision(getEntityNb());
+    std::get<0>(_pos) -= 3;
+}
+
+void    ABombermanPlayer::isWalls(IDisplay *d)
+{
+    isWallUp(d);
+    isWallDown(d);
+    isWallLeft(d);
+    isWallRight(d);
+    d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
+}
+
+void    ABombermanPlayer::bomb(IDisplay *d)
+{
+    decreaseBombNumber();
+    d->destroyCollision(getEntityNb());
+}

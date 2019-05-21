@@ -26,7 +26,7 @@ void    IrrlichtDisplay::setTerrain()
 {
     initTerrain();
     _selector = std::unique_ptr<irr::scene::ITriangleSelector>
-            (_scenes->createTerrainTriangleSelector(_terrain, 0));
+            (_scenes->createTerrainTriangleSelector(_terrain.get(), 0));
     _terrain->setTriangleSelector(_selector.get());
     initAnimTerrain();
     _selector->drop();
@@ -43,12 +43,12 @@ void    IrrlichtDisplay::setSkyDome()
 
 void    IrrlichtDisplay::initTerrain()
 {
-    _terrain = _scenes->addTerrainSceneNode(
+    _terrain = std::unique_ptr<irr::scene::ITerrainSceneNode>(_scenes->addTerrainSceneNode(
             "../lib/irrLicht/media/terrain-heightmap.bmp",
             nullptr, -1, irr::core::vector3df(0.f, 0.f, 0.f),
             irr::core::vector3df(0.f, 0.f, 0.f), irr::core::vector3df(40.f, 4.4f, 40.f),
             irr::video::SColor ( 255, 255, 255, 255 ), 5, irr::scene::ETPS_17, 4
-    );
+    ));
     setTerrainMaterial();
     _terrain->scaleTexture(1.0f, 20.0f);
 }
@@ -167,6 +167,16 @@ IDisplay::Map3D &IrrlichtDisplay::getMap()
     return _map3d;
 }
 
+IDisplay::Map3D &IrrlichtDisplay::getColiMap()
+{
+    return _coliMap;
+}
+
+IDisplay::Map3D &IrrlichtDisplay::getNonColiMap()
+{
+    return _noncoliMap;
+}
+
 void    IrrlichtDisplay::changeModelPos(const std::size_t &i, const pos3d &vec)
 {
     auto newVec = pos3dToVector(vec);
@@ -186,27 +196,43 @@ void    IrrlichtDisplay::changeModelFrame(const std::size_t &i, const std::size_
     _meshsScene[i]->setFrameLoop(a, b);
 }
 
+bool    IrrlichtDisplay::isCollisionFromMap(irr::core::aabbox3d<irr::f32> &b) const
+{
+    for (std::size_t i {0}; i < _coliMap.size(); ++i) {
+        auto b2 = _coliMap[i]->getBoundingBox();
+        _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
+        if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())
+            return true;
+    }
+    return false;
+}
+
+bool    IrrlichtDisplay::isCollisionFromObstacles(irr::core::aabbox3d<irr::f32> &b) const
+{
+    for (std::size_t i {0}; i < _noncoliMap.size(); ++i) {
+        auto b2 = _noncoliMap[i]->getBoundingBox();
+        _noncoliMap[i]->getRelativeTransformation().transformBoxEx(b2);
+        if (b.intersectsWithBox(b2) && _noncoliMap[i]->isVisible())
+            return true;
+    }
+    return false;
+}
+
 bool    IrrlichtDisplay::isCollision(const std::size_t &target)
 {
     auto b = _meshsScene[target]->getBoundingBox();
     _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
-    for (std::size_t i {0}; i < _map3d.size(); ++i) {
-        auto b2 = _map3d[i]->getBoundingBox();
-        _map3d[i]->getRelativeTransformation().transformBoxEx(b2);
-        if (b.intersectsWithBox(b2) && _map3d[i]->isVisible())
-            return true;
-    }
-    return false;
+    return isCollisionFromMap(b) || isCollisionFromObstacles(b);
 }
 
 void    IrrlichtDisplay::destroyCollision(const std::size_t &target)
 {
     auto b = _meshsScene[target]->getBoundingBox();
     _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
-    for (std::size_t i {0}; i < _map3d.size(); ++i) {
-        auto b2 = _map3d[i]->getBoundingBox();
-        _map3d[i]->getRelativeTransformation().transformBoxEx(b2);
-        if (b.intersectsWithBox(b2) && _map3d[i]->isVisible())
-            _map3d[i]->setVisible(false);
+    for (std::size_t i {0}; i < _coliMap.size(); ++i) {
+        auto b2 = _coliMap[i]->getBoundingBox();
+        _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
+        if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())
+            _coliMap[i]->setVisible(false);
     }
 }

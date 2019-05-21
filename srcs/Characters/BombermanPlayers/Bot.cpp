@@ -5,15 +5,16 @@
 ** Bot
 */
 
-#include <algorithm>
+#include <cstdlib>
 #include <iostream>
+#include <algorithm>
 
 #include "Bot.hpp"
 
-bool            Bot::isBlock(const std::size_t &x, const std::size_t &y)
+bool            Bot::isBlock(const float &x, const float &y)
 {
-    return y > 0 and y < _transformedMap.size()
-            and x > 0 and x < _transformedMap[y].size()
+    return y >= 0 and y < _transformedMap.size()
+            and x >= 0 and x < _transformedMap[y].size()
             and (_transformedMap[y][x] == '1'
             or _transformedMap[y][x] == '2');
 }
@@ -22,7 +23,7 @@ std::size_t     Bot::countBlock()
 {
     std::size_t count {0};
     auto        posX {std::get<0>(_pos)};
-    auto        posY {std::get<1>(_pos)};
+    auto    posY {(std::get<2>(_pos) * -1 / 10) + 3};
 
     if (isBlock(posX, posY + 1))
         ++count;
@@ -43,7 +44,7 @@ bool            Bot::isMomentForBomb()
 bool            Bot::isInDanger()
 {
     auto    posX {std::get<0>(_pos)};
-    auto    posY {std::get<1>(_pos)};
+    auto    posY {(std::get<2>(_pos) * -1 / 10) + 3};
     return _transformedMap[posY][posX] == -1 or _transformedMap[posY][posX] == -2;
 }
 
@@ -98,7 +99,8 @@ std::size_t Bot::getDistanceRight(std::size_t x, std::size_t y)
 std::vector<std::size_t> Bot::getDistancesToSurvive()
 {
     auto    posX = std::get<0>(_pos);
-    auto    posY = std::get<1>(_pos);
+    auto    posY {(std::get<2>(_pos) * -1 / 10) + 3};
+
     return std::vector<std::size_t> {
         getDistanceUp(posX, posY),
         getDistanceDown(posX, posY),
@@ -117,19 +119,19 @@ ACharacter::Action  Bot::getOutOfDanger()
     return ACharacter::Action(index);
 }
 
-bool            Bot::isSafe(const std::size_t &x, const std::size_t &y)
+bool            Bot::isSafe(const float &x, const float &y)
 {
-    return y > 0 and y < _transformedMap.size()
-        and x > 0 and x < _transformedMap[y].size()
+    return y >= 0 and y < _transformedMap.size()
+        and x >= 0 and x < _transformedMap[y].size()
         and _transformedMap[y][x] == '0';
 }
 
 ACharacter::Action  Bot::chooseDirection()
 {
     std::vector<ACharacter::Action> directions;
-
     auto    posX {std::get<0>(_pos)};
-    auto    posY {std::get<1>(_pos)};
+    auto    posY {(std::get<2>(_pos) * -1 / 10) + 3};
+
     if (isSafe(posX, posY - 1))
         directions.push_back(ACharacter::Action::UP);
     if (isSafe(posX, posY + 1))
@@ -138,35 +140,54 @@ ACharacter::Action  Bot::chooseDirection()
         directions.push_back(ACharacter::Action::LEFT);
     if (isSafe(posX + 1, posY))
         directions.push_back(ACharacter::Action::RIGHT);
-    return directions[rand() % directions.size()];
+    auto randDirection = std::rand() / (RAND_MAX + directions.size());
+    return directions.empty() ? ACharacter::Action::WAIT : directions[randDirection];
 }
 
 void    Bot::changePosition(const ACharacter::Action &a)
 {
     if (a == ACharacter::Action::UP)
-        std::get<2>(_pos) += 1;
+        std::get<2>(_pos) += 10;
     else if (a == ACharacter::Action::DOWN)
-        std::get<2>(_pos) -= 1;
+        std::get<2>(_pos) -= 10;
     else if (a == ACharacter::Action::LEFT)
-        std::get<0>(_pos) -= 1;
+        std::get<0>(_pos) -= 10;
     else if (a == ACharacter::Action::RIGHT)
-        std::get<0>(_pos) += 1;
+        std::get<0>(_pos) += 10;
 }
 
-void    Bot::move(const std::vector<std::string> &, IDisplay *)
+std::vector<std::string> tmp_map = {
+        "0022222222203",
+        "0121212121210",
+        "2222222222222",
+        "2121212121212",
+        "2222222222222",
+        "2121212121212",
+        "2222222222222",
+        "2121212121212",
+        "2222222222222",
+        "0121212121210",
+        "0022222222203"
+};
+
+void    Bot::move(const std::vector<std::string> &map, IDisplay *d)
 {
-    _lastDirection = Action(rand() % 4);
-    changePosition(_lastDirection);
-    return;
+    static bool flag = true;
+    if (flag) {
+        _transformedMap = tmp_map;
+        flag = false;
+    }
     Action  a;
     if (_bombNumber == 0) {
         a = getOutOfDanger();
         changePosition(a);
-    }
-    else if (isMomentForBomb()) {
-        std::cout << "Bomb Planted" << std::endl;
-        a = ACharacter::Action::BOMB;
-        _bombNumber -= 1;
+    } else if (isMomentForBomb()) {
+//        std::cout << "Bomb Planted" << std::endl;
+//        a = ACharacter::Action::BOMB;
+//        decreaseBombNumber();
+        // REMOVE WHEN BOMB REMOVE IS DONE
+        a = chooseDirection();
+        changePosition(a);
     } else {
         a = chooseDirection();
         changePosition(a);

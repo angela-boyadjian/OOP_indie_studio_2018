@@ -11,6 +11,10 @@
 #include <iostream>
 
 struct SpriteInfo {
+    enum class COLID {
+
+    };
+
     SpriteInfo(const std::string &referTo, const std::string &messPath,
                const std::string &textPath,
                const irr::core::vector3df &size) : _referTo(referTo),
@@ -22,5 +26,4 @@ struct SpriteInfo {
     std::string _messPath;
     std::string _texPath;
     irr::core::vector3df _size;
-
 };
