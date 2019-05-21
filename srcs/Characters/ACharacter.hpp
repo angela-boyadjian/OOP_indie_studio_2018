@@ -44,7 +44,7 @@ public:
 
     // SETTERS
     void    setAction(const Action &);
-    void    setPosZ(const std::size_t &);
+    void    setPosZ(const float &);
 
     // GETTERS
     KeyMap              &getKeyMap();

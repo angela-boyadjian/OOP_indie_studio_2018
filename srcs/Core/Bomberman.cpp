@@ -34,11 +34,19 @@ void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
 
 void core::Bomberman::run()
 {
+    // TEMPO - REPLACE IT BY GENERIC METHOD
     _game->getPlayers()[0]->setPosZ(std::get<2>(_game->getPlayers()[0]->getMapPos()) + 30);
     _display->changeModelPos(_game->getPlayers()[0]->getEntityNb(), std::make_tuple(
             std::get<0>(_game->getPlayers()[0]->getMapPos()),
-                    std::get<1>(_game->getPlayers()[0]->getMapPos()),
-                            std::get<2>(_game->getPlayers()[0]->getMapPos())));
+            std::get<1>(_game->getPlayers()[0]->getMapPos()),
+            std::get<2>(_game->getPlayers()[0]->getMapPos())));
+
+    // TEMPO - REPLACE IT BY GENERIC METHOD
+    _game->getBots()[0]->setPosZ(std::get<2>(_game->getPlayers()[0]->getMapPos()) - 100);
+    _display->changeModelPos(_game->getBots()[0]->getEntityNb(), std::make_tuple(
+            std::get<0>(_game->getBots()[0]->getMapPos()),
+            std::get<1>(_game->getBots()[0]->getMapPos()),
+            std::get<2>(_game->getBots()[0]->getMapPos())));
     while (_display->isRunning()) {
         action();
         _display->draw();
