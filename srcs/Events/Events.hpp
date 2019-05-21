@@ -41,7 +41,6 @@ public:
                 return true;
             } else if (id == GUI_ID_START_BUTTON &&
                 event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
-                _device->closeDevice();
                 return true;
             }
         }
