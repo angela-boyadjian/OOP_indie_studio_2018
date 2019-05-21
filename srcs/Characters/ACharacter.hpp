@@ -63,4 +63,5 @@ protected:
     KeyMap                      _keyMap;
     Action                      _action;
     std::size_t                 _entityNb;
+    std::vector<std::string>    _transformedMap;
 };

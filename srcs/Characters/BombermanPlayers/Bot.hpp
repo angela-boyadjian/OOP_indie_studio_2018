@@ -18,7 +18,7 @@ public:
 
     // BLOCKS
     std::size_t countBlock();
-    bool        isBlock(const std::size_t &, const std::size_t &);
+    bool        isBlock(const float &, const float &);
 
     // SURVIVE
     bool        isInDanger();
@@ -36,9 +36,7 @@ public:
     Action      chooseDirection();
     void        changePosition(const Action &);
     void        move(const std::vector<std::string> &, IDisplay *) final;
-    bool        isSafe(const std::size_t &, const std::size_t &);
+    bool        isSafe(const float &, const float &);
 
     Action                      _lastDirection;
-private:
-    std::vector<std::string>    _transformedMap;
 };
