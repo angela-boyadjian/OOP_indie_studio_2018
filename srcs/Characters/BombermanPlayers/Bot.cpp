@@ -153,23 +153,27 @@ void    Bot::changePosition(const ACharacter::Action &a)
         std::get<0>(_pos) += 1;
 }
 
-void    Bot::move(const std::vector<std::string> &, IDisplay *)
+void    Bot::move(const std::vector<std::string> &, IDisplay *d)
 {
     _lastDirection = Action(rand() % 4);
-    changePosition(_lastDirection);
-    return;
-    Action  a;
-    if (_bombNumber == 0) {
-        a = getOutOfDanger();
-        changePosition(a);
+    isWalls(d);
+    switch (_lastDirection) {
+        case ACharacter::Action::UP:
+            moveUp();
+            return;
+        case ACharacter::Action::DOWN:
+            moveDown();
+            return;
+        case ACharacter::Action::LEFT:
+            moveLeft();
+            return;
+        case ACharacter::Action::RIGHT:
+            moveRight();
+            return;
+        case ACharacter::Action::BOMB:
+            bomb(d);
+            return;
+        case ACharacter::Action::WAIT:
+            return;
     }
-    else if (isMomentForBomb()) {
-        std::cout << "Bomb Planted" << std::endl;
-        a = ACharacter::Action::BOMB;
-        _bombNumber -= 1;
-    } else {
-        a = chooseDirection();
-        changePosition(a);
-    }
-    _lastDirection = a;
 }
