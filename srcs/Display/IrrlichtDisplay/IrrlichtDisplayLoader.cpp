@@ -54,7 +54,8 @@ void IrrlichtDisplayLoader::loadMapEdgeTop(const MapData &map)
     auto z = 40.0f + posZ;
     auto pos = map._rulesWall.find('/');
 
-    for (__attribute__((unused)) auto i = 0; map._mapWall[0].size() + 2 != i; i++) {
+    for (__attribute__((unused)) auto i = 0;
+         map._mapWall[0].size() + 2 != i; i++) {
         addTileToMap(irr::core::vector3df(x, 10.0f + posY, z), pos->second,
                      10.0f);
         x += 10.0f;
@@ -66,7 +67,8 @@ void IrrlichtDisplayLoader::loadMapEdgeSide(const MapData &map)
     auto y = 10.0f + posY;
     auto z = 30.0f + posZ;
     auto pos = map._rulesWall.find('/');
-
+    auto toto = map._rulesWall.find('x');
+    auto last = map._mapWall[0].size();
 
     for (int i = 0; i != map._mapWall.size(); i++) {
         auto x = map._mapWall[i].size() * 10.0f + posX;
@@ -83,8 +85,9 @@ void IrrlichtDisplayLoader::loadMapEdgeLow(const MapData &map)
     auto y = 10.0f + posY;
     auto z = 30.0f + posZ - (map._mapWall.size() * 10);
     auto pos = map._rulesWall.find('/');
-    
-    for (__attribute__((unused)) auto i = 0; map._mapWall[0].size() + 2 != i; i++) {
+
+    for (__attribute__((unused)) auto i = 0;
+         map._mapWall[0].size() + 2 != i; i++) {
         addTileToMap(irr::core::vector3df(x, y, z), pos->second,
                      10.0f);
         x += 10.0f;
@@ -109,7 +112,7 @@ void IrrlichtDisplayLoader::loadMapWall(const MapData &map)
         for (auto tile : line) {
             auto pos = map._rulesWall.find(tile);
             if (pos != map._rulesWall.end())
-                addTileToMap(irr::core::vector3df(x, y, z), pos->second, 9.0f);
+                addTileToMap(irr::core::vector3df(x, y, z), pos->second, 8.0f);
             x += 10.0f;
         }
         x = 0.0f + posX;
