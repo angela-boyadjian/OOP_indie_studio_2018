@@ -18,27 +18,27 @@ public:
 
     // BLOCKS
     std::size_t countBlock();
-    bool        isBlock(const std::size_t &, const std::size_t &);
+    bool        isBlock(const float &, const float &);
 
     // SURVIVE
     bool        isInDanger();
     Action      getOutOfDanger();
-    std::size_t getDistanceUp(std::size_t, std::size_t);
-    std::size_t getDistanceDown(std::size_t, std::size_t);
-    std::size_t getDistanceLeft(std::size_t, std::size_t);
-    std::size_t getDistanceRight(std::size_t, std::size_t);
+    std::size_t getDistanceUp(float, float);
+    std::size_t getDistanceDown(float, float);
+    std::size_t getDistanceLeft(float, float);
+    std::size_t getDistanceRight(float, float);
     std::vector<std::size_t> getDistancesToSurvive();
 
     // BOMB
     bool        isMomentForBomb();
+    void        bombExplosion();
+    void        putBomb();
 
     // MOVE
     Action      chooseDirection();
     void        changePosition(const Action &);
     void        move(const std::vector<std::string> &, IDisplay *) final;
-    bool        isSafe(const std::size_t &, const std::size_t &);
+    bool        isSafe(const float &, const float &);
 
     Action                      _lastDirection;
-private:
-    std::vector<std::string>    _transformedMap;
 };
