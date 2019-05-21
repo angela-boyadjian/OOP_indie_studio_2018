@@ -13,8 +13,8 @@
 
 bool            Bot::isBlock(const float &x, const float &y)
 {
-    return y > 0 and y < _transformedMap.size()
-            and x > 0 and x < _transformedMap[y].size()
+    return y >= 0 and y < _transformedMap.size()
+            and x >= 0 and x < _transformedMap[y].size()
             and (_transformedMap[y][x] == '1'
             or _transformedMap[y][x] == '2');
 }
@@ -23,7 +23,7 @@ std::size_t     Bot::countBlock()
 {
     std::size_t count {0};
     auto        posX {std::get<0>(_pos)};
-    auto        posY {std::get<1>(_pos)};
+    auto    posY {(std::get<2>(_pos) * -1 / 10) + 3};
 
     if (isBlock(posX, posY + 1))
         ++count;
@@ -44,7 +44,7 @@ bool            Bot::isMomentForBomb()
 bool            Bot::isInDanger()
 {
     auto    posX {std::get<0>(_pos)};
-    auto    posY {std::get<1>(_pos)};
+    auto    posY {(std::get<2>(_pos) * -1 / 10) + 3};
     return _transformedMap[posY][posX] == -1 or _transformedMap[posY][posX] == -2;
 }
 
@@ -99,7 +99,8 @@ std::size_t Bot::getDistanceRight(std::size_t x, std::size_t y)
 std::vector<std::size_t> Bot::getDistancesToSurvive()
 {
     auto    posX = std::get<0>(_pos);
-    auto    posY = std::get<1>(_pos);
+    auto    posY {(std::get<2>(_pos) * -1 / 10) + 3};
+
     return std::vector<std::size_t> {
         getDistanceUp(posX, posY),
         getDistanceDown(posX, posY),
@@ -155,7 +156,7 @@ void    Bot::changePosition(const ACharacter::Action &a)
         std::get<0>(_pos) += 10;
 }
 
-const std::vector<std::string> tmp_map = {
+std::vector<std::string> tmp_map = {
         "0022222222203",
         "0121212121210",
         "2222222222222",
@@ -171,15 +172,22 @@ const std::vector<std::string> tmp_map = {
 
 void    Bot::move(const std::vector<std::string> &map, IDisplay *d)
 {
-    _transformedMap = tmp_map;
+    static bool flag = true;
+    if (flag) {
+        _transformedMap = tmp_map;
+        flag = false;
+    }
     Action  a;
     if (_bombNumber == 0) {
         a = getOutOfDanger();
         changePosition(a);
     } else if (isMomentForBomb()) {
-        std::cout << "Bomb Planted" << std::endl;
-        a = ACharacter::Action::BOMB;
-        decreaseBombNumber();
+//        std::cout << "Bomb Planted" << std::endl;
+//        a = ACharacter::Action::BOMB;
+//        decreaseBombNumber();
+        // REMOVE WHEN BOMB REMOVE IS DONE
+        a = chooseDirection();
+        changePosition(a);
     } else {
         a = chooseDirection();
         changePosition(a);
