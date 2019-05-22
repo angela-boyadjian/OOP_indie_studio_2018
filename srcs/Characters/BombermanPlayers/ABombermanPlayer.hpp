@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "Bomb.hpp"
 #include "ACharacter.hpp"
 
 class ABombermanPlayer : public ACharacter {
@@ -47,9 +48,10 @@ public:
 
     void    bomb(IDisplay *);
 protected:
-    bool        _walls[4];
-    bool        _canShoot;
-    std::size_t _fireRange;
-    std::size_t _bombNumber;
-    std::size_t _maxBombNumber;
+    bool                _walls[4];
+    bool                _canShoot;
+    std::size_t         _fireRange;
+    std::size_t         _bombNumber;
+    std::size_t         _maxBombNumber;
+    std::vector<Bomb>   _bombs;
 };

@@ -103,6 +103,8 @@ void    ABombermanPlayer::isWalls(IDisplay *d)
 
 void    ABombermanPlayer::bomb(IDisplay *d)
 {
-    decreaseBombNumber();
-    d->destroyCollision(getEntityNb());
+    if (_bombNumber > 0) {
+        decreaseBombNumber();
+        d->destroyCollision(getEntityNb());
+    }
 }

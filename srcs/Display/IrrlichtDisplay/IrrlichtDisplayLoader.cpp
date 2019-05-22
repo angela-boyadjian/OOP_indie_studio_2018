@@ -181,7 +181,8 @@ void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
 
     for (auto &bot : game->getBots())
         loadPlayer(bot->_color, bot->_textures);
-    for (auto &player : game->getPlayers())
+    for (auto &player : game->getPlayers()) {
         loadPlayer(player->_color, player->_textures);
-    loadBomb(b.getRes().c_str(), b.getTexture());
+        loadBomb(b.getRes().c_str(), b.getTexture());
+    }
 }
