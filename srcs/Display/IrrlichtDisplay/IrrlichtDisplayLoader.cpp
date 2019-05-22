@@ -48,6 +48,11 @@ bool IrrlichtDisplayLoader::loadTileMap(const SpriteInfo &info, float size,
     return true;
 }
 
+void DifSizeManage(int diff, const irr::core::vector3df &pos)
+{
+    
+}
+
 void IrrlichtDisplayLoader::loadMapEdgeTop(const MapData &map)
 {
     auto x = posX - 10.0f;
