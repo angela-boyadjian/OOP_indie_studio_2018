@@ -7,6 +7,9 @@
 
 #pragma once
 
+#include <memory>
+#include <vector>
+
 #include "Bomb.hpp"
 #include "ACharacter.hpp"
 
@@ -18,6 +21,7 @@ public:
     virtual void    move(const std::vector<std::string> &, IDisplay *) = 0;
 
     // GETTERS
+    std::vector<Bomb> const       &getBombs() const;
     const bool          &canShoot() const;
     const std::size_t   &getFireRange() const;
     const Action        &getDirection() const;
@@ -48,10 +52,10 @@ public:
 
     void    bomb(IDisplay *);
 protected:
+    std::vector<Bomb> _bombs;
     bool                _walls[4];
     bool                _canShoot;
     std::size_t         _fireRange;
     std::size_t         _bombNumber;
     std::size_t         _maxBombNumber;
-    std::vector<Bomb>   _bombs;
 };

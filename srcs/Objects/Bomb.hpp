@@ -12,15 +12,23 @@
 class Bomb {
 public:
     Bomb();
+    // Bomb(Bomb const &) = delete;
+    // Bomb &operator=(Bomb const &) = delete;
     ~Bomb();
 
     // NOTE Action
     void explode();
     void place();
+    bool isPlaced() const;
+    bool isOn() const;
 
-    // NOTE Getter
+    // NOTE Setter
+    void setOn(bool);
+
+    // NOTE Getters
     std::string const getRes() const;
     std::string const getTexture() const;
 private:
     bool        _isPlaced;
+    bool        _on;
 };

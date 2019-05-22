@@ -7,13 +7,11 @@
 
 #include "Bomb.hpp"
 
-Bomb::Bomb() : _isPlaced(false)
+Bomb::Bomb() : _isPlaced(false), _on(false)
 {
 }
 
-Bomb::~Bomb()
-{
-}
+Bomb::~Bomb() {}
 
 void Bomb::place()
 {
@@ -22,7 +20,22 @@ void Bomb::place()
 
 void Bomb::explode()
 {
-    
+    _isPlaced = false;
+}
+
+bool Bomb::isPlaced() const
+{
+    return _isPlaced;
+}
+
+bool Bomb::isOn() const
+{
+    return _on;
+}
+
+void Bomb::setOn(bool value)
+{
+    _on = value;
 }
 
 std::string const Bomb::getRes() const
