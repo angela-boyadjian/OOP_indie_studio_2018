@@ -8,9 +8,10 @@
 
 #pragma once
 
-#include "Events.hpp"
+#include "ISceneManager.hpp"
 
 class Events;
+class ISceneManager;
 
 class IDisplay {
 public:
@@ -21,6 +22,7 @@ public:
     using Device = std::shared_ptr<irr::IrrlichtDevice>;
     using Gui = std::unique_ptr<irr::gui::IGUIEnvironment>;
     using Map3D = std::vector<std::unique_ptr<IDisplay::Object>>;
+    using Scenes = std::shared_ptr<ISceneManager>;
 
     // SET OBJECT
     virtual void    setDisplay(Events *) = 0;
@@ -30,9 +32,11 @@ public:
     virtual bool    isRunning() const = 0;
     // NOTE GUI FUNCTIONS
     virtual void    setGuiMessage(const wchar_t *) = 0;
-    // NOTE CAMERA FUNCTIONS
-    virtual void    setCameraScene() = 0;
-    //    // NOTE DRAW FUNCTIONS
+
+    // NOTE SCENES FUNCTIONS
+    virtual void    changeScene() = 0;
+
+    // NOTE DRAW FUNCTIONS
     virtual void    draw() = 0;
 
     // NOTE GETTER
@@ -40,6 +44,8 @@ public:
     virtual Device const &getDevice() = 0;
     virtual Gui const &getGui() = 0;
     virtual Map3D   &getMap() = 0;
+    virtual Map3D   &getColiMap() = 0;
+    virtual Map3D   &getNonColiMap() = 0;
 
     virtual void    changeModelPos(const std::size_t &, const pos3d &) = 0;
     virtual void    changeModelRot(const std::size_t &, const pos3d &) = 0;
@@ -49,9 +55,10 @@ public:
     virtual void    destroyCollision(const std::size_t &) = 0;
 
     // TEMPO
-    SceneManager        _scenes;
     VideoDriver         _driver;
 
+    // TEMPO
+    std::vector<Scenes> _sceneManagers;
 public:
     Device              _device;
 };
