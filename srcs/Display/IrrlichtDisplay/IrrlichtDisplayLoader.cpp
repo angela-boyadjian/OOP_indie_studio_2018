@@ -7,6 +7,7 @@
 
 #include "Bomb.hpp"
 
+#include <irrlicht.h>
 #include "IrrlichtDisplayLoader.hpp"
 #include "IDisplay.hpp"
 
@@ -56,7 +57,8 @@ void IrrlichtDisplayLoader::loadMapEdgeTop(const MapData &map)
     auto z = 40.0f + posZ;
     auto pos = map._rulesWall.find('/');
 
-    for (__attribute__((unused)) auto i = 0; map._mapWall[0].size() + 2 != i; i++) {
+    for (__attribute__((unused)) std::size_t i = 0;
+         map._mapWall[0].size() + 2 != i; ++i) {
         addTileToMap(irr::core::vector3df(x, 10.0f + posY, z), pos->second,
                      10.0f);
         x += 10.0f;
@@ -68,9 +70,10 @@ void IrrlichtDisplayLoader::loadMapEdgeSide(const MapData &map)
     auto y = 10.0f + posY;
     auto z = 30.0f + posZ;
     auto pos = map._rulesWall.find('/');
+    auto toto = map._rulesWall.find('x');
+    auto last = map._mapWall[0].size();
 
-
-    for (int i = 0; i != map._mapWall.size(); i++) {
+    for (std::size_t i = 0; i != map._mapWall.size(); i++) {
         auto x = map._mapWall[i].size() * 10.0f + posX;
         addTileToMap(irr::core::vector3df(x, y, z), pos->second, 10.0f);
         addTileToMap(irr::core::vector3df(posX - 10.0f, y, z), pos->second,
@@ -85,8 +88,9 @@ void IrrlichtDisplayLoader::loadMapEdgeLow(const MapData &map)
     auto y = 10.0f + posY;
     auto z = 30.0f + posZ - (map._mapWall.size() * 10);
     auto pos = map._rulesWall.find('/');
-    
-    for (__attribute__((unused)) auto i = 0; map._mapWall[0].size() + 2 != i; i++) {
+
+    for (__attribute__((unused)) std::size_t i = 0;
+         map._mapWall[0].size() + 2 != i; i++) {
         addTileToMap(irr::core::vector3df(x, y, z), pos->second,
                      10.0f);
         x += 10.0f;
@@ -111,7 +115,7 @@ void IrrlichtDisplayLoader::loadMapWall(const MapData &map)
         for (auto tile : line) {
             auto pos = map._rulesWall.find(tile);
             if (pos != map._rulesWall.end())
-                addTileToMap(irr::core::vector3df(x, y, z), pos->second, 9.0f);
+                addTileToMap(irr::core::vector3df(x, y, z), pos->second, 8.0f);
             x += 10.0f;
         }
         x = 0.0f + posX;
@@ -171,21 +175,24 @@ void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
                         std::make_tuple(6, 6, 6));
 }
 
-void
-IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture)
+void IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture)
 {
     _d->addNewAnimation(res, texture.c_str(), std::make_tuple(2, 2, 2));
 }
 
 void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
 {
-    Bomb b;
-
     for (auto &bot : game->getBots())
         loadPlayer(bot->_color, bot->_textures);
-    for (auto &player : game->getPlayers())
+    for (auto &player : game->getPlayers()) {
         loadPlayer(player->_color, player->_textures);
-    loadBomb(b.getRes().c_str(), b.getTexture());
+        for (auto b : player->getBombs())
+            if (b.isOn()) {
+                std::cout << "ENTER\n";
+                loadBomb(b.getRes().c_str(), b.getTexture());
+                b.setOn(false);
+            }
+    }
 }
 
 void    IrrlichtDisplayLoader::loadMenu(const std::unique_ptr<Menu> &menu)
@@ -198,6 +205,6 @@ void    IrrlichtDisplayLoader::loadMenu(const std::unique_ptr<Menu> &menu)
     101, L"Quit", L"Exits Program");
     gui->addButton(irr::core::rect<irr::s32>(screenSize.Width - 110, 240, screenSize.Width - 10, 240 + 32), 0,
         102, L"Start Game", L"Start Game");
-    Events *receiver = new Events(device, _d);
-    device->setEventReceiver(receiver);
+//    Events *receiver = new Events(device, _d);
+//    device->setEventReceiver(receiver);
 }

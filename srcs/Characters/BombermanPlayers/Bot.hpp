@@ -23,14 +23,16 @@ public:
     // SURVIVE
     bool        isInDanger();
     Action      getOutOfDanger();
-    std::size_t getDistanceUp(std::size_t, std::size_t);
-    std::size_t getDistanceDown(std::size_t, std::size_t);
-    std::size_t getDistanceLeft(std::size_t, std::size_t);
-    std::size_t getDistanceRight(std::size_t, std::size_t);
+    std::size_t getDistanceUp(float, float);
+    std::size_t getDistanceDown(float, float);
+    std::size_t getDistanceLeft(float, float);
+    std::size_t getDistanceRight(float, float);
     std::vector<std::size_t> getDistancesToSurvive();
 
     // BOMB
     bool        isMomentForBomb();
+    void        bombExplosion();
+    void        putBomb();
 
     // MOVE
     Action      chooseDirection();

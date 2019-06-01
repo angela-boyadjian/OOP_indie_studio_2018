@@ -6,7 +6,7 @@
 */
 
 #include <iostream>
-#include <IrrlichtDisplay/IrrlichtDisplayLoader.hpp>
+#include <IrrlichtDisplayLoader.hpp>
 
 #include "Bomberman.hpp"
 #include "ACharacter.hpp"

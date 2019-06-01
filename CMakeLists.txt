@@ -13,6 +13,7 @@ include_directories(
         srcs/Logic
         srcs/Events
         srcs/Display
+        srcs/Display/IrrlichtDisplay
         srcs/Characters
         srcs/Objects
         srcs/Tool

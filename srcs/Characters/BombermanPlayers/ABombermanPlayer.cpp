@@ -15,6 +15,8 @@ ABombermanPlayer::ABombermanPlayer(const std::size_t &enb, const MapPos &pos,
                "../resources/models/Character/PinkBombermanTextures.png",
                "../resources/models/Character/RedBombermanTextures.png",
                "../resources/models/Character/WhiteBombermanTextures.png"});
+    // _bombs.push_back(std::make_unique<Bomb>());
+    _bombs.push_back(Bomb());
 }
 
 // SETTERS
@@ -101,8 +103,19 @@ void    ABombermanPlayer::isWalls(IDisplay *d)
     d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
 }
 
+std::vector<Bomb> const &ABombermanPlayer::getBombs() const
+{
+    return _bombs;
+}
+
 void    ABombermanPlayer::bomb(IDisplay *d)
 {
-    decreaseBombNumber();
-    d->destroyCollision(getEntityNb());
+    auto b = _bombs[0];
+
+    if (!b.isPlaced() and _bombNumber > 0) {
+        decreaseBombNumber();
+        b.place();
+        b.setOn(true);
+        d->destroyCollision(getEntityNb());
+    }
 }
