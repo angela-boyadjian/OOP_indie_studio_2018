@@ -14,7 +14,7 @@ MenuScene::MenuScene(Device &device, VideoDriver &driver) : _device(device), _dr
 
     setCameraScene();
 //    setTerrain();
-//    setSkyDome();
+    setSkyDome();
 }
 
 void MenuScene::setCameraScene()

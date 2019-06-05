@@ -201,8 +201,8 @@ void    IrrlichtDisplayLoader::loadMenu(const std::unique_ptr<Menu> &menu)
     IDisplay::Device const &device = _d->getDevice();
     auto screenSize = _d->getScreenSize();
 
-    gui->addButton(irr::core::rect<irr::s32>(10, 240, 110, 240 + 32), 0,
-    101, L"Quit", L"Exits Program");
-    gui->addButton(irr::core::rect<irr::s32>(screenSize.Width - 110, 240, screenSize.Width - 10, 240 + 32), 0,
-        102, L"Start Game", L"Start Game");
+    gui->addButton(irr::core::rect<irr::s32>(screenSize.Width / 2 - 300, 440, screenSize.Width / 2 + 300, 440 + 42), 0,
+    102, L"Start Game", L"Start Game");
+    gui->addButton(irr::core::rect<irr::s32>(screenSize.Width / 2 - 300 , 440 + 42 + 10, screenSize.Width / 2 + 300, 440 + 42 + 10 + 42), 0,
+        101, L"Quit", L"Exits Program");
 }
