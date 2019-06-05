@@ -22,18 +22,18 @@ IrrlichtDisplayLoader::IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &d)
 
 void IrrlichtDisplayLoader::loadCube(float size, IDisplay::Map3D &dest)
 {
-    dest.emplace_back(_d->_sceneManagers.at(1)->getSceneManager()->addCubeSceneNode(size, 0, -1));
+    dest.emplace_back(_d->_sceneManagers.at("game")->getSceneManager()->addCubeSceneNode(size, 0, -1));
 }
 
 void IrrlichtDisplayLoader::loadMess(const SpriteInfo &info, float size,
                                      IDisplay::Map3D &dest)
 {
-    auto mesh = _d->_sceneManagers.at(1)->getSceneManager()->getMesh(info._messPath.c_str());
+    auto mesh = _d->_sceneManagers.at("game")->getSceneManager()->getMesh(info._messPath.c_str());
     irr::core::vector3df scale(size / info._size.X,
                                size / info._size.Y,
                                size / info._size.Z);
 
-    dest.emplace_back(_d->_sceneManagers.at(1)->getSceneManager()->addAnimatedMeshSceneNode(mesh));
+    dest.emplace_back(_d->_sceneManagers.at("game")->getSceneManager()->addAnimatedMeshSceneNode(mesh));
     dest.back()->setScale(scale);
 }
 
@@ -205,6 +205,4 @@ void    IrrlichtDisplayLoader::loadMenu(const std::unique_ptr<Menu> &menu)
     101, L"Quit", L"Exits Program");
     gui->addButton(irr::core::rect<irr::s32>(screenSize.Width - 110, 240, screenSize.Width - 10, 240 + 32), 0,
         102, L"Start Game", L"Start Game");
-//    Events *receiver = new Events(device, _d);
-//    device->setEventReceiver(receiver);
 }

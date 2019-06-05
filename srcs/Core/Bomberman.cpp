@@ -130,6 +130,10 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
     _dispLoader->loadGame(_game);
     _dispLoader->loadMap(_map->getMapData());
     _dispLoader->loadMenu(menu);
+
+    // NOTE TEMPO
+    _event = std::make_unique<Events>(Events(_display->_device, _display));
+    _display->_device->setEventReceiver(_event.get());
 }
 
 void    core::Bomberman::lauch()
@@ -140,12 +144,11 @@ void    core::Bomberman::lauch()
     disp->setDisplay(_event.get());
     auto dispLoader = std::shared_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp));
     setDisplayer(disp, dispLoader);
-//    setSceneManager(dispLoader);
-    initGame();
+    initGame(_event.get());
     run();
 }
 
-void    core::Bomberman::initGame()
+void    core::Bomberman::initGame(Events *event)
 {
    auto players = std::vector<std::unique_ptr<Player>>();
     players.push_back(std::make_unique<Player>(Player(0, ACharacter::Color::BLACK,

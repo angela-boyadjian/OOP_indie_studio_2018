@@ -17,9 +17,10 @@ void    IrrlichtDisplay::setDisplay(Events *events)
     _gui = std::unique_ptr<irr::gui::IGUIEnvironment>(_device->getGUIEnvironment());
     _driver = _device->getVideoDriver();
 
-    _sceneManagers.push_back(std::shared_ptr<ISceneManager>(new MenuScene(_device, _driver)));
-    _sceneManagers.push_back(std::shared_ptr<ISceneManager>(new GameScene(_device, _driver)));
-    _currentScene = _sceneManagers.at(0);
+    _sceneManagers.insert(std::pair<std::string, Scenes>("menu", std::shared_ptr<ISceneManager>(new MenuScene(_device, _driver))));
+    _sceneManagers.insert(std::pair<std::string, Scenes>("game", std::shared_ptr<ISceneManager>(new GameScene(_device, _driver))));
+    _currentScene = "menu";
+//    _currentScene = "game";
 }
 
 irr::core::vector3df    IrrlichtDisplay::pos3dToVector(const IDisplay::pos3d &pos)
@@ -30,8 +31,8 @@ irr::core::vector3df    IrrlichtDisplay::pos3dToVector(const IDisplay::pos3d &po
 void    IrrlichtDisplay::addNewAnimation(const char *meshPath, const char *scenePath,
     const pos3d &scale)
 {
-    _sceneManagers.at(1)->addNewMesh(meshPath);
-    _sceneManagers.at(1)->addNewMeshScene(scenePath, pos3dToVector(scale));
+    _sceneManagers.at("game")->addNewMesh(meshPath);
+    _sceneManagers.at("game")->addNewMeshScene(scenePath, pos3dToVector(scale));
 }
 
 bool    IrrlichtDisplay::isRunning() const
@@ -47,7 +48,7 @@ void    IrrlichtDisplay::setGuiMessage(const wchar_t *message)
 void    IrrlichtDisplay::draw()
 {
     _driver->beginScene(true, true, irr::video::SColor(255,100,101,140));
-    _currentScene->getSceneManager()->drawAll();
+    _sceneManagers.at(_currentScene)->getSceneManager()->drawAll();
     _gui->drawAll();
     _driver->endScene();
 }
@@ -84,7 +85,7 @@ IDisplay::Map3D &IrrlichtDisplay::getNonColiMap()
 void    IrrlichtDisplay::changeModelPos(const std::size_t &i, const pos3d &vec)
 {
     auto newVec = pos3dToVector(vec);
-    auto meshsScene = _sceneManagers.at(1)->getMeshScenes();
+    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
 
     newVec.X += 5400;
     newVec.Y += 808;
@@ -94,13 +95,13 @@ void    IrrlichtDisplay::changeModelPos(const std::size_t &i, const pos3d &vec)
 
 void    IrrlichtDisplay::changeModelRot(const std::size_t &i, const pos3d &vec)
 {
-    auto meshsScene = _sceneManagers.at(1)->getMeshScenes();
+    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
     meshsScene[i]->setRotation(pos3dToVector((vec)));
 }
 
 void    IrrlichtDisplay::changeModelFrame(const std::size_t &i, const std::size_t &a, const std::size_t &b)
 {
-    auto meshsScene = _sceneManagers.at(1)->getMeshScenes();
+    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
     meshsScene[i]->setFrameLoop(a, b);
 }
 
@@ -128,7 +129,7 @@ bool    IrrlichtDisplay::isCollisionFromObstacles(irr::core::aabbox3d<irr::f32> 
 
 bool    IrrlichtDisplay::isCollision(const std::size_t &target)
 {
-    auto meshsScene = _sceneManagers.at(1)->getMeshScenes();
+    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
     auto b = meshsScene[target]->getBoundingBox();
     meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
     return isCollisionFromMap(b) || isCollisionFromObstacles(b);
@@ -136,7 +137,7 @@ bool    IrrlichtDisplay::isCollision(const std::size_t &target)
 
 void    IrrlichtDisplay::destroyCollision(const std::size_t &target)
 {
-    auto meshsScene = _sceneManagers.at(1)->getMeshScenes();
+    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
     auto b = meshsScene[target]->getBoundingBox();
     meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
     for (std::size_t i {0}; i < _coliMap.size(); ++i) {
@@ -147,14 +148,14 @@ void    IrrlichtDisplay::destroyCollision(const std::size_t &target)
     }
 }
 
-void    IrrlichtDisplay::changeScene()
+void    IrrlichtDisplay::changeScene(std::string const &scene)
 {
-    if (_currentScene == _sceneManagers.at(0)) {
-        _currentScene = _sceneManagers.at(1);
+    if (_currentScene == "menu") {
+        _currentScene = "game";
         _device->getCursorControl()->setVisible(false);
         _gui->clear();
     } else {
-        _currentScene = _sceneManagers.at(0);
+        _currentScene = "game";
         _device->getCursorControl()->setVisible(true);
     }
 }

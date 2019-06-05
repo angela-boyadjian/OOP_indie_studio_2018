@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <map>
 #include "ISceneManager.hpp"
 
 class Events;
@@ -34,7 +35,7 @@ public:
     virtual void    setGuiMessage(const wchar_t *) = 0;
 
     // NOTE SCENES FUNCTIONS
-    virtual void    changeScene() = 0;
+    virtual void    changeScene(std::string const &) = 0;
 
     // NOTE DRAW FUNCTIONS
     virtual void    draw() = 0;
@@ -58,7 +59,7 @@ public:
     VideoDriver         _driver;
 
     // TEMPO
-    std::vector<Scenes> _sceneManagers;
+    std::map<std::string, Scenes> _sceneManagers;
 public:
     Device              _device;
 };

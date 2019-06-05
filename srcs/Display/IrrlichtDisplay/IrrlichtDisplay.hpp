@@ -54,7 +54,7 @@ public:
     Map3D   &getNonColiMap() final;
 
    // NOTE SCENES FUNCTIONS
-    void    changeScene();
+    void    changeScene(std::string const &);
 
     void    changeModelPos(const std::size_t &, const pos3d &) final;
     void    changeModelRot(const std::size_t &, const pos3d &) final;
@@ -69,7 +69,7 @@ public:
 
 private:
     Gui                 _gui;
-    Scenes _currentScene;
+    std::string     _currentScene;
 
     // TEMPO
     Map3D _map3d;

@@ -34,8 +34,10 @@ public:
 
     bool    OnEvent(const Event& event)
     {
-        if (isInputEvent(event))
+        if (isInputEvent(event)) {
+//            std::cout << "pass" << std::endl;
             _keyIsPressed[event.KeyInput.Key] = event.KeyInput.PressedDown;
+        }
         if(isGuiEvent(event)) {
             index id = event.GUIEvent.Caller->getID();
             if (id == GUI_ID_QUIT_BUTTON &&
@@ -44,7 +46,7 @@ public:
                 return true;
             } else if (id == GUI_ID_START_BUTTON &&
                 event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
-                _display->changeScene();
+                _display->changeScene("game");
                 return true;
             }
         }

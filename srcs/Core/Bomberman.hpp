@@ -47,7 +47,7 @@ public:
 
     // LAUNCH CORE
     void    lauch();
-    void    initGame();
+    void    initGame(Events *event);
 
 private:
     std::unique_ptr<IMap>           _map;
