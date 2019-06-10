@@ -47,6 +47,7 @@ public:
     virtual Map3D   &getMap() = 0;
     virtual Map3D   &getColiMap() = 0;
     virtual Map3D   &getNonColiMap() = 0;
+    virtual Map3D   &getBombsMap() = 0;
 
     virtual void    changeModelPos(const std::size_t &, const pos3d &) = 0;
     virtual void    changeModelRot(const std::size_t &, const pos3d &) = 0;
@@ -54,6 +55,7 @@ public:
 
     virtual bool    isCollision(const std::size_t &) = 0;
     virtual void    destroyCollision(const std::size_t &) = 0;
+    virtual void    setBombState(const std::size_t &, bool) = 0;
 
     // TEMPO
     VideoDriver         _driver;
