@@ -116,6 +116,7 @@ void    ABombermanPlayer::bomb(IDisplay *d)
         decreaseBombNumber();
         b.place();
         b.setOn(true);
+        d->setBombState(getEntityNb(), true);
         d->destroyCollision(getEntityNb());
     }
 }

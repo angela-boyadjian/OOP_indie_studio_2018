@@ -177,13 +177,20 @@ void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
 
 void IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture, IDisplay::Map3D &dest)
 {
-    auto scale = std::make_tuple(2, 2, 2);
     auto mesh = _d->_sceneManagers.at("game")->getSceneManager()->getMesh(res);
-
-    _d->addNewAnimation(res, texture.c_str(), scale);
     auto i = _d->_sceneManagers.at("game")->getSceneManager()->addAnimatedMeshSceneNode(mesh);
-    // i->setVisible();
+
     dest.emplace_back(i);
+     irr::core::vector3df scale(2 / 2,
+                               2 / 2,
+                               2/ 2);
+    dest.back()->setScale(scale);
+    irr::core::vector3df pos(5400, 815, 5200);
+    dest.back()->setPosition(pos);
+    dest.back()->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    dest.back()->setMaterialTexture(0, _d->_driver->getTexture(
+        texture.c_str()));
+    dest.back()->setVisible(false);
 }
 
 void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)

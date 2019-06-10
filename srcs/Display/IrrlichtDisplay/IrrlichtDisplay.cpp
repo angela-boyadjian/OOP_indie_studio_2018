@@ -156,7 +156,7 @@ void    IrrlichtDisplay::destroyCollision(const std::size_t &target)
 void    IrrlichtDisplay::setBombState(const std::size_t &target, bool isVisible)
 {
     for (auto &b : _bombsMap)
-        b.get()->setVisible(false);
+        b.get()->setVisible(true);
 }
 
 void    IrrlichtDisplay::changeScene(std::string const &scene)

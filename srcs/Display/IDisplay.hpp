@@ -55,6 +55,7 @@ public:
 
     virtual bool    isCollision(const std::size_t &) = 0;
     virtual void    destroyCollision(const std::size_t &) = 0;
+    virtual void    setBombState(const std::size_t &, bool) = 0;
 
     // TEMPO
     VideoDriver         _driver;
