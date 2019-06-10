@@ -42,12 +42,12 @@ bool    IrrlichtDisplay::isRunning() const
 
 void    IrrlichtDisplay::setGuiMessage(const wchar_t *message)
 {
-    _gui->addStaticText(message, irr::core::rect<irr::s32>(10,10,260,22), true);
+    _gui->addStaticText(message, irr::core::rect<irr::s32>(10, 10, 260, 22), true);
 }
 
 void    IrrlichtDisplay::draw()
 {
-    _driver->beginScene(true, true, irr::video::SColor(255,100,101,140));
+    _driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
     _sceneManagers.at(_currentScene)->getSceneManager()->drawAll();
     _gui->drawAll();
     _driver->endScene();
