@@ -24,6 +24,7 @@ public:
     using AnimTerrain = std::unique_ptr<irr::scene::ISceneNodeAnimator>;
     using AnimatedMeshs = std::vector<std::unique_ptr<irr::scene::IAnimatedMesh>>;
     using AnimatedMeshsScene = std::vector<std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>>;
+    using SceneNodes = std::vector<std::unique_ptr<irr::scene::ISceneNode>>;
 
     // NOTE CONSTRUCTOR / DESTRUCTOR
     IrrlichtDisplay();
@@ -33,6 +34,7 @@ public:
     irr::core::vector3df    pos3dToVector(const pos3d &);
     // SET OBJECT
     void    setDisplay(Events *) final;
+    void    setBombState(const std::size_t &, bool);
 
     void    addNewAnimation(const char *, const char *, const pos3d &) final;
 
@@ -52,6 +54,7 @@ public:
     Map3D   &getMap() final;
     Map3D   &getColiMap() final;
     Map3D   &getNonColiMap() final;
+    Map3D   &getBombsMap() final;
 
    // NOTE SCENES FUNCTIONS
     void    changeScene(std::string const &);
@@ -70,7 +73,7 @@ public:
 private:
     Gui                 _gui;
     std::string     _currentScene;
-
+    Map3D    _bombsMap;
     // TEMPO
     Map3D _map3d;
     Map3D _coliMap;

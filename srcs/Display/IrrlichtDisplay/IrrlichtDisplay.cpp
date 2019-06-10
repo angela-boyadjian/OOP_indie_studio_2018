@@ -77,6 +77,11 @@ IDisplay::Map3D &IrrlichtDisplay::getColiMap()
     return _coliMap;
 }
 
+IDisplay::Map3D &IrrlichtDisplay::getBombsMap()
+{
+    return _bombsMap;
+}
+
 IDisplay::Map3D &IrrlichtDisplay::getNonColiMap()
 {
     return _noncoliMap;
@@ -146,6 +151,12 @@ void    IrrlichtDisplay::destroyCollision(const std::size_t &target)
         if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())
             _coliMap[i]->setVisible(false);
     }
+}
+
+void    IrrlichtDisplay::setBombState(const std::size_t &target, bool isVisible)
+{
+    for (auto &b : _bombsMap)
+        b.get()->setVisible(false);
 }
 
 void    IrrlichtDisplay::changeScene(std::string const &scene)

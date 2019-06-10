@@ -175,9 +175,15 @@ void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
                         std::make_tuple(6, 6, 6));
 }
 
-void IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture)
+void IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture, IDisplay::Map3D &dest)
 {
-    _d->addNewAnimation(res, texture.c_str(), std::make_tuple(2, 2, 2));
+    auto scale = std::make_tuple(2, 2, 2);
+    auto mesh = _d->_sceneManagers.at("game")->getSceneManager()->getMesh(res);
+
+    _d->addNewAnimation(res, texture.c_str(), scale);
+    auto i = _d->_sceneManagers.at("game")->getSceneManager()->addAnimatedMeshSceneNode(mesh);
+    // i->setVisible();
+    dest.emplace_back(i);
 }
 
 void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
@@ -186,12 +192,8 @@ void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
         loadPlayer(bot->_color, bot->_textures);
     for (auto &player : game->getPlayers()) {
         loadPlayer(player->_color, player->_textures);
-        for (auto b : player->getBombs())
-            if (b.isOn()) {
-                std::cout << "ENTER\n";
-                loadBomb(b.getRes().c_str(), b.getTexture());
-                b.setOn(false);
-            }
+        auto b {player->getBombs()};
+        loadBomb(b[0].getRes().c_str(), b[0].getTexture(), _d->getBombsMap());
     }
 }
 
