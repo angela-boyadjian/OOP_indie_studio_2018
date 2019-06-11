@@ -77,7 +77,7 @@ IDisplay::Map3D &IrrlichtDisplay::getColiMap()
     return _coliMap;
 }
 
-IDisplay::Map3D &IrrlichtDisplay::getBombsMap()
+IDisplay::BombsVec &IrrlichtDisplay::getBombsMap()
 {
     return _bombsMap;
 }
@@ -140,11 +140,12 @@ bool    IrrlichtDisplay::isCollision(const std::size_t &target)
     return isCollisionFromMap(b) || isCollisionFromObstacles(b);
 }
 
-void    IrrlichtDisplay::destroyCollision(const std::size_t &target)
+void    IrrlichtDisplay::destroyCollision(std::shared_ptr<irr::scene::IAnimatedMeshSceneNode> scene)
 {
-    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
-    auto b = meshsScene[target]->getBoundingBox();
-    meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
+    // auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+    // auto b = meshsScene[target]->getBoundingBox();
+    auto b = scene->getBoundingBox();
+    scene->getRelativeTransformation().transformBoxEx(b);
     for (std::size_t i {0}; i < _coliMap.size(); ++i) {
         auto b2 = _coliMap[i]->getBoundingBox();
         _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
