@@ -70,8 +70,6 @@ void IrrlichtDisplayLoader::loadMapEdgeSide(const MapData &map)
     auto y = 10.0f + posY;
     auto z = 30.0f + posZ;
     auto pos = map._rulesWall.find('/');
-    auto toto = map._rulesWall.find('x');
-    auto last = map._mapWall[0].size();
 
     for (std::size_t i = 0; i != map._mapWall.size(); i++) {
         auto x = map._mapWall[i].size() * 10.0f + posX;
@@ -163,7 +161,7 @@ void IrrlichtDisplayLoader::loadMapGround(const MapData &map)
 void IrrlichtDisplayLoader::loadMap(const MapData &map)
 {
     loadMapWall(map);
-    //loadMapGround(map);
+    loadMapGround(map);
 }
 
 static const char *res = "../resources/models/Character/Bomberman.MD3";
