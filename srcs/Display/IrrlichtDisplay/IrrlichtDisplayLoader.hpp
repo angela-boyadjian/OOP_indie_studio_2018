@@ -34,7 +34,8 @@ public:
     void loadMapEdgeTop(const MapData &);
     void loadMapEdgeSide(const MapData &);
     void loadMapEdgeLow(const MapData &);
-    void DifSizeManage(int, const irr::core::vector3df &);
+    void loadEdge(const MapData &);
+
     //void loadMap
     void preloadMapWall(const MapData &) final;
     bool loadTileMap(const SpriteInfo &, float, IDisplay::Map3D &);

@@ -51,8 +51,17 @@ bool IrrlichtDisplayLoader::loadTileMap(const SpriteInfo &info, float size,
     return true;
 }
 
-void DifSizeManage(int diff, const irr::core::vector3df &pos)
+void IrrlichtDisplayLoader::loadEdge(const MapData &map)
 {
+    int x = 0;
+    int y = 0;
+    int start = 0;
+
+    while (map._mapWall[start][0] == ' ') {
+        std::cout << map._mapWall[start][0] << std::endl;
+        start++;
+    }
+    y = start;
     
 }
 
@@ -102,6 +111,7 @@ void IrrlichtDisplayLoader::loadMapEdgeLow(const MapData &map)
 
 void IrrlichtDisplayLoader::preloadMapWall(const MapData &map)
 {
+    //loadEdge(map);
     loadMapEdgeTop(map);
     loadMapEdgeSide(map);
     loadMapEdgeLow(map);

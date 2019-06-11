@@ -38,7 +38,7 @@ public:
 //            std::cout << "pass" << std::endl;
             _keyIsPressed[event.KeyInput.Key] = event.KeyInput.PressedDown;
         }
-        if(isGuiEvent(event)) {
+        if (isGuiEvent(event)) {
             index id = event.GUIEvent.Caller->getID();
             if (id == GUI_ID_QUIT_BUTTON &&
                 event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
