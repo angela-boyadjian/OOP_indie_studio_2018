@@ -127,7 +127,7 @@ void
 IrrlichtDisplayLoader::addTileToMap(const irr::core::vector3df &pos,
                                     const SpriteInfo &info, float size)
 {
-    if (info._referTo == "2") {
+    if (info._is_destructible) {
         loadTileMap(info, size, _d->getColiMap());
         _d->getColiMap().back()->setPosition(pos);
     } else {
@@ -163,7 +163,7 @@ void IrrlichtDisplayLoader::loadMapGround(const MapData &map)
 void IrrlichtDisplayLoader::loadMap(const MapData &map)
 {
     loadMapWall(map);
-    loadMapGround(map);
+    //loadMapGround(map);
 }
 
 static const char *res = "../resources/models/Character/Bomberman.MD3";
