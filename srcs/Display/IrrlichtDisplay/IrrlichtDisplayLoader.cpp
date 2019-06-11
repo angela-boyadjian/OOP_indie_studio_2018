@@ -188,13 +188,13 @@ void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
                         std::make_tuple(6, 6, 6));
 }
 
-void IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture, IDisplay::Map3D &dest)
+void IrrlichtDisplayLoader::loadBomb(Bomb &bomb, IDisplay::BombsVec &dest)
 {
-    auto mesh = _d->_sceneManagers.at("game")->getSceneManager()->getMesh(res);
-    auto i = _d->_sceneManagers.at("game")->getSceneManager()->addAnimatedMeshSceneNode(mesh);
+    auto mesh = _d->_sceneManagers.at("game")->getSceneManager()->getMesh(bomb.getRes().c_str());
+    auto scene = _d->_sceneManagers.at("game")->getSceneManager()->addAnimatedMeshSceneNode(mesh);
 
-    dest.emplace_back(i);
-     irr::core::vector3df scale(2 / 2,
+    dest.emplace_back(scene);
+    irr::core::vector3df scale(2 / 2,
                                2 / 2,
                                2/ 2);
     dest.back()->setScale(scale);
@@ -202,8 +202,9 @@ void IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture
     dest.back()->setPosition(pos);
     dest.back()->setMaterialFlag(irr::video::EMF_LIGHTING, false);
     dest.back()->setMaterialTexture(0, _d->_driver->getTexture(
-        texture.c_str()));
+        bomb.getTexture().c_str()));
     dest.back()->setVisible(false);
+    // bomb.addMesh(scene);
 }
 
 void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
@@ -212,8 +213,9 @@ void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
         loadPlayer(bot->_color, bot->_textures);
     for (auto &player : game->getPlayers()) {
         loadPlayer(player->_color, player->_textures);
-        auto b {player->getBombs()};
-        loadBomb(b[0].getRes().c_str(), b[0].getTexture(), _d->getBombsMap());
+        auto bombs {player->getBombs()};
+        for (auto &b : bombs)
+            loadBomb(b, _d->getBombsMap());
     }
 }
 

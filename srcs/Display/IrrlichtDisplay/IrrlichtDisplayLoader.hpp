@@ -44,9 +44,9 @@ public:
     void loadMenu(const std::unique_ptr<Menu> &) final;
 
     // GAME LOAD
+    void    loadBomb(Bomb &, IDisplay::BombsVec &);
     void    loadGame(const std::unique_ptr<AGame> &) final;
     void    loadPlayer(const ACharacter::Color &, const std::vector<std::string> &) final;
-    void    loadBomb(char const *, std::string const &, IDisplay::Map3D &);
 
 private:
     std::shared_ptr<IDisplay> _d;
