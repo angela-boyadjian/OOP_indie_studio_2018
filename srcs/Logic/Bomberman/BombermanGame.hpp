@@ -14,7 +14,7 @@ public:
     BombermanGame(Players &, Bots &);
     ~BombermanGame() = default;
     ACharacter::Action              pressKeyAction(const Event &, const std::size_t &);
-    std::vector<ACharacter::Action> moveBots(const Map &, IDisplay *) final;
-    std::vector<ACharacter::Action> movePlayers(const Event &, const Map &,
+    std::vector<ACharacter::Action> moveBots(Map &, IDisplay *) final;
+    std::vector<ACharacter::Action> movePlayers(const Event &, Map &,
             IDisplay *) final;
 };

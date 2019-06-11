@@ -50,7 +50,7 @@ std::unordered_map<char, SpriteInfo> Map::loadRules(std::vector<SpriteInfo> &inf
     return map;
 }
 
-MapData Map::getMapData() const
+MapData &Map::getMapData()
 {
     return _data;
 }

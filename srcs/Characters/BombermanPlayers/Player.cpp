@@ -18,7 +18,7 @@ Player::~Player()
 {
 }
 
-void    Player::move(const std::vector<std::string> &map, IDisplay *d)
+void    Player::move(std::vector<std::string> &map, IDisplay *d)
 {
     isWalls(d);
     switch (_action) {

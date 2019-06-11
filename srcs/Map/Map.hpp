@@ -26,7 +26,7 @@ class Map : public IMap {
         // LOAD MAP
         void load();
         std::unordered_map<char, SpriteInfo> loadRules(std::vector<SpriteInfo> &);
-        MapData getMapData() const override;
+        MapData &getMapData() override;
 
     private:
         std::vector<ATile> _mapTiled;

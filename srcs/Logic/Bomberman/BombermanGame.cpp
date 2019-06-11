@@ -11,7 +11,7 @@ BombermanGame::BombermanGame(Players &p, Bots &b) : AGame(p, b)
 {
 }
 
-std::vector<ACharacter::Action> BombermanGame::moveBots(const BombermanGame::Map &map, IDisplay *d)
+std::vector<ACharacter::Action> BombermanGame::moveBots(BombermanGame::Map &map, IDisplay *d)
 {
     std::vector<ACharacter::Action> actionVector;
     for (std::size_t i {0}; i < _bots.size(); ++i) {
@@ -38,7 +38,7 @@ ACharacter::Action  BombermanGame::pressKeyAction(const AGame::Event &events, co
     return action;
 }
 
-std::vector<ACharacter::Action> BombermanGame::movePlayers(const Event &events, const Map &map,
+std::vector<ACharacter::Action> BombermanGame::movePlayers(const Event &events, Map &map,
         IDisplay *d)
 {
     std::vector<ACharacter::Action> actionVector;

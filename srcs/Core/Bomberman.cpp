@@ -52,6 +52,7 @@ void core::Bomberman::run()
             std::get<0>(_game->getBots()[0]->getMapPos()),
             std::get<1>(_game->getBots()[0]->getMapPos()),
             std::get<2>(_game->getBots()[0]->getMapPos())));
+    _map->getMapData()._mapWall[10][0] = '0';
     while (_display->isRunning()) {
         action();
         _display->draw();

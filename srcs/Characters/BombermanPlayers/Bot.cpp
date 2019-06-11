@@ -53,10 +53,13 @@ bool            Bot::isInDanger()
 std::size_t Bot::getDistanceUp(float x, float y)
 {
     std::size_t count {0};
-    while (--y > 0) {
-        if (_transformedMap[y][x] != '0' or _transformedMap[y][x] != '3')
+    if (--y > 0)
+        return 84;
+    while (y > 0) {
+        if (_transformedMap[y][x] == '0' and _transformedMap[y][x] == '3')
             return count;
         count += 1;
+        --y;
     }
     return count;
 }
@@ -64,10 +67,13 @@ std::size_t Bot::getDistanceUp(float x, float y)
 std::size_t Bot::getDistanceDown(float x, float y)
 {
     std::size_t count {0};
-    while (++y < _transformedMap.size()) {
-        if (_transformedMap[y][x] != '0' or _transformedMap[y][x] != '3')
+    if (++y < _transformedMap.size())
+        return 84;
+    while (y < _transformedMap.size()) {
+        if (_transformedMap[y][x] == '0' and _transformedMap[y][x] == '3')
             return count;
         count += 1;
+        ++y;
     }
     return count;
 }
@@ -75,10 +81,13 @@ std::size_t Bot::getDistanceDown(float x, float y)
 std::size_t Bot::getDistanceLeft(float x, float y)
 {
     std::size_t count {0};
-    while (--x > 0) {
-        if (_transformedMap[y][x] != '0' or _transformedMap[y][x] != '3')
+    if (--x > 0)
+        return 84;
+    while (x > 0) {
+        if (_transformedMap[y][x] == '0' and _transformedMap[y][x] == '3')
             return count;
         count += 1;
+        --x;
     }
     return count;
 }
@@ -86,10 +95,13 @@ std::size_t Bot::getDistanceLeft(float x, float y)
 std::size_t Bot::getDistanceRight(float x, float y)
 {
     std::size_t count {0};
-    while (++x < _transformedMap[y].size()) {
-        if (_transformedMap[y][x] != '0')
+    if (++x < _transformedMap[y].size())
+        return 84;
+    while (x < _transformedMap[y].size()) {
+        if (_transformedMap[y][x] == '0' or _transformedMap[y][x] == '3')
             return count;
         count += 1;
+        ++x;
     }
     return count;
 }
@@ -111,7 +123,7 @@ ACharacter::Action  Bot::getOutOfDanger()
 {
     std::size_t     index {0};
     auto            distances = getDistancesToSurvive();
-    auto            minElement = std::max_element(distances.begin(), distances.end());
+    auto            minElement = std::min_element(distances.begin(), distances.end());
     for (auto tmp {distances.begin()}; tmp != minElement; ++tmp)
         index += 1;
     return ACharacter::Action(index);
@@ -121,7 +133,7 @@ bool            Bot::isSafe(const float &x, const float &y)
 {
     return y >= 0 and y < _transformedMap.size()
         and x >= 0 and x < _transformedMap[y].size()
-        and (_transformedMap[y][x] == '0' or _transformedMap[y][x] == '3');
+        and _transformedMap[y][x] == '0';
 }
 
 ACharacter::Action  Bot::chooseDirection()
@@ -138,7 +150,7 @@ ACharacter::Action  Bot::chooseDirection()
         directions.push_back(ACharacter::Action::LEFT);
     if (isSafe(posX + 1, posY))
         directions.push_back(ACharacter::Action::RIGHT);
-    if (directions.size() == 0)
+    if (directions.empty())
         std::cout << "grosse pute" << std::endl;
     auto randDirection = std::rand() / (RAND_MAX + directions.size());
     return directions.empty() ? ACharacter::Action::WAIT : directions[randDirection];
@@ -147,10 +159,10 @@ ACharacter::Action  Bot::chooseDirection()
 void    Bot::changePosition(const ACharacter::Action &a) {
     if (a == ACharacter::Action::UP) {
         std::get<2>(_pos) += 10;
-        std::get<1>(_2dPos) += 1;
+        std::get<1>(_2dPos) -= 1;
     } else if (a == ACharacter::Action::DOWN) {
         std::get<2>(_pos) -= 10;
-        std::get<1>(_2dPos) -= 1;
+        std::get<1>(_2dPos) += 1;
     } else if (a == ACharacter::Action::LEFT) {
         std::get<0>(_pos) -= 10;
         std::get<0>(_2dPos) -= 1;
@@ -202,19 +214,20 @@ void    Bot::putBomb()
         _transformedMap[posY][posX + 1] = '3';
 }
 
-void    Bot::move(const std::vector<std::string> &map, IDisplay *d)
+void    Bot::move(std::vector<std::string> &map, IDisplay *d)
 {
     static auto c = std::chrono::system_clock::now();
     auto count {0};
 
     _transformedMap = map;
     std::chrono::duration<double> diff = std::chrono::system_clock::now() - c;
-    if (diff.count() > 0.3)
+    if (diff.count() > 1)
         c = std::chrono::system_clock::now();
     else
         return;
     for (auto t : _transformedMap)
         std::cout << t << std::endl;
+    std::cout << std::endl;
     Action  a;
 //    if (_bombNumber == 0 && count % 10 == 0) {
 //        _bombNumber += 1;
@@ -224,6 +237,7 @@ void    Bot::move(const std::vector<std::string> &map, IDisplay *d)
         a = getOutOfDanger();
         changePosition(a);
     } else if (isMomentForBomb()) {
+        std::cout << "BOMB" << std::endl;
         a = ACharacter::Action::BOMB;
         putBomb();
         decreaseBombNumber();
@@ -231,6 +245,7 @@ void    Bot::move(const std::vector<std::string> &map, IDisplay *d)
         a = chooseDirection();
         changePosition(a);
     }
+    map = _transformedMap;
     _lastDirection = a;
     ++count;
 }
