@@ -11,6 +11,7 @@ Player::Player(const std::size_t &enb, ACharacter::Color color, MapPos const &po
     ABombermanPlayer(enb, pos, color)
 {
     _action = ACharacter::Action::WAIT;
+    _2dPos = std::make_tuple(0, 0);
 }
 
 Player::~Player()
