@@ -17,8 +17,6 @@ Player::~Player()
 {
 }
 
-
-
 void    Player::move(const std::vector<std::string> &map, IDisplay *d)
 {
     isWalls(d);

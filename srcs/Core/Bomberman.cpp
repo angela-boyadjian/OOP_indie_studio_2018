@@ -6,10 +6,11 @@
 */
 
 #include <iostream>
-#include <IrrlichtDisplay/IrrlichtDisplayLoader.hpp>
+#include <IrrlichtDisplayLoader.hpp>
 
 #include "Bomberman.hpp"
 #include "ACharacter.hpp"
+#include "Menu.hpp"
 
 core::Bomberman::Bomberman()
 {
@@ -26,10 +27,14 @@ void core::Bomberman::setGame(std::unique_ptr<AGame> &g)
 }
 
 void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
-        std::unique_ptr<IDisplayLoader> &dl)
+        std::shared_ptr<IDisplayLoader> &dl)
 {
     _display = std::move(d);
     _dispLoader = std::move(dl);
+}
+
+void core::Bomberman::setSceneManager(std::shared_ptr<IDisplayLoader> &dl)
+{
 }
 
 void core::Bomberman::run()
@@ -117,28 +122,35 @@ void    core::Bomberman::changeFrameAndPos(const ACharacter *cha, const ACharact
 
 void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
 {
+    auto menu = std::unique_ptr<Menu>(new Menu());
+
     _map = std::unique_ptr<IMap>(new Map(mapPath));
     _map->load();
     _game = std::move(game);
     _dispLoader->loadGame(_game);
     _dispLoader->loadMap(_map->getMapData());
+    _dispLoader->loadMenu(menu);
+
+    // NOTE TEMPO
+    _event = std::make_unique<Events>(Events(_display->_device, _display));
+    _display->_device->setEventReceiver(_event.get());
 }
 
 void    core::Bomberman::lauch()
 {
     auto disp = std::shared_ptr<IDisplay>(new IrrlichtDisplay());
     std::cout << "1" << std::endl;
-    _event = std::make_unique<Events>(Events(disp->_device));
+    _event = std::make_unique<Events>(Events(disp->_device, _display));
     disp->setDisplay(_event.get());
-    auto dispLoader = std::unique_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp));
+    auto dispLoader = std::shared_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp));
     setDisplayer(disp, dispLoader);
-    initGame();
+    initGame(_event.get());
     run();
 }
 
-void    core::Bomberman::initGame()
+void    core::Bomberman::initGame(Events *event)
 {
-    auto players = std::vector<std::unique_ptr<Player>>();
+   auto players = std::vector<std::unique_ptr<Player>>();
     players.push_back(std::make_unique<Player>(Player(0, ACharacter::Color::BLACK,
                                                       std::make_tuple(std::size_t(0), std::size_t(0), std::size_t(0)))));
     auto bots = std::vector<std::unique_ptr<Bot>>();

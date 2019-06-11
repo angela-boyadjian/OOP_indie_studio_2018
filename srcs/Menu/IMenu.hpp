@@ -9,5 +9,5 @@
 
 class IMenu {
     public:
-    virtual void load(IrrlichtDisplay &) = 0;
+    virtual void load() = 0;
 };

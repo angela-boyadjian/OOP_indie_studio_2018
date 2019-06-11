@@ -7,7 +7,11 @@
 
 #pragma once
 
+#include "Menu.hpp"
 #include "MapData.hpp"
+#include "AGame.hpp"
+
+class Menu;
 
 class IDisplayLoader {
 public:
@@ -16,6 +20,9 @@ public:
     virtual void    loadMapWall(const MapData &) = 0;
     virtual void    loadMapGround(const MapData &) = 0;
     virtual void    preloadMapWall(const MapData &) = 0;
+
+    // NOTE MENU LOAD
+    virtual void    loadMenu(const std::unique_ptr<Menu> &) = 0;
 
     // GAME LOADER
     virtual void    loadGame(const std::unique_ptr<AGame> &) = 0;

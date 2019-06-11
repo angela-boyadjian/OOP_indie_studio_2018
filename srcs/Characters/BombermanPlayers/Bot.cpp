@@ -5,9 +5,11 @@
 ** Bot
 */
 
+#include <chrono>
 #include <cstdlib>
 #include <iostream>
 #include <algorithm>
+#include <chrono>
 
 #include "Bot.hpp"
 
@@ -211,7 +213,14 @@ void    Bot::putBomb()
 void    Bot::move(const std::vector<std::string> &map, IDisplay *d)
 {
     static bool flag = true;
+    static auto c = std::chrono::system_clock::now();
     auto count {0};
+
+    std::chrono::duration<double> diff = std::chrono::system_clock::now() - c;
+    if (diff.count() > 0.3)
+        c = std::chrono::system_clock::now();
+    else
+        return;
     if (flag) {
         _transformedMap = tmp_map;
         flag = false;

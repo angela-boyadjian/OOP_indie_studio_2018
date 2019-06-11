@@ -4,8 +4,10 @@
 ** File description:
 ** Map
 */
-#include <irrlicht.h>
+
 // #include <zconf.h>
+
+#include <irrlicht.h>
 
 #include "Map.hpp"
 #include "IrrlichtDisplay/IrrlichtDisplay.hpp"

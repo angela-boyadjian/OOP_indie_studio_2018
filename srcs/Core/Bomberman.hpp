@@ -14,6 +14,7 @@
 #include "AGame.hpp"
 #include "BombermanPlayers/Player.hpp"
 #include "IDisplayLoader.hpp"
+#include "ISceneManager.hpp"
 
 namespace core {
     class Bomberman;
@@ -30,7 +31,8 @@ public:
 
     // SETTERS
     void    setGame(std::unique_ptr<AGame> &);
-    void    setDisplayer(std::shared_ptr<IDisplay> &, std::unique_ptr<IDisplayLoader> &);
+    void    setDisplayer(std::shared_ptr<IDisplay> &, std::shared_ptr<IDisplayLoader> &);
+    void    setSceneManager(std::shared_ptr<IDisplayLoader> &);
 
     // load resources
     void    loadGame(const std::string &, std::unique_ptr<AGame> &);
@@ -45,13 +47,15 @@ public:
 
     // LAUNCH CORE
     void    lauch();
-    void    initGame();
+    void    initGame(Events *event);
 
 private:
     std::unique_ptr<IMap>           _map;
     std::unique_ptr<AGame>          _game;
     Event                           _event;
     std::shared_ptr<IDisplay>       _display;
-    std::unique_ptr<IDisplayLoader> _dispLoader;
+    std::shared_ptr<IDisplayLoader> _dispLoader;
     std::map<std::size_t, ACharacter::Action>   _lastActions;
+
+//    std::vector<IDisplay::Scenes> _sceneManager;
 };

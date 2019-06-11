@@ -17,13 +17,17 @@ struct SpriteInfo {
 
     SpriteInfo(const std::string &referTo, const std::string &messPath,
                const std::string &textPath,
-               const irr::core::vector3df &size) : _referTo(referTo),
-                                                   _messPath(messPath),
-                                                   _texPath(textPath),
-                                                   _size(size)
+               const irr::core::vector3df &size, bool is_destructible)
+        : _referTo(referTo),
+          _messPath(messPath),
+          _texPath(textPath),
+          _size(size),
+          _is_destructible(is_destructible)
     {}
+
     std::string _referTo;
     std::string _messPath;
     std::string _texPath;
     irr::core::vector3df _size;
+    bool _is_destructible;
 };

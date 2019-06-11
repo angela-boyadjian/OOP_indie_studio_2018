@@ -16,57 +16,11 @@ void    IrrlichtDisplay::setDisplay(Events *events)
     _device->setWindowCaption(L"Bomberman");
     _gui = std::unique_ptr<irr::gui::IGUIEnvironment>(_device->getGUIEnvironment());
     _driver = _device->getVideoDriver();
-    _scenes = _device->getSceneManager();
-    setCameraScene();
-    setTerrain();
-    setSkyDome();
-}
 
-void    IrrlichtDisplay::setTerrain()
-{
-    initTerrain();
-    _selector = std::unique_ptr<irr::scene::ITriangleSelector>
-            (_scenes->createTerrainTriangleSelector(_terrain.get(), 0));
-    _terrain->setTriangleSelector(_selector.get());
-    initAnimTerrain();
-    _selector->drop();
-    _camera->addAnimator(_animTerrain.get());
-    _animTerrain->drop();
-}
-
-void    IrrlichtDisplay::setSkyDome()
-{
-    _driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
-    _scenes->addSkyDomeSceneNode(_driver->getTexture("../lib/irrLicht/media/skydome.jpg"),16,8,0.95f,2.0f);
-    _driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
-}
-
-void    IrrlichtDisplay::initTerrain()
-{
-    _terrain = std::unique_ptr<irr::scene::ITerrainSceneNode>(_scenes->addTerrainSceneNode(
-            "../lib/irrLicht/media/terrain-heightmap.bmp",
-            nullptr, -1, irr::core::vector3df(0.f, 0.f, 0.f),
-            irr::core::vector3df(0.f, 0.f, 0.f), irr::core::vector3df(40.f, 4.4f, 40.f),
-            irr::video::SColor ( 255, 255, 255, 255 ), 5, irr::scene::ETPS_17, 4
-    ));
-    setTerrainMaterial();
-    _terrain->scaleTexture(1.0f, 20.0f);
-}
-
-void    IrrlichtDisplay::initAnimTerrain()
-{
-    _animTerrain = std::unique_ptr<irr::scene::ISceneNodeAnimator>(_scenes->createCollisionResponseAnimator(
-            _selector.get(), _camera.get(), irr::core::vector3df(60,100,60),
-            irr::core::vector3df(0,0,0),
-            irr::core::vector3df(0,50,0)));
-}
-
-void    IrrlichtDisplay::setTerrainMaterial()
-{
-    _terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    _terrain->setMaterialTexture(0, _driver->getTexture("../lib/irrLicht/media/terrain-texture.jpg"));
-    _terrain->setMaterialTexture(1, _driver->getTexture("../lib/irrLicht/media/detailmap3.jpg"));
-    _terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
+    _sceneManagers.insert(std::pair<std::string, Scenes>("menu", std::shared_ptr<ISceneManager>(new MenuScene(_device, _driver))));
+    _sceneManagers.insert(std::pair<std::string, Scenes>("game", std::shared_ptr<ISceneManager>(new GameScene(_device, _driver))));
+    _currentScene = "menu";
+//    _currentScene = "game";
 }
 
 irr::core::vector3df    IrrlichtDisplay::pos3dToVector(const IDisplay::pos3d &pos)
@@ -74,51 +28,11 @@ irr::core::vector3df    IrrlichtDisplay::pos3dToVector(const IDisplay::pos3d &po
     return irr::core::vector3df(std::get<0>(pos), std::get<1>(pos), std::get<2>(pos));
 }
 
-void    IrrlichtDisplay::addNewMesh(const char *meshPath)
-{
-    auto newMesh = _scenes->getMesh(meshPath);
-    if (!newMesh)
-        throw MeshCreationError();
-    _meshs.push_back(std::unique_ptr<irr::scene::IAnimatedMesh>(newMesh));
-}
-
-void    IrrlichtDisplay::setMeshPosRot(irr::scene::IAnimatedMeshSceneNode *newScene)
-{
-    newScene->setRotation(irr::core::vector3df(0, 0, 0));
-    newScene->setPosition(irr::core::vector3df(5400, 810, 5200));
-}
-
-void    IrrlichtDisplay::setMeshFrames(irr::scene::IAnimatedMeshSceneNode *newScene)
-{
-    newScene->setAnimationSpeed(30);
-    newScene->setLoopMode(true);
-    newScene->setFrameLoop(0, 27);
-}
-
-void    IrrlichtDisplay::setMeshAnimation(irr::scene::IAnimatedMeshSceneNode *newScene)
-{
-    newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    newScene->setMD2Animation(irr::scene::EMAT_STAND);
-}
-
-void    IrrlichtDisplay::addNewMeshScene(const char *scenePath, const irr::core::vector3df &scale)
-{
-    auto newScene = _scenes->addAnimatedMeshSceneNode(_meshs.back().get());
-    if (!newScene)
-        throw MeshSceneCreationError();
-    setMeshAnimation(newScene);
-    newScene->setScale(scale);
-    setMeshPosRot(newScene);
-    setMeshFrames(newScene);
-    newScene->setMaterialTexture(0, _driver->getTexture(scenePath));
-    _meshsScene.push_back(std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>(newScene));
-}
-
 void    IrrlichtDisplay::addNewAnimation(const char *meshPath, const char *scenePath,
     const pos3d &scale)
 {
-    addNewMesh(meshPath);
-    addNewMeshScene(scenePath, pos3dToVector(scale));
+    _sceneManagers.at("game")->addNewMesh(meshPath);
+    _sceneManagers.at("game")->addNewMeshScene(scenePath, pos3dToVector(scale));
 }
 
 bool    IrrlichtDisplay::isRunning() const
@@ -131,19 +45,10 @@ void    IrrlichtDisplay::setGuiMessage(const wchar_t *message)
     _gui->addStaticText(message, irr::core::rect<irr::s32>(10,10,260,22), true);
 }
 
-void    IrrlichtDisplay::setCameraScene()
-{
-    _camera = std::unique_ptr<irr::scene::ICameraSceneNode>(_scenes->addCameraSceneNodeFPS(0, 100.0f, 1.2f));
-    _camera->setPosition(irr::core::vector3df(2700*2,900,2600*2));
-    _camera->setTarget(irr::core::vector3df(2397*2,343*2,2700*2));
-    _camera->setFarValue(42000.0f);
-    _device->getCursorControl()->setVisible(false);
-}
-
 void    IrrlichtDisplay::draw()
 {
     _driver->beginScene(true, true, irr::video::SColor(255,100,101,140));
-    _scenes->drawAll();
+    _sceneManagers.at(_currentScene)->getSceneManager()->drawAll();
     _gui->drawAll();
     _driver->endScene();
 }
@@ -172,6 +77,11 @@ IDisplay::Map3D &IrrlichtDisplay::getColiMap()
     return _coliMap;
 }
 
+IDisplay::Map3D &IrrlichtDisplay::getBombsMap()
+{
+    return _bombsMap;
+}
+
 IDisplay::Map3D &IrrlichtDisplay::getNonColiMap()
 {
     return _noncoliMap;
@@ -180,20 +90,24 @@ IDisplay::Map3D &IrrlichtDisplay::getNonColiMap()
 void    IrrlichtDisplay::changeModelPos(const std::size_t &i, const pos3d &vec)
 {
     auto newVec = pos3dToVector(vec);
+    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+
     newVec.X += 5400;
     newVec.Y += 808;
     newVec.Z += 5200;
-    _meshsScene[i]->setPosition(newVec);
+    meshsScene[i]->setPosition(newVec);
 }
 
 void    IrrlichtDisplay::changeModelRot(const std::size_t &i, const pos3d &vec)
 {
-    _meshsScene[i]->setRotation(pos3dToVector(vec));
+    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+    meshsScene[i]->setRotation(pos3dToVector((vec)));
 }
 
 void    IrrlichtDisplay::changeModelFrame(const std::size_t &i, const std::size_t &a, const std::size_t &b)
 {
-    _meshsScene[i]->setFrameLoop(a, b);
+    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+    meshsScene[i]->setFrameLoop(a, b);
 }
 
 bool    IrrlichtDisplay::isCollisionFromMap(irr::core::aabbox3d<irr::f32> &b) const
@@ -220,19 +134,39 @@ bool    IrrlichtDisplay::isCollisionFromObstacles(irr::core::aabbox3d<irr::f32> 
 
 bool    IrrlichtDisplay::isCollision(const std::size_t &target)
 {
-    auto b = _meshsScene[target]->getBoundingBox();
-    _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
+    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+    auto b = meshsScene[target]->getBoundingBox();
+    meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
     return isCollisionFromMap(b) || isCollisionFromObstacles(b);
 }
 
 void    IrrlichtDisplay::destroyCollision(const std::size_t &target)
 {
-    auto b = _meshsScene[target]->getBoundingBox();
-    _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
+    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+    auto b = meshsScene[target]->getBoundingBox();
+    meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
     for (std::size_t i {0}; i < _coliMap.size(); ++i) {
         auto b2 = _coliMap[i]->getBoundingBox();
         _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
         if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())
             _coliMap[i]->setVisible(false);
+    }
+}
+
+void    IrrlichtDisplay::setBombState(const std::size_t &target, bool isVisible)
+{
+    for (auto &b : _bombsMap)
+        b.get()->setVisible(true);
+}
+
+void    IrrlichtDisplay::changeScene(std::string const &scene)
+{
+    if (_currentScene == "menu") {
+        _currentScene = "game";
+        _device->getCursorControl()->setVisible(false);
+        _gui->clear();
+    } else {
+        _currentScene = "game";
+        _device->getCursorControl()->setVisible(true);
     }
 }

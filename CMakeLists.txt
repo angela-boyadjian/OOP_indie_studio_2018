@@ -13,11 +13,15 @@ include_directories(
         srcs/Logic
         srcs/Events
         srcs/Display
+        srcs/Display/IrrlichtDisplay
         srcs/Characters
         srcs/Objects
         srcs/Tool
         srcs/Core
         srcs/Menu
+        srcs/Menu/BombermanMenu
+        srcs/Game
+        srcs/Game/SceneManager
 )
 
 add_executable(${PROJECT_NAME}
@@ -54,6 +58,11 @@ add_executable(${PROJECT_NAME}
         srcs/Display/IrrlichtDisplay/IrrlichtDisplayLoader.cpp
         srcs/Objects/Bomb.cpp
         srcs/Objects/Bomb.hpp
+        srcs/Game/ISceneManager.hpp
+        srcs/Game/SceneManager/GameScene.cpp
+        srcs/Game/SceneManager/GameScene.hpp
+        srcs/Game/SceneManager/MenuScene.cpp
+         srcs/Game/SceneManager/MenuScene.hpp
 )
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)

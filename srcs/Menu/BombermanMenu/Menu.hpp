@@ -14,6 +14,5 @@ class Menu : public IMenu {
     Menu();
     ~Menu();
 
-
-    void load(IrrlichtDisplay &) override;
+    void load() final;
 };

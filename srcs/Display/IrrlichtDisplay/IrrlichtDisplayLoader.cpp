@@ -7,7 +7,9 @@
 
 #include "Bomb.hpp"
 
+#include <irrlicht.h>
 #include "IrrlichtDisplayLoader.hpp"
+#include "IDisplay.hpp"
 
 #define posX 5400.0f
 #define posY 800.0f
@@ -20,20 +22,21 @@ IrrlichtDisplayLoader::IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &d)
 
 void IrrlichtDisplayLoader::loadCube(float size, IDisplay::Map3D &dest)
 {
-    dest.emplace_back(_d->_scenes->addCubeSceneNode(size, 0, -1));
+    dest.emplace_back(_d->_sceneManagers.at("game")->getSceneManager()->addCubeSceneNode(size, 0, -1));
 }
 
 void IrrlichtDisplayLoader::loadMess(const SpriteInfo &info, float size,
                                      IDisplay::Map3D &dest)
 {
-    auto mesh = _d->_scenes->getMesh(info._messPath.c_str());
+    auto mesh = _d->_sceneManagers.at("game")->getSceneManager()->getMesh(info._messPath.c_str());
     irr::core::vector3df scale(size / info._size.X,
                                size / info._size.Y,
                                size / info._size.Z);
 
-    dest.emplace_back(_d->_scenes->addAnimatedMeshSceneNode(mesh));
+    dest.emplace_back(_d->_sceneManagers.at("game")->getSceneManager()->addAnimatedMeshSceneNode(mesh));
     dest.back()->setScale(scale);
 }
+
 
 bool IrrlichtDisplayLoader::loadTileMap(const SpriteInfo &info, float size,
                                         IDisplay::Map3D &dest)
@@ -59,8 +62,8 @@ void IrrlichtDisplayLoader::loadMapEdgeTop(const MapData &map)
     auto z = 40.0f + posZ;
     auto pos = map._rulesWall.find('/');
 
-    for (__attribute__((unused)) auto i = 0;
-         map._mapWall[0].size() + 2 != i; i++) {
+    for (__attribute__((unused)) std::size_t i = 0;
+         map._mapWall[0].size() + 2 != i; ++i) {
         addTileToMap(irr::core::vector3df(x, 10.0f + posY, z), pos->second,
                      10.0f);
         x += 10.0f;
@@ -72,10 +75,8 @@ void IrrlichtDisplayLoader::loadMapEdgeSide(const MapData &map)
     auto y = 10.0f + posY;
     auto z = 30.0f + posZ;
     auto pos = map._rulesWall.find('/');
-    auto toto = map._rulesWall.find('x');
-    auto last = map._mapWall[0].size();
 
-    for (int i = 0; i != map._mapWall.size(); i++) {
+    for (std::size_t i = 0; i != map._mapWall.size(); i++) {
         auto x = map._mapWall[i].size() * 10.0f + posX;
         addTileToMap(irr::core::vector3df(x, y, z), pos->second, 10.0f);
         addTileToMap(irr::core::vector3df(posX - 10.0f, y, z), pos->second,
@@ -91,7 +92,7 @@ void IrrlichtDisplayLoader::loadMapEdgeLow(const MapData &map)
     auto z = 30.0f + posZ - (map._mapWall.size() * 10);
     auto pos = map._rulesWall.find('/');
 
-    for (__attribute__((unused)) auto i = 0;
+    for (__attribute__((unused)) std::size_t i = 0;
          map._mapWall[0].size() + 2 != i; i++) {
         addTileToMap(irr::core::vector3df(x, y, z), pos->second,
                      10.0f);
@@ -129,7 +130,7 @@ void
 IrrlichtDisplayLoader::addTileToMap(const irr::core::vector3df &pos,
                                     const SpriteInfo &info, float size)
 {
-    if (info._referTo == "2") {
+    if (info._is_destructible) {
         loadTileMap(info, size, _d->getColiMap());
         _d->getColiMap().back()->setPosition(pos);
     } else {
@@ -177,19 +178,43 @@ void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
                         std::make_tuple(6, 6, 6));
 }
 
-void
-IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture)
+void IrrlichtDisplayLoader::loadBomb(char const *res, std::string const &texture, IDisplay::Map3D &dest)
 {
-    _d->addNewAnimation(res, texture.c_str(), std::make_tuple(2, 2, 2));
+    auto mesh = _d->_sceneManagers.at("game")->getSceneManager()->getMesh(res);
+    auto i = _d->_sceneManagers.at("game")->getSceneManager()->addAnimatedMeshSceneNode(mesh);
+
+    dest.emplace_back(i);
+     irr::core::vector3df scale(2 / 2,
+                               2 / 2,
+                               2/ 2);
+    dest.back()->setScale(scale);
+    irr::core::vector3df pos(5400, 815, 5200);
+    dest.back()->setPosition(pos);
+    dest.back()->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    dest.back()->setMaterialTexture(0, _d->_driver->getTexture(
+        texture.c_str()));
+    dest.back()->setVisible(false);
 }
 
 void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
 {
-    Bomb b;
-
     for (auto &bot : game->getBots())
         loadPlayer(bot->_color, bot->_textures);
-    for (auto &player : game->getPlayers())
+    for (auto &player : game->getPlayers()) {
         loadPlayer(player->_color, player->_textures);
-    loadBomb(b.getRes().c_str(), b.getTexture());
+        auto b {player->getBombs()};
+        loadBomb(b[0].getRes().c_str(), b[0].getTexture(), _d->getBombsMap());
+    }
+}
+
+void    IrrlichtDisplayLoader::loadMenu(const std::unique_ptr<Menu> &menu)
+{
+    IDisplay::Gui const &gui = _d->getGui();
+    IDisplay::Device const &device = _d->getDevice();
+    auto screenSize = _d->getScreenSize();
+
+    gui->addButton(irr::core::rect<irr::s32>(10, 240, 110, 240 + 32), 0,
+    101, L"Quit", L"Exits Program");
+    gui->addButton(irr::core::rect<irr::s32>(screenSize.Width - 110, 240, screenSize.Width - 10, 240 + 32), 0,
+        102, L"Start Game", L"Start Game");
 }
