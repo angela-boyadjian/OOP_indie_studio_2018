@@ -49,6 +49,9 @@ void    IrrlichtDisplay::draw()
 {
     _driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
     _sceneManagers.at(_currentScene)->getSceneManager()->drawAll();
+//    auto pos = _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera()->getTarget();
+//    std::cout << pos.X << " " << pos.Y << "  " << pos.Z << std::endl;
+    std::cout << _currentScene << std::endl;
     _gui->drawAll();
     _driver->endScene();
 }
@@ -77,7 +80,7 @@ IDisplay::Map3D &IrrlichtDisplay::getColiMap()
     return _coliMap;
 }
 
-IDisplay::Map3D &IrrlichtDisplay::getBombsMap()
+IDisplay::BombsVec &IrrlichtDisplay::getBombsMap()
 {
     return _bombsMap;
 }
@@ -140,11 +143,12 @@ bool    IrrlichtDisplay::isCollision(const std::size_t &target)
     return isCollisionFromMap(b) || isCollisionFromObstacles(b);
 }
 
-void    IrrlichtDisplay::destroyCollision(const std::size_t &target)
+void    IrrlichtDisplay::destroyCollision(std::shared_ptr<irr::scene::IAnimatedMeshSceneNode> scene)
 {
-    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
-    auto b = meshsScene[target]->getBoundingBox();
-    meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
+    // auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+    // auto b = meshsScene[target]->getBoundingBox();
+    auto b = scene->getBoundingBox();
+    scene->getRelativeTransformation().transformBoxEx(b);
     for (std::size_t i {0}; i < _coliMap.size(); ++i) {
         auto b2 = _coliMap[i]->getBoundingBox();
         _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
@@ -161,12 +165,16 @@ void    IrrlichtDisplay::setBombState(const std::size_t &target, bool isVisible)
 
 void    IrrlichtDisplay::changeScene(std::string const &scene)
 {
-    if (_currentScene == "menu") {
+    static int i;
+
+    if (_currentScene == "menu" && i == 0) {
         _currentScene = "game";
         _device->getCursorControl()->setVisible(false);
-        _gui->clear();
+        _gui->getRootGUIElement()->setVisible(false);
+        i = 1;
     } else {
-        _currentScene = "game";
+        _currentScene = "menu";
         _device->getCursorControl()->setVisible(true);
+        _gui->getRootGUIElement()->setVisible(true);
     }
 }

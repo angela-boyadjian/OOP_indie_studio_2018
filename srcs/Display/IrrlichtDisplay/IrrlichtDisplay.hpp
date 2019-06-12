@@ -54,7 +54,7 @@ public:
     Map3D   &getMap() final;
     Map3D   &getColiMap() final;
     Map3D   &getNonColiMap() final;
-    Map3D   &getBombsMap() final;
+    BombsVec   &getBombsMap() final;
 
    // NOTE SCENES FUNCTIONS
     void    changeScene(std::string const &);
@@ -65,7 +65,7 @@ public:
 
     // COLLISION FUNCTION
     bool    isCollision(const std::size_t &) final;
-    void    destroyCollision(const std::size_t &) final;
+    void    destroyCollision(std::shared_ptr<irr::scene::IAnimatedMeshSceneNode>) final;
     bool    isCollisionFromMap(irr::core::aabbox3d<irr::f32> &) const;
     bool    isCollisionFromObstacles(irr::core::aabbox3d<irr::f32> &) const;
 
@@ -73,7 +73,7 @@ public:
 private:
     Gui                 _gui;
     std::string     _currentScene;
-    Map3D    _bombsMap;
+    BombsVec    _bombsMap;
     // TEMPO
     Map3D _map3d;
     Map3D _coliMap;

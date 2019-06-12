@@ -23,6 +23,7 @@ public:
     using Device = std::shared_ptr<irr::IrrlichtDevice>;
     using Gui = std::unique_ptr<irr::gui::IGUIEnvironment>;
     using Map3D = std::vector<std::unique_ptr<IDisplay::Object>>;
+    using BombsVec = std::vector<std::shared_ptr<IDisplay::Object>>;
     using Scenes = std::shared_ptr<ISceneManager>;
 
     // SET OBJECT
@@ -47,14 +48,14 @@ public:
     virtual Map3D   &getMap() = 0;
     virtual Map3D   &getColiMap() = 0;
     virtual Map3D   &getNonColiMap() = 0;
-    virtual Map3D   &getBombsMap() = 0;
+    virtual BombsVec   &getBombsMap() = 0;
 
     virtual void    changeModelPos(const std::size_t &, const pos3d &) = 0;
     virtual void    changeModelRot(const std::size_t &, const pos3d &) = 0;
     virtual void    changeModelFrame(const std::size_t  &, const std::size_t &, const std::size_t &) = 0;
 
     virtual bool    isCollision(const std::size_t &) = 0;
-    virtual void    destroyCollision(const std::size_t &) = 0;
+    virtual void    destroyCollision(std::shared_ptr<irr::scene::IAnimatedMeshSceneNode>) = 0 ;
     virtual void    setBombState(const std::size_t &, bool) = 0;
 
     // TEMPO

@@ -40,21 +40,37 @@ std::string Reader::stringRead(const std::string &filename)
     return s;
 }
 
+std::vector<std::string> Reader::readDir(const std::string &dirname)
+{
+    DIR *dir = opendir(dirname.c_str());
+    std::vector<std::string> read;
+    struct dirent *ent;
+    if (dir != nullptr) {
+        while ((ent = readdir(dir)) != nullptr) {
+            if (ent->d_name[0] != '.')
+                read.push_back(dirname + ent->d_name);
+        }
+        closedir(dir);
+    } else {
+        throw std::exception(); // tempo
+    }
+    std::cout << std::endl;
+    return read;
+}
+
 std::vector<SpriteInfo> Reader::readSpriteInfo(const std::string &filename)
 {
     auto v = vectorRead(filename);
     std::vector<SpriteInfo> vec;
-    int i = 0;
 
     for (auto &line : v) {
         std::vector<std::string> splitLine;
-        std::string segment;
         boost::split(splitLine, line, boost::is_any_of(";"));
         vec.emplace_back(splitLine[0], splitLine[1], splitLine[2],
                          irr::core::vector3df(std::stof(splitLine[3]),
                                               std::stof(splitLine[4]),
-                                              std::stof(splitLine[5])));
-        i++;
+                                              std::stof(splitLine[5])),
+                                              static_cast<bool>(std::stof(splitLine[6])));
     }
     return vec;
 }

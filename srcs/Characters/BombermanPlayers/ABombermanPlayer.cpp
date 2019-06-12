@@ -89,8 +89,8 @@ void    ABombermanPlayer::isWallLeft(IDisplay *d)
 void    ABombermanPlayer::isWallRight(IDisplay *d)
 {
     std::get<0>(_pos) += 3;
-    d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[3] = d->isCollision(getEntityNb());
+    d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     std::get<0>(_pos) -= 3;
 }
 
@@ -112,11 +112,11 @@ void    ABombermanPlayer::bomb(IDisplay *d)
 {
     auto b = _bombs[0];
 
-    if (!b.isPlaced() and _bombNumber > 0) {
+    // if (!b.isPlaced() and _bombNumber > 0) {
         decreaseBombNumber();
         b.place();
         b.setOn(true);
         d->setBombState(getEntityNb(), true);
-        d->destroyCollision(getEntityNb());
-    }
+        b.explode(d);
+    // }
 }

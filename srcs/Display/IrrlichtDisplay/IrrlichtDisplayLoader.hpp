@@ -31,9 +31,11 @@ public:
     void loadMapWall(const MapData &) final;
     void addTileToMap(const irr::core::vector3df &, const SpriteInfo &, float);
     void loadMapGround(const MapData &) final;
-    void loadMapEdgeTop(const MapData &map);
-    void loadMapEdgeSide(const MapData &map);
-    void loadMapEdgeLow(const MapData &map);
+    void loadMapEdgeTop(const MapData &);
+    void loadMapEdgeSide(const MapData &);
+    void loadMapEdgeLow(const MapData &);
+    void loadEdge(const MapData &);
+
     //void loadMap
     void preloadMapWall(const MapData &) final;
     bool loadTileMap(const SpriteInfo &, float, IDisplay::Map3D &);
@@ -42,9 +44,9 @@ public:
     void loadMenu(const std::unique_ptr<Menu> &) final;
 
     // GAME LOAD
+    void    loadBomb(Bomb &, IDisplay::BombsVec &);
     void    loadGame(const std::unique_ptr<AGame> &) final;
     void    loadPlayer(const ACharacter::Color &, const std::vector<std::string> &) final;
-    void    loadBomb(char const *, std::string const &, IDisplay::Map3D &);
 
 private:
     std::shared_ptr<IDisplay> _d;
