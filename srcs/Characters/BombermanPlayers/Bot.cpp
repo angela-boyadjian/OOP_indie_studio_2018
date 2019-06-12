@@ -200,10 +200,6 @@ void    Bot::bombExplosion(std::vector<std::string> &map)
             }
         }
     }
-    std::cout << "bomb explosion" << std::endl;
-    for (auto &m : map)
-        std::cout << m << std::endl;
-    std::cout << std::endl;
 }
 
 void    Bot::putBomb(std::vector<std::string> &map)
@@ -232,10 +228,6 @@ void    Bot::putBomb(std::vector<std::string> &map)
                 and map[posY][posX + i] != '2')
             map[posY][posX + i] = '3';
     }
-    std::cout << "put bomb" << std::endl;
-    for (auto &m : map)
-        std::cout << m << std::endl;
-    std::cout << std::endl;
 }
 
 void    Bot::animation()
