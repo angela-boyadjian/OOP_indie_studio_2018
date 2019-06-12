@@ -13,7 +13,7 @@ class Bot : public ABombermanPlayer {
 public:
     // CONSTRUCTOR / DESTRUCTOR
     Bot(const std::size_t &enb, const MapPos &pos) : ABombermanPlayer(enb, pos),
-    _lastDirection(ACharacter::Action::WAIT) { _2dPos = std::make_tuple(0, 10); };
+    _lastDirection(ACharacter::Action::WAIT), _movement(0) { _2dPos = std::make_tuple(0, 10); };
     ~Bot() = default;
 
     // BLOCKS
@@ -39,6 +39,8 @@ public:
     void        changePosition(const Action &);
     void        move(std::vector<std::string> &, IDisplay *) final;
     bool        isSafe(const float &, const float &);
+    void        animation();
 
     Action                      _lastDirection;
+    std::size_t                 _movement;
 };

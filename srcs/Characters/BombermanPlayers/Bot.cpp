@@ -167,17 +167,21 @@ ACharacter::Action  Bot::chooseDirection()
 
 void    Bot::changePosition(const ACharacter::Action &a) {
     if (a == ACharacter::Action::UP) {
-        std::get<2>(_pos) += 10;
+//        std::get<2>(_pos) += 10;
         std::get<1>(_2dPos) -= 1;
+        _movement = 10;
     } else if (a == ACharacter::Action::DOWN) {
-        std::get<2>(_pos) -= 10;
+//        std::get<2>(_pos) -= 10;
         std::get<1>(_2dPos) += 1;
+        _movement = 10;
     } else if (a == ACharacter::Action::LEFT) {
-        std::get<0>(_pos) -= 10;
+//        std::get<0>(_pos) -= 10;
         std::get<0>(_2dPos) -= 1;
+        _movement = 10;
     } else if (a == ACharacter::Action::RIGHT) {
-        std::get<0>(_pos) += 10;
+//        std::get<0>(_pos) += 10;
         std::get<0>(_2dPos) += 1;
+        _movement = 10;
     }
 }
 
@@ -226,14 +230,39 @@ void    Bot::putBomb()
         _transformedMap[posY][posX + 1] = '3';
 }
 
+void    Bot::animation()
+{
+    switch (_lastDirection) {
+        case ACharacter::Action::UP:
+            std::get<2>(_pos) += 1;
+            break;
+        case ACharacter::Action::DOWN:
+            std::get<2>(_pos) -= 1;
+            break;
+        case ACharacter::Action::LEFT:
+            std::get<0>(_pos) -= 1;
+            break;
+        case ACharacter::Action::RIGHT:
+            std::get<0>(_pos) += 1;
+            break;
+        default:
+            break;
+    }
+    _movement -= 1;
+}
+
 void    Bot::move(std::vector<std::string> &map, IDisplay *d)
 {
     static auto c = std::chrono::system_clock::now();
     static auto count {0};
 
+    if (_movement > 0) {
+        animation();
+        return;
+    }
     _transformedMap = map;
     std::chrono::duration<double> diff = std::chrono::system_clock::now() - c;
-    if (diff.count() > 1)
+    if (diff.count() > 0.3)
         c = std::chrono::system_clock::now();
     else
         return;
