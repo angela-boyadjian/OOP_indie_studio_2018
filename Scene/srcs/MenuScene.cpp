@@ -13,7 +13,7 @@ MenuScene::MenuScene(std::shared_ptr<irr::scene::ISceneManager> father) :
 
 void MenuScene::runScene()
 {
-    std::cout << "Run" << std::endl;
+    std::cout << "Run" << std::endl; 
 }
 
 void MenuScene::loadScene()
