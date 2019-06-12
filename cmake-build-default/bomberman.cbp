@@ -5,7 +5,7 @@
 		<Option title="bomberman"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\..\usr\local\lib\cmake\SFML\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/cmake-build-default"/>
@@ -156,6 +156,12 @@
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Display/IrrlichtDisplay/IrrlichtDisplayLoader.hpp">
 			<Option target="bomberman"/>
 		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Events/Events.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Events/Events.hpp">
+			<Option target="bomberman"/>
+		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/ISceneManager.hpp">
 			<Option target="bomberman"/>
 		</Unit>
@@ -227,6 +233,21 @@
 		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/../../../../../usr/local/lib/cmake/SFML/SFMLConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\lib\cmake\SFML\"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/../../../../../usr/local/lib/cmake/SFML/SFMLConfigDependencies.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\lib\cmake\SFML\"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/../../../../../usr/local/lib/cmake/SFML/SFMLConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\lib\cmake\SFML\"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/../../../../../usr/local/lib/cmake/SFML/SFMLSharedTargets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\lib\cmake\SFML\"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/../../../../../usr/local/lib/cmake/SFML/SFMLSharedTargets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\lib\cmake\SFML\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

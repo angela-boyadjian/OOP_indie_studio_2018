@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <IrrlichtDisplayLoader.hpp>
+#include <SFML/Audio.hpp>
 
 #include "Bomberman.hpp"
 #include "ACharacter.hpp"
@@ -33,8 +34,11 @@ void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
     _dispLoader = std::move(dl);
 }
 
-void core::Bomberman::setSceneManager(std::shared_ptr<IDisplayLoader> &dl)
+void core::Bomberman::setMusic()
 {
+    _mainMusic = std::make_unique<sf::Music>();
+
+    _mainMusic->openFromFile("./../resources/sounds/BombermanSong.wav");
 }
 
 void core::Bomberman::run()
@@ -53,7 +57,10 @@ void core::Bomberman::run()
             std::get<1>(_game->getBots()[0]->getMapPos()),
             std::get<2>(_game->getBots()[0]->getMapPos())));
     _map->getMapData()._mapWall[10][0] = '0';
+    
     while (_display->isRunning()) {
+        if (_mainMusic->getStatus() != sf::Sound::Playing)
+            _mainMusic->play();
         action();
         _display->draw();
     }
@@ -145,6 +152,7 @@ void    core::Bomberman::lauch()
     disp->setDisplay(_event.get());
     auto dispLoader = std::shared_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp));
     setDisplayer(disp, dispLoader);
+    setMusic();
     initGame(_event.get());
     run();
 }

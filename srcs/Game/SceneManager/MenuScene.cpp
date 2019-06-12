@@ -13,8 +13,8 @@ MenuScene::MenuScene(Device &device, VideoDriver &driver) : _device(device), _dr
     _scene = _device->getSceneManager()->createNewSceneManager(false);
 
     setCameraScene();
-//    setTerrain();
-//    setSkyDome();
+    setTerrain();
+    setSkyDome();
 }
 
 void MenuScene::setCameraScene()
@@ -28,6 +28,12 @@ void MenuScene::setCameraScene()
 
 void MenuScene::setTerrain()
 {
+    irr::video::ITexture *images = _driver->getTexture("./../resources/ui/bombermanTitle.png");
+
+    _driver->enableMaterial2D();
+    _driver->draw2DImage(images, irr::core::rect<irr::s32>(10, 10, 108, 48),
+        irr::core::rect<irr::s32>(354, 87, 442, 118));
+    _driver->enableMaterial2D(false);
 }
 
 void   MenuScene::setSkyDome()

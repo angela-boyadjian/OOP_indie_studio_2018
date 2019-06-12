@@ -6,6 +6,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU")
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}")
+
+find_package(SFML 2.3 COMPONENTS audio REQUIRED)
+
 include_directories(lib/irrLicht/include)
 
 include_directories(
@@ -67,4 +70,4 @@ add_executable(${PROJECT_NAME}
         srcs/Game/SceneManager/MenuScene.hpp
 )
 
-target_link_libraries(${PROJECT_NAME} Irrlicht)
+target_link_libraries(${PROJECT_NAME} Irrlicht sfml-audio)
