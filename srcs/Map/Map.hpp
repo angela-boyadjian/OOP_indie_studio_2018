@@ -14,9 +14,12 @@
 #include "MapData.hpp"
 #include "IMap.hpp"
 #include "ATile.hpp"
+#include "Reader.hpp"
 
 class Map : public IMap {
     public:
+        using Map_Template = std::vector<std::vector<std::string>>;
+
         using Tile = irr::scene::ISceneNode;
 
         Map(std::string const &);
@@ -25,6 +28,8 @@ class Map : public IMap {
 
         // LOAD MAP
         void load();
+        Map_Template loadDefaultTemplate(const std::vector<std::string> &);
+        void generate3dMap();
         std::unordered_map<char, SpriteInfo> loadRules(std::vector<SpriteInfo> &);
         MapData &getMapData() override;
 
@@ -33,7 +38,9 @@ class Map : public IMap {
 
         // NOTE
     private:
+
         std::string _filename;
         MapData _data;
         std::vector<std::unique_ptr<Tile>> _3dWall;
+        Reader _reader;
 };

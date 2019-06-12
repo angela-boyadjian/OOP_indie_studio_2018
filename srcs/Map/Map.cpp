@@ -11,7 +11,6 @@
 
 #include "Map.hpp"
 #include "IrrlichtDisplay/IrrlichtDisplay.hpp"
-#include "Reader.hpp"
 
 Map::Map(std::string const &filename) : _filename(filename)
 {
@@ -25,12 +24,11 @@ Map::~Map()
 
 void Map::load()
 {
-    Reader reader;
     std::vector<std::string> vec;
 
-    _data._mapWall = reader.vectorRead(_filename);
-    auto infosWall = reader.readSpriteInfo(_data._mapWall.back());
-    auto infosGround = reader.readSpriteInfo(
+    _data._mapWall = _reader.vectorRead(_filename);
+    auto infosWall = _reader.readSpriteInfo(_data._mapWall.back());
+    auto infosGround = _reader.readSpriteInfo(
         _data._mapWall[_data._mapWall.size() - 2]);
     _data._rulesWall = loadRules(infosWall);
     _data._rulesGround = loadRules(infosGround);
@@ -39,6 +37,21 @@ void Map::load()
     _data._mapWall.erase(_data._mapWall.end() - 2, _data._mapWall.end());
     _data._mapWall.erase(_data._mapWall.begin(), _data._mapWall.begin() + 2);
     // GESTION D'ERREUR A AJOUTER;
+    generate3dMap();
+}
+
+Map::Map_Template Map::loadDefaultTemplate(const std::vector<std::string> &default_template)
+{
+    Map::Map_Template map_default;
+
+    for (auto &file : default_template)
+        map_default.emplace_back(_reader.vectorRead(file));
+    return map_default;
+}
+
+void Map::generate3dMap()
+{
+    auto default_template = loadDefaultTemplate(_reader.readDir("./../"));
 }
 
 std::unordered_map<char, SpriteInfo> Map::loadRules(std::vector<SpriteInfo> &infos)
