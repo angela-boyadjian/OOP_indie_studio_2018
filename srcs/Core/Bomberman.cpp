@@ -127,7 +127,7 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
 
     _map = std::unique_ptr<IMap>(new Map);
     _map->load(mapPath);
-    _map->generate3dMap(-1, 80, -1);
+// _map->generate3dMap(-1, 80, -1); GENERATION PROCEDURALE
     _game = std::move(game);
     _dispLoader->loadGame(_game);
     _dispLoader->loadMap(_map->getMapData());

@@ -52,12 +52,21 @@ Map::loadDefaultTemplate(const std::vector<std::string> &default_template)
     return map_default;
 }
 
+std::vector<std::string> Map::DigStart(std::vector<std::string> &map)
+{
+    for (auto &line : map) {
+        for (auto &tile : line)
+            if (tile == '.')
+                tile = '0';
+    }
+    return map;
+}
+
 void Map::generate3dMap(int template_index, int range, long seed)
 {
-    std::cout << "enter" << std::endl;
     auto files_names = _reader.readDir("./../resources/maps/map_template/");
     auto default_template = loadDefaultTemplate(files_names);
-    std::cout << "prelaod" << std::endl;
+
     if (seed == -1)
         srand(time(NULL));
     else

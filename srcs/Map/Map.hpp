@@ -31,6 +31,7 @@ class Map : public IMap {
         void generate3dMap(int map_i, int rand, long seed);
         Map_Template loadDefaultTemplate(const std::vector<std::string> &);
         std::unordered_map<char, SpriteInfo> loadRules(std::vector<SpriteInfo> &);
+        std::vector<std::string> DigStart(std::vector<std::string> &);
         MapData &getMapData();
 
     private:
