@@ -22,14 +22,14 @@ class Map : public IMap {
 
         using Tile = irr::scene::ISceneNode;
 
-        Map(std::string const &);
+        Map();
         ~Map();
 
 
         // LOAD MAP
-        void load();
+        void load(const std::string &);
+        void generate3dMap(int map_i, int rand, long seed);
         Map_Template loadDefaultTemplate(const std::vector<std::string> &);
-        void generate3dMap();
         std::unordered_map<char, SpriteInfo> loadRules(std::vector<SpriteInfo> &);
         MapData getMapData() const override;
 

@@ -8,11 +8,13 @@
 // #include <zconf.h>
 
 #include <irrlicht.h>
+#include <cstdlib>
+#include <ctime>
 
 #include "Map.hpp"
 #include "IrrlichtDisplay/IrrlichtDisplay.hpp"
 
-Map::Map(std::string const &filename) : _filename(filename)
+Map::Map()
 {
 }
 
@@ -22,11 +24,12 @@ Map::~Map()
 
 // NOTE Load les data qui serviront a load les objets 3D
 
-void Map::load()
+void Map::load(const std::string &filename)
 {
     std::vector<std::string> vec;
 
-    _data._mapWall = _reader.vectorRead(_filename);
+    _filename = filename;
+    _data._mapWall = _reader.vectorRead(filename);
     auto infosWall = _reader.readSpriteInfo(_data._mapWall.back());
     auto infosGround = _reader.readSpriteInfo(
         _data._mapWall[_data._mapWall.size() - 2]);
@@ -37,10 +40,10 @@ void Map::load()
     _data._mapWall.erase(_data._mapWall.end() - 2, _data._mapWall.end());
     _data._mapWall.erase(_data._mapWall.begin(), _data._mapWall.begin() + 2);
     // GESTION D'ERREUR A AJOUTER;
-    generate3dMap();
 }
 
-Map::Map_Template Map::loadDefaultTemplate(const std::vector<std::string> &default_template)
+Map::Map_Template
+Map::loadDefaultTemplate(const std::vector<std::string> &default_template)
 {
     Map::Map_Template map_default;
 
@@ -49,12 +52,32 @@ Map::Map_Template Map::loadDefaultTemplate(const std::vector<std::string> &defau
     return map_default;
 }
 
-void Map::generate3dMap()
+void Map::generate3dMap(int template_index, int range, long seed)
 {
-    auto default_template = loadDefaultTemplate(_reader.readDir("./../"));
+    std::cout << "enter" << std::endl;
+    auto files_names = _reader.readDir("./../resources/maps/map_template/");
+    auto default_template = loadDefaultTemplate(files_names);
+    std::cout << "prelaod" << std::endl;
+    if (seed == -1)
+        srand(time(NULL));
+    else
+        srand(seed);
+    if (template_index == -1)
+        template_index = rand() % default_template.size();
+    load(files_names[template_index]);
+    for (auto &line : _data._mapWall) {
+        for (auto &tile : line) {
+            if (tile == '0') {
+                auto rand_nb = (rand() % 100) + 1;
+                if (rand_nb <= range)
+                    tile = '2';
+            }
+        }
+    }
 }
 
-std::unordered_map<char, SpriteInfo> Map::loadRules(std::vector<SpriteInfo> &infos)
+std::unordered_map<char, SpriteInfo>
+Map::loadRules(std::vector<SpriteInfo> &infos)
 {
     std::unordered_map<char, SpriteInfo> map;
 
