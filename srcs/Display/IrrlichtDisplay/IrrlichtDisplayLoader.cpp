@@ -53,16 +53,12 @@ bool IrrlichtDisplayLoader::loadTileMap(const SpriteInfo &info, float size,
 
 void IrrlichtDisplayLoader::loadEdge(const MapData &map)
 {
-    int x = 0;
-    int y = 0;
     int start = 0;
 
     while (map._mapWall[start][0] == ' ') {
         std::cout << map._mapWall[start][0] << std::endl;
         start++;
     }
-    y = start;
-    
 }
 
 void IrrlichtDisplayLoader::loadMapEdgeTop(const MapData &map)
@@ -136,8 +132,7 @@ void IrrlichtDisplayLoader::loadMapWall(const MapData &map)
     }
 }
 
-void
-IrrlichtDisplayLoader::addTileToMap(const irr::core::vector3df &pos,
+void IrrlichtDisplayLoader::addTileToMap(const irr::core::vector3df &pos,
                                     const SpriteInfo &info, float size)
 {
     if (info._is_destructible) {
