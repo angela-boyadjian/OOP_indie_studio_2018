@@ -16,7 +16,7 @@ ABombermanPlayer::ABombermanPlayer(const std::size_t &enb, const MapPos &pos,
                "../resources/models/Character/RedBombermanTextures.png",
                "../resources/models/Character/WhiteBombermanTextures.png"});
     // _bombs.push_back(std::make_unique<Bomb>());
-    _bombs.push_back(Bomb());
+    _bombs.emplace_back(Bomb());
 }
 
 // SETTERS
@@ -37,6 +37,7 @@ void    ABombermanPlayer::canShoot() { _canShoot = true; }
 void    ABombermanPlayer::moveUp()
 {
     if (!_walls[0]) {
+        std::get<1>(_2dPos) += 1;
         std::get<1>(_pos) += 1;
         std::get<2>(_pos) += 1;
     }
@@ -45,6 +46,7 @@ void    ABombermanPlayer::moveUp()
 void    ABombermanPlayer::moveDown()
 {
     if (!_walls[1]) {
+        std::get<1>(_2dPos) -= 1;
         std::get<1>(_pos) -= 1;
         std::get<2>(_pos) -= 1;
     }
@@ -52,14 +54,19 @@ void    ABombermanPlayer::moveDown()
 
 void    ABombermanPlayer::moveLeft()
 {
-    if (!_walls[2])
+    if (!_walls[2]) {
+        std::get<0>(_2dPos) -= 1;
         std::get<0>(_pos) -= 1;
+    }
 }
+
 
 void    ABombermanPlayer::moveRight()
 {
-    if (!_walls[3])
+    if (!_walls[3]) {
+        std::get<0>(_2dPos) += 1;
         std::get<0>(_pos) += 1;
+    }
 }
 
 void    ABombermanPlayer::isWallUp(IDisplay *d)

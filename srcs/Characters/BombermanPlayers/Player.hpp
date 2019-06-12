@@ -15,5 +15,5 @@ public:
     Player(const std::size_t &, ACharacter::Color, MapPos const &pos);
     ~Player();
 
-    void    move(const std::vector<std::string> &, IDisplay *) final;
+    void    move(std::vector<std::string> &, IDisplay *) final;
 };

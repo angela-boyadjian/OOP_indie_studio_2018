@@ -52,6 +52,7 @@ void core::Bomberman::run()
             std::get<0>(_game->getBots()[0]->getMapPos()),
             std::get<1>(_game->getBots()[0]->getMapPos()),
             std::get<2>(_game->getBots()[0]->getMapPos())));
+    _map->getMapData()._mapWall[10][0] = '0';
     while (_display->isRunning()) {
         action();
         _display->draw();
@@ -140,7 +141,6 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
 void    core::Bomberman::lauch()
 {
     auto disp = std::shared_ptr<IDisplay>(new IrrlichtDisplay());
-    std::cout << "1" << std::endl;
     _event = std::make_unique<Events>(Events(disp->_device, _display));
     disp->setDisplay(_event.get());
     auto dispLoader = std::shared_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp));

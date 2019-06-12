@@ -52,7 +52,7 @@ public:
     const std::size_t   &getEntityNb() const;
 
     // DEPLACEMENT
-    virtual void    move(const std::vector<std::string> &, IDisplay *) = 0;
+    virtual void    move(std::vector<std::string> &, IDisplay *) = 0;
 
 public:
     Color                       _color;

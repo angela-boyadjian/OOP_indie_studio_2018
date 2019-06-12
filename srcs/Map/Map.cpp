@@ -86,7 +86,7 @@ Map::loadRules(std::vector<SpriteInfo> &infos)
     return map;
 }
 
-MapData Map::getMapData() const
+MapData &Map::getMapData()
 {
     return _data;
 }

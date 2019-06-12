@@ -31,7 +31,7 @@ class Map : public IMap {
         void generate3dMap(int map_i, int rand, long seed);
         Map_Template loadDefaultTemplate(const std::vector<std::string> &);
         std::unordered_map<char, SpriteInfo> loadRules(std::vector<SpriteInfo> &);
-        MapData getMapData() const override;
+        MapData &getMapData();
 
     private:
         std::vector<ATile> _mapTiled;

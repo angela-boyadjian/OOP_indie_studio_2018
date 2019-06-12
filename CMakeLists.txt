@@ -30,6 +30,8 @@ add_executable(${PROJECT_NAME}
         srcs/Map/Map.hpp
         srcs/Map/IMap.hpp
         srcs/Menu/IMenu.hpp
+        srcs/Events/Events.hpp
+        srcs/Events/Events.cpp
         srcs/Menu/BombermanMenu/Menu.cpp
         srcs/Menu/BombermanMenu/Menu.hpp
         srcs/Map/ATile.cpp
@@ -62,7 +64,7 @@ add_executable(${PROJECT_NAME}
         srcs/Game/SceneManager/GameScene.cpp
         srcs/Game/SceneManager/GameScene.hpp
         srcs/Game/SceneManager/MenuScene.cpp
-         srcs/Game/SceneManager/MenuScene.hpp
+        srcs/Game/SceneManager/MenuScene.hpp
 )
 
 target_link_libraries(${PROJECT_NAME} Irrlicht)

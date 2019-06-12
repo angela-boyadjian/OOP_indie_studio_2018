@@ -11,13 +11,14 @@ Player::Player(const std::size_t &enb, ACharacter::Color color, MapPos const &po
     ABombermanPlayer(enb, pos, color)
 {
     _action = ACharacter::Action::WAIT;
+    _2dPos = std::make_tuple(0, 0);
 }
 
 Player::~Player()
 {
 }
 
-void    Player::move(const std::vector<std::string> &map, IDisplay *d)
+void    Player::move(std::vector<std::string> &map, IDisplay *d)
 {
     isWalls(d);
     switch (_action) {

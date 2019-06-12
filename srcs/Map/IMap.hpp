@@ -17,6 +17,6 @@ class IMap {
     public:
         // LOAD MAP
         virtual void load(const std::string &) = 0;
-        virtual MapData getMapData() const = 0;
+        virtual MapData &getMapData() = 0;
         virtual void generate3dMap(int map_i, int rand, long seed) = 0;
 };
