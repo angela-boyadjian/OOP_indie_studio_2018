@@ -224,7 +224,11 @@ void    IrrlichtDisplayLoader::loadMenu(const std::unique_ptr<Menu> &menu)
     IDisplay::Gui const &gui = _d->getGui();
     IDisplay::Device const &device = _d->getDevice();
     auto screenSize = _d->getScreenSize();
+    auto image = _d->_driver->getTexture("./../resources/ui/bombermanBackground.png");
 
+    auto img = gui->addImage(irr::core::rect<irr::s32>(0, 0, screenSize.Width, screenSize.Height));
+    img->setImage(image);
+    img->setScaleImage(true);
     gui->addButton(irr::core::rect<irr::s32>(screenSize.Width / 2 - 300, 440,
         screenSize.Width / 2 + 300, 440 + 42), 0, 102, L"Start Game",
         L"Start Game");

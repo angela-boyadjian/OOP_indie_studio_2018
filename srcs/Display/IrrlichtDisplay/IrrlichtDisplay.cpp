@@ -51,7 +51,7 @@ void    IrrlichtDisplay::draw()
     _sceneManagers.at(_currentScene)->getSceneManager()->drawAll();
 //    auto pos = _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera()->getTarget();
 //    std::cout << pos.X << " " << pos.Y << "  " << pos.Z << std::endl;
-    std::cout << _currentScene << std::endl;
+//    std::cout << _currentScene << std::endl;
     _gui->drawAll();
     _driver->endScene();
 }
