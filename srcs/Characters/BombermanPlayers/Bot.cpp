@@ -167,19 +167,15 @@ ACharacter::Action  Bot::chooseDirection()
 
 void    Bot::changePosition(const ACharacter::Action &a) {
     if (a == ACharacter::Action::UP) {
-//        std::get<2>(_pos) += 10;
         std::get<1>(_2dPos) -= 1;
         _movement = 10;
     } else if (a == ACharacter::Action::DOWN) {
-//        std::get<2>(_pos) -= 10;
         std::get<1>(_2dPos) += 1;
         _movement = 10;
     } else if (a == ACharacter::Action::LEFT) {
-//        std::get<0>(_pos) -= 10;
         std::get<0>(_2dPos) -= 1;
         _movement = 10;
     } else if (a == ACharacter::Action::RIGHT) {
-//        std::get<0>(_pos) += 10;
         std::get<0>(_2dPos) += 1;
         _movement = 10;
     }
@@ -191,14 +187,16 @@ void    Bot::bombExplosion()
         for (auto i = 0; i < _transformedMap[j].size(); ++i) {
             if (_transformedMap[j][i] == '4') {
                 _transformedMap[j][i] = '0';
-                if (j > 0 and (_transformedMap[j - 1][i] == '3' or _transformedMap[j - 1][i] == '2'))
-                    _transformedMap[j - 1][i] = '0';
-                if (j < _transformedMap.size() - 1 and (_transformedMap[j + 1][i] == '3' or _transformedMap[j + 1][i] == '2'))
-                    _transformedMap[j + 1][i] = '0';
-                if (i > 0 and (_transformedMap[j][i - 1] == '3' or _transformedMap[j][i - 1] == '2'))
-                    _transformedMap[j][i - 1] = '0';
-                if (i < _transformedMap[j].size() and (_transformedMap[j][i + 1] == '3' or _transformedMap[j][i + 1] == '2'))
-                    _transformedMap[j][i + 1] = '0';
+                for (auto k {1}; k < _fireRange + 1; ++k) {
+                    if (j > 0 and (_transformedMap[j - k][i] == '3' or _transformedMap[j - k][i] == '2'))
+                        _transformedMap[j - k][i] = '0';
+                    if (j + k< _transformedMap.size() and (_transformedMap[j + k][i] == '3' or _transformedMap[j + k][i] == '2'))
+                        _transformedMap[j + k][i] = '0';
+                    if (i > 0 and (_transformedMap[j][i - k] == '3' or _transformedMap[j][i - k] == '2'))
+                        _transformedMap[j][i - k] = '0';
+                    if (i + k < _transformedMap[j].size() and (_transformedMap[j][i + k] == '3' or _transformedMap[j][i + k] == '2'))
+                        _transformedMap[j][i + k] = '0';
+                }
             }
         }
     }
@@ -213,21 +211,23 @@ void    Bot::putBomb()
     std::cout << "Pos Y = " << posY << std::endl;
 
     _transformedMap[posY][posX] = '4';
-    if (posY > 0 and _transformedMap[posY - 1][posX] != '1'
-            and _transformedMap[posY - 1][posX] != '2')
-        _transformedMap[posY - 1][posX] = '3';
+    for (auto i {1}; i < _fireRange + 1; ++i) {
+        if (posY > 0 and _transformedMap[posY - i][posX] != '1'
+            and _transformedMap[posY - i][posX] != '2')
+            _transformedMap[posY - i][posX] = '3';
 
-    if (posY < _transformedMap.size() - 1 and _transformedMap[posY + 1][posX] != '1'
-            and _transformedMap[posY + 1][posX] != '2')
-        _transformedMap[posY + 1][posX] = '3';
+        if (posY + i < _transformedMap.size() and _transformedMap[posY + i][posX] != '1'
+            and _transformedMap[posY + i][posX] != '2')
+            _transformedMap[posY + i][posX] = '3';
 
-    if (posX > 0 and _transformedMap[posY][posX - 1] != '1'
-            and _transformedMap[posY][posX - 1] != '2')
-        _transformedMap[posY][posX - 1] = '3';
+        if (posX > 0 and _transformedMap[posY][posX - i] != '1'
+            and _transformedMap[posY][posX - i] != '2')
+            _transformedMap[posY][posX - i] = '3';
 
-    if (posX < _transformedMap[posY].size() - 1 and _transformedMap[posY][posX + 1] != '1'
-            and _transformedMap[posY][posX + 1] != '2')
-        _transformedMap[posY][posX + 1] = '3';
+        if (posX + i < _transformedMap[posY].size() and _transformedMap[posY][posX + i] != '1'
+            and _transformedMap[posY][posX + i] != '2')
+            _transformedMap[posY][posX + i] = '3';
+    }
 }
 
 void    Bot::animation()
