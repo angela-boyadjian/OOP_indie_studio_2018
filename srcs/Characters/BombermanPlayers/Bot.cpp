@@ -185,21 +185,25 @@ void    Bot::bombExplosion(std::vector<std::string> &map)
 {
     for (auto j {0}; j < map.size(); ++j) {
         for (auto i = 0; i < map[j].size(); ++i) {
-            if (map[j][i] == '3') {
+            if (map[j][i] == '5') {
                 map[j][i] = '0';
                 for (auto k {1}; k < _fireRange + 1; ++k) {
-                    if (j > 0 and (map[j - k][i] == '3' or map[j - k][i] == '2'))
+                    if (j - (k - 1) > 0 and (map[j - k][i] == '3' or map[j - k][i] == '2'))
                         map[j - k][i] = '0';
-                    if (j + k < map.size() and (map[j + k][i] == '3' or map[j + k][i] == '2'))
+                    if (j + (k - 1) < map.size() and (map[j + k][i] == '3' or map[j + k][i] == '2'))
                         map[j + k][i] = '0';
-                    if (i > 0 and (map[j][i - k] == '3' or map[j][i - k] == '2'))
+                    if (i - (k - 1) > 0 and (map[j][i - k] == '3' or map[j][i - k] == '2'))
                         map[j][i - k] = '0';
-                    if (i + k < map[j].size() and (map[j][i + k] == '3' or map[j][i + k] == '2'))
+                    if (i + (k - 1) < map[j].size() and (map[j][i + k] == '3' or map[j][i + k] == '2'))
                         map[j][i + k] = '0';
                 }
             }
         }
     }
+    std::cout << "bomb explosion" << std::endl;
+    for (auto &m : map)
+        std::cout << m << std::endl;
+    std::cout << std::endl;
 }
 
 void    Bot::putBomb(std::vector<std::string> &map)
@@ -210,24 +214,28 @@ void    Bot::putBomb(std::vector<std::string> &map)
     std::cout << "Pos X = " << posX << std::endl;
     std::cout << "Pos Y = " << posY << std::endl;
 
-    map[posY][posX] = '3';
+    map[posY][posX] = '5';
     for (auto i {1}; i < _fireRange + 1; ++i) {
-        if (posY > 0 and map[posY - i][posX] != '1'
+        if (posY - (i - 1) > 0 and map[posY - i][posX] != '1'
                 and map[posY - i][posX] != '2')
             map[posY - i][posX] = '3';
 
-        if (posY + i < map.size() and map[posY + i][posX] != '1'
+        if (posY + (i - 1) < map.size() and map[posY + i][posX] != '1'
                 and map[posY + i][posX] != '2')
             map[posY + i][posX] = '3';
 
-        if (posX > 0 and map[posY][posX - i] != '1'
+        if (posX - (i - 1) > 0 and map[posY][posX - i] != '1'
                 and map[posY][posX - i] != '2')
             map[posY][posX - i] = '3';
 
-        if (posX + i < map[posY].size() and map[posY][posX + i] != '1'
+        if (posX + (i - 1) < map[posY].size() and map[posY][posX + i] != '1'
                 and map[posY][posX + i] != '2')
             map[posY][posX + i] = '3';
     }
+    std::cout << "put bomb" << std::endl;
+    for (auto &m : map)
+        std::cout << m << std::endl;
+    std::cout << std::endl;
 }
 
 void    Bot::animation()

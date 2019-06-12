@@ -52,8 +52,8 @@ public:
 
     void    bomb(IDisplay *);
 protected:
-    std::tuple<std::size_t, std::size_t> _2dPos;
-    std::vector<Bomb> _bombs;
+    std::tuple<int, int>_2dPos;
+    std::vector<Bomb>   _bombs;
     bool                _walls[4];
     bool                _canShoot;
     std::size_t         _fireRange;
