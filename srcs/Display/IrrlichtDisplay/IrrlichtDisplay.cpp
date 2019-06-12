@@ -42,13 +42,16 @@ bool    IrrlichtDisplay::isRunning() const
 
 void    IrrlichtDisplay::setGuiMessage(const wchar_t *message)
 {
-    _gui->addStaticText(message, irr::core::rect<irr::s32>(10,10,260,22), true);
+    _gui->addStaticText(message, irr::core::rect<irr::s32>(10, 10, 260, 22), true);
 }
 
 void    IrrlichtDisplay::draw()
 {
-    _driver->beginScene(true, true, irr::video::SColor(255,100,101,140));
+    _driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
     _sceneManagers.at(_currentScene)->getSceneManager()->drawAll();
+//    auto pos = _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera()->getTarget();
+//    std::cout << pos.X << " " << pos.Y << "  " << pos.Z << std::endl;
+    std::cout << _currentScene << std::endl;
     _gui->drawAll();
     _driver->endScene();
 }
@@ -162,12 +165,16 @@ void    IrrlichtDisplay::setBombState(const std::size_t &target, bool isVisible)
 
 void    IrrlichtDisplay::changeScene(std::string const &scene)
 {
-    if (_currentScene == "menu") {
+    static int i;
+
+    if (_currentScene == "menu" && i == 0) {
         _currentScene = "game";
         _device->getCursorControl()->setVisible(false);
-        _gui->clear();
+        _gui->getRootGUIElement()->setVisible(false);
+        i = 1;
     } else {
-        _currentScene = "game";
+        _currentScene = "menu";
         _device->getCursorControl()->setVisible(true);
+        _gui->getRootGUIElement()->setVisible(true);
     }
 }
