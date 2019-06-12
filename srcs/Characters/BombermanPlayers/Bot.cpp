@@ -189,7 +189,7 @@ void    Bot::bombExplosion()
                 _transformedMap[j][i] = '0';
                 if (j > 0 and (_transformedMap[j - 1][i] == '3' or _transformedMap[j - 1][i] == '2'))
                     _transformedMap[j - 1][i] = '0';
-                if (j < _transformedMap.size() and (_transformedMap[j + 1][i] == '3' or _transformedMap[j + 1][i] == '2'))
+                if (j < _transformedMap.size() - 1 and (_transformedMap[j + 1][i] == '3' or _transformedMap[j + 1][i] == '2'))
                     _transformedMap[j + 1][i] = '0';
                 if (i > 0 and (_transformedMap[j][i - 1] == '3' or _transformedMap[j][i - 1] == '2'))
                     _transformedMap[j][i - 1] = '0';
