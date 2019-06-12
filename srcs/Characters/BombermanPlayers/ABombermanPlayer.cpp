@@ -16,7 +16,7 @@ ABombermanPlayer::ABombermanPlayer(const std::size_t &enb, const MapPos &pos,
                "../resources/models/Character/RedBombermanTextures.png",
                "../resources/models/Character/WhiteBombermanTextures.png"});
     // _bombs.push_back(std::make_unique<Bomb>());
-    _bombs.push_back(Bomb());
+    _bombs.emplace_back(Bomb());
 }
 
 // SETTERS
