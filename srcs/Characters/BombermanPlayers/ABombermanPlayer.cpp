@@ -20,9 +20,9 @@ ABombermanPlayer::ABombermanPlayer(const std::size_t &enb, const MapPos &pos,
 }
 
 // SETTERS
-const bool                  &ABombermanPlayer::canShoot() const { return _canShoot; };
-const std::size_t           &ABombermanPlayer::getFireRange() const { return _fireRange; }
+const bool                  &ABombermanPlayer::canShoot() const { return _canShoot; }
 const ACharacter::Action    &ABombermanPlayer::getDirection() const { return _action; }
+const std::size_t           &ABombermanPlayer::getFireRange() const { return _fireRange; }
 
 // INCREASER
 void    ABombermanPlayer::increaseSpeed() { _speed += 1; }
