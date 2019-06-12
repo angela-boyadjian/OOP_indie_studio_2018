@@ -122,10 +122,18 @@ ACharacter::Action  Bot::getOutOfDanger()
         std::cout << d << std::endl;
     std::cout << std::endl;
     if (distances[index] == 0) {
-        if (_transformedMap[std::get<1>(_2dPos)][std::get<0>(_2dPos) + 1] == '3')
+        auto posX = std::get<0>(_2dPos);
+        auto posY = std::get<1>(_2dPos);
+        if (posX < _transformedMap[posY].size() - 1 and _transformedMap[posY][posX + 1] == '3')
             return ACharacter::Action::RIGHT;
-        else if (_transformedMap[std::get<1>(_2dPos) + 1][std::get<0>(_2dPos)] == '3')
+        else if (posY < _transformedMap.size() - 1 and _transformedMap[posY + 1][posX] == '3')
             return ACharacter::Action::DOWN;
+        else if (posY > 0 and _transformedMap[posY - 1][posX] == '3')
+            return ACharacter::Action::UP;
+        else if (posX > 0 and _transformedMap[posY][posX - 1] == '3')
+            return ACharacter::Action::LEFT;
+        else
+            return ACharacter::Action::WAIT;
     }
     return ACharacter::Action(index);
 }
@@ -181,7 +189,7 @@ void    Bot::bombExplosion()
                 _transformedMap[j][i] = '0';
                 if (j > 0 and (_transformedMap[j - 1][i] == '3' or _transformedMap[j - 1][i] == '2'))
                     _transformedMap[j - 1][i] = '0';
-                if (j < _transformedMap.size() and (_transformedMap[j + 1][i] == '3' or _transformedMap[j + 1][i] == '2'))
+                if (j < _transformedMap.size() - 1 and (_transformedMap[j + 1][i] == '3' or _transformedMap[j + 1][i] == '2'))
                     _transformedMap[j + 1][i] = '0';
                 if (i > 0 and (_transformedMap[j][i - 1] == '3' or _transformedMap[j][i - 1] == '2'))
                     _transformedMap[j][i - 1] = '0';
@@ -221,7 +229,7 @@ void    Bot::putBomb()
 void    Bot::move(std::vector<std::string> &map, IDisplay *d)
 {
     static auto c = std::chrono::system_clock::now();
-    auto count {0};
+    static auto count {0};
 
     _transformedMap = map;
     std::chrono::duration<double> diff = std::chrono::system_clock::now() - c;
@@ -233,11 +241,13 @@ void    Bot::move(std::vector<std::string> &map, IDisplay *d)
         std::cout << t << std::endl;
     std::cout << std::endl;
     Action  a;
-//    if (_bombNumber == 0 && count % 10 == 0) {
-//        _bombNumber += 1;
-//        bombExplosion();
-//    }
-    if (_bombNumber == 0) {
+    if (_bombNumber == 0 && count >= 5) {
+        count = 0;
+        std::cout << "BOMB EXPLOSION" << std::endl;
+        _bombNumber += 1;
+        bombExplosion();
+        a = ACharacter::Action::WAIT;
+    } else if (_bombNumber == 0) {
         a = getOutOfDanger();
         changePosition(a);
     } else if (isMomentForBomb()) {
