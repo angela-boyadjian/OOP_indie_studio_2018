@@ -206,7 +206,7 @@ direction = 0
 
 for i in range(5):
     print('----------------------------------------------------\n')
-    if i % 1 == 0:
+    if i % 2 == 0:
         bomb_explosion(t_map)
         bot.Bomb = True
     if not bot.Bomb:

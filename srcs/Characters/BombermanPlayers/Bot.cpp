@@ -53,13 +53,10 @@ bool            Bot::isInDanger()
 std::size_t Bot::getDistanceUp(float x, float y)
 {
     std::size_t count {0};
-    if (--y > 0)
-        return 84;
-    while (y > 0) {
-        if (_transformedMap[y][x] == '0' and _transformedMap[y][x] == '3')
+    while (--y >= 0) {
+        if (_transformedMap[y][x] != '0')
             return count;
         count += 1;
-        --y;
     }
     return count;
 }
@@ -67,13 +64,10 @@ std::size_t Bot::getDistanceUp(float x, float y)
 std::size_t Bot::getDistanceDown(float x, float y)
 {
     std::size_t count {0};
-    if (++y < _transformedMap.size())
-        return 84;
-    while (y < _transformedMap.size()) {
-        if (_transformedMap[y][x] == '0' and _transformedMap[y][x] == '3')
+    while (++y < _transformedMap.size()) {
+        if (_transformedMap[y][x] != '0')
             return count;
         count += 1;
-        ++y;
     }
     return count;
 }
@@ -81,13 +75,10 @@ std::size_t Bot::getDistanceDown(float x, float y)
 std::size_t Bot::getDistanceLeft(float x, float y)
 {
     std::size_t count {0};
-    if (--x > 0)
-        return 84;
-    while (x > 0) {
-        if (_transformedMap[y][x] == '0' and _transformedMap[y][x] == '3')
+    while (--x >= 0) {
+        if (_transformedMap[y][x] != '0')
             return count;
         count += 1;
-        --x;
     }
     return count;
 }
@@ -95,13 +86,10 @@ std::size_t Bot::getDistanceLeft(float x, float y)
 std::size_t Bot::getDistanceRight(float x, float y)
 {
     std::size_t count {0};
-    if (++x < _transformedMap[y].size())
-        return 84;
-    while (x < _transformedMap[y].size()) {
-        if (_transformedMap[y][x] == '0' or _transformedMap[y][x] == '3')
+    while (++x < _transformedMap[y].size()) {
+        if (_transformedMap[y][x] != '0')
             return count;
         count += 1;
-        ++x;
     }
     return count;
 }
@@ -121,18 +109,31 @@ std::vector<std::size_t> Bot::getDistancesToSurvive()
 
 ACharacter::Action  Bot::getOutOfDanger()
 {
+    std::cout << "GET OUT OF DANGER" << std::endl;
+    if (_transformedMap[std::get<1>(_2dPos)][std::get<0>(_2dPos)] == '0')
+        return ACharacter::Action::WAIT;
     std::size_t     index {0};
     auto            distances = getDistancesToSurvive();
-    auto            minElement = std::min_element(distances.begin(), distances.end());
+    auto            minElement = std::max_element(distances.begin(), distances.end());
     for (auto tmp {distances.begin()}; tmp != minElement; ++tmp)
         index += 1;
+    std::cout << "distances:" << std::endl;
+    for (auto d : distances)
+        std::cout << d << std::endl;
+    std::cout << std::endl;
+    if (distances[index] == 0) {
+        if (_transformedMap[std::get<1>(_2dPos)][std::get<0>(_2dPos) + 1] == '3')
+            return ACharacter::Action::RIGHT;
+        else if (_transformedMap[std::get<1>(_2dPos) + 1][std::get<0>(_2dPos)] == '3')
+            return ACharacter::Action::DOWN;
+    }
     return ACharacter::Action(index);
 }
 
 bool            Bot::isSafe(const float &x, const float &y)
 {
-    return y >= 0 and y < _transformedMap.size()
-        and x >= 0 and x < _transformedMap[y].size()
+    return y >= 0 and y < _transformedMap.size() - 1
+        and x >= 0 and x < _transformedMap[y].size() - 1
         and _transformedMap[y][x] == '0';
 }
 
@@ -196,12 +197,15 @@ void    Bot::putBomb()
     auto    posX {std::get<0>(_2dPos)};
     auto    posY {std::get<1>(_2dPos)};
 
+    std::cout << "Pos X = " << posX << std::endl;
+    std::cout << "Pos Y = " << posY << std::endl;
+
     _transformedMap[posY][posX] = '4';
     if (posY > 0 and _transformedMap[posY - 1][posX] != '1'
             and _transformedMap[posY - 1][posX] != '2')
         _transformedMap[posY - 1][posX] = '3';
 
-    if (posY < _transformedMap.size() and _transformedMap[posY + 1][posX] != '1'
+    if (posY < _transformedMap.size() - 1 and _transformedMap[posY + 1][posX] != '1'
             and _transformedMap[posY + 1][posX] != '2')
         _transformedMap[posY + 1][posX] = '3';
 
@@ -209,7 +213,7 @@ void    Bot::putBomb()
             and _transformedMap[posY][posX - 1] != '2')
         _transformedMap[posY][posX - 1] = '3';
 
-    if (posX < _transformedMap[posY].size() and _transformedMap[posY][posX + 1] != '1'
+    if (posX < _transformedMap[posY].size() - 1 and _transformedMap[posY][posX + 1] != '1'
             and _transformedMap[posY][posX + 1] != '2')
         _transformedMap[posY][posX + 1] = '3';
 }
