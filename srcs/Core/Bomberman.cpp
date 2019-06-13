@@ -38,14 +38,36 @@ void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
 void core::Bomberman::setMusic()
 {
     _mainMusic = std::make_unique<sf::Music>();
-
     _mainMusic->openFromFile("./../resources/sounds/BombermanSong.wav");
+}
+
+std::size_t core::Bomberman::getColiIndex(const int &x, const int &y)
+{
+    auto count {0};
+
+    for (auto j {0}; j < y; ++j)
+        for (std::size_t i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
+            if (_map->getMapData()._mapWall[j][i] == '2')
+                ++count;
+    for (auto i {0}; i < x; ++i)
+        if (_map->getMapData()._mapWall[y][i] == '2')
+            ++count;
+    return count;
 }
 
 void    core::Bomberman::exploseBlock(const int &x, const int &y)
 {
     if (x > 0 and _map->getMapData()._mapWall[y][x - 1] == '2')
-        return;
+        _display->getColiMap().at(getColiIndex(x - 1, y))->setVisible(false);
+    if (x < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][x + 1] == '2')
+        _display->getColiMap().at(getColiIndex(x + 1, y))->setVisible(false);
+    if (y > 0 and _map->getMapData()._mapWall[y - 1][x] == '2') {
+        std::cout << "count: " << getColiIndex(x, y - 1) << std::endl;
+        std::cout << "size: " << _display->getColiMap().size() << std::endl;
+        _display->getColiMap().at(getColiIndex(x, y - 1))->setVisible(false);
+    }
+    if (y < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[y + 1][x] == '2')
+        _display->getColiMap().at(getColiIndex(x, y + 1))->setVisible(false);
 }
 
 void    core::Bomberman::exploseBomb()

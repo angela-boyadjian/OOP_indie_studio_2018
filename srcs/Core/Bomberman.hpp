@@ -27,9 +27,6 @@ public:
     using botVec = std::vector<std::unique_ptr<Bot>>;
     using playerVec = std::vector<std::unique_ptr<Player>>;
 
-    typedef struct bombInfo_s {
-
-    } bombInfo_t;
     Bomberman();
     ~Bomberman();
 
@@ -42,6 +39,7 @@ public:
     void    loadGame(const std::string &, std::unique_ptr<AGame> &);
 
     // BombermanGame loop
+    std::size_t getColiIndex(const int &, const int &);
     void    exploseBlock(const int &, const int &);
     void    exploseBomb();
     void    putBomb(const std::vector<ACharacter::move_t> &);
