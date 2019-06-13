@@ -14,7 +14,7 @@
 
 class MenuBisScene : public IScene {
     public:
-        MenuBisScene(irr::scene::ISceneManager *, irr::scene::ISceneNode *, const std::string &);
+        MenuBisScene(std::shared_ptr<irr::IrrlichtDevice>, irr::scene::ISceneNode *, const std::string &, const irr::core::dimension2du&);
         ~MenuBisScene() = default;
 
         // MANDATORY
@@ -23,13 +23,18 @@ class MenuBisScene : public IScene {
         void loadScene() override;
         std::string getName() override;
 
+        // ONLY MENU
+        void loadBoutons();
+
     private:
         std::shared_ptr<irr::scene::ISceneNode> _master;
         irr::scene::ISceneManager *_manager;
         std::string _name;
         bool _is_load;
         std::vector<std::shared_ptr<irr::scene::ISceneNode>> _cubes;
-        irr::gui::IGUIButton *_bouton;
+        std::vector<irr::gui::IGUIButton *> _boutons;
+        const irr::core::dimension2du& _win_size;
+        std::shared_ptr<irr::IrrlichtDevice> _device;
 
 };
 

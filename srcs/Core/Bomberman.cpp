@@ -13,6 +13,7 @@
 #include "ACharacter.hpp"
 #include "Menu.hpp"
 #include "MenuBisScene.hpp"
+#include "GameBisScene.hpp"
 
 core::Bomberman::Bomberman()
 {
@@ -176,8 +177,9 @@ void core::Bomberman::Trun()
 
 void core::Bomberman::initScene()
 {
-    _manager.addScenes(std::make_unique<MenuBisScene>(MenuBisScene(_manager.getManager(), _manager.getMaster(), "menu")));
-    _manager.changeCurrent("menu");
+    _manager.addScenes(std::make_unique<MenuBisScene>(MenuBisScene(_display->getDevice(), _manager.getMaster(), "menu", _display->getDevice()->getVideoDriver()->getScreenSize())));
+    _manager.addScenes(std::make_unique<GameBisScene>(GameBisScene(_display->getDevice(), _manager.getMaster(), "game")));
+    _manager.changeCurrent("game");
 }
 
 void core::Bomberman::lauch()
@@ -185,10 +187,10 @@ void core::Bomberman::lauch()
     auto disp = std::shared_ptr<IDisplay>(new IrrlichtDisplay());
     _event = std::make_unique<Events>(Events(disp->_device, _display));
     disp->setDisplay(_event.get());
-    _manager.initManager(disp->_device->getSceneManager());
-    initScene();
     auto dispLoader = std::shared_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp));
     setDisplayer(disp, dispLoader);
+    _manager.initManager(_display->getDevice()->getSceneManager());
+    initScene();
     Trun();
      /*setMusic();
      initGame(_event.get());
