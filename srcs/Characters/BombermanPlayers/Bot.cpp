@@ -269,13 +269,13 @@ ACharacter::move_t  Bot::move(std::vector<std::string> &map, IDisplay *d)
         std::cout << t << std::endl;
     std::cout << std::endl;
     Action  a;
-    if (_bombNumber == 0 && count >= 5) {
-        count = 0;
-        std::cout << "BOMB EXPLOSION" << std::endl;
-        _bombNumber += 1;
-        bombExplosion(map);
-        a = ACharacter::Action::WAIT;
-    } else if (_bombNumber == 0) {
+//    if (_bombNumber == 0 && count >= 5) {
+//        count = 0;
+//        std::cout << "BOMB EXPLOSION" << std::endl;
+//        _bombNumber += 1;
+//        bombExplosion(map);
+//        a = ACharacter::Action::WAIT;
+    if (_bombNumber == 0) {
         a = getOutOfDanger(map);
         changePosition(a);
     } else if (isMomentForBomb(map)) {

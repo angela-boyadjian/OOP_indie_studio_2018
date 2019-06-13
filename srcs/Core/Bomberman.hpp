@@ -27,6 +27,9 @@ public:
     using botVec = std::vector<std::unique_ptr<Bot>>;
     using playerVec = std::vector<std::unique_ptr<Player>>;
 
+    typedef struct bombInfo_s {
+
+    } bombInfo_t;
     Bomberman();
     ~Bomberman();
 
@@ -39,6 +42,9 @@ public:
     void    loadGame(const std::string &, std::unique_ptr<AGame> &);
 
     // BombermanGame loop
+    void    exploseBlock(const int &, const int &);
+    void    exploseBomb();
+    void    putBomb(const std::vector<ACharacter::move_t> &);
     void    run();
     std::vector<ACharacter::move_t> action();
     std::vector<ACharacter::move_t> botsAction();
@@ -58,6 +64,8 @@ private:
     std::shared_ptr<IDisplayLoader> _dispLoader;
     std::map<std::size_t, ACharacter::Action>   _lastActions;
     std::unique_ptr<sf::Music>      _mainMusic;
+    std::vector<ACharacter::move_t> bombs_pos;
+    std::vector<std::chrono::time_point<std::chrono::system_clock>> bombs_time;
 
 //    std::vector<IDisplay::Scenes> _sceneManager;
 };

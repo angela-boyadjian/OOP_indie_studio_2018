@@ -42,6 +42,34 @@ void core::Bomberman::setMusic()
     _mainMusic->openFromFile("./../resources/sounds/BombermanSong.wav");
 }
 
+void    core::Bomberman::exploseBlock(const int &x, const int &y)
+{
+    if (x > 0 and _map->getMapData()._mapWall[y][x - 1] == '2')
+        return;
+}
+
+void    core::Bomberman::exploseBomb()
+{
+    for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
+        std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
+        if (elapsedTime.count() >= 1) {
+            exploseBlock(bombs_pos[i].x, bombs_pos[i].y);
+            _display->visiBomb(bombs_pos[i].x, bombs_pos[i].y, false);
+        }
+    }
+}
+
+void    core::Bomberman::putBomb(const std::vector<ACharacter::move_t> &actions)
+{
+    for (auto a : actions) {
+        if (a.action == ACharacter::Action::BOMB) {
+            _display->visiBomb(a.x, a.y, true);
+            bombs_pos.emplace_back(a);
+            bombs_time.emplace_back(std::chrono::system_clock::now());
+        }
+    }
+}
+
 void core::Bomberman::run()
 {
     // TEMPO - REPLACE IT BY GENERIC METHOD
@@ -59,24 +87,13 @@ void core::Bomberman::run()
             std::get<2>(_game->getBots()[0]->getMapPos())));
     _map->getMapData()._mapWall[10][0] = '0';
 
-    auto b_pos = std::vector<ACharacter::move_t>();
-    auto b_time = std::vector<std::chrono::time_point<std::chrono::system_clock>>();
+
     while (_display->isRunning()) {
         if (_mainMusic->getStatus() != sf::Sound::Playing)
             _mainMusic->play();
-        for (std::size_t i {0}; i < b_pos.size(); ++i) {
-            std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - b_time[i];
-            if (elapsedTime.count() >= 1)
-                _display->visiBomb(b_pos[i].x, b_pos[i].y, false);
-        }
+        exploseBomb();
         auto actions = action();
-        for (auto a : actions) {
-            if (a.action == ACharacter::Action::BOMB) {
-                _display->visiBomb(a.x, a.y, true);
-                b_pos.emplace_back(a);
-                b_time.emplace_back(std::chrono::system_clock::now());
-            }
-        }
+        putBomb(actions);
         _display->draw();
     }
 }
