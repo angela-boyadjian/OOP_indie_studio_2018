@@ -34,6 +34,7 @@ public:
     irr::core::vector3df    pos3dToVector(const pos3d &);
     // SET OBJECT
     void    setDisplay(Events *) final;
+    virtual void    visiBomb(const int &i, const int &j, const bool &b) final { _bombs[j][i]->setVisible(b); };
     void    setBombState(const std::size_t &, bool);
 
     void    addNewAnimation(const char *, const char *, const pos3d &) final;

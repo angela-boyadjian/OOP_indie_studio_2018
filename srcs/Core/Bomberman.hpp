@@ -40,9 +40,9 @@ public:
 
     // BombermanGame loop
     void    run();
-    void    action();
-    void    botsAction();
-    void    playersAction();
+    std::vector<ACharacter::move_t> action();
+    std::vector<ACharacter::move_t> botsAction();
+    std::vector<ACharacter::move_t> playersAction();
     void    changeAnimation(const std::size_t &, const ACharacter::Action &, const ACharacter::Action &);
     void    changeFrameAndPos(const ACharacter *, const ACharacter::Action &, const ACharacter::Action &);
 

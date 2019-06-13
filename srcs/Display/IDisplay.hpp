@@ -27,6 +27,7 @@ public:
     using Scenes = std::shared_ptr<ISceneManager>;
 
     virtual void    addBombs(BombsVec &) = 0;
+    virtual void    visiBomb(const int &, const int &, const bool &) = 0;
     virtual void    setBombs(const std::size_t &,
             const std::size_t &, const irr::core::vector3df &) = 0;
     // SET OBJECT

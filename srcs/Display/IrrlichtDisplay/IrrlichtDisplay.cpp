@@ -27,6 +27,7 @@ void    IrrlichtDisplay::setBombs(const std::size_t &i, const std::size_t &j, co
 {
     std::cout << "i = " << i << std::endl << "j = " << j << std::endl;
     _bombs.at(j).at(i)->setPosition(v);
+    _bombs.at(j).at(i)->setVisible(false);
 }
 
 irr::core::vector3df    IrrlichtDisplay::pos3dToVector(const IDisplay::pos3d &pos)

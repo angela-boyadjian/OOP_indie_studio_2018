@@ -61,35 +61,43 @@ void core::Bomberman::run()
     while (_display->isRunning()) {
         if (_mainMusic->getStatus() != sf::Sound::Playing)
             _mainMusic->play();
-        action();
+        auto actions = action();
+        for (auto a : actions) {
+            if (a.action == ACharacter::Action::BOMB)
+                _display->visiBomb(a.x, a.y, true);
+        }
         _display->draw();
     }
 }
 
-void    core::Bomberman::botsAction()
+std::vector<ACharacter::move_t> core::Bomberman::botsAction()
 {
     auto botsMove = _game->moveBots(_map->getMapData()._mapWall, _display.get());
     for (std::size_t i {0}; i < _game->getBots().size(); ++i) {
-        changeFrameAndPos(_game->getBots()[i].get(), botsMove[i], _lastActions[_game->getBots()[i]->getEntityNb()]);
-        changeAnimation(_game->getBots()[i]->getEntityNb(), botsMove[i], _lastActions[_game->getBots()[i]->getEntityNb()]);
-        _lastActions[_game->getBots()[i]->getEntityNb()] = botsMove[i];
+        changeFrameAndPos(_game->getBots()[i].get(), botsMove[i].action, _lastActions[_game->getBots()[i]->getEntityNb()]);
+        changeAnimation(_game->getBots()[i]->getEntityNb(), botsMove[i].action, _lastActions[_game->getBots()[i]->getEntityNb()]);
+        _lastActions[_game->getBots()[i]->getEntityNb()] = botsMove[i].action;
     }
+    return botsMove;
 }
 
-void    core::Bomberman::playersAction()
+std::vector<ACharacter::move_t> core::Bomberman::playersAction()
 {
     auto playersMove = _game->movePlayers(_event, _map->getMapData()._mapWall, _display.get());
     for (std::size_t i {0}; i < _game->getPlayers().size(); ++i) {
-        changeFrameAndPos(_game->getPlayers()[i].get(), playersMove[i], _lastActions[_game->getPlayers()[i]->getEntityNb()]);
-        changeAnimation(_game->getPlayers()[i]->getEntityNb(), playersMove[i], _lastActions[_game->getPlayers()[i]->getEntityNb()]);
-        _lastActions[_game->getPlayers()[i]->getEntityNb()] = playersMove[i];
+        changeFrameAndPos(_game->getPlayers()[i].get(), playersMove[i].action, _lastActions[_game->getPlayers()[i]->getEntityNb()]);
+        changeAnimation(_game->getPlayers()[i]->getEntityNb(), playersMove[i].action, _lastActions[_game->getPlayers()[i]->getEntityNb()]);
+        _lastActions[_game->getPlayers()[i]->getEntityNb()] = playersMove[i].action;
     }
+    return playersMove;
 }
 
-void    core::Bomberman::action()
+std::vector<ACharacter::move_t> core::Bomberman::action()
 {
-    playersAction();
-    botsAction();
+    auto p = playersAction();
+    auto b = botsAction();
+    p.insert(p.end(), b.begin(), b.end());
+    return p;
 }
 
 void    core::Bomberman::changeAnimation(const std::size_t &i, const ACharacter::Action &curr,

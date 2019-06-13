@@ -251,20 +251,20 @@ void    Bot::animation()
     _movement -= 1;
 }
 
-void    Bot::move(std::vector<std::string> &map, IDisplay *d)
+ACharacter::move_t  Bot::move(std::vector<std::string> &map, IDisplay *d)
 {
     static auto c = std::chrono::system_clock::now();
     static auto count {0};
 
     if (_movement > 0) {
         animation();
-        return;
+        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection };
     }
     std::chrono::duration<double> diff = std::chrono::system_clock::now() - c;
     if (diff.count() > 0.3)
         c = std::chrono::system_clock::now();
     else
-        return;
+        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection };
     for (auto &t : map)
         std::cout << t << std::endl;
     std::cout << std::endl;
@@ -289,4 +289,5 @@ void    Bot::move(std::vector<std::string> &map, IDisplay *d)
     }
     _lastDirection = a;
     ++count;
+    return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection };
 }

@@ -18,26 +18,24 @@ Player::~Player()
 {
 }
 
-void    Player::move(std::vector<std::string> &map, IDisplay *d)
+ACharacter::move_t  Player::move(std::vector<std::string> &map, IDisplay *d)
 {
     isWalls(d);
     switch (_action) {
         case ACharacter::Action::UP:
             moveUp();
-            return;
+            break;
         case ACharacter::Action::DOWN:
             moveDown();
-            return;
+            break;
         case ACharacter::Action::LEFT:
             moveLeft();
-            return;
+            break;
         case ACharacter::Action::RIGHT:
             moveRight();
-            return;
-        case ACharacter::Action::BOMB:
-            bomb(d);
-            return;
-        case ACharacter::Action::WAIT:
-            return;
+            break;
+        default:
+            break;
     }
+    return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _action};
 }
