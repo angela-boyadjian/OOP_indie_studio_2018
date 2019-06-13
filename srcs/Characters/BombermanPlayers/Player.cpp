@@ -37,5 +37,5 @@ ACharacter::move_t  Player::move(std::vector<std::string> &map, IDisplay *d)
         default:
             break;
     }
-    return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _action};
+    return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _action, .itself = this};
 }

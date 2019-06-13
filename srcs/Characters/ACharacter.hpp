@@ -41,6 +41,7 @@ public:
         int     x;
         int     y;
         Action  action;
+        ACharacter  *itself;
     }   move_t;
 
     // CONSTRUCTOR / DESTRUCTOR

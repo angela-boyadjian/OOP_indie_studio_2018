@@ -64,6 +64,7 @@ private:
     std::unique_ptr<sf::Music>      _mainMusic;
     std::vector<ACharacter::move_t> bombs_pos;
     std::vector<std::chrono::time_point<std::chrono::system_clock>> bombs_time;
+    std::vector<ABombermanPlayer *>    bombs_player;
 
 //    std::vector<IDisplay::Scenes> _sceneManager;
 };
