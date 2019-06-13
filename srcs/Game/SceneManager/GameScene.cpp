@@ -9,6 +9,7 @@
 GameScene::GameScene(IDisplay::Device &device, IDisplay::VideoDriver &driver) : _device(device), _driver(driver)
 {
     _scene = _device->getSceneManager()->createNewSceneManager(false);
+    _scene->loadScene("test.irr");
 
     setCameraScene();
     setTerrain();

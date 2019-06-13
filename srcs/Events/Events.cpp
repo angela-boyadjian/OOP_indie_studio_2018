@@ -9,7 +9,8 @@ Events::Events(Device const &device, std::shared_ptr<IDisplay> &display)
 }
 
 bool    Events::isInputEvent(Event const &event) { return event.EventType == INPUT_EVENT; }
-bool    Events::isGuiEvent(Event const &event) { return event.EventType == GUI_EVENT; }
+
+bool    Events::isGuiEvent(Event const &event) { return event.EventType == GUI_EVENT;}
 
 void    Events::OnEvent(const irr::EKEY_CODE &key) {
     _keyIsPressed[key] = true;
@@ -17,14 +18,22 @@ void    Events::OnEvent(const irr::EKEY_CODE &key) {
 
 bool    Events::OnEvent(const Event& event)
 {
+    if (isInputEvent(event) && isGuiEvent(event))
+        std::cout << "IDD " << event.GUIEvent.Caller->getID() << std::endl;
     if (isInputEvent(event)) {
 //            std::cout << "pass" << std::endl;
         _keyIsPressed[event.KeyInput.Key] = event.KeyInput.PressedDown;
+        if (event.KeyInput.Key == irr::KEY_ESCAPE) {
+            _display->changeScene("menu");
+            return true;
+        }
     }
-    if (isGuiEvent(event)) {
+    if (isGuiEvent(event) && !isInputEvent(event)) {
         index id = event.GUIEvent.Caller->getID();
+        std::cout << id << std::endl;
         if (id == GUI_ID_QUIT_BUTTON &&
             event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
+            _display->_sceneManagers.at("game")->getSceneManager()->saveScene("test.irr");
             _device->closeDevice();
             return true;
         } else if (id == GUI_ID_START_BUTTON &&
