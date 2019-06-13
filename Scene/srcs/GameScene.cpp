@@ -5,6 +5,7 @@
 ** basile.lamarque@epitech.eu
 */
 
+#include "SceneException.hpp"
 #include "GameScene.hpp"
 
 GameScene::GameScene(irr::scene::ISceneManager *manager, irr::scene::ISceneNode *father, const std::string &name) :
@@ -19,7 +20,7 @@ GameScene::GameScene(irr::scene::ISceneManager *manager, irr::scene::ISceneNode 
 std::string GameScene::runScene()
 {
     if (!_is_load)
-        throw std::exception(); // A CHANGER
+        throw SceneException("Scene is not load", _name.c_str());
     _master->setVisible(true);
     return _name;
 }
