@@ -16,6 +16,7 @@
 #include "BombermanPlayers/Player.hpp"
 #include "IDisplayLoader.hpp"
 #include "ISceneManager.hpp"
+#include "SceneManager.hpp"
 
 namespace core {
     class Bomberman;
@@ -38,6 +39,12 @@ public:
     // load resources
     void    loadGame(const std::string &, std::unique_ptr<AGame> &);
 
+    // scene manager
+    void initScene();
+
+    // TEMPO DANS LE MERGE
+    void Trun();
+
     // BombermanGame loop
     void    run();
     void    action();
@@ -58,6 +65,8 @@ private:
     std::shared_ptr<IDisplayLoader> _dispLoader;
     std::map<std::size_t, ACharacter::Action>   _lastActions;
     std::unique_ptr<sf::Music>      _mainMusic;
+    SceneManager _manager;
+
 
 //    std::vector<IDisplay::Scenes> _sceneManager;
 };

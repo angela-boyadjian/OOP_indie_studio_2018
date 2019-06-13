@@ -6,9 +6,9 @@
 */
 
 #include "SceneException.hpp"
-#include "MenuScene.hpp"
+#include "MenuBisScene.hpp"
 
-MenuScene::MenuScene(irr::scene::ISceneManager *manager, irr::scene::ISceneNode *father, const std::string &name) :
+MenuBisScene::MenuBisScene(irr::scene::ISceneManager *manager, irr::scene::ISceneNode *father, const std::string &name) :
     _master(manager->addEmptySceneNode(father)),
     _manager(manager),
     _name(name),
@@ -17,7 +17,7 @@ MenuScene::MenuScene(irr::scene::ISceneManager *manager, irr::scene::ISceneNode 
     _master->setVisible(false);
 }
 
-std::string MenuScene::runScene()
+std::string MenuBisScene::runScene()
 {
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str()); // A CHANGER
@@ -26,7 +26,7 @@ std::string MenuScene::runScene()
     return _name;
 }
 
-void MenuScene::loadScene()
+void MenuBisScene::loadScene()
 {
     std::cout << "Load menu" << std::endl;
     _is_load = true;
@@ -37,12 +37,12 @@ void MenuScene::loadScene()
     _master->setVisible(true);
 }
 
-std::string MenuScene::getName()
+std::string MenuBisScene::getName()
 {
     return _name;
 }
 
-void MenuScene::deLoad()
+void MenuBisScene::deLoad()
 {
     std::cout << "Deload Menu" << std::endl;
     _master->setVisible(false);

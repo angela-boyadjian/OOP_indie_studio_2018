@@ -16,9 +16,10 @@
 
 class SceneManager {
     public:
-        SceneManager(irr::scene::ISceneManager *);
+        SceneManager();
         ~SceneManager() = default;
 
+        void initManager(irr::scene::ISceneManager *);
         void loadCurrent();
         void runCurrentScene();
         void setCurrent(const unsigned long);

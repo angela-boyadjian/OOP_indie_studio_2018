@@ -25,6 +25,7 @@ include_directories(
         srcs/Menu/BombermanMenu
         srcs/Game
         srcs/Game/SceneManager
+        srcs/Game/Scene
 )
 
 add_executable(${PROJECT_NAME}
@@ -62,12 +63,19 @@ add_executable(${PROJECT_NAME}
         srcs/Display/IrrlichtDisplay/IrrlichtDisplayLoader.hpp
         srcs/Display/IrrlichtDisplay/IrrlichtDisplayLoader.cpp
         srcs/Objects/Bomb.cpp
-        srcs/Objects/Bomb.hpp
+        srcs/Objects/Bomb.hpp   
         srcs/Game/ISceneManager.hpp
         srcs/Game/SceneManager/GameScene.cpp
         srcs/Game/SceneManager/GameScene.hpp
         srcs/Game/SceneManager/MenuScene.cpp
         srcs/Game/SceneManager/MenuScene.hpp
-)
+        srcs/Game/SceneManager/MapSelectionScene.cpp
+        srcs/Game/SceneManager/MapSelectionScene.hpp
+        srcs/Game/Scene/MenuBisScene.hpp srcs/Game/Scene/MenuBisScene.cpp
+        srcs/Game/Scene/IScene.hpp
+        srcs/Game/Scene/SceneManager.hpp srcs/Game/Scene/SceneManager.cpp
+        srcs/Game/Scene/GameScene.cpp srcs/Game/Scene/GameScene.hpp
+        srcs/Game/Scene/SceneManagerException.cpp srcs/Game/Scene/SceneManagerException.hpp
+        srcs/Game/Scene/SceneException.cpp srcs/Game/Scene/SceneException.hpp)
 
 target_link_libraries(${PROJECT_NAME} Irrlicht sfml-audio)

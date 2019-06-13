@@ -12,6 +12,7 @@
 #include "Bomberman.hpp"
 #include "ACharacter.hpp"
 #include "Menu.hpp"
+#include "MenuBisScene.hpp"
 
 core::Bomberman::Bomberman()
 {
@@ -28,7 +29,7 @@ void core::Bomberman::setGame(std::unique_ptr<AGame> &g)
 }
 
 void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
-        std::shared_ptr<IDisplayLoader> &dl)
+                                   std::shared_ptr<IDisplayLoader> &dl)
 {
     _display = std::move(d);
     _dispLoader = std::move(dl);
@@ -44,20 +45,28 @@ void core::Bomberman::setMusic()
 void core::Bomberman::run()
 {
     // TEMPO - REPLACE IT BY GENERIC METHOD
-    _game->getPlayers()[0]->setPosZ(std::get<2>(_game->getPlayers()[0]->getMapPos()) + 30);
-    _display->changeModelPos(_game->getPlayers()[0]->getEntityNb(), std::make_tuple(
-            std::get<0>(_game->getPlayers()[0]->getMapPos()),
-            std::get<1>(_game->getPlayers()[0]->getMapPos()),
-            std::get<2>(_game->getPlayers()[0]->getMapPos())));
+    _game->getPlayers()[0]->setPosZ(
+        std::get<2>(_game->getPlayers()[0]->getMapPos()) + 30);
+    _display->changeModelPos(_game->getPlayers()[0]->getEntityNb(),
+                             std::make_tuple(
+                                 std::get<0>(
+                                     _game->getPlayers()[0]->getMapPos()),
+                                 std::get<1>(
+                                     _game->getPlayers()[0]->getMapPos()),
+                                 std::get<2>(
+                                     _game->getPlayers()[0]->getMapPos())));
 
     // TEMPO - REPLACE IT BY GENERIC METHOD
-    _game->getBots()[0]->setPosZ(std::get<2>(_game->getPlayers()[0]->getMapPos()) - 100);
-    _display->changeModelPos(_game->getBots()[0]->getEntityNb(), std::make_tuple(
-            std::get<0>(_game->getBots()[0]->getMapPos()),
-            std::get<1>(_game->getBots()[0]->getMapPos()),
-            std::get<2>(_game->getBots()[0]->getMapPos())));
+    _game->getBots()[0]->setPosZ(
+        std::get<2>(_game->getPlayers()[0]->getMapPos()) - 100);
+    _display->changeModelPos(_game->getBots()[0]->getEntityNb(),
+                             std::make_tuple(
+                                 std::get<0>(_game->getBots()[0]->getMapPos()),
+                                 std::get<1>(_game->getBots()[0]->getMapPos()),
+                                 std::get<2>(
+                                     _game->getBots()[0]->getMapPos())));
     _map->getMapData()._mapWall[10][0] = '0';
-    
+
     while (_display->isRunning()) {
         if (_mainMusic->getStatus() != sf::Sound::Playing)
             _mainMusic->play();
@@ -66,34 +75,41 @@ void core::Bomberman::run()
     }
 }
 
-void    core::Bomberman::botsAction()
+void core::Bomberman::botsAction()
 {
-    auto botsMove = _game->moveBots(_map->getMapData()._mapWall, _display.get());
-    for (std::size_t i {0}; i < _game->getBots().size(); ++i) {
-        changeFrameAndPos(_game->getBots()[i].get(), botsMove[i], _lastActions[_game->getBots()[i]->getEntityNb()]);
-        changeAnimation(_game->getBots()[i]->getEntityNb(), botsMove[i], _lastActions[_game->getBots()[i]->getEntityNb()]);
+    auto botsMove = _game->moveBots(_map->getMapData()._mapWall,
+                                    _display.get());
+    for (std::size_t i{0}; i < _game->getBots().size(); ++i) {
+        changeFrameAndPos(_game->getBots()[i].get(), botsMove[i],
+                          _lastActions[_game->getBots()[i]->getEntityNb()]);
+        changeAnimation(_game->getBots()[i]->getEntityNb(), botsMove[i],
+                        _lastActions[_game->getBots()[i]->getEntityNb()]);
         _lastActions[_game->getBots()[i]->getEntityNb()] = botsMove[i];
     }
 }
 
-void    core::Bomberman::playersAction()
+void core::Bomberman::playersAction()
 {
-    auto playersMove = _game->movePlayers(_event, _map->getMapData()._mapWall, _display.get());
-    for (std::size_t i {0}; i < _game->getPlayers().size(); ++i) {
-        changeFrameAndPos(_game->getPlayers()[i].get(), playersMove[i], _lastActions[_game->getPlayers()[i]->getEntityNb()]);
-        changeAnimation(_game->getPlayers()[i]->getEntityNb(), playersMove[i], _lastActions[_game->getPlayers()[i]->getEntityNb()]);
+    auto playersMove = _game->movePlayers(_event, _map->getMapData()._mapWall,
+                                          _display.get());
+    for (std::size_t i{0}; i < _game->getPlayers().size(); ++i) {
+        changeFrameAndPos(_game->getPlayers()[i].get(), playersMove[i],
+                          _lastActions[_game->getPlayers()[i]->getEntityNb()]);
+        changeAnimation(_game->getPlayers()[i]->getEntityNb(), playersMove[i],
+                        _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         _lastActions[_game->getPlayers()[i]->getEntityNb()] = playersMove[i];
     }
 }
 
-void    core::Bomberman::action()
+void core::Bomberman::action()
 {
     playersAction();
     botsAction();
 }
 
-void    core::Bomberman::changeAnimation(const std::size_t &i, const ACharacter::Action &curr,
-        const ACharacter::Action &last)
+void core::Bomberman::changeAnimation(const std::size_t &i,
+                                      const ACharacter::Action &curr,
+                                      const ACharacter::Action &last)
 {
     switch (curr) {
         case ACharacter::Action::LEFT:
@@ -117,18 +133,22 @@ void    core::Bomberman::changeAnimation(const std::size_t &i, const ACharacter:
     }
 }
 
-void    core::Bomberman::changeFrameAndPos(const ACharacter *cha, const ACharacter::Action &curr,
-                                           const ACharacter::Action &last)
+void core::Bomberman::changeFrameAndPos(const ACharacter *cha,
+                                        const ACharacter::Action &curr,
+                                        const ACharacter::Action &last)
 {
     if (curr != ACharacter::Action::WAIT) {
         if (last == ACharacter::Action::WAIT)
             _display->changeModelFrame(cha->getEntityNb(), 0, 27);
-        _display->changeModelPos(cha->getEntityNb(), std::make_tuple(std::get<0>(cha->getMapPos()),
-            0, std::get<2>(cha->getMapPos())));
+        _display->changeModelPos(cha->getEntityNb(),
+                                 std::make_tuple(std::get<0>(cha->getMapPos()),
+                                                 0, std::get<2>(
+                                         cha->getMapPos())));
     }
 }
 
-void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
+void core::Bomberman::loadGame(const std::string &mapPath,
+                               std::unique_ptr<AGame> &game)
 {
     auto menu = std::unique_ptr<Menu>(new Menu());
 
@@ -145,26 +165,49 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
     _display->_device->setEventReceiver(_event.get());
 }
 
-void    core::Bomberman::lauch()
+void core::Bomberman::Trun()
+{
+    while (_display->isRunning()) {
+        _display->getDevice()->getVideoDriver()->beginScene(true, true,  irr::video::SColor(255, 255, 255, 255));
+        _manager.runCurrentScene();
+        _display->getDevice()->getVideoDriver()->endScene();
+    }
+}
+
+void core::Bomberman::initScene()
+{
+    _manager.addScenes(std::make_unique<MenuBisScene>(MenuBisScene(_manager.getManager(), _manager.getMaster(), "menu")));
+    _manager.changeCurrent("menu");
+}
+
+void core::Bomberman::lauch()
 {
     auto disp = std::shared_ptr<IDisplay>(new IrrlichtDisplay());
     _event = std::make_unique<Events>(Events(disp->_device, _display));
     disp->setDisplay(_event.get());
+    _manager.initManager(disp->_device->getSceneManager());
+    initScene();
     auto dispLoader = std::shared_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp));
     setDisplayer(disp, dispLoader);
-    setMusic();
-    initGame(_event.get());
-    run();
+    Trun();
+     /*setMusic();
+     initGame(_event.get());
+     run();*/
 }
 
-void    core::Bomberman::initGame(Events *event)
+void core::Bomberman::initGame(Events *event)
 {
-   auto players = std::vector<std::unique_ptr<Player>>();
-    players.push_back(std::make_unique<Player>(Player(0, ACharacter::Color::BLACK,
-                                                      std::make_tuple(std::size_t(0), std::size_t(0), std::size_t(0)))));
+    auto players = std::vector<std::unique_ptr<Player>>();
+    players.push_back(
+        std::make_unique<Player>(Player(0, ACharacter::Color::BLACK,
+                                        std::make_tuple(std::size_t(0),
+                                                        std::size_t(0),
+                                                        std::size_t(0)))));
     auto bots = std::vector<std::unique_ptr<Bot>>();
     bots.push_back(std::make_unique<Bot>(Bot(1, std::make_tuple(std::size_t(0),
-                                                             std::size_t(0), std::size_t(0)))));
+                                                                std::size_t(0),
+                                                                std::size_t(
+                                                                    0)))));
     auto game = std::unique_ptr<AGame>(new BombermanGame(players, bots));
     loadGame("./../resources/maps/3", game);
 }

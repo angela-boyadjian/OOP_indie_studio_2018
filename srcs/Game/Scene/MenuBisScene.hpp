@@ -12,10 +12,10 @@
 
 #include "IScene.hpp"
 
-class MenuScene : public IScene {
+class MenuBisScene : public IScene {
     public:
-        MenuScene(irr::scene::ISceneManager *, irr::scene::ISceneNode *, const std::string &);
-        ~MenuScene() = default;
+        MenuBisScene(irr::scene::ISceneManager *, irr::scene::ISceneNode *, const std::string &);
+        ~MenuBisScene() = default;
 
         // MANDATORY
         void deLoad() override;

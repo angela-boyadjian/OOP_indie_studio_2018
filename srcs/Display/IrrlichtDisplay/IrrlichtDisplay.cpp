@@ -17,10 +17,11 @@ void    IrrlichtDisplay::setDisplay(Events *events)
     _gui = std::unique_ptr<irr::gui::IGUIEnvironment>(_device->getGUIEnvironment());
     _driver = _device->getVideoDriver();
 
-    _sceneManagers.insert(std::pair<std::string, Scenes>("menu", std::shared_ptr<ISceneManager>(new MenuScene(_device, _driver))));
-    _sceneManagers.insert(std::pair<std::string, Scenes>("game", std::shared_ptr<ISceneManager>(new GameScene(_device, _driver))));
+   // _sceneManagers.insert(std::pair<std::string, Scenes>("menu", std::shared_ptr<ISceneManager>(new MenuScene(_device, _driver))));
+    //_sceneManagers.insert(std::pair<std::string, Scenes>("game", std::shared_ptr<ISceneManager>(new GameScene(_device, _driver))));
+   // _sceneManagers.insert(std::pair<std::string, Scenes>("map select", std::shared_ptr<ISceneManager>(new MapSelectionScene(_device, _driver))));
+//_currentScene = "map select";
     _currentScene = "menu";
-//    _currentScene = "game";
 }
 
 irr::core::vector3df    IrrlichtDisplay::pos3dToVector(const IDisplay::pos3d &pos)
@@ -166,6 +167,13 @@ void    IrrlichtDisplay::setBombState(const std::size_t &target, bool isVisible)
 void    IrrlichtDisplay::changeScene(std::string const &scene)
 {
     static int i;
+
+    if (_currentScene == "map select") {
+        _device->getCursorControl()->setVisible(false);
+        _gui->getRootGUIElement()->setVisible(false);
+        std::cout << "coucou" << std::endl;
+        return;
+    }
 
     if (_currentScene == "menu" && i == 0) {
         _currentScene = "game";

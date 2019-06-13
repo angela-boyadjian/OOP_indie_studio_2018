@@ -8,12 +8,15 @@
 #include "SceneManagerException.hpp"
 #include "SceneManager.hpp"
 
-SceneManager::SceneManager(irr::scene::ISceneManager *scene_manageur) :
-_manager(scene_manageur),
-_master(_manager->addEmptySceneNode()),
-_current(0, "None"),
-_gui(scene_manageur->getGUIEnvironment())
+SceneManager::SceneManager() : _current(0, "None")
 {}
+
+void SceneManager::initManager(irr::scene::ISceneManager *scene_manageur)
+{
+    _manager = scene_manageur;
+    _master = _manager->addEmptySceneNode();
+    _gui = scene_manageur->getGUIEnvironment();
+}
 
 void SceneManager::addScenes(std::unique_ptr<IScene> new_scene)
 {
@@ -79,7 +82,7 @@ void SceneManager::runCurrentScene()
     if (dest != std::get<1>(_current))
         changeCurrent(dest);
     _manager->drawAll();
-    _dmanager->getGUIEnvironment()->drawAll();
+    _manager->getGUIEnvironment()->drawAll();
 }
 
 
