@@ -187,8 +187,8 @@ void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
 void    IrrlichtDisplayLoader::setBombsPos()
 {
     auto x = 5400;
-    auto y = 820;
-    auto z = 5250;
+    auto y = 808;
+    auto z = 5230;
 
     for (auto j {0}; j < _d->getBombsMap().size(); ++j) {
         auto x_tmp = x;
