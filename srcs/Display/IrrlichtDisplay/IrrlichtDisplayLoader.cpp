@@ -205,9 +205,9 @@ void    IrrlichtDisplayLoader::loadBomb_b2(std::size_t y, std::size_t x)
     for (auto j {0}; j < y; ++j) {
         auto line = IDisplay::BombsVec();
         for (auto i {0}; i < x; ++i) {
-            auto tmp = _d->_sceneManagers.at("game")->getMeshScenes();
             _d->addNewAnimation("../resources/models/Bomb/Bomb.obj",
             "../resources/models/Bomb/Bomb.png", std::make_tuple(1, 1, 1));
+            auto tmp = _d->_sceneManagers.at("game")->getMeshScenes();
             line.emplace_back(tmp.at(tmp.size() - 1));
         }
         _d->addBombs(line);
