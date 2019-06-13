@@ -16,21 +16,21 @@ GameScene::GameScene(irr::scene::ISceneManager *manager, irr::scene::ISceneNode 
     _master->setVisible(false);
 }
 
-void GameScene::runScene()
+std::string GameScene::runScene()
 {
     if (!_is_load)
         throw std::exception(); // A CHANGER
-    std::cout << "Run Game" << std::endl;
     _master->setVisible(true);
+    return _name;
 }
 
 void GameScene::loadScene()
 {
     std::cout << "load Game" << std::endl;
     _is_load = true;
-    _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(0.0f, -10.0f, 20.0f)));
+    _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(-10.0f, 0.0f, 20.0f)));
     _cubes.back()->setMaterialFlag(irr::video::EMF_WIREFRAME, true);
-     _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(0.0f, 0.0f, 20.0f)));
+     _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(10.0f, 0.0f, 20.0f)));
     _cubes.back()->setMaterialFlag(irr::video::EMF_WIREFRAME, true);
     _master->setVisible(true);
 }

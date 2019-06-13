@@ -16,12 +16,14 @@ MenuScene::MenuScene(irr::scene::ISceneManager *manager, irr::scene::ISceneNode 
     _master->setVisible(false);
 }
 
-void MenuScene::runScene()
+std::string MenuScene::runScene()
 {
     if (!_is_load)
         throw std::exception(); // A CHANGER
-    std::cout << "Run Menu" << std::endl;
-    _master->setVisible(true);
+    if (_bouton->isPressed())
+        return "game";
+    //_bouton->draw();
+    return _name;
 }
 
 void MenuScene::loadScene()
@@ -30,6 +32,8 @@ void MenuScene::loadScene()
     _is_load = true;
     _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(0.0f, 0.0f, 20.0f)));
     _cubes.back()->setMaterialFlag(irr::video::EMF_WIREFRAME, true);
+    _cubes.emplace_back(_manager->addCameraSceneNode(_master.get(), irr::core::vector3df(0.0f, 0.0f, 0.0f)));
+    _bouton = _manager->getGUIEnvironment()->addButton(irr::core::rect<irr::s32>(100,80,200,120), nullptr, -1, L"PLAY");
     _master->setVisible(true);
 }
 
@@ -42,4 +46,5 @@ void MenuScene::deLoad()
 {
     std::cout << "Deload Menu" << std::endl;
     _master->setVisible(false);
+    _bouton->remove();
 }

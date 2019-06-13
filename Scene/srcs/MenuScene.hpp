@@ -19,7 +19,7 @@ class MenuScene : public IScene {
 
         // MANDATORY
         void deLoad() override;
-        void runScene() override;
+        std::string runScene() override;
         void loadScene() override;
         std::string getName() override;
 
@@ -29,6 +29,8 @@ class MenuScene : public IScene {
         std::string _name;
         bool _is_load;
         std::vector<std::shared_ptr<irr::scene::ISceneNode>> _cubes;
+        irr::gui::IGUIButton *_bouton;
+
 };
 
 

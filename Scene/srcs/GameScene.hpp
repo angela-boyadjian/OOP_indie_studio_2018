@@ -20,7 +20,7 @@ class GameScene : public IScene {
 
         // MANDATORY
         void deLoad() override;
-        void runScene() override;
+        std::string runScene() override;
         void loadScene() override;
         std::string getName() override;
 

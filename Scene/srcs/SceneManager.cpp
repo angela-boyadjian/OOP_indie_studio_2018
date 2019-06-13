@@ -10,7 +10,8 @@
 SceneManager::SceneManager(irr::scene::ISceneManager *scene_manageur) :
 _manager(scene_manageur),
 _master(_manager->addEmptySceneNode()),
-_current(0, "None")
+_current(0, "None"),
+_gui(scene_manageur->getGUIEnvironment())
 {}
 
 void SceneManager::addScenes(std::unique_ptr<IScene> new_scene)
@@ -50,14 +51,16 @@ void SceneManager::setCurrent(const std::string &name)
 
 void SceneManager::changeCurrent(const unsigned long current)
 {
-    _scenes[std::get<0>(_current)]->deLoad();
+    if (std::get<1>(_current) != "None")
+        _scenes[std::get<0>(_current)]->deLoad();
     setCurrent(current);
     _scenes[std::get<0>(_current)]->loadScene();
 }
 
 void SceneManager::changeCurrent(const std::string &name)
 {
-    _scenes[std::get<0>(_current)]->deLoad();
+    if (std::get<1>(_current) != "None")
+        _scenes[std::get<0>(_current)]->deLoad();
     setCurrent(name);
     _scenes[std::get<0>(_current)]->loadScene();
 }
@@ -71,8 +74,11 @@ void SceneManager::runCurrentScene()
 {
     if (std::get<1>(_current) == "None")
         throw std::exception(); // A CHANGER
-    _scenes[std::get<0>(_current)]->runScene();
+    auto dest = _scenes[std::get<0>(_current)]->runScene();
+    if (dest != std::get<1>(_current))
+        changeCurrent(dest);
     _manager->drawAll();
+    _manager->getGUIEnvironment()->drawAll();
 }
 
 

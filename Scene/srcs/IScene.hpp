@@ -13,7 +13,7 @@
 class IScene {
     public:
         virtual void deLoad() = 0;
-        virtual void runScene() = 0;
+        virtual std::string runScene() = 0;
         virtual void loadScene() = 0;
         virtual std::string getName() = 0;
 };
