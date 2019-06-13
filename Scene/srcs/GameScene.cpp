@@ -1,13 +1,13 @@
 /*
 ** EPITECH PROJECT, 2019
-** MenuScene.cpp 
+** GameScene.cpp 
 ** File description:
 ** basile.lamarque@epitech.eu
 */
 
-#include "MenuScene.hpp"
+#include "GameScene.hpp"
 
-MenuScene::MenuScene(irr::scene::ISceneManager *manager, irr::scene::ISceneNode *father, const std::string &name) :
+GameScene::GameScene(irr::scene::ISceneManager *manager, irr::scene::ISceneNode *father, const std::string &name) :
     _master(manager->addEmptySceneNode(father)),
     _manager(manager),
     _name(name),
@@ -16,7 +16,7 @@ MenuScene::MenuScene(irr::scene::ISceneManager *manager, irr::scene::ISceneNode 
     _master->setVisible(false);
 }
 
-void MenuScene::runScene()
+void GameScene::runScene()
 {
     if (!_is_load)
         throw std::exception(); // A CHANGER
@@ -24,22 +24,22 @@ void MenuScene::runScene()
     _master->setVisible(true);
 }
 
-void MenuScene::loadScene()
+void GameScene::loadScene()
 {
     std::cout << "Load" << std::endl;
     _is_load = true;
     _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(0.0f, 0.0f, 20.0f)));
-   _manager->addCameraSceneNode(_master.get());
+    _manager->addCameraSceneNode(_master.get());
     _cubes.back()->setMaterialFlag(irr::video::EMF_WIREFRAME, true);
     _master->setVisible(true);
 }
 
-std::string MenuScene::getName()
+std::string GameScene::getName()
 {
     return _name;
 }
 
-void MenuScene::deLoad()
+void GameScene::deLoad()
 {
     std::cout << "coucou" << std::endl;
 }

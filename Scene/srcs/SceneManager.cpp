@@ -7,7 +7,10 @@
 
 #include "SceneManager.hpp"
 
-ScenSceneManager::SceneManager(std::shared_ptr<irr::scene::ISceneManager> scene_manageur) : _master(scene_manageur)
+SceneManager::SceneManager(irr::scene::ISceneManager *scene_manageur) :
+_manager(scene_manageur),
+_master(_manager->addEmptySceneNode()),
+_current(0, "None")
 {}
 
 void SceneManager::addScenes(std::unique_ptr<IScene> scene)
@@ -26,7 +29,7 @@ void SceneManager::setCurrent(const std::string &name)
 
     for (auto &scene : _scenes) {
         if (scene->getName() == name) {
-            _current = std::make_tuple(name, i);
+            _current = std::make_tuple(i, name);
             return;
         }
         i++;
@@ -34,14 +37,32 @@ void SceneManager::setCurrent(const std::string &name)
     throw std::exception(); // A CHANGER
 }
 
-void SceneManager::setCurrent(const long current)
+void SceneManager::loadCurrent()
+{
+    _scenes[std::get<0>(_current)]->loadScene();
+}
+
+void SceneManager::runCurrentScene()
+{
+    if (std::get<1>(_current) == "None")
+        throw std::exception(); // A CHANGER
+    _scenes[std::get<0>(_current)]->runScene();
+    _manager->drawAll();
+}
+
+void SceneManager::setCurrent(const unsigned long current)
 {
     if (current >= _scenes.size())
         throw std::exception();
-    _current = std::make_tuple(_scenes[current], current);
+    _current = std::make_tuple(current, _scenes[current]->getName());
 }
 
-std::shared_ptr<irr::scene::ISceneManager> &SceneManager::getMaster()
+irr::scene::ISceneManager *SceneManager::getManager()
+{
+    return _manager;
+}
+
+irr::scene::ISceneNode *SceneManager::getMaster()
 {
     return _master;
 }

@@ -16,18 +16,23 @@
 
 class SceneManager {
     public:
-        SceneManager(std::shared_ptr<irr::scene::ISceneManager>);
+        SceneManager(irr::scene::ISceneManager *);
         ~SceneManager() = default;
 
-        void addScenes(std::unique_ptr<IScene>);
-        std::tuple<long, std::string> getCurrent() const;
+        void loadCurrent();
+        void runCurrentScene();
+        void setCurrent(const unsigned long);
         void setCurrent(const std::string &);
-        void setCurrent(const long);
-        std::shared_ptr<irr::scene::ISceneManager> &getMaster();
+        irr::scene::ISceneManager *getManager();
+        irr::scene::ISceneNode *getMaster();
+        void addScenes(std::unique_ptr<IScene> scene);
+        std::tuple<long, std::string> getCurrent() const;
+
     private:
+        irr::scene::ISceneManager *_manager;
+        irr::scene::ISceneNode *_master;
+        std::tuple<unsigned long, std::string> _current;
         std::vector<std::unique_ptr<IScene>> _scenes;
-        std::tuple<long, std::string> _current;
-        std::shared_ptr<irr::scene::ISceneManager> _master;
 };
 
 

@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2019
-** MenuScene.hpp 
+** GameScene.hpp 
 ** File description:
 ** basile.lamarque@epitech.eu
 */
@@ -9,13 +9,14 @@
 
 #include <memory>
 #include <vector>
+#include <iostream>
 
 #include "IScene.hpp"
 
-class MenuScene : public IScene {
+class GameScene : public IScene {
     public:
-        MenuScene(irr::scene::ISceneManager *, irr::scene::ISceneNode *, const std::string &);
-        ~MenuScene() = default;
+        GameScene(irr::scene::ISceneManager *, irr::scene::ISceneNode *, const std::string &);
+        ~GameScene() = default;
 
         // MANDATORY
         void deLoad() override;
