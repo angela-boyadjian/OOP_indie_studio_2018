@@ -20,16 +20,17 @@ void GameScene::runScene()
 {
     if (!_is_load)
         throw std::exception(); // A CHANGER
-    std::cout << "Run Menu" << std::endl;
+    std::cout << "Run Game" << std::endl;
     _master->setVisible(true);
 }
 
 void GameScene::loadScene()
 {
-    std::cout << "Load" << std::endl;
+    std::cout << "load Game" << std::endl;
     _is_load = true;
-    _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(0.0f, 0.0f, 20.0f)));
-    _manager->addCameraSceneNode(_master.get());
+    _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(0.0f, -10.0f, 20.0f)));
+    _cubes.back()->setMaterialFlag(irr::video::EMF_WIREFRAME, true);
+     _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(0.0f, 0.0f, 20.0f)));
     _cubes.back()->setMaterialFlag(irr::video::EMF_WIREFRAME, true);
     _master->setVisible(true);
 }
@@ -41,5 +42,6 @@ std::string GameScene::getName()
 
 void GameScene::deLoad()
 {
-    std::cout << "coucou" << std::endl;
+    std::cout << "DeloadGame" << std::endl;
+    _master->setVisible(false);
 }

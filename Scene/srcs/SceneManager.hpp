@@ -23,6 +23,8 @@ class SceneManager {
         void runCurrentScene();
         void setCurrent(const unsigned long);
         void setCurrent(const std::string &);
+        void changeCurrent(const unsigned long);
+        void changeCurrent(const std::string &);
         irr::scene::ISceneManager *getManager();
         irr::scene::ISceneNode *getMaster();
         void addScenes(std::unique_ptr<IScene> scene);

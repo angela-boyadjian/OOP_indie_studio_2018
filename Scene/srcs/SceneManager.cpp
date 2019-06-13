@@ -13,14 +13,25 @@ _master(_manager->addEmptySceneNode()),
 _current(0, "None")
 {}
 
-void SceneManager::addScenes(std::unique_ptr<IScene> scene)
+void SceneManager::addScenes(std::unique_ptr<IScene> new_scene)
 {
-    _scenes.push_back(std::move(scene));
+    std::string name = new_scene->getName();
+    for (auto &scene : _scenes)
+        if (name == scene->getName())
+            throw std::exception(); // NOTE A CHANGER
+    _scenes.push_back(std::move(new_scene));
 }
 
 std::tuple<long, std::string> SceneManager::getCurrent() const
 {
     return _current;
+}
+
+void SceneManager::setCurrent(const unsigned long current)
+{
+    if (current >= _scenes.size())
+        throw std::exception();
+    _current = std::make_tuple(current, _scenes[current]->getName());
 }
 
 void SceneManager::setCurrent(const std::string &name)
@@ -37,6 +48,20 @@ void SceneManager::setCurrent(const std::string &name)
     throw std::exception(); // A CHANGER
 }
 
+void SceneManager::changeCurrent(const unsigned long current)
+{
+    _scenes[std::get<0>(_current)]->deLoad();
+    setCurrent(current);
+    _scenes[std::get<0>(_current)]->loadScene();
+}
+
+void SceneManager::changeCurrent(const std::string &name)
+{
+    _scenes[std::get<0>(_current)]->deLoad();
+    setCurrent(name);
+    _scenes[std::get<0>(_current)]->loadScene();
+}
+
 void SceneManager::loadCurrent()
 {
     _scenes[std::get<0>(_current)]->loadScene();
@@ -50,12 +75,7 @@ void SceneManager::runCurrentScene()
     _manager->drawAll();
 }
 
-void SceneManager::setCurrent(const unsigned long current)
-{
-    if (current >= _scenes.size())
-        throw std::exception();
-    _current = std::make_tuple(current, _scenes[current]->getName());
-}
+
 
 irr::scene::ISceneManager *SceneManager::getManager()
 {

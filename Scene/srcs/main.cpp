@@ -18,35 +18,32 @@ int main()
     irr::video::IVideoDriver* driver = device->getVideoDriver ();
     SceneManager manager(device->getSceneManager());
     manager.addScenes(std::make_unique<MenuScene>(MenuScene(manager.getManager(), manager.getMaster(), "menu")));
-    manager.addScenes(std::make_unique<GameScene>(GameScene(manager.getManager(), manager.getMaster(), "menu")));
-    manager.setCurrent("menu");
-    manager.loadCurrent();
-
-    irr::SKeyMap keyMap[5];                    // re-assigne les commandes
-    keyMap[0].Action = irr::EKA_MOVE_FORWARD;  // avancer
-    keyMap[0].KeyCode = irr::KEY_KEY_W;        // w
-    keyMap[1].Action = irr::EKA_MOVE_BACKWARD; // reculer
-    keyMap[1].KeyCode = irr::KEY_KEY_S;        // s
-    keyMap[2].Action = irr::EKA_STRAFE_LEFT;   // a gauche
-    keyMap[2].KeyCode = irr::KEY_KEY_A;        // a
-    keyMap[3].Action = irr::EKA_STRAFE_RIGHT;  // a droite
-    keyMap[3].KeyCode = irr::KEY_KEY_D;        // d
-    keyMap[4].Action = irr::EKA_JUMP_UP;       // saut
-    keyMap[4].KeyCode = irr::KEY_SPACE;        // barre espace
-
-    manager.getManager()->addCameraSceneNodeFPS(       // ajout de la camera FPS
-        0,                                     // pas de noeud parent
-        100.0f,                                // vitesse de rotation
-        0.1f,                                  // vitesse de deplacement
-        -1,                                    // pas de numero d'ID
-        keyMap,                                // on change la keymap
-        5);                                    // avec une taille de 5
+    manager.addScenes(std::make_unique<GameScene>(GameScene(manager.getManager(), manager.getMaster(), "game")));
 
 
+    irr::SKeyMap keyMap[5];
+    keyMap[0].Action = irr::EKA_MOVE_FORWARD;
+    keyMap[0].KeyCode = irr::KEY_KEY_W;
+    keyMap[1].Action = irr::EKA_MOVE_BACKWARD;
+    keyMap[1].KeyCode = irr::KEY_KEY_S;
+    keyMap[2].Action = irr::EKA_STRAFE_LEFT;
+    keyMap[2].KeyCode = irr::KEY_KEY_A;
+    keyMap[3].Action = irr::EKA_STRAFE_RIGHT;
+    keyMap[3].KeyCode = irr::KEY_KEY_D;
+    keyMap[4].Action = irr::EKA_JUMP_UP;
+    keyMap[4].KeyCode = irr::KEY_SPACE;
+
+    manager.getManager()->addCameraSceneNodeFPS(0, 100.0f, 0.1f, -1,keyMap, 5);
+    manager.changeCurrent("menu");
+    int bis = 0;
     while (device->run()) {
+        if (bis > 500 && std::get<1>(manager.getCurrent()) != "game")
+            manager.changeCurrent("game");
         driver->beginScene(true, true,  irr::video::SColor(255, 255, 255, 255));
         manager.runCurrentScene();
         driver->endScene();
+        bis++;
+        std::cout << bis << std::endl;
     }
 }
 

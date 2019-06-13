@@ -26,10 +26,9 @@ void MenuScene::runScene()
 
 void MenuScene::loadScene()
 {
-    std::cout << "Load" << std::endl;
+    std::cout << "Load menu" << std::endl;
     _is_load = true;
     _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(0.0f, 0.0f, 20.0f)));
-   _manager->addCameraSceneNode(_master.get());
     _cubes.back()->setMaterialFlag(irr::video::EMF_WIREFRAME, true);
     _master->setVisible(true);
 }
@@ -41,5 +40,6 @@ std::string MenuScene::getName()
 
 void MenuScene::deLoad()
 {
-    std::cout << "coucou" << std::endl;
+    std::cout << "Deload Menu" << std::endl;
+    _master->setVisible(false);
 }
