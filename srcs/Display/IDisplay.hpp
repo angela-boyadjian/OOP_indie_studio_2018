@@ -26,6 +26,9 @@ public:
     using BombsVec = std::vector<std::shared_ptr<IDisplay::Object>>;
     using Scenes = std::shared_ptr<ISceneManager>;
 
+    virtual void    addBombs(BombsVec &) = 0;
+    virtual void    setBombs(const std::size_t &,
+            const std::size_t &, const irr::core::vector3df &) = 0;
     // SET OBJECT
     virtual void    setDisplay(Events *) = 0;
     // NOTE MESH FUNCTIONS
@@ -48,7 +51,7 @@ public:
     virtual Map3D   &getMap() = 0;
     virtual Map3D   &getColiMap() = 0;
     virtual Map3D   &getNonColiMap() = 0;
-    virtual BombsVec   &getBombsMap() = 0;
+    virtual std::vector<BombsVec>   &getBombsMap() = 0;
 
     virtual void    changeModelPos(const std::size_t &, const pos3d &) = 0;
     virtual void    changeModelRot(const std::size_t &, const pos3d &) = 0;

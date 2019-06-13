@@ -54,8 +54,10 @@ public:
     Map3D   &getMap() final;
     Map3D   &getColiMap() final;
     Map3D   &getNonColiMap() final;
-    BombsVec   &getBombsMap() final;
+    std::vector<BombsVec>   &getBombsMap() final;
 
+    void    addBombs(IDisplay::BombsVec &m) final { _bombs.emplace_back(std::move(m)); }
+    void    setBombs(const std::size_t &, const std::size_t &, const irr::core::vector3df &) final;
    // NOTE SCENES FUNCTIONS
     void    changeScene(std::string const &) final;
 
@@ -75,7 +77,8 @@ private:
     std::string _currentScene;
     BombsVec    _bombsMap;
     // TEMPO
-    Map3D _map3d;
-    Map3D _coliMap;
-    Map3D _noncoliMap;
+    std::vector<IDisplay::BombsVec>  _bombs;
+    Map3D   _map3d;
+    Map3D   _coliMap;
+    Map3D   _noncoliMap;
 };
