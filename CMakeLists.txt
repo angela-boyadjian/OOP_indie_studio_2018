@@ -68,6 +68,8 @@ add_executable(${PROJECT_NAME}
         srcs/Game/SceneManager/GameScene.hpp
         srcs/Game/SceneManager/MenuScene.cpp
         srcs/Game/SceneManager/MenuScene.hpp
+        srcs/Game/SceneManager/SettingScene.cpp
+        srcs/Game/SceneManager/SettingScene.hpp
 )
 
 target_link_libraries(${PROJECT_NAME} Irrlicht sfml-audio)

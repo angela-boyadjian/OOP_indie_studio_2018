@@ -17,9 +17,14 @@ GameScene::GameScene(IDisplay::Device &device, IDisplay::VideoDriver &driver) : 
 
 void GameScene::setCameraScene()
 {
-    _camera = std::unique_ptr<irr::scene::ICameraSceneNode>(getSceneManager()->addCameraSceneNode(nullptr));
-    _camera->setPosition(irr::core::vector3df(5444.9 , 915.958, 5170.33));
+    _camera = std::unique_ptr<irr::scene::ICameraSceneNode>(getSceneManager()->addCameraSceneNode(_scene->getRootSceneNode()));
+//        _camera = std::unique_ptr<irr::scene::ICameraSceneNode>(getSceneManager()->addCameraSceneNodeFPS(0, 50.0f, 0.2f));
+/*    _camera->setPosition(irr::core::vector3df(5444.9 , 915.958, 5170.33));
     _camera->setTarget(irr::core::vector3df(5454.47 , -6597.6, 6044.77));
+    _camera->setFarValue(42000.0f);*/
+    _camera->setRotation(irr::core::vector3df(2800, 900, 2700));
+    _camera->setPosition(irr::core::vector3df(5603.27, 948.51, 5304.03));
+    _camera->setTarget(irr::core::vector3df(5464.97, 811.798, 5180.71));
     _camera->setFarValue(42000.0f);
 }
 
@@ -117,5 +122,6 @@ ISceneManager::AnimatedMeshsScene GameScene::getMeshScenes()
 
 ISceneManager::Scenes GameScene::getSceneManager()
 {
+//    return _device->getSceneManager();
     return _scene;
 }
