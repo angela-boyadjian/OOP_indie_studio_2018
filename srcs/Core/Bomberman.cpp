@@ -5,9 +5,10 @@
 ** Bomberman
 */
 
+#include <chrono>
 #include <iostream>
-#include <IrrlichtDisplayLoader.hpp>
 #include <SFML/Audio.hpp>
+#include <IrrlichtDisplayLoader.hpp>
 
 #include "Bomberman.hpp"
 #include "ACharacter.hpp"
@@ -58,13 +59,23 @@ void core::Bomberman::run()
             std::get<2>(_game->getBots()[0]->getMapPos())));
     _map->getMapData()._mapWall[10][0] = '0';
 
+    auto b_pos = std::vector<ACharacter::move_t>();
+    auto b_time = std::vector<std::chrono::time_point<std::chrono::system_clock>>();
     while (_display->isRunning()) {
         if (_mainMusic->getStatus() != sf::Sound::Playing)
             _mainMusic->play();
+        for (std::size_t i {0}; i < b_pos.size(); ++i) {
+            std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - b_time[i];
+            if (elapsedTime.count() >= 1)
+                _display->visiBomb(b_pos[i].x, b_pos[i].y, false);
+        }
         auto actions = action();
         for (auto a : actions) {
-            if (a.action == ACharacter::Action::BOMB)
+            if (a.action == ACharacter::Action::BOMB) {
                 _display->visiBomb(a.x, a.y, true);
+                b_pos.emplace_back(a);
+                b_time.emplace_back(std::chrono::system_clock::now());
+            }
         }
         _display->draw();
     }
