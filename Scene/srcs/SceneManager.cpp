@@ -5,6 +5,7 @@
 ** basile.lamarque@epitech.eu
 */
 
+#include "SceneManagerException.hpp"
 #include "SceneManager.hpp"
 
 SceneManager::SceneManager(irr::scene::ISceneManager *scene_manageur) :
@@ -19,7 +20,7 @@ void SceneManager::addScenes(std::unique_ptr<IScene> new_scene)
     std::string name = new_scene->getName();
     for (auto &scene : _scenes)
         if (name == scene->getName())
-            throw std::exception(); // NOTE A CHANGER
+            throw SceneManagerException("Name already exist", name.c_str());
     _scenes.push_back(std::move(new_scene));
 }
 
@@ -31,7 +32,7 @@ std::tuple<long, std::string> SceneManager::getCurrent() const
 void SceneManager::setCurrent(const unsigned long current)
 {
     if (current >= _scenes.size())
-        throw std::exception();
+        throw SceneManagerException("Id is to high","None");
     _current = std::make_tuple(current, _scenes[current]->getName());
 }
 
@@ -46,7 +47,7 @@ void SceneManager::setCurrent(const std::string &name)
         }
         i++;
     }
-    throw std::exception(); // A CHANGER
+    throw SceneManagerException("No scene name", name.c_str());
 }
 
 void SceneManager::changeCurrent(const unsigned long current)
@@ -73,12 +74,12 @@ void SceneManager::loadCurrent()
 void SceneManager::runCurrentScene()
 {
     if (std::get<1>(_current) == "None")
-        throw std::exception(); // A CHANGER
+        throw SceneManagerException("Current is not set","None");
     auto dest = _scenes[std::get<0>(_current)]->runScene();
     if (dest != std::get<1>(_current))
         changeCurrent(dest);
     _manager->drawAll();
-    _manager->getGUIEnvironment()->drawAll();
+    _dmanager->getGUIEnvironment()->drawAll();
 }
 
 

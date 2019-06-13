@@ -5,6 +5,7 @@
 ** basile.lamarque@epitech.eu
 */
 
+#include "SceneException.hpp"
 #include "MenuScene.hpp"
 
 MenuScene::MenuScene(irr::scene::ISceneManager *manager, irr::scene::ISceneNode *father, const std::string &name) :
@@ -19,10 +20,9 @@ MenuScene::MenuScene(irr::scene::ISceneManager *manager, irr::scene::ISceneNode 
 std::string MenuScene::runScene()
 {
     if (!_is_load)
-        throw std::exception(); // A CHANGER
+        throw SceneException("Scene is not load", _name.c_str()); // A CHANGER
     if (_bouton->isPressed())
         return "game";
-    //_bouton->draw();
     return _name;
 }
 
