@@ -43,6 +43,7 @@ void core::Bomberman::setMusic()
     _mainMusic->openFromFile("./../resources/sounds/BombermanSong.wav");
 }
 
+// ATTTET
 void core::Bomberman::run()
 {
     // TEMPO - REPLACE IT BY GENERIC METHOD
@@ -178,7 +179,7 @@ void core::Bomberman::Trun()
 void core::Bomberman::initScene()
 {
     _manager.addScenes(std::make_unique<MenuBisScene>(MenuBisScene(_display->getDevice(), _manager.getMaster(), "menu", _display->getDevice()->getVideoDriver()->getScreenSize())));
-    _manager.addScenes(std::make_unique<GameBisScene>(GameBisScene(_display->getDevice(), _manager.getMaster(), "game")));
+    _manager.addScenes(std::make_unique<GameBisScene>(GameBisScene(_display->getDevice(), _manager.getMaster(), "game", _event, _display)));
     _manager.changeCurrent("game");
 }
 

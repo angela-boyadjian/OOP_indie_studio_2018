@@ -24,7 +24,7 @@ namespace core {
 
 class core::Bomberman {
 public:
-    using Event = std::unique_ptr<Events>;
+    using Event = std::shared_ptr<Events>;
     using botVec = std::vector<std::unique_ptr<Bot>>;
     using playerVec = std::vector<std::unique_ptr<Player>>;
 

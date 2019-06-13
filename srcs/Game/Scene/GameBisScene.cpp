@@ -11,21 +11,28 @@
 #include "GameBisScene.hpp"
 #include "Map.hpp"
 
-GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device, irr::scene::ISceneNode *father, const std::string &name) :
+GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
+                           irr::scene::ISceneNode *father,
+                           const std::string &name,
+                           std::shared_ptr<Events> event,  std::shared_ptr<IDisplay> display) :
     _master(device->getSceneManager()->addEmptySceneNode(father)),
     _manager(device->getSceneManager()),
     _name(name),
     _is_load(false),
-    _device(device)
+    _device(device),
+    _event(event),
+    _display(display)
 {
     _master->setVisible(false);
 }
 
 std::string GameBisScene::runScene()
 {
+    // TEMPO - REPLACE IT BY GENERIC METHOD
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
     _master->setVisible(true);
+    action();
     return _name;
 }
 
@@ -65,7 +72,7 @@ bool GameBisScene::loadTileMap(const SpriteInfo &info, float size,
 
 void
 GameBisScene::addTileToMap(const irr::core::vector3df &pos,
-                                    const SpriteInfo &info, float size)
+                           const SpriteInfo &info, float size)
 {
     if (info._is_destructible) {
         loadTileMap(info, size, _coliMap);
@@ -84,7 +91,6 @@ void GameBisScene::loadMapEdgeTop(const MapData &map)
 
     for (__attribute__((unused)) std::size_t i = 0;
          map._mapWall[0].size() + 2 != i; ++i) {
-        std::cout << x << " " << 10.0f + posY << " " << z << std::endl;
         addTileToMap(irr::core::vector3df(x, 10.0f + posY, z), pos->second,
                      10.0f);
         x += 10.0f;
@@ -177,9 +183,9 @@ void GameBisScene::loadMapAsset(const MapData &map)
     loadMapGround(map);
 }
 
-std::vector<std::unique_ptr<Player>> GameBisScene::loadPlayer()
+std::vector<std::shared_ptr<Player>> GameBisScene::loadPlayer()
 {
-    auto players = std::vector<std::unique_ptr<Player>>();
+    auto players = std::vector<std::shared_ptr<Player>>();
 
     players.push_back(
         std::make_unique<Player>(Player(0, ACharacter::Color::BLACK,
@@ -190,9 +196,9 @@ std::vector<std::unique_ptr<Player>> GameBisScene::loadPlayer()
     return players;
 }
 
-std::vector<std::unique_ptr<Bot>> GameBisScene::loadBot()
+std::vector<std::shared_ptr<Bot>> GameBisScene::loadBot()
 {
-    auto bots = std::vector<std::unique_ptr<Bot>>();
+    auto bots = std::vector<std::shared_ptr<Bot>>();
     bots.push_back(std::make_unique<Bot>(Bot(1, std::make_tuple(std::size_t(0),
                                                                 std::size_t(0),
                                                                 std::size_t(
@@ -200,40 +206,65 @@ std::vector<std::unique_ptr<Bot>> GameBisScene::loadBot()
     return bots;
 }
 
-void GameBisScene::loadPlayerAsset(const ACharacter::Color &color, const std::vector<std::string> &textures)
+void GameBisScene::loadPlayerAsset(const ACharacter::Color &color,
+                                   const std::vector<std::string> &textures)
 {
-    auto mesh = _manager->addAnimatedMeshSceneNode(_manager->getMesh ("../resources/models/Character/Bomberman.MD3"), _master.get());
+    auto mesh = _manager->addAnimatedMeshSceneNode(
+        _manager->getMesh("../resources/models/Character/Bomberman.MD3"),
+        _master.get());
     mesh->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    mesh->setMaterialTexture(0, _device->getVideoDriver()->getTexture(textures[static_cast<unsigned long>(color)].c_str()));
+    mesh->setMaterialTexture(0, _device->getVideoDriver()->getTexture(
+        textures[static_cast<unsigned long>(color)].c_str()));
     mesh->setMaterialFlag(irr::video::EMF_LIGHTING, false);
     mesh->setMD2Animation(irr::scene::EMAT_STAND);
     mesh->setScale(irr::core::vector3df(6, 6, 6));
     mesh->setRotation(irr::core::vector3df(0, 0, 0));
-    mesh->setPosition(irr::core::vector3df(5400, 810, 5200));
+    mesh->setPosition(irr::core::vector3df(0, posY, 0));
     mesh->setAnimationSpeed(30);
     mesh->setLoopMode(true);
     mesh->setFrameLoop(0, 27);
     _meshs.emplace_back(mesh);
 }
 
-void GameBisScene::loadGameAsset(std::shared_ptr<AGame> &game)
+void GameBisScene::loadGameAsset()
 {
-    for (auto &bot : game->getBots())
+    for (auto &bot : _bots)
         loadPlayerAsset(bot->_color, bot->_textures);
-    for (auto &player : game->getPlayers()) {
+    for (auto &player : _players) {
         loadPlayerAsset(player->_color, player->_textures);
-        auto bombs {player->getBombs()};
-       /* for (auto &b : bombs)
-            loadBomb(b, _d->getBombsMap());*/
+        auto bombs{player->getBombs()};
+        /* for (auto &b : bombs)
+             loadBomb(b, _d->getBombsMap());*/
     }
+    _players[0]->setPosZ(
+        std::get<2>(_players[0]->getMapPos()) + 30);
+    changeModelPos(_players[0]->getEntityNb(),
+                   std::make_tuple(
+                       std::get<0>(
+                           _players[0]->getMapPos()),
+                       std::get<1>(
+                           _players[0]->getMapPos()) + 5,
+                       std::get<2>(
+                           _players[0]->getMapPos())));
+
+    // TEMPO - REPLACE IT BY GENERIC METHOD
+    _bots[0]->setPosZ(
+        std::get<2>( _players[0]->getMapPos()) - 100);
+    changeModelPos(_bots[0]->getEntityNb(),
+                   std::make_tuple(
+                       std::get<0>(_bots[0]->getMapPos()),
+                       std::get<1>(_bots[0]->getMapPos()) + 5,
+                       std::get<2>(
+                           _bots[0]->getMapPos())));
+    _map->getMapData()._mapWall[10][0] = '0';
 }
 
-void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
+void
+GameBisScene::loadGame(const std::string &mapPath)
 {
     _map = std::shared_ptr<IMap>(new Map);
     _map->load(mapPath);
-    _game = std::move(game);
-    loadGameAsset(_game);
+    loadGameAsset();
     loadMapAsset(_map->getMapData());
     irr::SKeyMap keyMap[5];                             // re-assigne les commandes
     keyMap[0].Action = irr::EKA_MOVE_FORWARD;           // avancer
@@ -247,19 +278,20 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
     keyMap[4].Action = irr::EKA_JUMP_UP;                // saut
     keyMap[4].KeyCode = irr::KEY_SPACE;                 // barre espace
 
-    _manager->addCameraSceneNodeFPS(                // ajout de la camera FPS
-        0, 100.0f, 0.1f, -1, keyMap, 5);
+   /* _manager->addCameraSceneNodeFPS(                // ajout de la camera FPS
+        0, 100.0f, 0.1f, -1, keyMap, 5);*/
 }
 
 void GameBisScene::loadScene()
 {
     std::cout << "load Game" << std::endl;
     _is_load = true;
-    auto players = loadPlayer();
-    auto bots = loadBot();
-    auto game = std::unique_ptr<AGame>(new BombermanGame(players, bots));
+    _players = loadPlayer();
+    _bots = loadBot();
+   // auto game = std::unique_ptr<AGame>(new BombermanGame(_players, _bots));
+    auto toto = _manager->addCameraSceneNode(_master.get());
     _master->setVisible(true);
-    loadGame("./../resources/maps/3", game);
+    loadGame("./../resources/maps/3");
 }
 
 std::string GameBisScene::getName()
@@ -274,3 +306,126 @@ void GameBisScene::deLoad()
 }
 
 
+// LOGIC
+
+irr::core::vector3df GameBisScene::pos3dToVector(const IDisplay::pos3d &pos)
+{
+    return irr::core::vector3df(std::get<0>(pos), std::get<1>(pos),
+                                std::get<2>(pos));
+}
+
+void
+GameBisScene::changeModelPos(const std::size_t &i, const IDisplay::pos3d &vec)
+{
+    auto newVec = pos3dToVector(vec);
+
+    newVec.X += posX;
+    newVec.Y += posY;
+    newVec.Z += posZ;
+    _meshs[i]->setPosition(newVec);
+}
+
+ACharacter::Action  GameBisScene::pressKeyAction(const AGame::Event &events, const std::size_t &i)
+{
+    ACharacter::Action  action = ACharacter::Action::WAIT;
+
+    if (events->IsKeyDown(_players[i]->getKeyMap()["UP"]))
+        action = ACharacter::Action::UP;
+    else if (events->IsKeyDown(_players[i]->getKeyMap()["DOWN"]))
+        action = ACharacter::Action::DOWN;
+    else if (events->IsKeyDown(_players[i]->getKeyMap()["LEFT"]))
+        action = ACharacter::Action::LEFT;
+    else if (events->IsKeyDown(_players[i]->getKeyMap()["RIGHT"]))
+        action = ACharacter::Action::RIGHT;
+    else if (events->IsKeyDown(_players[i]->getKeyMap()["BOMB"]))
+        action = ACharacter::Action::BOMB;
+    return action;
+}
+
+void GameBisScene::changeFrameAndPos(const ACharacter *cha,
+                                        const ACharacter::Action &curr,
+                                        const ACharacter::Action &last)
+{
+    if (curr != ACharacter::Action::WAIT) {
+        if (last == ACharacter::Action::WAIT)
+            _display->changeModelFrame(cha->getEntityNb(), 0, 27);
+        _display->changeModelPos(cha->getEntityNb(),
+                                 std::make_tuple(std::get<0>(cha->getMapPos()),
+                                                 0, std::get<2>(
+                                         cha->getMapPos())));
+    }
+}
+
+void GameBisScene::changeAnimation(const std::size_t &i,
+                                      const ACharacter::Action &curr,
+                                      const ACharacter::Action &last)
+{
+    switch (curr) {
+        case ACharacter::Action::LEFT:
+            _display->changeModelRot(i, std::make_tuple(0, 90, 0));
+            break;
+        case ACharacter::Action::RIGHT:
+            _display->changeModelRot(i, std::make_tuple(0, 270, 0));
+            break;
+        case ACharacter::Action::UP:
+            _display->changeModelRot(i, std::make_tuple(0, 180, 0));
+            break;
+        case ACharacter::Action::DOWN:
+            _display->changeModelRot(i, std::make_tuple(0, 0, 0));
+            break;
+        case ACharacter::Action::WAIT:
+            if (last != ACharacter::Action::WAIT)
+                _display->changeModelFrame(i, 27, 76);
+            break;
+        default:
+            break;
+    }
+}
+
+std::vector<ACharacter::Action> GameBisScene::movePlayers(const std::shared_ptr<Events> &events, std::vector<std::string> &map, IDisplay *d)
+{
+    std::vector<ACharacter::Action> actionVector;
+
+    std::cout << _players.size() << std::endl;
+    for (std::size_t i {0}; i < _players.size(); ++i) {
+        std::cout << i << std::endl;
+        auto action = pressKeyAction(events, i);
+        _players[i]->setAction(action);
+        _players[i]->move(map, d);
+        _players[i]->setAction(ACharacter::Action::WAIT);
+        actionVector.push_back(action);
+    }
+    return actionVector;
+}
+
+void GameBisScene::playersAction()
+{
+    auto playersMove = movePlayers(_event, _map->getMapData()._mapWall,
+                                         _display.get());
+    for (std::size_t i{0}; i < _players.size(); ++i) {
+        changeFrameAndPos(_players[i].get(), playersMove[i],
+                          _lastActions[_players[i]->getEntityNb()]);
+        changeAnimation(_players[i]->getEntityNb(), playersMove[i],
+                        _lastActions[_players[i]->getEntityNb()]);
+        _lastActions[_players[i]->getEntityNb()] = playersMove[i];
+    }
+}
+
+void GameBisScene::botsAction()
+{
+   /* auto botsMove = moveBots(_map->getMapData()._mapWall,
+                                    _display.get());
+    for (std::size_t i{0}; i < _game->getBots().size(); ++i) {
+        changeFrameAndPos(_game->getBots()[i].get(), botsMove[i],
+                          _lastActions[_game->getBots()[i]->getEntityNb()]);
+        changeAnimation(_game->getBots()[i]->getEntityNb(), botsMove[i],
+                        _lastActions[_game->getBots()[i]->getEntityNb()]);
+        _lastActions[_game->getBots()[i]->getEntityNb()] = botsMove[i];
+    }*/
+}
+
+void GameBisScene::action()
+{
+    playersAction();
+    botsAction();
+}
