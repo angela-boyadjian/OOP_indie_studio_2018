@@ -37,6 +37,13 @@ public:
         WHITE
     };
 
+    typedef struct move_s {
+        int     x;
+        int     y;
+        Action  action;
+        ACharacter  *itself;
+    }   move_t;
+
     // CONSTRUCTOR / DESTRUCTOR
     explicit ACharacter(const std::size_t &, const MapPos &,
             const Color & = Color::PINK);
@@ -52,7 +59,7 @@ public:
     const std::size_t   &getEntityNb() const;
 
     // DEPLACEMENT
-    virtual void    move(std::vector<std::string> &, IDisplay *) = 0;
+    virtual move_t  move(std::vector<std::string> &, IDisplay *) = 0;
 
 public:
     Color                       _color;

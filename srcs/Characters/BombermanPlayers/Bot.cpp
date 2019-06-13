@@ -159,8 +159,12 @@ ACharacter::Action  Bot::chooseDirection(std::vector<std::string> &map)
         directions.push_back(ACharacter::Action::LEFT);
     if (isSafe(posX + 1, posY, map))
         directions.push_back(ACharacter::Action::RIGHT);
-    if (directions.empty())
+    if (directions.empty()) {
         std::cout << "grosse pute" << std::endl;
+        std::cout << "X: " << posX << std::endl;
+        std::cout << "Y: " << posY << std::endl;
+        std::cout << "B: " << _bombNumber << std::endl;
+    }
     auto randDirection = std::rand() / (RAND_MAX + directions.size());
     return directions.empty() ? ACharacter::Action::WAIT : directions[randDirection];
 }
@@ -251,31 +255,25 @@ void    Bot::animation()
     _movement -= 1;
 }
 
-void    Bot::move(std::vector<std::string> &map, IDisplay *d)
+ACharacter::move_t  Bot::move(std::vector<std::string> &map, IDisplay *d)
 {
     static auto c = std::chrono::system_clock::now();
     static auto count {0};
 
     if (_movement > 0) {
         animation();
-        return;
+        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this};
     }
     std::chrono::duration<double> diff = std::chrono::system_clock::now() - c;
     if (diff.count() > 0.3)
         c = std::chrono::system_clock::now();
     else
-        return;
+        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this };
     for (auto &t : map)
         std::cout << t << std::endl;
     std::cout << std::endl;
     Action  a;
-    if (_bombNumber == 0 && count >= 5) {
-        count = 0;
-        std::cout << "BOMB EXPLOSION" << std::endl;
-        _bombNumber += 1;
-        bombExplosion(map);
-        a = ACharacter::Action::WAIT;
-    } else if (_bombNumber == 0) {
+    if (_bombNumber == 0) {
         a = getOutOfDanger(map);
         changePosition(a);
     } else if (isMomentForBomb(map)) {
@@ -289,4 +287,5 @@ void    Bot::move(std::vector<std::string> &map, IDisplay *d)
     }
     _lastDirection = a;
     ++count;
+    return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this };
 }

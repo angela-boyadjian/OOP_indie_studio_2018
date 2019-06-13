@@ -37,7 +37,7 @@ public:
     // MOVE
     Action      chooseDirection(std::vector<std::string> &);
     void        changePosition(const Action &);
-    void        move(std::vector<std::string> &, IDisplay *) final;
+    move_t      move(std::vector<std::string> &, IDisplay *) final;
     bool        isSafe(const float &, const float &, std::vector<std::string> &);
     void        animation();
 

@@ -18,7 +18,7 @@ public:
     explicit ABombermanPlayer(const std::size_t &, const MapPos &,
             const Color & = ACharacter::Color::PINK);
     ~ABombermanPlayer() = default;
-    virtual void    move(std::vector<std::string> &, IDisplay *) = 0;
+    virtual move_t    move(std::vector<std::string> &, IDisplay *) = 0;
 
     // GETTERS
     std::vector<Bomb> const       &getBombs() const;
