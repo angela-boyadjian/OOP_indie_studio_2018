@@ -48,16 +48,16 @@ public:
     void    draw() final;
 
     // NOTE GET
-    irr::core::dimension2du const &getScreenSize();
-    IrrlichtDisplay::Device const &getDevice();
-    IrrlichtDisplay::Gui const &getGui();
+    irr::core::dimension2du const &getScreenSize() final;
+    IrrlichtDisplay::Device const &getDevice() final;
+    IrrlichtDisplay::Gui const &getGui() final;
     Map3D   &getMap() final;
     Map3D   &getColiMap() final;
     Map3D   &getNonColiMap() final;
     BombsVec   &getBombsMap() final;
 
    // NOTE SCENES FUNCTIONS
-    void    changeScene(std::string const &);
+    void    changeScene(std::string const &) final;
 
     void    changeModelPos(const std::size_t &, const pos3d &) final;
     void    changeModelRot(const std::size_t &, const pos3d &) final;
@@ -71,8 +71,8 @@ public:
 
 
 private:
-    Gui                 _gui;
-    std::string     _currentScene;
+    Gui         _gui;
+    std::string _currentScene;
     BombsVec    _bombsMap;
     // TEMPO
     Map3D _map3d;
