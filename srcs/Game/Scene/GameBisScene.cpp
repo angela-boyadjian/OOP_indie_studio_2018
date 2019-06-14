@@ -44,13 +44,30 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
     return count;
 }
 
+void    GameBisScene::checkPowerUp()
+{
+    for (std::size_t i {0}; i < _powerUp.size(); ++i) {
+        if (_map->getMapData()._mapWall[std::get<1>(_powerUpPos[i])][std::get<0>(_powerUpPos[i])] < '7')
+            _powerUp[i]->setVisible(false);
+    }
+}
 void GameBisScene::removeBlock(const int &x, const int &y, bool neg)
 {
     auto index = getColiIndex(x, y) - neg;
+    auto vec = _display->getColiMap().at(index)->getPosition();
     _display->getColiMap().at(index)->setVisible(false);
     _rm.emplace_back(index);
     _map->getMapData()._mapWall[y][x] = '7';
     setExplosion(x, y);
+    auto r = std::rand() % 4;
+    if (r == 0)
+        _map->getMapData()._mapWall[y][x] = '0';
+    else {
+        _map->getMapData()._mapWall[y][x] = r + 6 + 48;
+        _powerUp.emplace_back(std::unique_ptr<IDisplay::Object >(_dispLoader->createBonus("")));
+        _powerUpPos.emplace_back(std::make_tuple(x, y));
+        _powerUp.back()->setPosition(vec);
+    }
 }
 
 void    GameBisScene::setExplosion(const int &x, const int &y)
@@ -71,7 +88,6 @@ void    GameBisScene::exploseBlock(const int &x, const int &y)
     if (y + 1 < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[y + 1][x] == '2')
         removeBlock(x, y + 1, true);
     setExplosion(x, y);
-    _map->getMapData()._mapWall[y][x] = '7';
     exploseEmpty(x, y);
 }
 
@@ -157,6 +173,7 @@ std::string GameBisScene::runScene()
     auto actions = action();
     putBomb(actions);
     stopExplosion();
+    checkPowerUp();
   //  _display->draw();
     return _name;
 }
