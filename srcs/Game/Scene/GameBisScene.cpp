@@ -22,7 +22,8 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
     _is_load(false),
     _device(device),
     _event(event),
-    _display(display)
+    _display(display),
+    _powerUpPath({"../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"})
 {
     _master->setVisible(false);
 }
@@ -64,8 +65,9 @@ void GameBisScene::removeBlock(const int &x, const int &y, bool neg)
         _map->getMapData()._mapWall[y][x] = '0';
     else {
         _map->getMapData()._mapWall[y][x] = r + 6 + 48;
-        _powerUp.emplace_back(std::unique_ptr<IDisplay::Object >(_dispLoader->createBonus("")));
+        _powerUp.emplace_back(std::unique_ptr<IDisplay::Object >(_dispLoader->createBonus(_powerUpPath[r - 1])));
         _powerUpPos.emplace_back(std::make_tuple(x, y));
+        vec.Y -= 5;
         _powerUp.back()->setPosition(vec);
     }
 }
@@ -384,9 +386,7 @@ std::vector<ACharacter::move_t> GameBisScene::botsAction()
 
 std::vector<ACharacter::move_t> GameBisScene::action()
 {
-    std::cout << "toto mdr" << std::endl;
     auto p = playersAction();
-    std::cout << "player mdr" << std::endl;
     auto b = botsAction();
     p.insert(p.end(), b.begin(), b.end());
     return p;

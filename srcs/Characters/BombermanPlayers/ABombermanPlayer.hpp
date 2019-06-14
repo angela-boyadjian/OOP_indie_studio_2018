@@ -21,10 +21,9 @@ public:
     virtual move_t    move(std::vector<std::string> &, IDisplay *) = 0;
 
     enum class PowerUp {
-        SHOOT,
-        FIRE_RANGE,
-        SPEED,
-        BOMB
+            FIRE_RANGE,
+            SPEED,
+            BOMB
     };
 
     // GETTERS

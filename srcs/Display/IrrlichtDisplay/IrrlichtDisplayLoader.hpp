@@ -52,7 +52,7 @@ public:
     void    loadGame(const std::unique_ptr<AGame> &) final;
     void    loadPlayer(const ACharacter::Color &, const std::vector<std::string> &) final;
 
-    IDisplay::Object    *createBonus(const std::string &);
+    IDisplay::Object *createBonus(const std::string &);
 private:
     std::shared_ptr<IDisplay> _d;
     std::shared_ptr<irr::scene::ISceneNode> _father;
