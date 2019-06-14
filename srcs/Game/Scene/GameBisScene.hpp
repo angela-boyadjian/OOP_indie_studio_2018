@@ -39,11 +39,20 @@ class GameBisScene : public IScene {
         void loadGame(const std::string &, std::unique_ptr<AGame> &);
         std::vector<std::unique_ptr<Player>> loadPlayer();
         std::vector<std::unique_ptr<Bot>> loadBot();
+        // BOMB
+        void exploseBomb();
+        void explosion(const int &, const int &);
+        void exploseBlock(const int &, const int &);
+        std::size_t getColiIndex(const int &, const int &);
+        void setExplosion(const int &, const int &);
+        void exploseEmpty(const int &, const int &);
+        void putBomb(const std::vector<ACharacter::move_t> &);
+        void stopExplosion();
 
         //LOGIG
-        void action();
-        void botsAction();
-        void playersAction();
+        std::vector<ACharacter::move_t> action();
+        std::vector<ACharacter::move_t> botsAction();
+        std::vector<ACharacter::move_t> playersAction();
         void changeFrameAndPos(const ACharacter *, const ACharacter::Action &, const ACharacter::Action &);
         std::vector<ACharacter::Action> movePlayers(const std::shared_ptr<Events> &, std::vector<std::string> &, IDisplay *);
         void changeAnimation(const std::size_t &, const ACharacter::Action &, const ACharacter::Action &);
@@ -63,6 +72,13 @@ class GameBisScene : public IScene {
         std::shared_ptr<IDisplay> _display;
         std::unique_ptr<IDisplayLoader> _dispLoader;
         std::map<std::size_t, ACharacter::Action>   _lastActions;
+        // BOMBS
+        std::vector<ACharacter::move_t>     bombs_pos;
+        std::vector<ABombermanPlayer *>     bombs_player;
+        std::vector<std::chrono::time_point<std::chrono::system_clock>> bombs_time;
+        // EXPLOSION
+        std::vector<std::tuple<int, int>>   _explosionPos;
+        std::vector<std::chrono::time_point<std::chrono::system_clock>> _explosionTime;
 };
 
 

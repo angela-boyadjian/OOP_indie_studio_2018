@@ -35,6 +35,7 @@ public:
     irr::core::vector3df    pos3dToVector(const pos3d &);
     // SET OBJECT
     void    setDisplay(Events *) final;
+    virtual void    visiBomb(const int &i, const int &j, const bool &b) final { _bombs[j][i]->setVisible(b); };
     void    setBombState(const std::size_t &, bool);
 
     void    addNewAnimation(const char *, const char *, const pos3d &) final;
@@ -49,16 +50,21 @@ public:
     void    draw() final;
 
     // NOTE GET
-    irr::core::dimension2du const &getScreenSize();
-    IrrlichtDisplay::Device const &getDevice();
-    IrrlichtDisplay::Gui const &getGui();
+    irr::core::dimension2du const &getScreenSize() final;
+    IrrlichtDisplay::Device const &getDevice() final;
+    IrrlichtDisplay::Gui const &getGui() final;
     Map3D   &getMap() final;
     Map3D   &getColiMap() final;
     Map3D   &getNonColiMap() final;
-    BombsVec   &getBombsMap() final;
+    std::vector<BombsVec>   &getBombsMap() final;
+    std::vector<BombsVec>   &getExplosionMap() final;
 
+    void    addExplosion(IDisplay::BombsVec &e) final { _explosions.emplace_back(std::move(e)); }
+    void    setExplosion(const std::size_t &, const std::size_t &, const irr::core::vector3df &) final;
+    void    addBombs(IDisplay::BombsVec &m) final { _bombs.emplace_back(std::move(m)); }
+    void    setBombs(const std::size_t &, const std::size_t &, const irr::core::vector3df &) final;
    // NOTE SCENES FUNCTIONS
-    void    changeScene(std::string const &);
+    void    changeScene(std::string const &) final;
 
     void    changeModelPos(const std::size_t &, const pos3d &) final;
     void    changeModelRot(const std::size_t &, const pos3d &) final;
@@ -72,11 +78,12 @@ public:
 
 
 private:
-    Gui                 _gui;
-    std::string     _currentScene;
+    Gui         _gui;
+    Map3D       _map3d;
+    Map3D       _coliMap;
     BombsVec    _bombsMap;
-    // TEMPO
-    Map3D _map3d;
-    Map3D _coliMap;
-    Map3D _noncoliMap;
+    Map3D       _noncoliMap;
+    std::string _currentScene;
+    std::vector<IDisplay::BombsVec>  _bombs;
+    std::vector<IDisplay::BombsVec>  _explosions;
 };

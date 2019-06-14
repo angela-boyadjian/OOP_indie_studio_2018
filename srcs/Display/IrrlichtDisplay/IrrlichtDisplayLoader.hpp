@@ -44,6 +44,10 @@ public:
     void loadMenu(const std::unique_ptr<Menu> &) final;
 
     // GAME LOAD
+    void    setExplosionPos();
+    void    loadExplosion(std::size_t, std::size_t);
+    void    setBombsPos();
+    void    loadBomb_b2(std::size_t, std::size_t);
     void    loadBomb(Bomb &, IDisplay::BombsVec &);
     void    loadGame(const std::unique_ptr<AGame> &) final;
     void    loadPlayer(const ACharacter::Color &, const std::vector<std::string> &) final;

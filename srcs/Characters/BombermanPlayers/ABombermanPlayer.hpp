@@ -18,7 +18,7 @@ public:
     explicit ABombermanPlayer(const std::size_t &, const MapPos &,
             const Color & = ACharacter::Color::PINK);
     ~ABombermanPlayer() = default;
-    virtual void    move(std::vector<std::string> &, IDisplay *) = 0;
+    virtual move_t    move(std::vector<std::string> &, IDisplay *) = 0;
 
     // GETTERS
     std::vector<Bomb> const       &getBombs() const;
@@ -53,8 +53,8 @@ public:
 
     void    bomb(IDisplay *);
 protected:
-    std::tuple<std::size_t, std::size_t> _2dPos;
-    std::vector<Bomb> _bombs;
+    std::tuple<int, int>_2dPos;
+    std::vector<Bomb>   _bombs;
     bool                _walls[4];
     bool                _canShoot;
     std::size_t         _fireRange;

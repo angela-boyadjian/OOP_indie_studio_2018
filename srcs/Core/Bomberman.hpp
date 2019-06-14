@@ -46,10 +46,18 @@ public:
     void Trun();
 
     // BombermanGame loop
+    std::size_t getColiIndex(const int &, const int &);
+    void    setExplosion(const int &, const int &);
+    void    stopExplosion();
+    void    exploseEmpty(const int &, const int &);
+    void    exploseBlock(const int &, const int &);
+    void    explosion(const int &, const int &);
+    void    exploseBomb();
+    void    putBomb(const std::vector<ACharacter::move_t> &);
     void    run();
-    void    action();
-    void    botsAction();
-    void    playersAction();
+    std::vector<ACharacter::move_t> action();
+    std::vector<ACharacter::move_t> botsAction();
+    std::vector<ACharacter::move_t> playersAction();
     void    changeAnimation(const std::size_t &, const ACharacter::Action &, const ACharacter::Action &);
     void    changeFrameAndPos(const ACharacter *, const ACharacter::Action &, const ACharacter::Action &);
 
@@ -66,6 +74,13 @@ private:
     std::map<std::size_t, ACharacter::Action>   _lastActions;
     std::unique_ptr<sf::Music>      _mainMusic;
     SceneManager _manager;
+    // BOMBS
+    std::vector<ACharacter::move_t>     bombs_pos;
+    std::vector<ABombermanPlayer *>     bombs_player;
+    std::vector<std::chrono::time_point<std::chrono::system_clock>> bombs_time;
+    // EXPLOSION
+    std::vector<std::tuple<int, int>>   _explosionPos;
+    std::vector<std::chrono::time_point<std::chrono::system_clock>> _explosionTime;
 
 
 //    std::vector<IDisplay::Scenes> _sceneManager;

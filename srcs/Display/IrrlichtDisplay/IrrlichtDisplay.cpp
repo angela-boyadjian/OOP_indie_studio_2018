@@ -24,6 +24,18 @@ void    IrrlichtDisplay::setDisplay(Events *events)
     _currentScene = "menu";
 }
 
+void    IrrlichtDisplay::setExplosion(const std::size_t &i, const std::size_t &j, const irr::core::vector3df &v)
+{
+    _explosions.at(j).at(i)->setPosition(v);
+    _explosions.at(j).at(i)->setVisible(false);
+}
+
+void    IrrlichtDisplay::setBombs(const std::size_t &i, const std::size_t &j, const irr::core::vector3df &v)
+{
+    _bombs.at(j).at(i)->setPosition(v);
+    _bombs.at(j).at(i)->setVisible(false);
+}
+
 irr::core::vector3df    IrrlichtDisplay::pos3dToVector(const IDisplay::pos3d &pos)
 {
     return irr::core::vector3df(std::get<0>(pos), std::get<1>(pos), std::get<2>(pos));
@@ -50,9 +62,9 @@ void    IrrlichtDisplay::draw()
 {
     _driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
     _sceneManagers.at(_currentScene)->getSceneManager()->drawAll();
-//    auto pos = _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera()->getTarget();
-//    std::cout << pos.X << " " << pos.Y << "  " << pos.Z << std::endl;
-    std::cout << _currentScene << std::endl;
+    auto pos = _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera()->getPosition();
+    std::cout << pos.X << " " << pos.Y << "  " << pos.Z << std::endl;
+//    std::cout << _currentScene << std::endl;
     _gui->drawAll();
     _driver->endScene();
 }
@@ -81,9 +93,14 @@ IDisplay::Map3D &IrrlichtDisplay::getColiMap()
     return _coliMap;
 }
 
-IDisplay::BombsVec &IrrlichtDisplay::getBombsMap()
+std::vector<IDisplay::BombsVec> &IrrlichtDisplay::getBombsMap()
 {
-    return _bombsMap;
+    return _bombs;
+}
+
+std::vector<IDisplay::BombsVec> &IrrlichtDisplay::getExplosionMap()
+{
+    return _explosions;
 }
 
 IDisplay::Map3D &IrrlichtDisplay::getNonColiMap()
@@ -180,6 +197,13 @@ void    IrrlichtDisplay::changeScene(std::string const &scene)
         _device->getCursorControl()->setVisible(false);
         _gui->getRootGUIElement()->setVisible(false);
         i = 1;
+        auto camera = _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera();
+        camera->addAnimator(_sceneManagers.at(_currentScene)->getSceneManager()->createFlyStraightAnimator(camera->getPosition(),
+            irr::core::vector3df(5465, 933.016, 5133), 1000, false, false));
+//        camera->addAnimator(_sceneManagers.at(_currentScene)->getSceneManager()->createRotationAnimator(irr::core::vector3df(5, 5, 5)));
+//        camera->setPosition(irr::core::vector3df(5444.9 , 915.958, 5170.33));
+//        camera->setTarget(irr::core::vector3df(5454.47 , -6597.6, 6044.77));
+//        camera->setPosition(irr::core::)
     } else {
         _currentScene = "menu";
         _device->getCursorControl()->setVisible(true);

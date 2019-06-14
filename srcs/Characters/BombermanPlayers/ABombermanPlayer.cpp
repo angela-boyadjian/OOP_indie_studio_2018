@@ -20,9 +20,9 @@ ABombermanPlayer::ABombermanPlayer(const std::size_t &enb, const MapPos &pos,
 }
 
 // SETTERS
-const bool                  &ABombermanPlayer::canShoot() const { return _canShoot; };
-const std::size_t           &ABombermanPlayer::getFireRange() const { return _fireRange; }
+const bool                  &ABombermanPlayer::canShoot() const { return _canShoot; }
 const ACharacter::Action    &ABombermanPlayer::getDirection() const { return _action; }
+const std::size_t           &ABombermanPlayer::getFireRange() const { return _fireRange; }
 
 // INCREASER
 void    ABombermanPlayer::increaseSpeed() { _speed += 1; }
@@ -37,7 +37,7 @@ void    ABombermanPlayer::canShoot() { _canShoot = true; }
 void    ABombermanPlayer::moveUp()
 {
     if (!_walls[0]) {
-        std::get<1>(_2dPos) += 1;
+//        std::get<1>(_2dPos) += 1;
         std::get<1>(_pos) += 1;
         std::get<2>(_pos) += 1;
     }
@@ -46,7 +46,7 @@ void    ABombermanPlayer::moveUp()
 void    ABombermanPlayer::moveDown()
 {
     if (!_walls[1]) {
-        std::get<1>(_2dPos) -= 1;
+//        std::get<1>(_2dPos) -= 1;
         std::get<1>(_pos) -= 1;
         std::get<2>(_pos) -= 1;
     }
@@ -55,7 +55,7 @@ void    ABombermanPlayer::moveDown()
 void    ABombermanPlayer::moveLeft()
 {
     if (!_walls[2]) {
-        std::get<0>(_2dPos) -= 1;
+//        std::get<0>(_2dPos) -= 1;
         std::get<0>(_pos) -= 1;
     }
 }
@@ -64,7 +64,7 @@ void    ABombermanPlayer::moveLeft()
 void    ABombermanPlayer::moveRight()
 {
     if (!_walls[3]) {
-        std::get<0>(_2dPos) += 1;
+//        std::get<0>(_2dPos) += 1;
         std::get<0>(_pos) += 1;
     }
 }

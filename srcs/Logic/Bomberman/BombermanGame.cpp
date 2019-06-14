@@ -11,12 +11,12 @@ BombermanGame::BombermanGame(Players &p, Bots &b) : AGame(p, b)
 {
 }
 
-std::vector<ACharacter::Action> BombermanGame::moveBots(BombermanGame::Map &map, IDisplay *d)
+std::vector<ACharacter::move_t> BombermanGame::moveBots(BombermanGame::Map &map, IDisplay *d)
 {
-    std::vector<ACharacter::Action> actionVector;
+    std::vector<ACharacter::move_t> actionVector;
     for (std::size_t i {0}; i < _bots.size(); ++i) {
-        _bots[i]->move(map, d);
-        actionVector.push_back(_bots[i]->_lastDirection);
+        auto m = _bots[i]->move(map, d);
+        actionVector.push_back(m);
     }
     return actionVector;
 }
@@ -38,17 +38,17 @@ ACharacter::Action  BombermanGame::pressKeyAction(const AGame::Event &events, co
     return action;
 }
 
-std::vector<ACharacter::Action> BombermanGame::movePlayers(const Event &events, Map &map,
+std::vector<ACharacter::move_t> BombermanGame::movePlayers(const Event &events, Map &map,
         IDisplay *d)
 {
-    std::vector<ACharacter::Action> actionVector;
+    std::vector<ACharacter::move_t> actionVector;
 
     for (std::size_t i {0}; i < _players.size(); ++i) {
         auto action = pressKeyAction(events, i);
         _players[i]->setAction(action);
-        _players[i]->move(map, d);
+        auto m = _players[i]->move(map, d);
         _players[i]->setAction(ACharacter::Action::WAIT);
-        actionVector.push_back(action);
+        actionVector.push_back(m);
     }
     return actionVector;
 }

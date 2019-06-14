@@ -55,16 +55,12 @@ bool IrrlichtDisplayLoader::loadTileMap(const SpriteInfo &info, float size,
 
 void IrrlichtDisplayLoader::loadEdge(const MapData &map)
 {
-    int x = 0;
-    int y = 0;
     int start = 0;
 
     while (map._mapWall[start][0] == ' ') {
         std::cout << map._mapWall[start][0] << std::endl;
         start++;
     }
-    y = start;
-    
 }
 
 void IrrlichtDisplayLoader::loadMapEdgeTop(const MapData &map)
@@ -138,8 +134,7 @@ void IrrlichtDisplayLoader::loadMapWall(const MapData &map)
     }
 }
 
-void
-IrrlichtDisplayLoader::addTileToMap(const irr::core::vector3df &pos,
+void IrrlichtDisplayLoader::addTileToMap(const irr::core::vector3df &pos,
                                     const SpriteInfo &info, float size)
 {
     irr::core::vector3df toto = pos;
@@ -179,9 +174,10 @@ void IrrlichtDisplayLoader::loadMapGround(const MapData &map)
 
 void IrrlichtDisplayLoader::loadMap(const MapData &map)
 {
-    std::cout << "map" << std::endl;
     loadMapWall(map);
     loadMapGround(map);
+    setBombsPos();
+    setExplosionPos();
 }
 
 static const char *res = "../resources/models/Character/Bomberman.MD3";
@@ -203,6 +199,91 @@ void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
     _d->_meshsScene.push_back(std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>(newScene));
     /*_d->addNewAnimation(res, textures[static_cast<int>(color)].c_str(),
                         std::make_tuple(6, 6, 6));*/
+}
+
+void    IrrlichtDisplayLoader::setExplosionPos()
+{
+    auto x = -60;
+    auto y = -90;
+    auto z = 105;
+
+    for (auto j {0}; j < _d->getExplosionMap().size(); ++j) {
+        auto x_tmp = x;
+        for (auto i {0}; i < _d->getExplosionMap()[j].size(); ++i) {
+            _d->setExplosion(i, j, irr::core::vector3df(x_tmp, y, z));
+            x_tmp += 10;
+        }
+        z -= 10;
+    }
+}
+
+void    IrrlichtDisplayLoader::loadExplosion(std::size_t y, std::size_t x)
+{
+    for (auto j {0}; j < y; ++j) {
+        auto line = IDisplay::BombsVec();
+        for (auto i {0}; i < x; ++i) {
+            auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Bomb/Bomb.obj"), _father.get());
+            newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+            newScene->setMD2Animation(irr::scene::EMAT_STAND);
+            newScene->setScale(irr::core::vector3df(1,1,1));
+            newScene->setRotation(irr::core::vector3df(0, 0, 0));
+            newScene->setPosition(irr::core::vector3df(5400, 810, 5200));
+            newScene->setAnimationSpeed(30);
+            newScene->setLoopMode(true);
+            newScene->setFrameLoop(0, 27);
+            newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture("../resources/models/Bomb/Bomb.png"));
+
+
+          /*  _d->addNewAnimation("../resources/models/Bomb/Bomb.obj",
+                                "../resources/models/Bomb/Bomb.png", std::make_tuple(1, 1, 1));
+            auto tmp = _d->_sceneManagers.at("game")->getMeshScenes();*/
+            line.emplace_back(newScene);
+        }
+        _d->addExplosion(line);
+    }
+}
+
+void    IrrlichtDisplayLoader::setBombsPos()
+{
+    auto x = -60;
+    auto y = -90;
+    auto z = 105;
+
+    for (auto j {0}; j < _d->getBombsMap().size(); ++j) {
+        auto x_tmp = x;
+        for (auto i {0}; i < _d->getBombsMap()[j].size(); ++i) {
+            _d->setBombs(i, j, irr::core::vector3df(x_tmp, y, z));
+            x_tmp += 10;
+        }
+        z -= 10;
+    }
+   // exit(0);
+}
+
+void    IrrlichtDisplayLoader::loadBomb_b2(std::size_t y, std::size_t x)
+{
+    for (auto j {0}; j < y; ++j) {
+        auto line = IDisplay::BombsVec();
+        for (auto i {0}; i < x; ++i) {
+
+            auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Bomb/Bomb.obj"), _father.get());
+            newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+            newScene->setMD2Animation(irr::scene::EMAT_STAND);
+            newScene->setScale(irr::core::vector3df(1,1,1));
+            newScene->setRotation(irr::core::vector3df(0, 0, 0));
+            newScene->setPosition(irr::core::vector3df(0, 0, 0));
+            newScene->setAnimationSpeed(30);
+            newScene->setLoopMode(true);
+            newScene->setFrameLoop(0, 27);
+            newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture("../resources/models/Bomb/Bomb.png"));
+          /*  _d->addNewAnimation("../resources/models/Bomb/Bomb.obj",
+            "../resources/models/Bomb/Bomb.png", std::make_tuple(1, 1, 1));
+
+            auto tmp = _d->_sceneManagers.at("game")->getMeshScenes();*/
+            line.emplace_back(newScene);
+        }
+        _d->addBombs(line);
+    }
 }
 
 void IrrlichtDisplayLoader::loadBomb(Bomb &bomb, IDisplay::BombsVec &dest)
@@ -230,9 +311,8 @@ void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
         loadPlayer(bot->_color, bot->_textures);
     for (auto &player : game->getPlayers()) {
         loadPlayer(player->_color, player->_textures);
-        auto bombs {player->getBombs()};
-        for (auto &b : bombs)
-            loadBomb(b, _d->getBombsMap());
+        loadBomb_b2(11, 13);
+        loadExplosion(11, 13);
     }
 }
 
@@ -241,7 +321,11 @@ void    IrrlichtDisplayLoader::loadMenu(const std::unique_ptr<Menu> &menu)
     IDisplay::Gui const &gui = _d->getGui();
     IDisplay::Device const &device = _d->getDevice();
     auto screenSize = _d->getScreenSize();
+    auto image = _d->_driver->getTexture("./../resources/ui/bombermanBackground.png");
 
+    auto img = gui->addImage(irr::core::rect<irr::s32>(0, 0, screenSize.Width, screenSize.Height));
+    img->setImage(image);
+    img->setScaleImage(true);
     gui->addButton(irr::core::rect<irr::s32>(screenSize.Width / 2 - 300, 440,
         screenSize.Width / 2 + 300, 440 + 42), 0, 102, L"Start Game",
         L"Start Game");
