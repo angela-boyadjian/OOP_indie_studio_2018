@@ -29,6 +29,8 @@ public:
     enum {
         GUI_ID_QUIT_BUTTON = 101,
         GUI_ID_START_BUTTON,
+        GUI_ID_SETTING_BUTTON,
+        GUI_ID_LOAD_BUTTON
     };
 private:
     bool    _keyIsPressed[KEY_COUNT];
