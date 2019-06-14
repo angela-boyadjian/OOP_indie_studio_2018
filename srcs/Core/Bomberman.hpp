@@ -40,7 +40,11 @@ public:
 
     // BombermanGame loop
     std::size_t getColiIndex(const int &, const int &);
+    void    setExplosion(const int &, const int &);
+    void    stopExplosion();
+    void    exploseEmpty(const int &, const int &);
     void    exploseBlock(const int &, const int &);
+    void    explosion(const int &, const int &);
     void    exploseBomb();
     void    putBomb(const std::vector<ACharacter::move_t> &);
     void    run();
@@ -62,9 +66,13 @@ private:
     std::shared_ptr<IDisplayLoader> _dispLoader;
     std::map<std::size_t, ACharacter::Action>   _lastActions;
     std::unique_ptr<sf::Music>      _mainMusic;
-    std::vector<ACharacter::move_t> bombs_pos;
+    // BOMBS
+    std::vector<ACharacter::move_t>     bombs_pos;
+    std::vector<ABombermanPlayer *>     bombs_player;
     std::vector<std::chrono::time_point<std::chrono::system_clock>> bombs_time;
-    std::vector<ABombermanPlayer *>    bombs_player;
+    // EXPLOSION
+    std::vector<std::tuple<int, int>>   _explosionPos;
+    std::vector<std::chrono::time_point<std::chrono::system_clock>> _explosionTime;
 
 //    std::vector<IDisplay::Scenes> _sceneManager;
 };

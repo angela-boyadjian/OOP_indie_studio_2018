@@ -262,13 +262,18 @@ ACharacter::move_t  Bot::move(std::vector<std::string> &map, IDisplay *d)
 
     if (_movement > 0) {
         animation();
-        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this};
+        if (_lastDirection != ACharacter::Action::BOMB)
+            return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this};
+        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = ACharacter::Action::WAIT, .itself = this};
     }
     std::chrono::duration<double> diff = std::chrono::system_clock::now() - c;
     if (diff.count() > 0.3)
         c = std::chrono::system_clock::now();
-    else
-        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this };
+    else {
+        if (_lastDirection != ACharacter::Action::BOMB)
+            return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this};
+        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = ACharacter::Action::WAIT, .itself = this };
+    }
     for (auto &t : map)
         std::cout << t << std::endl;
     std::cout << std::endl;
