@@ -37,7 +37,9 @@ ACharacter::move_t  Player::move(std::vector<std::string> &map, IDisplay *d)
 {
     isWalls(d);
     takeBonus(map);
-    map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] = '0';
+    if (map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] != '3'
+        and map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] != '5')
+        map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] = '0';
     switch (_action) {
         case ACharacter::Action::UP:
             moveUp();
