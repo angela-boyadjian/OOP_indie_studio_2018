@@ -17,12 +17,6 @@ MenuBisScene::MenuBisScene(std::shared_ptr<IDisplay> display, irr::scene::IScene
     _win_size(display->getDevice()->getVideoDriver()->getScreenSize()),
     _device(display->getDevice())
 {
-    auto const &gui {_device->getGUIEnvironment()};
-
-    _background = gui->addImage(irr::core::rect<irr::s32>(0, 0,
-            _win_size.Width, _win_size.Height));
-    _texture = display->_driver->getTexture("./../resources/ui/bombermanBackground.png");
-    _master->setVisible(false);
 }
 
 std::string MenuBisScene::runScene()
@@ -30,7 +24,7 @@ std::string MenuBisScene::runScene()
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str()); // A CHANGER
     if (_buttons[0]->isPressed())
-        return "game";
+        return "map_choose";
     return _name;
 }
 
@@ -49,13 +43,16 @@ void MenuBisScene::loadScene()
 {
     std::cout << "Load menu" << std::endl;
     _is_load = true;
-    _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(0.0f, 0.0f, 20.0f)));
-    _cubes.back()->setMaterialFlag(irr::video::EMF_WIREFRAME, true);
-    loadButtons();
+    auto const &gui {_device->getGUIEnvironment()};
+    _background = gui->addImage(irr::core::rect<irr::s32>(0, 0,
+                                                          _win_size.Width, _win_size.Height));
+    _texture = _device->getVideoDriver()->getTexture("./../resources/ui/bombermanBackground.png");
     _background->setImage(_texture);
     _background->setScaleImage(true);
     _background->setVisible(true);
-    _master->setVisible(true);
+    _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(0.0f, 0.0f, 20.0f)));
+    _cubes.back()->setMaterialFlag(irr::video::EMF_WIREFRAME, true);
+    loadButtons();
 }
 
 std::string MenuBisScene::getName() { return _name; }
@@ -66,5 +63,7 @@ void MenuBisScene::deLoad()
     _master->setVisible(false);
     for (auto &bouton : _buttons)
         bouton->remove();
-    _background->setVisible(false);
+    _buttons.clear();
+    _background->remove();
+    _is_load = false;
 }

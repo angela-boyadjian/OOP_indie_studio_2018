@@ -18,12 +18,6 @@ IntroScene::IntroScene(std::shared_ptr<IDisplay> display, irr::scene::ISceneNode
     _device(display->getDevice()),
     _event(event)
 {
-    auto const &gui {_device->getGUIEnvironment()};
-    for (auto i {0}; i < 2; ++i)
-        _images[i] = gui->addImage(irr::core::rect<irr::s32>(0, 0,
-            _win_size.Width, _win_size.Height));
-    _textures[0] = display->_driver->getTexture("./../resources/ui/MainMenuBackground.jpg");
-    _textures[1] = display->_driver->getTexture("./../resources/ui/press_start.png");
     _master->setVisible(false);
 }
 
@@ -51,6 +45,12 @@ std::string IntroScene::runScene()
 
 void IntroScene::loadImg() noexcept
 {
+    auto const &gui {_device->getGUIEnvironment()};
+    for (auto i {0}; i < 2; ++i)
+        _images[i] = gui->addImage(irr::core::rect<irr::s32>(0, 0,
+                                                             _win_size.Width, _win_size.Height));
+    _textures[0] = _device->getVideoDriver()->getTexture("./../resources/ui/MainMenuBackground.jpg");
+    _textures[1] = _device->getVideoDriver()->getTexture("./../resources/ui/press_start.png");
     _images[0]->setImage(_textures[0]);
     _images[0]->setScaleImage(true);
     _images[1]->setImage(_textures[1]);
