@@ -20,6 +20,13 @@ public:
     ~ABombermanPlayer() = default;
     virtual move_t    move(std::vector<std::string> &, IDisplay *) = 0;
 
+    enum class PowerUp {
+        SHOOT,
+        FIRE_RANGE,
+        SPEED,
+        BOMB
+    };
+
     // GETTERS
     std::vector<Bomb> const       &getBombs() const;
     const bool          &canShoot() const;
