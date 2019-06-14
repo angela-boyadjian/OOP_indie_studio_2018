@@ -264,7 +264,8 @@ void GameBisScene::loadScene()
 
 
     auto camera = _manager->addCameraSceneNode(_master.get());
-    camera->setTarget(irr::core::vector3df(0, -15, 10));
+    camera->setTarget(irr::core::vector3df(0, -15, 25));
+    camera->setPosition(irr::core::vector3df(0, 0, 20));
     _is_load = true;
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     auto players = loadPlayer();

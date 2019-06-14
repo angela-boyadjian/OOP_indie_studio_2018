@@ -58,6 +58,7 @@ set(SOURCE_FILES
         srcs/Game/Scene/GameBisScene.cpp srcs/Game/Scene/GameBisScene.hpp
         srcs/Game/Scene/SceneManagerException.cpp srcs/Game/Scene/SceneManagerException.hpp
         srcs/Game/Scene/SceneException.cpp srcs/Game/Scene/SceneException.hpp
+        srcs/Game/Scene/MapChangeScene.cpp srcs/Game/Scene/MapChangeScene.hpp
         )
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}")
