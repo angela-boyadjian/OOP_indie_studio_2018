@@ -35,6 +35,14 @@ public:
     void        putBomb(std::vector<std::string> &);
 
     // MOVE
+    bool    takeBonus(std::vector<std::string> &);
+    bool    goToBonus(std::vector<std::string> &);
+    void    otherMove(std::vector<std::string> &);
+    std::tuple<bool, std::size_t>   isPowerUp(std::vector<std::string> &, const int &, const int &);
+    std::tuple<bool, std::size_t>   isPowerDown(std::vector<std::string> &, const int &, const int &);
+    std::tuple<bool, std::size_t>   isPowerLeft(std::vector<std::string> &, const int &, const int &);
+    std::tuple<bool, std::size_t>   isPowerRight(std::vector<std::string> &, const int &, const int &);
+    std::tuple<bool, ACharacter::Action>    isPower(std::vector<std::string> &);
     Action      chooseDirection(std::vector<std::string> &);
     void        changePosition(const Action &);
     move_t      move(std::vector<std::string> &, IDisplay *) final;

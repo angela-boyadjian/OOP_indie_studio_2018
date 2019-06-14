@@ -49,6 +49,7 @@ public:
     std::size_t getColiIndex(const int &, const int &);
     void    setExplosion(const int &, const int &);
     void    stopExplosion();
+    void    removeBlock(const int &, const int &, bool);
     void    exploseEmpty(const int &, const int &);
     void    exploseBlock(const int &, const int &);
     void    explosion(const int &, const int &);
@@ -81,6 +82,7 @@ private:
     // EXPLOSION
     std::vector<std::tuple<int, int>>   _explosionPos;
     std::vector<std::chrono::time_point<std::chrono::system_clock>> _explosionTime;
+    std::vector<std::size_t> _rm;
 
 
 //    std::vector<IDisplay::Scenes> _sceneManager;
