@@ -86,4 +86,5 @@ class GameBisScene : public IScene {
         // POWER UP
         Map3D   _powerUp;
         std::vector<std::tuple<int, int>>    _powerUpPos;
+        std::vector<std::string> _poweruppath;
 };

@@ -55,6 +55,7 @@ set(SOURCE_FILES
         srcs/Game/SceneManager/MapSelectionScene.cpp
         srcs/Game/SceneManager/MapSelectionScene.hpp
         srcs/Game/Scene/MenuBisScene.hpp srcs/Game/Scene/MenuBisScene.cpp
+        srcs/Game/Scene/IntroScene.hpp srcs/Game/Scene/IntroScene.cpp
         srcs/Game/Scene/IScene.hpp
         srcs/Game/Scene/SceneManager.hpp srcs/Game/Scene/SceneManager.cpp
         srcs/Game/Scene/GameBisScene.cpp srcs/Game/Scene/GameBisScene.hpp

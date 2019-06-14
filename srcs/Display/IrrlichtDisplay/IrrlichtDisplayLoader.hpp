@@ -51,8 +51,9 @@ public:
     void    loadBomb(Bomb &, IDisplay::BombsVec &);
     void    loadGame(const std::unique_ptr<AGame> &) final;
     void    loadPlayer(const ACharacter::Color &, const std::vector<std::string> &) final;
-
+    void    loadSplashScene() final;
     IDisplay::Object    *createBonus(const std::string &);
+
 private:
     std::shared_ptr<IDisplay> _d;
     std::shared_ptr<irr::scene::ISceneNode> _father;
