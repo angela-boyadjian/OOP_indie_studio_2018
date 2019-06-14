@@ -21,7 +21,7 @@
 class IrrlichtDisplayLoader : public IDisplayLoader {
 public:
     IrrlichtDisplayLoader() = default;
-    explicit IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &);
+    explicit IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &, std::shared_ptr<irr::scene::ISceneNode> &, irr::scene::ISceneManager *);
     ~IrrlichtDisplayLoader() = default;
 
     // NOTE MAP LOAD
@@ -50,4 +50,6 @@ public:
 
 private:
     std::shared_ptr<IDisplay> _d;
+    std::shared_ptr<irr::scene::ISceneNode> _father;
+    irr::scene::ISceneManager * _manager;
 };

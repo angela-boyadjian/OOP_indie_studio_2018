@@ -50,6 +50,7 @@ public:
     void    isWallRight(IDisplay *);
     void    isWalls(IDisplay *);
 
+
     void    bomb(IDisplay *);
 protected:
     std::tuple<std::size_t, std::size_t> _2dPos;

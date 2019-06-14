@@ -11,29 +11,31 @@
 #include "IrrlichtDisplayLoader.hpp"
 #include "IDisplay.hpp"
 
-#define posX 5400.0f
-#define posY 800.0f
-#define posZ 5200.0f
+#define posX -60
+#define posY -90
+#define posZ 75
 
-IrrlichtDisplayLoader::IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &d)
+IrrlichtDisplayLoader::IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &d, std::shared_ptr<irr::scene::ISceneNode> &father, irr::scene::ISceneManager *manager)
     :
-    _d(d)
+    _d(d),
+    _father(father),
+    _manager(manager)
 {}
 
 void IrrlichtDisplayLoader::loadCube(float size, IDisplay::Map3D &dest)
 {
-    dest.emplace_back(_d->_sceneManagers.at("game")->getSceneManager()->addCubeSceneNode(size, 0, -1));
+    dest.emplace_back(_manager->addCubeSceneNode(size, _father.get(), -1));
 }
 
 void IrrlichtDisplayLoader::loadMess(const SpriteInfo &info, float size,
                                      IDisplay::Map3D &dest)
 {
-    auto mesh = _d->_sceneManagers.at("game")->getSceneManager()->getMesh(info._messPath.c_str());
+    auto mesh = _manager->getMesh(info._messPath.c_str());
     irr::core::vector3df scale(size / info._size.X,
                                size / info._size.Y,
                                size / info._size.Z);
 
-    dest.emplace_back(_d->_sceneManagers.at("game")->getSceneManager()->addAnimatedMeshSceneNode(mesh));
+    dest.emplace_back(_manager->addAnimatedMeshSceneNode(mesh, _father.get()));
     dest.back()->setScale(scale);
 }
 
@@ -140,12 +142,14 @@ void
 IrrlichtDisplayLoader::addTileToMap(const irr::core::vector3df &pos,
                                     const SpriteInfo &info, float size)
 {
+    irr::core::vector3df toto = pos;
+    toto.Y -= 7;
     if (info._is_destructible) {
         loadTileMap(info, size, _d->getColiMap());
-        _d->getColiMap().back()->setPosition(pos);
+        _d->getColiMap().back()->setPosition(toto);
     } else {
         loadTileMap(info, size, _d->getNonColiMap());
-        _d->getNonColiMap().back()->setPosition(pos);
+        _d->getNonColiMap().back()->setPosition(toto);
     }
 }
 
@@ -175,6 +179,7 @@ void IrrlichtDisplayLoader::loadMapGround(const MapData &map)
 
 void IrrlichtDisplayLoader::loadMap(const MapData &map)
 {
+    std::cout << "map" << std::endl;
     loadMapWall(map);
     loadMapGround(map);
 }
@@ -184,14 +189,26 @@ static const char *res = "../resources/models/Character/Bomberman.MD3";
 void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
                                        const std::vector<std::string> &textures)
 {
-    _d->addNewAnimation(res, textures[static_cast<int>(color)].c_str(),
-                        std::make_tuple(6, 6, 6));
+
+    auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Character/Bomberman.MD3"), _father.get());
+    newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    newScene->setMD2Animation(irr::scene::EMAT_STAND);
+    newScene->setScale(irr::core::vector3df(6,6,6));
+    newScene->setRotation(irr::core::vector3df(0, 0, 0));
+    newScene->setPosition(irr::core::vector3df(5400, 810, 5200));
+    newScene->setAnimationSpeed(30);
+    newScene->setLoopMode(true);
+    newScene->setFrameLoop(0, 27);
+    newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture(textures[static_cast<int>(color)].c_str()));
+    _d->_meshsScene.push_back(std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>(newScene));
+    /*_d->addNewAnimation(res, textures[static_cast<int>(color)].c_str(),
+                        std::make_tuple(6, 6, 6));*/
 }
 
 void IrrlichtDisplayLoader::loadBomb(Bomb &bomb, IDisplay::BombsVec &dest)
 {
-    auto mesh = _d->_sceneManagers.at("game")->getSceneManager()->getMesh(bomb.getRes().c_str());
-    auto scene = _d->_sceneManagers.at("game")->getSceneManager()->addAnimatedMeshSceneNode(mesh);
+    auto mesh = _manager->getMesh(bomb.getRes().c_str());
+    auto scene = _manager->addAnimatedMeshSceneNode(mesh);
 
     dest.emplace_back(scene);
     irr::core::vector3df scale(2 / 2,

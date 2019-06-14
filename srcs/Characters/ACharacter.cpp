@@ -26,6 +26,8 @@ ACharacter::ACharacter(const std::size_t &enb, const MapPos &pos,
 // SETTERS
 void    ACharacter::setAction(const ACharacter::Action &action) { _action = action; }
 void    ACharacter::setPosZ(const float &z) { std::get<2>(_pos) = z; }
+void    ACharacter::setPosY(const float &y) { std::get<1>(_pos) = y; }
+void    ACharacter::setPosX(const float &x) { std::get<0>(_pos) = x; }
 
 // GETTERS
 ACharacter::KeyMap          &ACharacter::getKeyMap() { return _keyMap; }

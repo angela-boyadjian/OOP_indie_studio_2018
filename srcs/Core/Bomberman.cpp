@@ -158,7 +158,7 @@ void core::Bomberman::loadGame(const std::string &mapPath,
     _map->load(mapPath);
 // _map->generate3dMap(-1, 80, -1); GENERATION PROCEDURALE
     _game = std::move(game);
-    _dispLoader->loadGame(_game);
+    //_dispLoader->loadGame(_game); AVANT
     _dispLoader->loadMap(_map->getMapData());
     _dispLoader->loadMenu(menu);
 
@@ -178,8 +178,8 @@ void core::Bomberman::Trun()
 
 void core::Bomberman::initScene()
 {
-    _manager.addScenes(std::make_unique<MenuBisScene>(MenuBisScene(_display->getDevice(), _manager.getMaster(), "menu", _display->getDevice()->getVideoDriver()->getScreenSize())));
-    _manager.addScenes(std::make_unique<GameBisScene>(GameBisScene(_display->getDevice(), _manager.getMaster(), "game", _event, _display)));
+    _manager.addScenes(std::unique_ptr<MenuBisScene>(new MenuBisScene(_display->getDevice(), _manager.getMaster(), "menu", _display->getDevice()->getVideoDriver()->getScreenSize())));
+    _manager.addScenes(std::unique_ptr<GameBisScene>(new GameBisScene(_display->getDevice(), _manager.getMaster(), "game", _event, _display)));
     _manager.changeCurrent("game");
 }
 
@@ -188,7 +188,8 @@ void core::Bomberman::lauch()
     auto disp = std::shared_ptr<IDisplay>(new IrrlichtDisplay());
     _event = std::make_unique<Events>(Events(disp->_device, _display));
     disp->setDisplay(_event.get());
-    auto dispLoader = std::shared_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp));
+    auto tempo = std::shared_ptr<irr::scene::ISceneNode>(disp->getDevice()->getSceneManager()->addEmptySceneNode());
+    auto dispLoader = std::shared_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp, tempo, disp->getDevice()->getSceneManager()));
     setDisplayer(disp, dispLoader);
     _manager.initManager(_display->getDevice()->getSceneManager());
     initScene();

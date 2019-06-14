@@ -94,24 +94,24 @@ IDisplay::Map3D &IrrlichtDisplay::getNonColiMap()
 void    IrrlichtDisplay::changeModelPos(const std::size_t &i, const pos3d &vec)
 {
     auto newVec = pos3dToVector(vec);
-    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+    //auto meshsScene = _meshsScene;
 
-    newVec.X += 5400;
-    newVec.Y += 808;
-    newVec.Z += 5200;
-    meshsScene[i]->setPosition(newVec);
+    newVec.X += -60;
+    newVec.Y += -90;
+    newVec.Z += 75;
+    _meshsScene[i]->setPosition(newVec);
 }
 
 void    IrrlichtDisplay::changeModelRot(const std::size_t &i, const pos3d &vec)
 {
-    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
-    meshsScene[i]->setRotation(pos3dToVector((vec)));
+    //auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+    _meshsScene[i]->setRotation(pos3dToVector((vec)));
 }
 
 void    IrrlichtDisplay::changeModelFrame(const std::size_t &i, const std::size_t &a, const std::size_t &b)
 {
-    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
-    meshsScene[i]->setFrameLoop(a, b);
+    //auto meshsScene = _meshsScene;
+    _meshsScene[i]->setFrameLoop(a, b);
 }
 
 bool    IrrlichtDisplay::isCollisionFromMap(irr::core::aabbox3d<irr::f32> &b) const
@@ -138,9 +138,9 @@ bool    IrrlichtDisplay::isCollisionFromObstacles(irr::core::aabbox3d<irr::f32> 
 
 bool    IrrlichtDisplay::isCollision(const std::size_t &target)
 {
-    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
-    auto b = meshsScene[target]->getBoundingBox();
-    meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
+    //auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+    auto b = _meshsScene[target]->getBoundingBox();
+    _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
     return isCollisionFromMap(b) || isCollisionFromObstacles(b);
 }
 

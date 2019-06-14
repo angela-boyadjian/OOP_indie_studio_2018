@@ -45,6 +45,8 @@ public:
     // SETTERS
     void    setAction(const Action &);
     void    setPosZ(const float &);
+    void    setPosY(const float &);
+    void    setPosX(const float &);
 
     // GETTERS
     KeyMap              &getKeyMap();
