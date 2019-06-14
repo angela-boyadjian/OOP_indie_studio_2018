@@ -324,15 +324,7 @@ std::tuple<bool, ACharacter::Action>    Bot::isPower(std::vector<std::string> &m
 
 bool    Bot::takeBonus(std::vector<std::string> &map)
 {
-    auto b = map[std::get<1>(_2dPos)][std::get<0>(_2dPos)];
-    if (b >= '7') {
-        auto pu = PowerUp(b - 6 - 48);
-        if (pu == PowerUp::FIRE_RANGE)
-            _fireRange += 1;
-        if (pu == PowerUp::BOMB) {
-            _maxBombNumber += 1;
-            increaseBombNumber();
-        }
+    if (map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] >= '7') {
         map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] = '0';
         return true;
     }

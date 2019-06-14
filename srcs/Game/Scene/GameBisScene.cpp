@@ -22,8 +22,7 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
     _is_load(false),
     _device(device),
     _event(event),
-    _display(display),
-    _poweruppath({"../resources/textures/powerup/morebomb.png", "../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png"})
+    _display(display)
 {
     _master->setVisible(false);
 }
@@ -65,9 +64,8 @@ void GameBisScene::removeBlock(const int &x, const int &y, bool neg)
         _map->getMapData()._mapWall[y][x] = '0';
     else {
         _map->getMapData()._mapWall[y][x] = r + 6 + 48;
-        _powerUp.emplace_back(std::unique_ptr<IDisplay::Object >(_dispLoader->createBonus(_poweruppath[r - 1])));
+        _powerUp.emplace_back(std::unique_ptr<IDisplay::Object >(_dispLoader->createBonus("")));
         _powerUpPos.emplace_back(std::make_tuple(x, y));
-        vec.Y -= 5;
         _powerUp.back()->setPosition(vec);
     }
 }

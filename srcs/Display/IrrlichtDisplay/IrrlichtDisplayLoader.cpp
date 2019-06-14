@@ -222,12 +222,16 @@ void    IrrlichtDisplayLoader::loadExplosion(std::size_t y, std::size_t x)
     for (auto j {0}; j < y; ++j) {
         auto line = IDisplay::BombsVec();
         for (auto i {0}; i < x; ++i) {
-            auto newScene = _manager->addCubeSceneNode(10.0f, _father.get());
+            auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Bomb/Bomb.obj"), _father.get());
             newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+            newScene->setMD2Animation(irr::scene::EMAT_STAND);
             newScene->setScale(irr::core::vector3df(1,1,1));
             newScene->setRotation(irr::core::vector3df(0, 0, 0));
             newScene->setPosition(irr::core::vector3df(5400, 810, 5200));
-            newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture("../resources/textures/explosion.jpg"));
+            newScene->setAnimationSpeed(30);
+            newScene->setLoopMode(true);
+            newScene->setFrameLoop(0, 27);
+            newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture("../resources/models/Bomb/Bomb.png"));
 
 
           /*  _d->addNewAnimation("../resources/models/Bomb/Bomb.obj",
@@ -335,16 +339,18 @@ void    IrrlichtDisplayLoader::loadMenu(const std::unique_ptr<Menu> &menu)
         L"Exits Program");
 }
 
-IDisplay::Object    *IrrlichtDisplayLoader::createBonus(const std::string &path)
+IDisplay::Object    *IrrlichtDisplayLoader::createBonus(const std::string &)
 {
     // CHANGE WITH POWERUP MODEL
-    auto newScene = _manager->addCubeSceneNode(8.0f, _father.get());
+    auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Bomb/Bomb.obj"), _father.get());
     newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    //_manager->getMesh("../resources/models/Bomb/Bomb.obj"), _father.get());
-    newScene->setScale(irr::core::vector3df(1, 0.1,1));
-    newScene->setRotation(irr::core::vector3df(0, -90, 0));
+    newScene->setMD2Animation(irr::scene::EMAT_STAND);
+    newScene->setScale(irr::core::vector3df(1,1,1));
+    newScene->setRotation(irr::core::vector3df(0, 0, 0));
     newScene->setPosition(irr::core::vector3df(0, 0, 0));
-    std::cout << path << std::endl;
-    newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture(path.c_str()));
+    newScene->setAnimationSpeed(30);
+    newScene->setLoopMode(true);
+    newScene->setFrameLoop(0, 27);
+    newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture("../resources/models/Bomb/Bomb.png"));
     return newScene;
 }
