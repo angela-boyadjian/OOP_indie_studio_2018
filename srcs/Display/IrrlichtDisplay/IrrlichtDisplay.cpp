@@ -23,9 +23,14 @@ void    IrrlichtDisplay::setDisplay(Events *events)
 //    _currentScene = "game";
 }
 
+void    IrrlichtDisplay::setExplosion(const std::size_t &i, const std::size_t &j, const irr::core::vector3df &v)
+{
+    _explosions.at(j).at(i)->setPosition(v);
+    _explosions.at(j).at(i)->setVisible(false);
+}
+
 void    IrrlichtDisplay::setBombs(const std::size_t &i, const std::size_t &j, const irr::core::vector3df &v)
 {
-    std::cout << "i = " << i << std::endl << "j = " << j << std::endl;
     _bombs.at(j).at(i)->setPosition(v);
     _bombs.at(j).at(i)->setVisible(false);
 }
@@ -90,6 +95,11 @@ IDisplay::Map3D &IrrlichtDisplay::getColiMap()
 std::vector<IDisplay::BombsVec> &IrrlichtDisplay::getBombsMap()
 {
     return _bombs;
+}
+
+std::vector<IDisplay::BombsVec> &IrrlichtDisplay::getExplosionMap()
+{
+    return _explosions;
 }
 
 IDisplay::Map3D &IrrlichtDisplay::getNonColiMap()

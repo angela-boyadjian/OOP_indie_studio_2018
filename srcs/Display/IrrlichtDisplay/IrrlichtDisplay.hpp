@@ -56,7 +56,10 @@ public:
     Map3D   &getColiMap() final;
     Map3D   &getNonColiMap() final;
     std::vector<BombsVec>   &getBombsMap() final;
+    std::vector<BombsVec>   &getExplosionMap() final;
 
+    void    addExplosion(IDisplay::BombsVec &e) final { _explosions.emplace_back(std::move(e)); }
+    void    setExplosion(const std::size_t &, const std::size_t &, const irr::core::vector3df &) final;
     void    addBombs(IDisplay::BombsVec &m) final { _bombs.emplace_back(std::move(m)); }
     void    setBombs(const std::size_t &, const std::size_t &, const irr::core::vector3df &) final;
    // NOTE SCENES FUNCTIONS
@@ -75,11 +78,11 @@ public:
 
 private:
     Gui         _gui;
-    std::string _currentScene;
+    Map3D       _map3d;
+    Map3D       _coliMap;
     BombsVec    _bombsMap;
-    // TEMPO
+    Map3D       _noncoliMap;
+    std::string _currentScene;
     std::vector<IDisplay::BombsVec>  _bombs;
-    Map3D   _map3d;
-    Map3D   _coliMap;
-    Map3D   _noncoliMap;
+    std::vector<IDisplay::BombsVec>  _explosions;
 };

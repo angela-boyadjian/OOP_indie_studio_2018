@@ -173,6 +173,7 @@ void IrrlichtDisplayLoader::loadMap(const MapData &map)
     loadMapWall(map);
     loadMapGround(map);
     setBombsPos();
+    setExplosionPos();
 }
 
 static const char *res = "../resources/models/Character/Bomberman.MD3";
@@ -182,6 +183,36 @@ void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
 {
     _d->addNewAnimation(res, textures[static_cast<int>(color)].c_str(),
                         std::make_tuple(6, 6, 6));
+}
+
+void    IrrlichtDisplayLoader::setExplosionPos()
+{
+    auto x = 5400;
+    auto y = 808;
+    auto z = 5230;
+
+    for (auto j {0}; j < _d->getExplosionMap().size(); ++j) {
+        auto x_tmp = x;
+        for (auto i {0}; i < _d->getExplosionMap()[j].size(); ++i) {
+            _d->setExplosion(i, j, irr::core::vector3df(x_tmp, y, z));
+            x_tmp += 10;
+        }
+        z -= 10;
+    }
+}
+
+void    IrrlichtDisplayLoader::loadExplosion(std::size_t y, std::size_t x)
+{
+    for (auto j {0}; j < y; ++j) {
+        auto line = IDisplay::BombsVec();
+        for (auto i {0}; i < x; ++i) {
+            _d->addNewAnimation("../resources/models/Bomb/Bomb.obj",
+                                "../resources/models/Bomb/Bomb.png", std::make_tuple(1, 1, 1));
+            auto tmp = _d->_sceneManagers.at("game")->getMeshScenes();
+            line.emplace_back(tmp.at(tmp.size() - 1));
+        }
+        _d->addExplosion(line);
+    }
 }
 
 void    IrrlichtDisplayLoader::setBombsPos()
@@ -240,6 +271,7 @@ void IrrlichtDisplayLoader::loadGame(const std::unique_ptr<AGame> &game)
     for (auto &player : game->getPlayers()) {
         loadPlayer(player->_color, player->_textures);
         loadBomb_b2(11, 13);
+        loadExplosion(11, 13);
     }
 }
 
