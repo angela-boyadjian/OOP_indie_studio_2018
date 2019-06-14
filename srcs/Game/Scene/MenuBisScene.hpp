@@ -36,6 +36,3 @@ private:
     const irr::core::dimension2du& _win_size;
     std::shared_ptr<irr::IrrlichtDevice> _device;
 };
-
-
-
