@@ -56,47 +56,49 @@ std::size_t core::Bomberman::getColiIndex(const int &x, const int &y)
     return count;
 }
 
-void    core::Bomberman::exploseBlock(const int &x, const int &y)
+void    core::Bomberman::exploseEmpty(const int &x, const int &y)
 {
     auto tmp_x = x;
     auto tmp_y = y;
 
+    while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3')
+        _map->getMapData()._mapWall[y][tmp_x] = '0';
+    tmp_x = x;
+    while (++tmp_x < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][tmp_x] == '3')
+        _map->getMapData()._mapWall[y][tmp_x] = '0';
+    while (--tmp_y >= 0 and _map->getMapData()._mapWall[tmp_y][x] == '3')
+        _map->getMapData()._mapWall[tmp_y][x] = '0';
+    tmp_y = y;
+    while (++tmp_y < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[tmp_y][x] == '3')
+        _map->getMapData()._mapWall[tmp_y][x] = '0';
+}
+
+void    core::Bomberman::exploseBlock(const int &x, const int &y)
+{
     if (x > 0 and _map->getMapData()._mapWall[y][x - 1] == '2') {
-        std::cout << "BLOCK LEFT" << std::endl;
         _display->getColiMap().at(getColiIndex(x - 1, y))->setVisible(false);
         _map->getMapData()._mapWall[y][x - 1] = '0';
     }
     if (x + 1 < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][x + 1] == '2') {
-        std::cout << "BLOCK RIGHT" << std::endl;
         _display->getColiMap().at(getColiIndex(x + 1, y))->setVisible(false);
         _map->getMapData()._mapWall[y][x + 1] = '0';
     }
     if (y > 0 and _map->getMapData()._mapWall[y - 1][x] == '2') {
-        std::cout << "BLOCK UP" << std::endl;
         _display->getColiMap().at(getColiIndex(x - 1, y - 1))->setVisible(false);
         _map->getMapData()._mapWall[y - 1][x] = '0';
     }
     if (y + 1 < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[y + 1][x] == '2') {
-        std::cout << "BLOCK DOWN" << std::endl;
         _display->getColiMap().at(getColiIndex(x, y + 1))->setVisible(false);
         _map->getMapData()._mapWall[y + 1][x] = '0';
     }
     _map->getMapData()._mapWall[y][x] = '0';
-    sleep(1);
+    exploseEmpty(x, y);
+}
 
-    while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3')
-        _map->getMapData()._mapWall[y][tmp_x] = '0';
-    tmp_x = x;
-
-    while (++tmp_x < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][tmp_x] == '3')
-        _map->getMapData()._mapWall[y][tmp_x] = '0';
-
-    while (--tmp_y >= 0 and _map->getMapData()._mapWall[tmp_y][x] == '3')
-        _map->getMapData()._mapWall[tmp_y][x] = '0';
-    tmp_y = y;
-
-    while (++tmp_y < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[tmp_y][x] == '3')
-        _map->getMapData()._mapWall[tmp_y][x] = '0';
+void    core::Bomberman::explosion(const int &x, const int &y)
+{
+    exploseBlock(x, y);
+    exploseEmpty(x, y);
 }
 
 void    core::Bomberman::exploseBomb()
@@ -104,7 +106,7 @@ void    core::Bomberman::exploseBomb()
     for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
         if (elapsedTime.count() >= 1) {
-            exploseBlock(bombs_pos[i].x, bombs_pos[i].y);
+            explosion(bombs_pos[i].x, bombs_pos[i].y);
             _display->visiBomb(bombs_pos[i].x, bombs_pos[i].y, false);
             bombs_player[i]->increaseBombNumber();
             bombs_player.erase(bombs_player.begin() + i);

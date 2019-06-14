@@ -40,7 +40,9 @@ public:
 
     // BombermanGame loop
     std::size_t getColiIndex(const int &, const int &);
+    void    exploseEmpty(const int &, const int &);
     void    exploseBlock(const int &, const int &);
+    void    explosion(const int &, const int &);
     void    exploseBomb();
     void    putBomb(const std::vector<ACharacter::move_t> &);
     void    run();
