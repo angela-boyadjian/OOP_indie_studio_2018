@@ -39,9 +39,6 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
     for (auto i {0}; i <= x; ++i)
         if (_map->getMapData()._mapWall[y][i] == '2')
             ++count;
-    for (auto &r : _rm)
-        if (count > r)
-            ++count;
     return count;
 }
 
@@ -57,6 +54,8 @@ void GameBisScene::removeBlock(const int &x, const int &y, bool neg)
     auto index = getColiIndex(x, y) - neg;
     auto vec = _display->getColiMap().at(index)->getPosition();
     _display->getColiMap().at(index)->setVisible(false);
+    _display->getColiMap().at(index).release();
+    _display->getColiMap().erase(_display->getColiMap().begin() + index);
     _rm.emplace_back(index);
     _map->getMapData()._mapWall[y][x] = '7';
     setExplosion(x, y);
@@ -128,7 +127,7 @@ void GameBisScene::exploseBomb()
 {
     for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
-        if (elapsedTime.count() >= 1) {
+        if (elapsedTime.count() >= 2) {
             explosion(bombs_pos[i].x, bombs_pos[i].y);
             _display->visiBomb(bombs_pos[i].x, bombs_pos[i].y, false);
             bombs_player[i]->increaseBombNumber();
@@ -263,12 +262,14 @@ void GameBisScene::loadScene()
     _manager->addCameraSceneNodeFPS(                // ajout de la camera FPS
         0, 100.0f, 0.1f, -1, keyMap, 5);*/
 
-//    auto camera = _manager->addCameraSceneNode(_master.get());
-    auto camera = _manager->addCameraSceneNodeFPS(_master.get(), 10.0f, 0.1f);
+    auto camera = _manager->addCameraSceneNode(_master.get());
 //    camera->setPosition(irr::core::vector3df(141.109, 29.5424, 219.09));
     camera->setPosition(irr::core::vector3df(192.264, 53.8758, 112.409));
 //    camera->setPosition(irr::core::vector3df(313.334, 87.5304, -37.311));
-    camera->setTarget(irr::core::vector3df(-10, -4, 5));
+//    camera->setTarget(irr::core::vector3df(-10, -4, 5));
+
+    camera->setTarget(irr::core::vector3df(-3, -15, 15));
+//    camera->setPosition(irr::core::vector3df(0, 0, 20));
     _is_load = true;
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     auto players = loadPlayer();

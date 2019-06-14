@@ -174,6 +174,12 @@
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Scene/IntroScene.hpp">
 			<Option target="bomberman"/>
 		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Scene/MapChangeScene.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Scene/MapChangeScene.hpp">
+			<Option target="bomberman"/>
+		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Scene/MenuBisScene.cpp">
 			<Option target="bomberman"/>
 		</Unit>

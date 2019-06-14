@@ -10,6 +10,7 @@
 #include <iostream>
 #include <SFML/Audio.hpp>
 #include <IrrlichtDisplayLoader.hpp>
+#include <Scene/MapChangeScene.hpp>
 
 #include "Bomberman.hpp"
 #include "ACharacter.hpp"
@@ -17,6 +18,7 @@
 #include "MenuBisScene.hpp"
 #include "GameBisScene.hpp"
 #include "IntroScene.hpp"
+#include "MapChangeScene.hpp"
 
 core::Bomberman::Bomberman()
 {
@@ -301,9 +303,10 @@ void core::Bomberman::Trun()
 
 void core::Bomberman::initScene()
 {
-    _manager.addScenes(std::unique_ptr<MenuBisScene>(new MenuBisScene(_display, _manager.getMaster(), "menu")));
-    _manager.addScenes(std::unique_ptr<GameBisScene>(new GameBisScene(_display->getDevice(), _manager.getMaster(), "game", _event, _display)));
-    _manager.addScenes(std::unique_ptr<IntroScene>(new IntroScene(_display, _manager.getMaster(), "intro", _event)));
+    _manager.addScenes(std::make_unique<MenuBisScene>(_display, _manager.getMaster(), "menu"));
+    _manager.addScenes(std::make_unique<MapChangeScene>(_display, _manager.getMaster(), "map_choose"));
+    _manager.addScenes(std::make_unique<GameBisScene>(_display->getDevice(), _manager.getMaster(), "game", _event, _display));
+    _manager.addScenes(std::make_unique<IntroScene>(_display, _manager.getMaster(), "intro", _event));
     _manager.changeCurrent("intro");
 }
 
