@@ -339,20 +339,6 @@ void    IrrlichtDisplayLoader::loadMenu(const std::unique_ptr<Menu> &menu)
         L"Exits Program");
 }
 
-void IrrlichtDisplayLoader::loadSplashScene()
-{
-    auto const &gui {_d->getGui()};
-    auto screenSize {_d->getScreenSize()};
-    auto back {gui->addImage(irr::core::rect<irr::s32>(0, 0, screenSize.Width, screenSize.Height))};
-    auto start {gui->addImage(irr::core::rect<irr::s32>(0, 0, screenSize.Width, screenSize.Height))};
-
-    back->setImage(_d->_driver->getTexture("./../resources/ui/MainMenuBackground.jpg"));
-    back->setScaleImage(true);
-    start->setImage(_d->_driver->getTexture("./../resources/ui/press_start.png"));
-    start->setRelativePosition(irr::core::position2di(250, 450));
-    start->setVisible(true);
-}
-
 IDisplay::Object    *IrrlichtDisplayLoader::createBonus(const std::string &)
 {
     // CHANGE WITH POWERUP MODEL

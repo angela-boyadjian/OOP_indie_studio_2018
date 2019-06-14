@@ -55,8 +55,8 @@ void IntroScene::loadImg() noexcept
     _images[0]->setScaleImage(true);
     _images[1]->setImage(_textures[1]);
     _images[1]->setRelativePosition(irr::core::position2di(250, 450));
-    _images[1]->setVisible(true);
-    _isVisible = true;
+    _images[1]->setVisible(false);
+    _isVisible = false;
 }
 
 std::size_t IntroScene::getElapsedTime() const

@@ -283,7 +283,6 @@ void core::Bomberman::loadGame(const std::string &mapPath,
     _game = std::move(game);
     //_dispLoader->loadGame(_game); AVANT
     _dispLoader->loadMap(_map->getMapData());
-    _dispLoader->loadSplashScene();
     _dispLoader->loadMenu(menu);
 
     // NOTE TEMPO
