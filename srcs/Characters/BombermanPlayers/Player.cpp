@@ -19,9 +19,24 @@ Player::~Player()
 {
 }
 
+void    Player::takeBonus(std::vector<std::string> &map)
+{
+    auto b = map[std::get<1>(_2dPos)][std::get<0>(_2dPos)];
+    if (b >= '7') {
+        auto pu = PowerUp(b);
+        if (pu == PowerUp::FIRE_RANGE)
+            increaseFireRange();
+        else if (pu == PowerUp::BOMB) {
+            _maxBombNumber += 1;
+            increaseBombNumber();
+        }
+    }
+}
+
 ACharacter::move_t  Player::move(std::vector<std::string> &map, IDisplay *d)
 {
     isWalls(d);
+    takeBonus(map);
     map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] = '0';
     switch (_action) {
         case ACharacter::Action::UP:
@@ -35,6 +50,11 @@ ACharacter::move_t  Player::move(std::vector<std::string> &map, IDisplay *d)
             break;
         case ACharacter::Action::RIGHT:
             moveRight();
+            break;
+        case ACharacter::Action::BOMB:
+            if (_bombNumber == 0)
+                _action = ACharacter::Action::WAIT;
+            _bombNumber -= 1;
             break;
         default:
             break;

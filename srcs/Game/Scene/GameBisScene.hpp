@@ -26,12 +26,6 @@ class GameBisScene : public IScene {
         using Bots = std::vector<std::shared_ptr<Bot>>;
         using Players = std::vector<std::shared_ptr<Player>>;
 
-        enum class PowerUp {
-            NOTHING,
-            SHOOT,
-            FIRE_RANGE,
-            SPEED
-        };
         GameBisScene(std::shared_ptr<irr::IrrlichtDevice>, irr::scene::ISceneNode *, const std::string &, std::shared_ptr<Events>, std::shared_ptr<IDisplay>);
         ~GameBisScene() = default;
 
