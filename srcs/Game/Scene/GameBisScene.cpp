@@ -39,9 +39,6 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
     for (auto i {0}; i <= x; ++i)
         if (_map->getMapData()._mapWall[y][i] == '2')
             ++count;
-    for (auto &r : _rm)
-        if (count > r)
-            ++count;
     return count;
 }
 
@@ -57,6 +54,8 @@ void GameBisScene::removeBlock(const int &x, const int &y, bool neg)
     auto index = getColiIndex(x, y) - neg;
     auto vec = _display->getColiMap().at(index)->getPosition();
     _display->getColiMap().at(index)->setVisible(false);
+    _display->getColiMap().at(index).release();
+    _display->getColiMap().erase(_display->getColiMap().begin() + index);
     _rm.emplace_back(index);
     _map->getMapData()._mapWall[y][x] = '7';
     setExplosion(x, y);
@@ -128,7 +127,7 @@ void GameBisScene::exploseBomb()
 {
     for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
-        if (elapsedTime.count() >= 1) {
+        if (elapsedTime.count() >= 2) {
             explosion(bombs_pos[i].x, bombs_pos[i].y);
             _display->visiBomb(bombs_pos[i].x, bombs_pos[i].y, false);
             bombs_player[i]->increaseBombNumber();
@@ -144,7 +143,6 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
 {
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB) {
-            std::cout << "COUCOU " << a.x << " " << a.y << std::endl;
             _display->visiBomb(a.x, a.y, true);
             bombs_pos.emplace_back(a);
             bombs_time.emplace_back(std::chrono::system_clock::now());
