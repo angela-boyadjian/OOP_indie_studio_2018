@@ -9,7 +9,7 @@
 
 ABombermanPlayer::ABombermanPlayer(const std::size_t &enb, const MapPos &pos,
                        const Color &color) : ACharacter(enb, pos, color),
-        _fireRange(1), _bombNumber(1), _maxBombNumber(1)
+        _fireRange(1), _bombNumber(1), _maxBombNumber(1), _3dPos(std::make_tuple(0, 0))
 {
     _textures = std::vector<std::string>({"../resources/models/Character/BlackBombermanTextures.png",
                "../resources/models/Character/PinkBombermanTextures.png",
@@ -37,17 +37,19 @@ void    ABombermanPlayer::canShoot() { _canShoot = true; }
 void    ABombermanPlayer::moveUp()
 {
     if (!_walls[0]) {
-//        std::get<1>(_2dPos) += 1;
         std::get<1>(_pos) += 1;
         std::get<2>(_pos) += 1;
+        std::get<1>(_3dPos) -= 1;
+        std::get<1>(_2dPos) = static_cast<int>(std::get<1>(_3dPos) / 10);
     }
 }
 
 void    ABombermanPlayer::moveDown()
 {
     if (!_walls[1]) {
-//        std::get<1>(_2dPos) -= 1;
         std::get<1>(_pos) -= 1;
+        std::get<1>(_3dPos) += 1;
+        std::get<1>(_2dPos) = static_cast<int>(std::get<1>(_3dPos) / 10);
         std::get<2>(_pos) -= 1;
     }
 }
@@ -55,8 +57,9 @@ void    ABombermanPlayer::moveDown()
 void    ABombermanPlayer::moveLeft()
 {
     if (!_walls[2]) {
-//        std::get<0>(_2dPos) -= 1;
         std::get<0>(_pos) -= 1;
+        std::get<0>(_3dPos) -= 1;
+        std::get<0>(_2dPos) = static_cast<int>(std::get<0>(_3dPos) / 10);
     }
 }
 
@@ -64,8 +67,9 @@ void    ABombermanPlayer::moveLeft()
 void    ABombermanPlayer::moveRight()
 {
     if (!_walls[3]) {
-//        std::get<0>(_2dPos) += 1;
         std::get<0>(_pos) += 1;
+        std::get<0>(_3dPos) += 1;
+        std::get<0>(_2dPos) = static_cast<int>(std::get<0>(_3dPos) / 10);
     }
 }
 
@@ -96,8 +100,8 @@ void    ABombermanPlayer::isWallLeft(IDisplay *d)
 void    ABombermanPlayer::isWallRight(IDisplay *d)
 {
     std::get<0>(_pos) += 3;
-    _walls[3] = d->isCollision(getEntityNb());
     d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
+    _walls[3] = d->isCollision(getEntityNb());
     std::get<0>(_pos) -= 3;
 }
 
