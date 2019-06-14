@@ -5,6 +5,7 @@
 ** Player
 */
 
+#include <unistd.h>
 #include "Player.hpp"
 
 Player::Player(const std::size_t &enb, ACharacter::Color color, MapPos const &pos) :
@@ -21,6 +22,7 @@ Player::~Player()
 ACharacter::move_t  Player::move(std::vector<std::string> &map, IDisplay *d)
 {
     isWalls(d);
+    map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] = '0';
     switch (_action) {
         case ACharacter::Action::UP:
             moveUp();
@@ -37,5 +39,9 @@ ACharacter::move_t  Player::move(std::vector<std::string> &map, IDisplay *d)
         default:
             break;
     }
+    map.at(std::get<1>(_2dPos)).at(std::get<0>(_2dPos)) = '4';
+    for (auto &m : map)
+        std::cout << m << std::endl;
+    std::cout << std::endl;
     return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _action, .itself = this};
 }

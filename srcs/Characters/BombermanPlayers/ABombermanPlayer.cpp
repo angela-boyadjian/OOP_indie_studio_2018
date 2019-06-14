@@ -39,7 +39,7 @@ void    ABombermanPlayer::moveUp()
     if (!_walls[0]) {
         std::get<1>(_pos) += 1;
         std::get<2>(_pos) += 1;
-        std::get<1>(_3dPos) += 1;
+        std::get<1>(_3dPos) -= 1;
         std::get<1>(_2dPos) = static_cast<int>(std::get<1>(_3dPos) / 10);
     }
 }
@@ -48,7 +48,7 @@ void    ABombermanPlayer::moveDown()
 {
     if (!_walls[1]) {
         std::get<1>(_pos) -= 1;
-        std::get<1>(_3dPos) -= 1;
+        std::get<1>(_3dPos) += 1;
         std::get<1>(_2dPos) = static_cast<int>(std::get<1>(_3dPos) / 10);
         std::get<2>(_pos) -= 1;
     }
