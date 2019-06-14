@@ -17,16 +17,9 @@ void    IrrlichtDisplay::setDisplay(Events *events)
     _gui = std::unique_ptr<irr::gui::IGUIEnvironment>(_device->getGUIEnvironment());
     _driver = _device->getVideoDriver();
 
-<<<<<<< HEAD
-    _sceneManagers.insert(std::pair<std::string, Scenes>("menu", std::shared_ptr<ISceneManager>(new MenuScene(_device, _driver))));
-    _sceneManagers.insert(std::pair<std::string, Scenes>("game", std::shared_ptr<ISceneManager>(new GameScene(_device, _driver))));
-    _sceneManagers.insert(std::pair<std::string, Scenes>("settings", std::shared_ptr<ISceneManager>(new SettingScene(_device, _driver))));
-=======
    // _sceneManagers.insert(std::pair<std::string, Scenes>("menu", std::shared_ptr<ISceneManager>(new MenuScene(_device, _driver))));
     //_sceneManagers.insert(std::pair<std::string, Scenes>("game", std::shared_ptr<ISceneManager>(new GameScene(_device, _driver))));
    // _sceneManagers.insert(std::pair<std::string, Scenes>("map select", std::shared_ptr<ISceneManager>(new MapSelectionScene(_device, _driver))));
-//_currentScene = "map select";
->>>>>>> eb510f863704537a5b4a186f3e5173c5805de649
     _currentScene = "menu";
 }
 
