@@ -17,3 +17,8 @@ lib
 
 # BIN
 bin
+
+#MACOS
+.DS_Store
+bundle_mac.sh
+bomberman.app

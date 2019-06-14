@@ -352,3 +352,19 @@ void IrrlichtDisplayLoader::loadSplashScene()
     start->setRelativePosition(irr::core::position2di(250, 450));
     start->setVisible(true);
 }
+
+IDisplay::Object    *IrrlichtDisplayLoader::createBonus(const std::string &)
+{
+    // CHANGE WITH POWERUP MODEL
+    auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Bomb/Bomb.obj"), _father.get());
+    newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    newScene->setMD2Animation(irr::scene::EMAT_STAND);
+    newScene->setScale(irr::core::vector3df(1,1,1));
+    newScene->setRotation(irr::core::vector3df(0, 0, 0));
+    newScene->setPosition(irr::core::vector3df(0, 0, 0));
+    newScene->setAnimationSpeed(30);
+    newScene->setLoopMode(true);
+    newScene->setFrameLoop(0, 27);
+    newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture("../resources/models/Bomb/Bomb.png"));
+    return newScene;
+}

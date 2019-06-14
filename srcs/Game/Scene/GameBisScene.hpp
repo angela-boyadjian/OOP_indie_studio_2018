@@ -26,6 +26,12 @@ class GameBisScene : public IScene {
         using Bots = std::vector<std::shared_ptr<Bot>>;
         using Players = std::vector<std::shared_ptr<Player>>;
 
+        enum class PowerUp {
+            NOTHING,
+            SHOOT,
+            FIRE_RANGE,
+            SPEED
+        };
         GameBisScene(std::shared_ptr<irr::IrrlichtDevice>, irr::scene::ISceneNode *, const std::string &, std::shared_ptr<Events>, std::shared_ptr<IDisplay>);
         ~GameBisScene() = default;
 
@@ -39,6 +45,8 @@ class GameBisScene : public IScene {
         void loadGame(const std::string &, std::unique_ptr<AGame> &);
         std::vector<std::unique_ptr<Player>> loadPlayer();
         std::vector<std::unique_ptr<Bot>> loadBot();
+        // POWER UP
+        void    checkPowerUp();
         // BOMB
         void exploseBomb();
         void explosion(const int &, const int &);
@@ -81,7 +89,7 @@ class GameBisScene : public IScene {
         std::vector<std::tuple<int, int>>   _explosionPos;
         std::vector<std::chrono::time_point<std::chrono::system_clock>> _explosionTime;
         std::vector<std::size_t> _rm;
+        // POWER UP
+        Map3D   _powerUp;
+        std::vector<std::tuple<int, int>>    _powerUpPos;
 };
-
-
-
