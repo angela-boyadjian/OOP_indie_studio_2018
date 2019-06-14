@@ -307,7 +307,7 @@ void core::Bomberman::initScene()
     _manager.addScenes(std::make_unique<MapChangeScene>(_display, _manager.getMaster(), "map_choose"));
     _manager.addScenes(std::make_unique<GameBisScene>(_display->getDevice(), _manager.getMaster(), "game", _event, _display));
     _manager.addScenes(std::make_unique<IntroScene>(_display, _manager.getMaster(), "intro", _event));
-    _manager.changeCurrent("menu");
+    _manager.changeCurrent("intro");
 }
 
 void core::Bomberman::lauch()
