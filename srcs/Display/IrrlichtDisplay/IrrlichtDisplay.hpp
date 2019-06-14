@@ -16,6 +16,7 @@
 #include "GameScene.hpp"
 #include "MapSelectionScene.hpp"
 #include "MenuScene.hpp"
+#include "SettingScene.hpp"
 // static const wchar_t *windowName = "Bomberman";
 
 class IrrlichtDisplay : public IDisplay {

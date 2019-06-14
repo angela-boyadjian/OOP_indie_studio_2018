@@ -20,7 +20,6 @@ void    IrrlichtDisplay::setDisplay(Events *events)
    // _sceneManagers.insert(std::pair<std::string, Scenes>("menu", std::shared_ptr<ISceneManager>(new MenuScene(_device, _driver))));
     //_sceneManagers.insert(std::pair<std::string, Scenes>("game", std::shared_ptr<ISceneManager>(new GameScene(_device, _driver))));
    // _sceneManagers.insert(std::pair<std::string, Scenes>("map select", std::shared_ptr<ISceneManager>(new MapSelectionScene(_device, _driver))));
-//_currentScene = "map select";
     _currentScene = "menu";
 }
 
@@ -62,8 +61,8 @@ void    IrrlichtDisplay::draw()
 {
     _driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
     _sceneManagers.at(_currentScene)->getSceneManager()->drawAll();
-    auto pos = _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera()->getPosition();
-    std::cout << pos.X << " " << pos.Y << "  " << pos.Z << std::endl;
+//    auto pos = _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera()->getPosition();
+//    std::cout << pos.X << " " << pos.Y << "  " << pos.Z << std::endl;
 //    std::cout << _currentScene << std::endl;
     _gui->drawAll();
     _driver->endScene();
@@ -183,8 +182,6 @@ void    IrrlichtDisplay::setBombState(const std::size_t &target, bool isVisible)
 
 void    IrrlichtDisplay::changeScene(std::string const &scene)
 {
-    static int i;
-
     if (_currentScene == "map select") {
         _device->getCursorControl()->setVisible(false);
         _gui->getRootGUIElement()->setVisible(false);
@@ -192,18 +189,20 @@ void    IrrlichtDisplay::changeScene(std::string const &scene)
         return;
     }
 
-    if (_currentScene == "menu" && i == 0) {
+    if (_currentScene == "menu" && scene == "game") {
         _currentScene = "game";
         _device->getCursorControl()->setVisible(false);
         _gui->getRootGUIElement()->setVisible(false);
-        i = 1;
-        auto camera = _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera();
-        camera->addAnimator(_sceneManagers.at(_currentScene)->getSceneManager()->createFlyStraightAnimator(camera->getPosition(),
-            irr::core::vector3df(5465, 933.016, 5133), 1000, false, false));
-//        camera->addAnimator(_sceneManagers.at(_currentScene)->getSceneManager()->createRotationAnimator(irr::core::vector3df(5, 5, 5)));
-//        camera->setPosition(irr::core::vector3df(5444.9 , 915.958, 5170.33));
-//        camera->setTarget(irr::core::vector3df(5454.47 , -6597.6, 6044.77));
-//        camera->setPosition(irr::core::)
+        auto camera = _sceneManagers.at(
+            _currentScene)->getSceneManager()->getActiveCamera();
+        camera->addAnimator(_sceneManagers.at(
+            _currentScene)->getSceneManager()->createFlyStraightAnimator(
+            camera->getPosition(), irr::core::vector3df(5465, 933.016, 5133),
+            1000, false, false));
+    } else if (_currentScene == "menu" && scene == "settings") {
+//        std::cout << "pass" << std::endl;
+        _currentScene = "settings";
+        _gui->clear();
     } else {
         _currentScene = "menu";
         _device->getCursorControl()->setVisible(true);
