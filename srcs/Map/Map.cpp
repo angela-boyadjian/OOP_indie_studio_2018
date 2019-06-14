@@ -68,16 +68,16 @@ void Map::generate3dMap(int template_index, int range, long seed)
     auto default_template = loadDefaultTemplate(files_names);
 
     if (seed == -1)
-        srand(time(NULL));
+        std::srand(time(NULL));
     else
-        srand(seed);
+        std::srand(seed);
     if (template_index == -1)
-        template_index = rand() % default_template.size();
+        template_index = std::rand() % default_template.size();
     load(files_names[template_index]);
     for (auto &line : _data._mapWall) {
         for (auto &tile : line) {
             if (tile == '0') {
-                auto rand_nb = (rand() % 100) + 1;
+                auto rand_nb = (std::rand() % 100) + 1;
                 if (rand_nb <= range)
                     tile = '2';
             }

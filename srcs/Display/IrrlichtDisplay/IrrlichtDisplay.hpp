@@ -14,6 +14,7 @@
 #include "IDisplay.hpp"
 #include "ISceneManager.hpp"
 #include "GameScene.hpp"
+#include "MapSelectionScene.hpp"
 #include "MenuScene.hpp"
 // static const wchar_t *windowName = "Bomberman";
 

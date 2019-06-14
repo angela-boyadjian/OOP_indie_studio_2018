@@ -67,6 +67,7 @@ public:
 
     // TEMPO
     VideoDriver         _driver;
+    std::vector<std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>> _meshsScene;
 
     // TEMPO
     std::map<std::string, Scenes> _sceneManagers;

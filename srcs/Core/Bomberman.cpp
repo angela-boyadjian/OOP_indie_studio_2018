@@ -14,6 +14,8 @@
 #include "Bomberman.hpp"
 #include "ACharacter.hpp"
 #include "Menu.hpp"
+#include "MenuBisScene.hpp"
+#include "GameBisScene.hpp"
 
 core::Bomberman::Bomberman()
 {
@@ -30,7 +32,7 @@ void core::Bomberman::setGame(std::unique_ptr<AGame> &g)
 }
 
 void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
-        std::shared_ptr<IDisplayLoader> &dl)
+                                   std::shared_ptr<IDisplayLoader> &dl)
 {
     _display = std::move(d);
     _dispLoader = std::move(dl);
@@ -42,6 +44,7 @@ void core::Bomberman::setMusic()
     _mainMusic->openFromFile("./../resources/sounds/BombermanSong.wav");
 }
 
+// ATTTET
 std::size_t core::Bomberman::getColiIndex(const int &x, const int &y)
 {
     auto count {0};
@@ -52,6 +55,9 @@ std::size_t core::Bomberman::getColiIndex(const int &x, const int &y)
                 ++count;
     for (auto i {0}; i <= x; ++i)
         if (_map->getMapData()._mapWall[y][i] == '2')
+            ++count;
+    for (auto &r : _rm)
+        if (count > r)
             ++count;
     return count;
 }
@@ -88,30 +94,27 @@ void    core::Bomberman::exploseEmpty(const int &x, const int &y)
     }
 }
 
+void    core::Bomberman::removeBlock(const int &x, const int &y, bool neg)
+{
+    auto index = getColiIndex(x, y) - neg;
+    _display->getColiMap().at(index)->setVisible(false);
+    _rm.emplace_back(index);
+    _map->getMapData()._mapWall[y][x] = '7';
+    setExplosion(x, y);
+}
+
 void    core::Bomberman::exploseBlock(const int &x, const int &y)
 {
-    if (x > 0 and _map->getMapData()._mapWall[y][x - 1] == '2') {
-        _display->getColiMap().at(getColiIndex(x - 1, y))->setVisible(false);
-        _map->getMapData()._mapWall[y][x - 1] = '0';
-        setExplosion(x - 1, y);
-    }
-    if (x + 1 < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][x + 1] == '2') {
-        _display->getColiMap().at(getColiIndex(x + 1, y))->setVisible(false);
-        _map->getMapData()._mapWall[y][x + 1] = '0';
-        setExplosion(x + 1, y);
-    }
-    if (y > 0 and _map->getMapData()._mapWall[y - 1][x] == '2') {
-        _display->getColiMap().at(getColiIndex(x - 1, y - 1))->setVisible(false);
-        _map->getMapData()._mapWall[y - 1][x] = '0';
-        setExplosion(x, y - 1);
-    }
-    if (y + 1 < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[y + 1][x] == '2') {
-        _display->getColiMap().at(getColiIndex(x, y + 1))->setVisible(false);
-        _map->getMapData()._mapWall[y + 1][x] = '0';
-        setExplosion(x, y + 1);
-    }
+    if (x > 0 and _map->getMapData()._mapWall[y][x - 1] == '2')
+        removeBlock(x - 1, y, true);
+    if (x + 1 < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][x + 1] == '2')
+        removeBlock(x + 1, y, true);
+    if (y > 0 and _map->getMapData()._mapWall[y - 1][x] == '2')
+        removeBlock(x, y - 1, true);
+    if (y + 1 < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[y + 1][x] == '2')
+        removeBlock(x, y + 1, true);
     setExplosion(x, y);
-    _map->getMapData()._mapWall[y][x] = '0';
+    _map->getMapData()._mapWall[y][x] = '7';
     exploseEmpty(x, y);
 }
 
@@ -165,20 +168,27 @@ void    core::Bomberman::putBomb(const std::vector<ACharacter::move_t> &actions)
 void core::Bomberman::run()
 {
     // TEMPO - REPLACE IT BY GENERIC METHOD
-    _game->getPlayers()[0]->setPosZ(std::get<2>(_game->getPlayers()[0]->getMapPos()) + 30);
-    _display->changeModelPos(_game->getPlayers()[0]->getEntityNb(), std::make_tuple(
-            std::get<0>(_game->getPlayers()[0]->getMapPos()),
-            std::get<1>(_game->getPlayers()[0]->getMapPos()),
-            std::get<2>(_game->getPlayers()[0]->getMapPos())));
+    _game->getPlayers()[0]->setPosZ(
+        std::get<2>(_game->getPlayers()[0]->getMapPos()) + 30);
+    _display->changeModelPos(_game->getPlayers()[0]->getEntityNb(),
+                             std::make_tuple(
+                                 std::get<0>(
+                                     _game->getPlayers()[0]->getMapPos()),
+                                 std::get<1>(
+                                     _game->getPlayers()[0]->getMapPos()),
+                                 std::get<2>(
+                                     _game->getPlayers()[0]->getMapPos())));
 
     // TEMPO - REPLACE IT BY GENERIC METHOD
-    _game->getBots()[0]->setPosZ(std::get<2>(_game->getPlayers()[0]->getMapPos()) - 100);
-    _display->changeModelPos(_game->getBots()[0]->getEntityNb(), std::make_tuple(
-            std::get<0>(_game->getBots()[0]->getMapPos()),
-            std::get<1>(_game->getBots()[0]->getMapPos()),
-            std::get<2>(_game->getBots()[0]->getMapPos())));
+    _game->getBots()[0]->setPosZ(
+        std::get<2>(_game->getPlayers()[0]->getMapPos()) - 100);
+    _display->changeModelPos(_game->getBots()[0]->getEntityNb(),
+                             std::make_tuple(
+                                 std::get<0>(_game->getBots()[0]->getMapPos()),
+                                 std::get<1>(_game->getBots()[0]->getMapPos()),
+                                 std::get<2>(
+                                     _game->getBots()[0]->getMapPos())));
     _map->getMapData()._mapWall[10][0] = '0';
-
 
     while (_display->isRunning()) {
         if (_mainMusic->getStatus() != sf::Sound::Playing)
@@ -221,8 +231,9 @@ std::vector<ACharacter::move_t> core::Bomberman::action()
     return p;
 }
 
-void    core::Bomberman::changeAnimation(const std::size_t &i, const ACharacter::Action &curr,
-        const ACharacter::Action &last)
+void core::Bomberman::changeAnimation(const std::size_t &i,
+                                      const ACharacter::Action &curr,
+                                      const ACharacter::Action &last)
 {
     switch (curr) {
         case ACharacter::Action::LEFT:
@@ -246,18 +257,22 @@ void    core::Bomberman::changeAnimation(const std::size_t &i, const ACharacter:
     }
 }
 
-void    core::Bomberman::changeFrameAndPos(const ACharacter *cha, const ACharacter::Action &curr,
-                                           const ACharacter::Action &last)
+void core::Bomberman::changeFrameAndPos(const ACharacter *cha,
+                                        const ACharacter::Action &curr,
+                                        const ACharacter::Action &last)
 {
     if (curr != ACharacter::Action::WAIT) {
         if (last == ACharacter::Action::WAIT)
             _display->changeModelFrame(cha->getEntityNb(), 0, 27);
-        _display->changeModelPos(cha->getEntityNb(), std::make_tuple(std::get<0>(cha->getMapPos()),
-            0, std::get<2>(cha->getMapPos())));
+        _display->changeModelPos(cha->getEntityNb(),
+                                 std::make_tuple(std::get<0>(cha->getMapPos()),
+                                                 0, std::get<2>(
+                                         cha->getMapPos())));
     }
 }
 
-void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
+void core::Bomberman::loadGame(const std::string &mapPath,
+                               std::unique_ptr<AGame> &game)
 {
     auto menu = std::unique_ptr<Menu>(new Menu());
 
@@ -265,7 +280,7 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
     _map->load(mapPath);
 // _map->generate3dMap(-1, 80, -1); GENERATION PROCEDURALE
     _game = std::move(game);
-    _dispLoader->loadGame(_game);
+    //_dispLoader->loadGame(_game); AVANT
     _dispLoader->loadMap(_map->getMapData());
     _dispLoader->loadSplashScene();
     _dispLoader->loadMenu(menu);
@@ -275,26 +290,51 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
     _display->_device->setEventReceiver(_event.get());
 }
 
-void    core::Bomberman::lauch()
+void core::Bomberman::Trun()
+{
+    while (_display->isRunning()) {
+        _display->getDevice()->getVideoDriver()->beginScene(true, true,  irr::video::SColor(255, 255, 255, 255));
+        _manager.runCurrentScene();
+        _display->getDevice()->getVideoDriver()->endScene();
+    }
+}
+
+void core::Bomberman::initScene()
+{
+    _manager.addScenes(std::unique_ptr<MenuBisScene>(new MenuBisScene(_display->getDevice(), _manager.getMaster(), "menu", _display->getDevice()->getVideoDriver()->getScreenSize())));
+    _manager.addScenes(std::unique_ptr<GameBisScene>(new GameBisScene(_display->getDevice(), _manager.getMaster(), "game", _event, _display)));
+    _manager.changeCurrent("game");
+}
+
+void core::Bomberman::lauch()
 {
     auto disp = std::shared_ptr<IDisplay>(new IrrlichtDisplay());
     _event = std::make_unique<Events>(Events(disp->_device, _display));
     disp->setDisplay(_event.get());
-    auto dispLoader = std::shared_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp));
+    auto tempo = std::shared_ptr<irr::scene::ISceneNode>(disp->getDevice()->getSceneManager()->addEmptySceneNode());
+    auto dispLoader = std::shared_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp, tempo, disp->getDevice()->getSceneManager()));
     setDisplayer(disp, dispLoader);
-    setMusic();
-    initGame(_event.get());
-    run();
+    _manager.initManager(_display->getDevice()->getSceneManager());
+    initScene();
+    Trun();
+     /*setMusic();
+     initGame(_event.get());
+     run();*/
 }
 
-void    core::Bomberman::initGame(Events *event)
+void core::Bomberman::initGame(Events *event)
 {
-   auto players = std::vector<std::unique_ptr<Player>>();
-    players.push_back(std::make_unique<Player>(Player(0, ACharacter::Color::BLACK,
-                                                      std::make_tuple(std::size_t(0), std::size_t(0), std::size_t(0)))));
+    auto players = std::vector<std::unique_ptr<Player>>();
+    players.push_back(
+        std::make_unique<Player>(Player(0, ACharacter::Color::BLACK,
+                                        std::make_tuple(std::size_t(0),
+                                                        std::size_t(0),
+                                                        std::size_t(0)))));
     auto bots = std::vector<std::unique_ptr<Bot>>();
     bots.push_back(std::make_unique<Bot>(Bot(1, std::make_tuple(std::size_t(0),
-                                                             std::size_t(0), std::size_t(0)))));
+                                                                std::size_t(0),
+                                                                std::size_t(
+                                                                    0)))));
     auto game = std::unique_ptr<AGame>(new BombermanGame(players, bots));
     loadGame("./../resources/maps/3", game);
 }

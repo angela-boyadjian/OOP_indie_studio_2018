@@ -110,6 +110,7 @@ void    ABombermanPlayer::isWalls(IDisplay *d)
     d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
 }
 
+
 std::vector<Bomb> const &ABombermanPlayer::getBombs() const
 {
     return _bombs;

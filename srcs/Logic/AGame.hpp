@@ -12,7 +12,7 @@ public:
     using Map = std::vector<std::string>;
     using Bots = std::vector<std::unique_ptr<Bot>>;
     using Players = std::vector<std::unique_ptr<Player>>;
-    using Event = std::unique_ptr<Events>;
+    using Event = std::shared_ptr<Events>;
     using Timer = std::chrono::time_point<std::chrono::system_clock>;
 
     // CONSTRUCOR / DESTRUCTOR
