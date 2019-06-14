@@ -36,9 +36,6 @@ private:
     std::vector<irr::gui::IGUIButton *> _buttons;
     const irr::core::dimension2du& _win_size;
     std::shared_ptr<irr::IrrlichtDevice> _device;
-<<<<<<< HEAD
-=======
     irr::gui::IGUIImage     *_background;
     irr::video::ITexture    *_texture;
->>>>>>> 7dff65465ec6cc02b0d25b26939fd1fd4df5e510
 };

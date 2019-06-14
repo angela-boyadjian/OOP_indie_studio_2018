@@ -8,17 +8,6 @@
 #include "IntroScene.hpp"
 #include "SceneException.hpp"
 
-<<<<<<< HEAD
-IntroScene::IntroScene(std::shared_ptr<irr::IrrlichtDevice> device, irr::scene::ISceneNode *father,
-    std::string const &name, const irr::core::dimension2du &size, irr::video::IVideoDriver *driver,
-    std::shared_ptr<Events> event) :
-    _master(device->getSceneManager()->addEmptySceneNode(father)),
-    _manager(device->getSceneManager()),
-    _name(name),
-    _is_load(false),
-    _win_size(size),
-    _device(device),
-=======
 IntroScene::IntroScene(std::shared_ptr<IDisplay> display, irr::scene::ISceneNode *father,
     std::string const &name, std::shared_ptr<Events> event) :
     _master(display->getDevice()->getSceneManager()->addEmptySceneNode(father)),
@@ -27,7 +16,6 @@ IntroScene::IntroScene(std::shared_ptr<IDisplay> display, irr::scene::ISceneNode
     _is_load(false),
     _win_size(display->getDevice()->getVideoDriver()->getScreenSize()),
     _device(display->getDevice()),
->>>>>>> 7dff65465ec6cc02b0d25b26939fd1fd4df5e510
     _event(event)
 {
     auto const &gui {_device->getGUIEnvironment()};
@@ -67,13 +55,8 @@ void IntroScene::loadImg() noexcept
     _images[0]->setScaleImage(true);
     _images[1]->setImage(_textures[1]);
     _images[1]->setRelativePosition(irr::core::position2di(250, 450));
-<<<<<<< HEAD
-    _images[1]->setVisible(true);
-    _isVisible = true;
-=======
     _images[1]->setVisible(false);
     _isVisible = false;
->>>>>>> 7dff65465ec6cc02b0d25b26939fd1fd4df5e510
 }
 
 std::size_t IntroScene::getElapsedTime() const

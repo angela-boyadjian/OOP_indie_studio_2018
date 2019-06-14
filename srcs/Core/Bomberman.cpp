@@ -303,11 +303,7 @@ void core::Bomberman::initScene()
 {
     _manager.addScenes(std::unique_ptr<MenuBisScene>(new MenuBisScene(_display, _manager.getMaster(), "menu")));
     _manager.addScenes(std::unique_ptr<GameBisScene>(new GameBisScene(_display->getDevice(), _manager.getMaster(), "game", _event, _display)));
-<<<<<<< HEAD
-    _manager.addScenes(std::unique_ptr<IntroScene>(new IntroScene(_display->getDevice(), _manager.getMaster(), "intro", _display->getDevice()->getVideoDriver()->getScreenSize(), _display->_driver, _event)));
-=======
     _manager.addScenes(std::unique_ptr<IntroScene>(new IntroScene(_display, _manager.getMaster(), "intro", _event)));
->>>>>>> 7dff65465ec6cc02b0d25b26939fd1fd4df5e510
     _manager.changeCurrent("intro");
 }
 

@@ -19,14 +19,9 @@ class IntroScene : public IScene {
 public:
     using Timer = std::chrono::time_point<std::chrono::steady_clock,
         std::chrono::nanoseconds>;
-<<<<<<< HEAD
-    IntroScene(std::shared_ptr<irr::IrrlichtDevice>, irr::scene::ISceneNode *,
-        std::string const &, const irr::core::dimension2du &, irr::video::IVideoDriver *, std::shared_ptr<Events>);
-=======
     
     IntroScene(std::shared_ptr<IDisplay>, irr::scene::ISceneNode *,
         std::string const &, std::shared_ptr<Events>);
->>>>>>> 7dff65465ec6cc02b0d25b26939fd1fd4df5e510
     ~IntroScene() = default;
 
 public:
