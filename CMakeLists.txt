@@ -98,10 +98,9 @@ include_directories(
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-target_include_directories(bomberman PRIVATE src ${IRRLICHT_INCLUDE_DIR} ${SFML_INCLUDE_DIR})
-target_link_libraries(bomberman ${IRRLICHT_LIBRARY} ${OPENGL_LIBRARIES} ${X11_X11_LIB} ${GLUT_LIBRARY} ${ZLIB_LIBRARIES} ${OSX_LIBRARIES}
-        ${SFML_LIBRARIES} )
+target_include_directories(bomberman PRIVATE src ${IRRLICHT_INCLUDE_DIR})
+target_link_libraries(bomberman ${IRRLICHT_LIBRARY} ${OPENGL_LIBRARIES} ${X11_X11_LIB} ${GLUT_LIBRARY} ${ZLIB_LIBRARIES} ${OSX_LIBRARIES})
 #target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
 
 
-#target_link_libraries(${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME} sfml-audio)
