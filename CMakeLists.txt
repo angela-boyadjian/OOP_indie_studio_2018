@@ -3,12 +3,9 @@ cmake_minimum_required(VERSION 3.11)
 project(bomberman)
 
 set(CMAKE_CXX_STANDARD 17)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU")
-set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}")
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lXxf86vm -lXext -lX11 -lGL -lGLU")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
 
-#FILE(GLOB SOURCE_FILES srcs/*.cpp)
 set(SOURCE_FILES
         srcs/main.cpp
         srcs/Map/Map.cpp
@@ -60,24 +57,16 @@ set(SOURCE_FILES
         srcs/Game/Scene/SceneManager.hpp srcs/Game/Scene/SceneManager.cpp
         srcs/Game/Scene/GameBisScene.cpp srcs/Game/Scene/GameBisScene.hpp
         srcs/Game/Scene/SceneManagerException.cpp srcs/Game/Scene/SceneManagerException.hpp
-        srcs/Game/Scene/SceneException.cpp srcs/Game/Scene/SceneException.hpp)
+        srcs/Game/Scene/SceneException.cpp srcs/Game/Scene/SceneException.hpp
+        )
+
+set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}")
 
 find_package(SFML 2.3 COMPONENTS audio REQUIRED)
 include(FindPkgConfig)
 find_package(Irrlicht REQUIRED)
-find_package(OpenGL REQUIRED)
-find_package(X11 REQUIRED)
-find_package(GLUT REQUIRED)
-find_package(ZLIB REQUIRED)
 
-if(APPLE)
-    find_library(CARBON_LIBRARY Carbon)
-    find_library(COCOA_LIBRARY Cocoa)
-    find_library(IOKIT_LIBRARY IOKit)
-    set(OSX_LIBRARIES ${CARBON_LIBRARY} ${COCOA_LIBRARY} ${IOKIT_LIBRARY})
-endif(APPLE)
-
-include_directories(lib/irrLicht/include)
+#include_directories(lib/irrLicht/include)
 
 include_directories(
         srcs/Map
@@ -96,13 +85,7 @@ include_directories(
         srcs/Game/Scene
 )
 
-
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
-
-target_include_directories(bomberman PRIVATE src ${IRRLICHT_INCLUDE_DIR} ${SFML_INCLUDE_DIR})
-target_link_libraries(bomberman ${IRRLICHT_LIBRARY} ${OPENGL_LIBRARIES} ${X11_X11_LIB} ${GLUT_LIBRARY} ${ZLIB_LIBRARIES} ${OSX_LIBRARIES}
-        ${SFML_LIBRARIES} )
-#target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
-
-
-#target_link_libraries(${PROJECT_NAME})
+target_include_directories(bomberman PRIVATE src ${IRRLICHT_INCLUDE_DIR})
+target_link_libraries(bomberman ${IRRLICHT_LIBRARY})
+target_link_libraries(${PROJECT_NAME} sfml-audio)

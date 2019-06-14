@@ -222,16 +222,12 @@ void    IrrlichtDisplayLoader::loadExplosion(std::size_t y, std::size_t x)
     for (auto j {0}; j < y; ++j) {
         auto line = IDisplay::BombsVec();
         for (auto i {0}; i < x; ++i) {
-            auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Bomb/Bomb.obj"), _father.get());
+            auto newScene = _manager->addCubeSceneNode(10, _father.get());
             newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-            newScene->setMD2Animation(irr::scene::EMAT_STAND);
             newScene->setScale(irr::core::vector3df(1,1,1));
             newScene->setRotation(irr::core::vector3df(0, 0, 0));
             newScene->setPosition(irr::core::vector3df(5400, 810, 5200));
-            newScene->setAnimationSpeed(30);
-            newScene->setLoopMode(true);
-            newScene->setFrameLoop(0, 27);
-            newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture("../resources/models/Bomb/Bomb.png"));
+            newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture("../resources/textures/explosion.jpg"));
 
 
           /*  _d->addNewAnimation("../resources/models/Bomb/Bomb.obj",
@@ -331,40 +327,28 @@ void    IrrlichtDisplayLoader::loadMenu(const std::unique_ptr<Menu> &menu)
         L"Start Game");
     gui->addButton(
         irr::core::rect<irr::s32>(screenSize.Width / 2 - 300, 440 + 42 + 10,
-            screenSize.Width / 2 + 300, 440 + 42 + 10 + 42), 0, 103,
+           screenSize.Width / 2 + 300, 440 + 42 + 10 + 42), 0, 104
+           , L"Load Game", L"Load Game");
+    gui->addButton(
+        irr::core::rect<irr::s32>(screenSize.Width / 2 - 300, 440 + 82 + 20,
+            screenSize.Width / 2 + 300, 440 + 84 + 20 + 42), 0, 103,
         L"Settings", L"Settings");
     gui->addButton(
-        irr::core::rect<irr::s32>(screenSize.Width / 2 - 300, 440 + 84 + 20,
-            screenSize.Width / 2 + 300, 440 + 84 + 20 + 42), 0, 101, L"Quit",
+        irr::core::rect<irr::s32>(screenSize.Width / 2 - 300, 440 + 126 + 30,
+            screenSize.Width / 2 + 300, 440 + 126 + 30 + 42), 0, 101, L"Quit",
         L"Exits Program");
 }
 
-void IrrlichtDisplayLoader::loadSplashScene()
-{
-    auto const &gui {_d->getGui()};
-    auto screenSize {_d->getScreenSize()};
-    auto back {gui->addImage(irr::core::rect<irr::s32>(0, 0, screenSize.Width, screenSize.Height))};
-    auto start {gui->addImage(irr::core::rect<irr::s32>(0, 0, screenSize.Width, screenSize.Height))};
-
-    back->setImage(_d->_driver->getTexture("./../resources/ui/MainMenuBackground.jpg"));
-    back->setScaleImage(true);
-    start->setImage(_d->_driver->getTexture("./../resources/ui/press_start.png"));
-    start->setRelativePosition(irr::core::position2di(250, 450));
-    start->setVisible(true);
-}
-
-IDisplay::Object    *IrrlichtDisplayLoader::createBonus(const std::string &)
+IDisplay::Object    *IrrlichtDisplayLoader::createBonus(const std::string &path)
 {
     // CHANGE WITH POWERUP MODEL
-    auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Bomb/Bomb.obj"), _father.get());
+   // auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Bomb/Bomb.obj"), _father.get());
+    auto newScene = _manager->addCubeSceneNode(8.0f, _father.get());
     newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    newScene->setMD2Animation(irr::scene::EMAT_STAND);
-    newScene->setScale(irr::core::vector3df(1,1,1));
-    newScene->setRotation(irr::core::vector3df(0, 0, 0));
+    newScene->setScale(irr::core::vector3df(1,0.1,1));
+    newScene->setRotation(irr::core::vector3df(0, -90, 0));
     newScene->setPosition(irr::core::vector3df(0, 0, 0));
-    newScene->setAnimationSpeed(30);
-    newScene->setLoopMode(true);
-    newScene->setFrameLoop(0, 27);
-    newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture("../resources/models/Bomb/Bomb.png"));
+    std::cout << path << std::endl;
+    newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture(path.c_str()));
     return newScene;
 }
