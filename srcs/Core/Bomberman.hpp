@@ -16,6 +16,7 @@
 #include "BombermanPlayers/Player.hpp"
 #include "IDisplayLoader.hpp"
 #include "ISceneManager.hpp"
+#include "SceneManager.hpp"
 
 namespace core {
     class Bomberman;
@@ -23,7 +24,7 @@ namespace core {
 
 class core::Bomberman {
 public:
-    using Event = std::unique_ptr<Events>;
+    using Event = std::shared_ptr<Events>;
     using botVec = std::vector<std::unique_ptr<Bot>>;
     using playerVec = std::vector<std::unique_ptr<Player>>;
 
@@ -38,10 +39,17 @@ public:
     // load resources
     void    loadGame(const std::string &, std::unique_ptr<AGame> &);
 
+    // scene manager
+    void initScene();
+
+    // TEMPO DANS LE MERGE
+    void Trun();
+
     // BombermanGame loop
     std::size_t getColiIndex(const int &, const int &);
     void    setExplosion(const int &, const int &);
     void    stopExplosion();
+    void    removeBlock(const int &, const int &, bool);
     void    exploseEmpty(const int &, const int &);
     void    exploseBlock(const int &, const int &);
     void    explosion(const int &, const int &);
@@ -66,6 +74,7 @@ private:
     std::shared_ptr<IDisplayLoader> _dispLoader;
     std::map<std::size_t, ACharacter::Action>   _lastActions;
     std::unique_ptr<sf::Music>      _mainMusic;
+    SceneManager _manager;
     // BOMBS
     std::vector<ACharacter::move_t>     bombs_pos;
     std::vector<ABombermanPlayer *>     bombs_player;
@@ -73,6 +82,8 @@ private:
     // EXPLOSION
     std::vector<std::tuple<int, int>>   _explosionPos;
     std::vector<std::chrono::time_point<std::chrono::system_clock>> _explosionTime;
+    std::vector<std::size_t> _rm;
+
 
 //    std::vector<IDisplay::Scenes> _sceneManager;
 };

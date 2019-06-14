@@ -23,8 +23,10 @@ public:
 
     // NOTE MENU LOAD
     virtual void    loadMenu(const std::unique_ptr<Menu> &) = 0;
+    virtual void    loadSplashScene() = 0;
 
     // GAME LOADER
     virtual void    loadGame(const std::unique_ptr<AGame> &) = 0;
     virtual void    loadPlayer(const ACharacter::Color &, const std::vector<std::string> &) = 0;
+    virtual IDisplay::Object    *createBonus(const std::string &) = 0;
 };

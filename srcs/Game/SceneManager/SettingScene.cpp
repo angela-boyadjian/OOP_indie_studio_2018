@@ -11,7 +11,7 @@ SettingScene::SettingScene(ISceneManager::Device &device,
 }
 
 void SettingScene::setCameraScene()
-{
+r{
     _camera = std::unique_ptr<irr::scene::ICameraSceneNode>(getSceneManager()->addCameraSceneNode(nullptr));
     _camera->setPosition(irr::core::vector3df(2700*2,900,2600*2));
     _camera->setTarget(irr::core::vector3df(2397*2,343*2,2700*2));

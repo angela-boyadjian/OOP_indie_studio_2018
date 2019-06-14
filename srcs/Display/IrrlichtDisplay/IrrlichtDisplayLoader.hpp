@@ -21,7 +21,7 @@
 class IrrlichtDisplayLoader : public IDisplayLoader {
 public:
     IrrlichtDisplayLoader() = default;
-    explicit IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &);
+    explicit IrrlichtDisplayLoader(const std::shared_ptr<IDisplay> &, std::shared_ptr<irr::scene::ISceneNode> &, irr::scene::ISceneManager *);
     ~IrrlichtDisplayLoader() = default;
 
     // NOTE MAP LOAD
@@ -51,7 +51,11 @@ public:
     void    loadBomb(Bomb &, IDisplay::BombsVec &);
     void    loadGame(const std::unique_ptr<AGame> &) final;
     void    loadPlayer(const ACharacter::Color &, const std::vector<std::string> &) final;
+    void    loadSplashScene() final;
+    IDisplay::Object    *createBonus(const std::string &);
 
 private:
     std::shared_ptr<IDisplay> _d;
+    std::shared_ptr<irr::scene::ISceneNode> _father;
+    irr::scene::ISceneManager * _manager;
 };

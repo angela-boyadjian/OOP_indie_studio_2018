@@ -255,34 +255,108 @@ void    Bot::animation()
     _movement -= 1;
 }
 
-ACharacter::move_t  Bot::move(std::vector<std::string> &map, IDisplay *d)
+std::tuple<bool, std::size_t>           Bot::isPowerUp(std::vector<std::string> &map, const int &x, const int &y)
 {
-    static auto c = std::chrono::system_clock::now();
-    static auto count {0};
+    auto count {0};
+    for (auto tmpY {y - 1}; tmpY >= 0 and !isBlock(x, tmpY, map); --tmpY) {
+        if (map[tmpY][x] >= '7')
+            return std::make_tuple(true, count);
+        ++count;
+    }
+    return std::make_tuple(false, 84);
+}
 
-    if (_movement > 0) {
-        animation();
-        if (_lastDirection != ACharacter::Action::BOMB)
-            return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this};
-        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = ACharacter::Action::WAIT, .itself = this};
+std::tuple<bool, std::size_t>           Bot::isPowerDown(std::vector<std::string> &map, const int &x, const int &y)
+{
+    auto count {0};
+    for (auto tmpY {y + 1}; tmpY < map.size() and !isBlock(x, tmpY, map); ++tmpY) {
+        if (map[tmpY][x] >= '7')
+            return std::make_tuple(true, count);
+        ++count;
     }
-    std::chrono::duration<double> diff = std::chrono::system_clock::now() - c;
-    if (diff.count() > 0.3)
-        c = std::chrono::system_clock::now();
-    else {
-        if (_lastDirection != ACharacter::Action::BOMB)
-            return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this};
-        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = ACharacter::Action::WAIT, .itself = this };
+    return std::make_tuple(false, 84);
+}
+
+std::tuple<bool, std::size_t>           Bot::isPowerLeft(std::vector<std::string> &map, const int &x, const int &y)
+{
+    auto count {0};
+    for (auto tmpX {x - 1}; tmpX >= 0 and !isBlock(tmpX, y, map); --tmpX) {
+        if (map[y][tmpX] >= '7')
+            return std::make_tuple(true, count);
+        ++count;
     }
-    for (auto &t : map)
-        std::cout << t << std::endl;
-    std::cout << std::endl;
+    return std::make_tuple(false, 84);
+}
+
+std::tuple<bool, std::size_t>           Bot::isPowerRight(std::vector<std::string> &map, const int &x, const int &y)
+{
+    auto count {0};
+    for (auto tmpX {x + 1}; tmpX < map[y].size() and !isBlock(tmpX, y, map); ++tmpX) {
+        if (map[y][tmpX] >= '7')
+            return std::make_tuple(true, count);
+        ++count;
+    }
+    return std::make_tuple(false, 84);
+}
+
+std::tuple<bool, ACharacter::Action>    Bot::isPower(std::vector<std::string> &map)
+{
+    std::vector<std::tuple<bool, std::size_t>> directions = {
+            isPowerUp(map, std::get<0>(_2dPos), std::get<1>(_2dPos)),
+            isPowerDown(map, std::get<0>(_2dPos), std::get<1>(_2dPos)),
+            isPowerLeft(map, std::get<0>(_2dPos), std::get<1>(_2dPos)),
+            isPowerRight(map, std::get<0>(_2dPos), std::get<1>(_2dPos))
+    };
+    std::vector<std::size_t> distances = {
+            std::get<1>(directions[0]),
+            std::get<1>(directions[1]),
+            std::get<1>(directions[2]),
+            std::get<1>(directions[3])
+    };
+    auto index {0};
+    auto minElement = std::min_element(distances.begin(), distances.end());
+    for (auto tmp {distances.begin()}; tmp != minElement; ++tmp)
+        index += 1;
+    std::cout << "ACTIONS = " << (int)ACharacter::Action(index) << std::endl;
+    return std::get<0>(directions[index]) ? std::make_tuple(true, ACharacter::Action(index))
+        : std::make_tuple(false, ACharacter::Action::WAIT);
+}
+
+bool    Bot::takeBonus(std::vector<std::string> &map)
+{
+    auto b = map[std::get<1>(_2dPos)][std::get<0>(_2dPos)];
+    if (b >= '7') {
+        auto pu = PowerUp(b - 6 - 48);
+        if (pu == PowerUp::FIRE_RANGE)
+            _fireRange += 1;
+        if (pu == PowerUp::BOMB) {
+            _maxBombNumber += 1;
+            increaseBombNumber();
+        }
+        map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] = '0';
+        return true;
+    }
+    return false;
+}
+
+bool    Bot::goToBonus(std::vector<std::string> &map)
+{
+    auto powerUp = isPower(map);
+    if (std::get<0>(powerUp)) {
+        _lastDirection = std::get<1>(powerUp);
+        changePosition(_lastDirection);
+        return true;
+    }
+    return false;
+}
+
+void    Bot::otherMove(std::vector<std::string> &map)
+{
     Action  a;
     if (_bombNumber == 0) {
         a = getOutOfDanger(map);
         changePosition(a);
     } else if (isMomentForBomb(map)) {
-        std::cout << "BOMB" << std::endl;
         a = ACharacter::Action::BOMB;
         putBomb(map);
         decreaseBombNumber();
@@ -291,6 +365,36 @@ ACharacter::move_t  Bot::move(std::vector<std::string> &map, IDisplay *d)
         changePosition(a);
     }
     _lastDirection = a;
-    ++count;
+}
+
+ACharacter::move_t  Bot::move(std::vector<std::string> &map, IDisplay *d)
+{
+    static auto c = std::chrono::system_clock::now();
+
+    if (_movement > 0) {
+        animation();
+        if (_lastDirection != ACharacter::Action::BOMB)
+            return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this};
+        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = ACharacter::Action::WAIT, .itself = this};
+    }
+    std::chrono::duration<double> diff = std::chrono::system_clock::now() - c;
+
+    if (diff.count() > 0.3)
+        c = std::chrono::system_clock::now();
+    else {
+        if (_lastDirection != ACharacter::Action::BOMB)
+            return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this};
+        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = ACharacter::Action::WAIT, .itself = this };
+    }
+
+    for (auto &t : map)
+        std::cout << t << std::endl;
+    std::cout << std::endl;
+
+    if (takeBonus(map))
+        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this };
+    if (goToBonus(map))
+        return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this };
+    otherMove(map);
     return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this };
 }

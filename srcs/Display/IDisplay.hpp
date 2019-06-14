@@ -66,10 +66,11 @@ public:
     virtual void    setBombState(const std::size_t &, bool) = 0;
 
     // TEMPO
-    VideoDriver         _driver;
+    std::vector<std::unique_ptr<irr::scene::IAnimatedMeshSceneNode>> _meshsScene;
 
     // TEMPO
     std::map<std::string, Scenes> _sceneManagers;
 public:
     Device              _device;
+    VideoDriver         _driver;
 };

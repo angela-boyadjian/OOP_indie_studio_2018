@@ -17,11 +17,17 @@ void    IrrlichtDisplay::setDisplay(Events *events)
     _gui = std::unique_ptr<irr::gui::IGUIEnvironment>(_device->getGUIEnvironment());
     _driver = _device->getVideoDriver();
 
+<<<<<<< HEAD
     _sceneManagers.insert(std::pair<std::string, Scenes>("menu", std::shared_ptr<ISceneManager>(new MenuScene(_device, _driver))));
     _sceneManagers.insert(std::pair<std::string, Scenes>("game", std::shared_ptr<ISceneManager>(new GameScene(_device, _driver))));
     _sceneManagers.insert(std::pair<std::string, Scenes>("settings", std::shared_ptr<ISceneManager>(new SettingScene(_device, _driver))));
+=======
+   // _sceneManagers.insert(std::pair<std::string, Scenes>("menu", std::shared_ptr<ISceneManager>(new MenuScene(_device, _driver))));
+    //_sceneManagers.insert(std::pair<std::string, Scenes>("game", std::shared_ptr<ISceneManager>(new GameScene(_device, _driver))));
+   // _sceneManagers.insert(std::pair<std::string, Scenes>("map select", std::shared_ptr<ISceneManager>(new MapSelectionScene(_device, _driver))));
+//_currentScene = "map select";
+>>>>>>> eb510f863704537a5b4a186f3e5173c5805de649
     _currentScene = "menu";
-//    _currentScene = "game";
 }
 
 void    IrrlichtDisplay::setExplosion(const std::size_t &i, const std::size_t &j, const irr::core::vector3df &v)
@@ -111,24 +117,24 @@ IDisplay::Map3D &IrrlichtDisplay::getNonColiMap()
 void    IrrlichtDisplay::changeModelPos(const std::size_t &i, const pos3d &vec)
 {
     auto newVec = pos3dToVector(vec);
-    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+    //auto meshsScene = _meshsScene;
 
-    newVec.X += 5400;
-    newVec.Y += 808;
-    newVec.Z += 5200;
-    meshsScene[i]->setPosition(newVec);
+    newVec.X += -60;
+    newVec.Y += -90;
+    newVec.Z += 75;
+    _meshsScene[i]->setPosition(newVec);
 }
 
 void    IrrlichtDisplay::changeModelRot(const std::size_t &i, const pos3d &vec)
 {
-    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
-    meshsScene[i]->setRotation(pos3dToVector((vec)));
+    //auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+    _meshsScene[i]->setRotation(pos3dToVector((vec)));
 }
 
 void    IrrlichtDisplay::changeModelFrame(const std::size_t &i, const std::size_t &a, const std::size_t &b)
 {
-    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
-    meshsScene[i]->setFrameLoop(a, b);
+    //auto meshsScene = _meshsScene;
+    _meshsScene[i]->setFrameLoop(a, b);
 }
 
 bool    IrrlichtDisplay::isCollisionFromMap(irr::core::aabbox3d<irr::f32> &b) const
@@ -155,9 +161,9 @@ bool    IrrlichtDisplay::isCollisionFromObstacles(irr::core::aabbox3d<irr::f32> 
 
 bool    IrrlichtDisplay::isCollision(const std::size_t &target)
 {
-    auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
-    auto b = meshsScene[target]->getBoundingBox();
-    meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
+    //auto meshsScene = _sceneManagers.at("game")->getMeshScenes();
+    auto b = _meshsScene[target]->getBoundingBox();
+    _meshsScene[target]->getRelativeTransformation().transformBoxEx(b);
     return isCollisionFromMap(b) || isCollisionFromObstacles(b);
 }
 
@@ -183,6 +189,13 @@ void    IrrlichtDisplay::setBombState(const std::size_t &target, bool isVisible)
 
 void    IrrlichtDisplay::changeScene(std::string const &scene)
 {
+    if (_currentScene == "map select") {
+        _device->getCursorControl()->setVisible(false);
+        _gui->getRootGUIElement()->setVisible(false);
+        std::cout << "coucou" << std::endl;
+        return;
+    }
+
     if (_currentScene == "menu" && scene == "game") {
         _currentScene = "game";
         _device->getCursorControl()->setVisible(false);
