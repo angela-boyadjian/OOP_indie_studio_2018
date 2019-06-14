@@ -48,6 +48,7 @@ class GameBisScene : public IScene {
         void exploseEmpty(const int &, const int &);
         void putBomb(const std::vector<ACharacter::move_t> &);
         void stopExplosion();
+        void removeBlock(const int &x, const int &y, bool neg);
 
         //LOGIG
         std::vector<ACharacter::move_t> action();
@@ -79,6 +80,7 @@ class GameBisScene : public IScene {
         // EXPLOSION
         std::vector<std::tuple<int, int>>   _explosionPos;
         std::vector<std::chrono::time_point<std::chrono::system_clock>> _explosionTime;
+        std::vector<std::size_t> _rm;
 };
 
 

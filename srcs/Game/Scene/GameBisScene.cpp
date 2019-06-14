@@ -38,7 +38,19 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
     for (auto i {0}; i <= x; ++i)
         if (_map->getMapData()._mapWall[y][i] == '2')
             ++count;
+    for (auto &r : _rm)
+        if (count > r)
+            ++count;
     return count;
+}
+
+void GameBisScene::removeBlock(const int &x, const int &y, bool neg)
+{
+    auto index = getColiIndex(x, y) - neg;
+    _display->getColiMap().at(index)->setVisible(false);
+    _rm.emplace_back(index);
+    _map->getMapData()._mapWall[y][x] = '7';
+    setExplosion(x, y);
 }
 
 void    GameBisScene::setExplosion(const int &x, const int &y)
@@ -50,28 +62,16 @@ void    GameBisScene::setExplosion(const int &x, const int &y)
 
 void    GameBisScene::exploseBlock(const int &x, const int &y)
 {
-    if (x > 0 and _map->getMapData()._mapWall[y][x - 1] == '2') {
-        _display->getColiMap().at(getColiIndex(x - 1, y))->setVisible(false);
-        _map->getMapData()._mapWall[y][x - 1] = '0';
-        setExplosion(x - 1, y);
-    }
-    if (x + 1 < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][x + 1] == '2') {
-        _display->getColiMap().at(getColiIndex(x + 1, y))->setVisible(false);
-        _map->getMapData()._mapWall[y][x + 1] = '0';
-        setExplosion(x + 1, y);
-    }
-    if (y > 0 and _map->getMapData()._mapWall[y - 1][x] == '2') {
-        _display->getColiMap().at(getColiIndex(x - 1, y - 1))->setVisible(false);
-        _map->getMapData()._mapWall[y - 1][x] = '0';
-        setExplosion(x, y - 1);
-    }
-    if (y + 1 < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[y + 1][x] == '2') {
-        _display->getColiMap().at(getColiIndex(x, y + 1))->setVisible(false);
-        _map->getMapData()._mapWall[y + 1][x] = '0';
-        setExplosion(x, y + 1);
-    }
+    if (x > 0 and _map->getMapData()._mapWall[y][x - 1] == '2')
+        removeBlock(x - 1, y, true);
+    if (x + 1 < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][x + 1] == '2')
+        removeBlock(x + 1, y, true);
+    if (y > 0 and _map->getMapData()._mapWall[y - 1][x] == '2')
+        removeBlock(x, y - 1, true);
+    if (y + 1 < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[y + 1][x] == '2')
+        removeBlock(x, y + 1, true);
     setExplosion(x, y);
-    _map->getMapData()._mapWall[y][x] = '0';
+    _map->getMapData()._mapWall[y][x] = '7';
     exploseEmpty(x, y);
 }
 
