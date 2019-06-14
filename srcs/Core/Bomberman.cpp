@@ -267,6 +267,7 @@ void core::Bomberman::loadGame(const std::string &mapPath, std::unique_ptr<AGame
     _game = std::move(game);
     _dispLoader->loadGame(_game);
     _dispLoader->loadMap(_map->getMapData());
+    _dispLoader->loadSplashScene();
     _dispLoader->loadMenu(menu);
 
     // NOTE TEMPO
