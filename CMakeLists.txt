@@ -4,31 +4,9 @@ project(bomberman)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
 
-set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}")
-
-find_package(SFML 2.3 COMPONENTS audio REQUIRED)
-
-include_directories(lib/irrLicht/include)
-
-include_directories(
-        srcs/Map
-        srcs/Logic
-        srcs/Events
-        srcs/Display
-        srcs/Display/IrrlichtDisplay
-        srcs/Characters
-        srcs/Objects
-        srcs/Tool
-        srcs/Core
-        srcs/Menu
-        srcs/Menu/BombermanMenu
-        srcs/Game
-        srcs/Game/SceneManager
-        srcs/Game/Scene
-)
-
-add_executable(${PROJECT_NAME}
+set(SOURCE_FILES
         srcs/main.cpp
         srcs/Map/Map.cpp
         srcs/Map/Map.hpp
@@ -63,7 +41,7 @@ add_executable(${PROJECT_NAME}
         srcs/Display/IrrlichtDisplay/IrrlichtDisplayLoader.hpp
         srcs/Display/IrrlichtDisplay/IrrlichtDisplayLoader.cpp
         srcs/Objects/Bomb.cpp
-        srcs/Objects/Bomb.hpp   
+        srcs/Objects/Bomb.hpp
         srcs/Game/ISceneManager.hpp
         srcs/Game/SceneManager/GameScene.cpp
         srcs/Game/SceneManager/GameScene.hpp
@@ -82,4 +60,32 @@ add_executable(${PROJECT_NAME}
         srcs/Game/Scene/SceneException.cpp srcs/Game/Scene/SceneException.hpp
         )
 
-target_link_libraries(${PROJECT_NAME} Irrlicht sfml-audio)
+set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}")
+
+find_package(SFML 2.3 COMPONENTS audio REQUIRED)
+include(FindPkgConfig)
+find_package(Irrlicht REQUIRED)
+
+include_directories(lib/irrLicht/include)
+
+include_directories(
+        srcs/Map
+        srcs/Logic
+        srcs/Events
+        srcs/Display
+        srcs/Display/IrrlichtDisplay
+        srcs/Characters
+        srcs/Objects
+        srcs/Tool
+        srcs/Core
+        srcs/Menu
+        srcs/Menu/BombermanMenu
+        srcs/Game
+        srcs/Game/SceneManager
+        srcs/Game/Scene
+)
+
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+target_include_directories(bomberman PRIVATE src ${IRRLICHT_INCLUDE_DIR})
+target_link_libraries(bomberman ${IRRLICHT_LIBRARY})
+target_link_libraries(${PROJECT_NAME} sfml-audio)
