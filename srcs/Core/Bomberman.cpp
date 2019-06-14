@@ -84,13 +84,12 @@ void    core::Bomberman::exploseBlock(const int &x, const int &y)
 
     while (++tmp_x < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][tmp_x] == '3')
         _map->getMapData()._mapWall[y][tmp_x] = '0';
-    tmp_x = x;
 
     while (--tmp_y >= 0 and _map->getMapData()._mapWall[tmp_y][x] == '3')
         _map->getMapData()._mapWall[tmp_y][x] = '0';
     tmp_y = y;
 
-    while (++tmp_y < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[y][tmp_x] == '3')
+    while (++tmp_y < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[tmp_y][x] == '3')
         _map->getMapData()._mapWall[tmp_y][x] = '0';
 }
 
@@ -115,6 +114,7 @@ void    core::Bomberman::putBomb(const std::vector<ACharacter::move_t> &actions)
 {
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB) {
+            std::cout << "BOMB PLANTED ON THE SCREEN" << std::endl;
             _display->visiBomb(a.x, a.y, true);
             bombs_pos.emplace_back(a);
             bombs_time.emplace_back(std::chrono::system_clock::now());
