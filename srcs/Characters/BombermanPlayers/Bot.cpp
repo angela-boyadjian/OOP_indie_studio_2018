@@ -259,7 +259,7 @@ std::tuple<bool, std::size_t>           Bot::isPowerUp(std::vector<std::string> 
 {
     auto count {0};
     for (auto tmpY {y - 1}; tmpY >= 0 and !isBlock(x, tmpY, map); --tmpY) {
-        if (map[tmpY][x] == '7')
+        if (map[tmpY][x] >= '7')
             return std::make_tuple(true, count);
         ++count;
     }
@@ -270,7 +270,7 @@ std::tuple<bool, std::size_t>           Bot::isPowerDown(std::vector<std::string
 {
     auto count {0};
     for (auto tmpY {y + 1}; tmpY < map.size() and !isBlock(x, tmpY, map); ++tmpY) {
-        if (map[tmpY][x] == '7')
+        if (map[tmpY][x] >= '7')
             return std::make_tuple(true, count);
         ++count;
     }
@@ -281,7 +281,7 @@ std::tuple<bool, std::size_t>           Bot::isPowerLeft(std::vector<std::string
 {
     auto count {0};
     for (auto tmpX {x - 1}; tmpX >= 0 and !isBlock(tmpX, y, map); --tmpX) {
-        if (map[y][tmpX] == '7')
+        if (map[y][tmpX] >= '7')
             return std::make_tuple(true, count);
         ++count;
     }
@@ -292,7 +292,7 @@ std::tuple<bool, std::size_t>           Bot::isPowerRight(std::vector<std::strin
 {
     auto count {0};
     for (auto tmpX {x + 1}; tmpX < map[y].size() and !isBlock(tmpX, y, map); ++tmpX) {
-        if (map[y][tmpX] == '7')
+        if (map[y][tmpX] >= '7')
             return std::make_tuple(true, count);
         ++count;
     }
@@ -324,7 +324,7 @@ std::tuple<bool, ACharacter::Action>    Bot::isPower(std::vector<std::string> &m
 
 bool    Bot::takeBonus(std::vector<std::string> &map)
 {
-    if (map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] == '7') {
+    if (map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] >= '7') {
         map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] = '0';
         return true;
     }
