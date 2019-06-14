@@ -34,8 +34,8 @@ bool    Events::OnEvent(const Event& event)
         if (event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
             switch (id) {
             case (GUI_ID_QUIT_BUTTON):
-                _display->_sceneManagers.at(
-                    "game")->getSceneManager()->saveScene("test.irr");
+//                _display->_sceneManagers.at(
+//                    "game")->getSceneManager()->saveScene("test.irr");
                 _device->closeDevice();
                 return true;
             case (GUI_ID_START_BUTTON):

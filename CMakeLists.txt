@@ -66,7 +66,7 @@ find_package(SFML 2.3 COMPONENTS audio REQUIRED)
 include(FindPkgConfig)
 find_package(Irrlicht REQUIRED)
 
-#include_directories(lib/irrLicht/include)
+include_directories(lib/irrLicht/include)
 
 include_directories(
         srcs/Map

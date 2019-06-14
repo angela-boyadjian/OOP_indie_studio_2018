@@ -81,6 +81,16 @@ void SceneManager::runCurrentScene()
     auto dest = _scenes[std::get<0>(_current)]->runScene();
     if (dest != std::get<1>(_current))
         changeCurrent(dest);
+//    auto pos = ->getSceneManager()->getActiveCamera()->getPosition();
+
+/*    if (dest == "game") {
+       auto pos = _manager->getActiveCamera()->getTarget();
+        auto posi = _manager->getActiveCamera()->getPosition();
+        std::cout << "pos" << pos.X << " " << pos.Y << "  " << pos.Z
+            << std::endl;
+        std::cout << "posi" << posi.X << " " << posi.Y << "  " << posi.Z
+            << std::endl;
+    }*/
     _manager->drawAll();
     _manager->getGUIEnvironment()->drawAll();
 }

@@ -42,7 +42,6 @@ void MenuBisScene::loadButtons()
                                                                                              _win_size.Width / 2 + 300, 440 + 42 + 10 + 42), nullptr, 103, L"Settings"));
     _buttons.emplace_back(_manager->getGUIEnvironment()->addButton(irr::core::rect<irr::s32>(_win_size.Width / 2 - 300, 440 + 84 + 20,
                                                                                              _win_size.Width / 2 + 300, 440 + 84 + 20 + 42), nullptr, 101, L"Exit"));
-
 }
 
 void MenuBisScene::loadScene()

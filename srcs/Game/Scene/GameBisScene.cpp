@@ -144,7 +144,6 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
 {
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB) {
-            std::cout << "COUCOU " << a.x << " " << a.y << std::endl;
             _display->visiBomb(a.x, a.y, true);
             bombs_pos.emplace_back(a);
             bombs_time.emplace_back(std::chrono::system_clock::now());
@@ -264,9 +263,12 @@ void GameBisScene::loadScene()
     _manager->addCameraSceneNodeFPS(                // ajout de la camera FPS
         0, 100.0f, 0.1f, -1, keyMap, 5);*/
 
-
-    auto camera = _manager->addCameraSceneNode(_master.get());
-    camera->setTarget(irr::core::vector3df(0, -15, 10));
+//    auto camera = _manager->addCameraSceneNode(_master.get());
+    auto camera = _manager->addCameraSceneNodeFPS(_master.get(), 10.0f, 0.1f);
+//    camera->setPosition(irr::core::vector3df(141.109, 29.5424, 219.09));
+    camera->setPosition(irr::core::vector3df(192.264, 53.8758, 112.409));
+//    camera->setPosition(irr::core::vector3df(313.334, 87.5304, -37.311));
+    camera->setTarget(irr::core::vector3df(-10, -4, 5));
     _is_load = true;
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     auto players = loadPlayer();
@@ -274,6 +276,9 @@ void GameBisScene::loadScene()
     auto game = std::unique_ptr<AGame>(new BombermanGame(players, bots));
     _master->setVisible(true);
     loadGame("./../resources/maps/3", game);
+    camera->addAnimator(_manager->createFlyStraightAnimator(
+            camera->getPosition(), irr::core::vector3df(-3.18643, 10.1158, 4.47983),
+            1000, false, false));
 }
 
 std::string GameBisScene::getName()

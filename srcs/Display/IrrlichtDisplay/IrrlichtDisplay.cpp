@@ -61,8 +61,8 @@ void    IrrlichtDisplay::draw()
 {
     _driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
     _sceneManagers.at(_currentScene)->getSceneManager()->drawAll();
-//    auto pos = _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera()->getPosition();
-//    std::cout << pos.X << " " << pos.Y << "  " << pos.Z << std::endl;
+    auto pos = _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera()->getPosition();
+    std::cout << "pos" << pos.X << " " << pos.Y << "  " << pos.Z << std::endl;
 //    std::cout << _currentScene << std::endl;
     _gui->drawAll();
     _driver->endScene();
@@ -185,7 +185,6 @@ void    IrrlichtDisplay::changeScene(std::string const &scene)
     if (_currentScene == "map select") {
         _device->getCursorControl()->setVisible(false);
         _gui->getRootGUIElement()->setVisible(false);
-        std::cout << "coucou" << std::endl;
         return;
     }
 
@@ -200,7 +199,6 @@ void    IrrlichtDisplay::changeScene(std::string const &scene)
             camera->getPosition(), irr::core::vector3df(5465, 933.016, 5133),
             1000, false, false));
     } else if (_currentScene == "menu" && scene == "settings") {
-//        std::cout << "pass" << std::endl;
         _currentScene = "settings";
         _gui->clear();
     } else {
