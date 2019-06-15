@@ -28,6 +28,7 @@ void    ACharacter::setAction(const ACharacter::Action &action) { _action = acti
 void    ACharacter::setPosZ(const float &z) { std::get<2>(_pos) = z; }
 void    ACharacter::setPosY(const float &y) { std::get<1>(_pos) = y; }
 void    ACharacter::setPosX(const float &x) { std::get<0>(_pos) = x; }
+void    ACharacter::setPos2d(std::tuple<int, int> const &pos) { _2dPos = pos; }
 
 // GETTERS
 ACharacter::KeyMap          &ACharacter::getKeyMap() { return _keyMap; }

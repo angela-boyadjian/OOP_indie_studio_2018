@@ -10,8 +10,8 @@
 class AGame {
 public:
     using Map = std::vector<std::string>;
-    using Bots = std::vector<std::unique_ptr<Bot>>;
-    using Players = std::vector<std::unique_ptr<Player>>;
+    using Bots = std::vector<std::shared_ptr<Bot>>;
+    using Players = std::vector<std::shared_ptr<Player>>;
     using Event = std::shared_ptr<Events>;
     using Timer = std::chrono::time_point<std::chrono::system_clock>;
 

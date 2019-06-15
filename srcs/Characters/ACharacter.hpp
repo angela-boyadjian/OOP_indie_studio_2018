@@ -54,6 +54,7 @@ public:
     void    setPosZ(const float &);
     void    setPosY(const float &);
     void    setPosX(const float &);
+    void    setPos2d(std::tuple<int, int> const &pos);
 
     // GETTERS
     KeyMap              &getKeyMap();
@@ -73,4 +74,5 @@ protected:
     Action                      _action;
     std::size_t                 _entityNb;
     std::vector<std::string>    _transformedMap;
+    std::tuple<int, int>_2dPos;
 };

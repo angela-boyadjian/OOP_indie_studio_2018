@@ -96,15 +96,14 @@ void LoadManager::addPlayer(std::string const &line)
     auto pos {getMapPos(line, 2)};
 
     _players.push_back(std::make_unique<Player>(Player(0,
-        ACharacter::Color::PINK, pos)));
+        ACharacter::Color::WHITE, pos)));
 }
-
 
 void LoadManager::addBot(std::string const &line)
 {
     auto pos {getMapPos(line, 2)};
 
-    _bots.push_back(std::make_unique<Bot>(Bot(1, pos)));
+    _bots.push_back(std::make_unique<Bot>(Bot(1, ACharacter::Color::RED, pos)));
 }
 
 void LoadManager::printPos(ACharacter::MapPos const &pos) const

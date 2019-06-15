@@ -15,8 +15,8 @@
 
 class LoadManager : public ILoad {
 public:
-    using PlayerVec = std::vector<std::unique_ptr<Player>>;
-    using BotVec = std::vector<std::unique_ptr<Bot>>;
+    using PlayerVec = std::vector<std::shared_ptr<Player>>;
+    using BotVec = std::vector<std::shared_ptr<Bot>>;
 
     LoadManager();
     ~LoadManager();

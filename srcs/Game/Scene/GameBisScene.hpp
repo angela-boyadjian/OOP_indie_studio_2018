@@ -56,6 +56,10 @@ class GameBisScene : public IScene {
         void stopExplosion();
         void removeBlock(const int &x, const int &y, bool neg);
 
+        void placePlayer();
+        void placeBot();
+        void placeCharacter(std::shared_ptr<ACharacter> character);
+
         //LOGIG
         std::vector<ACharacter::move_t> action();
         std::vector<ACharacter::move_t> botsAction();

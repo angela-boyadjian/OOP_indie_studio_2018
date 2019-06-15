@@ -43,7 +43,7 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
     auto count {0};
 
     for (auto j {0}; j < y; ++j)
-        for (std::size_t i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
+        for (auto i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
             if (_map->getMapData()._mapWall[j][i] == '2')
                 ++count;
     for (auto i {0}; i <= x; ++i)
@@ -54,7 +54,7 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
 
 void    GameBisScene::checkPowerUp()
 {
-    for (std::size_t i {0}; i < _powerUp.size(); ++i) {
+    for (auto i {0}; i < _powerUp.size(); ++i) {
         if (_map->getMapData()._mapWall[std::get<1>(_powerUpPos[i])][std::get<0>(_powerUpPos[i])] < '7')
             _powerUp[i]->setVisible(false);
     }
@@ -104,8 +104,8 @@ void    GameBisScene::exploseBlock(const int &x, const int &y)
 
 void GameBisScene::exploseEmpty(const int &x, const int &y)
 {
-    std::size_t tmp_x = x;
-    std::size_t tmp_y = y;
+    auto tmp_x = x;
+    auto tmp_y = y;
 
     while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
@@ -125,6 +125,7 @@ void GameBisScene::exploseEmpty(const int &x, const int &y)
         _map->getMapData()._mapWall[tmp_y][x] = '0';
         setExplosion(x, tmp_y);
     }
+    _map->getMapData()._mapWall[y][x] = '0';
 }
 
 void GameBisScene::explosion(const int &x, const int &y, const bool &b)
@@ -138,9 +139,13 @@ void GameBisScene::explosion(const int &x, const int &y, const bool &b)
 
 void GameBisScene::exploseBomb()
 {
-    for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
+    for (auto i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
         if (elapsedTime.count() >= 2) {
+            std::cout << "EXPLOSION BOMB" << std::endl;
+            for (auto &m : _map->getMapData()._mapWall)
+                std::cout << m << std::endl;
+            std::cout << std::endl;
             bombs_pos.size() > 1 ? explosion(bombs_pos[i].x, bombs_pos[i].y, false)
                 : explosion(bombs_pos[i].x, bombs_pos[i].y, true);
             _display->visiBomb(bombs_pos[i].x, bombs_pos[i].y, false);
@@ -161,6 +166,10 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB and _map->getMapData()._mapWall[a.y][a.x] != '1'
                                                      and _map->getMapData()._mapWall[a.y][a.x] != '2') {
+            std::cout << "PUT BOMB" << std::endl;
+            for (auto &m : _map->getMapData()._mapWall)
+                std::cout << m << std::endl;
+            std::cout << std::endl;
             if (!isRunning)
                 _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
@@ -173,9 +182,13 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
 
 void GameBisScene::stopExplosion()
 {
-    for (std::size_t i {0}; i < _explosionPos.size(); ++i) {
+    for (auto i {0}; i < _explosionPos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - _explosionTime[i];
         if (elapsedTime.count() >= 1) {
+            std::cout << "STOP EXPLOSION BOMB" << std::endl;
+            for (auto &m : _map->getMapData()._mapWall)
+                std::cout << m << std::endl;
+            std::cout << std::endl;
             _display->getExplosionMap()[std::get<1>(_explosionPos[i])][std::get<0>(_explosionPos[i])]->setVisible(false);
             _explosionTime.erase(_explosionTime.begin() + i);
             _explosionPos.erase(_explosionPos.begin() + i);
@@ -215,15 +228,90 @@ std::vector<std::unique_ptr<Player>> GameBisScene::loadPlayer()
 std::vector<std::unique_ptr<Bot>> GameBisScene::loadBot()
 {
     auto bots = std::vector<std::unique_ptr<Bot>>();
-    bots.push_back(std::make_unique<Bot>(Bot(1, std::make_tuple(std::size_t(0),
+    bots.push_back(std::make_unique<Bot>(Bot(1, ACharacter::Color::RED, std::make_tuple(std::size_t(0),
                                                                 std::size_t(0),
                                                                 std::size_t(
                                                                     0)))));
     return bots;
 }
 
-void
-GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game, SceneInfo info)
+void GameBisScene::placeCharacter(std::shared_ptr<ACharacter> character)
+{
+    switch (character->getEntityNb()) {
+    case 0:
+        character->setPos2d(std::make_tuple(0, 0));
+        character->setPosZ(
+            std::get<2>(character->getMapPos()) + 30);
+        changeModelPos(character->getEntityNb(), std::make_tuple(
+            std::get<0>(
+                character->getMapPos()),
+                std::get<1>(
+                    character->getMapPos()),
+                    std::get<2>(
+                        character->getMapPos())));
+        break;
+    case 1:
+        character->setPos2d(std::make_tuple(10, 0));
+        character->setPosZ(
+        std::get<2>(character->getMapPos()) - 70);
+        changeModelPos(character->getEntityNb(),
+                             std::make_tuple(
+                                 std::get<0>(character->getMapPos()),
+                                 std::get<1>(character->getMapPos()),
+                                 std::get<2>(character->getMapPos())));
+        break;
+    case 2:
+        character->setPos2d(std::make_tuple(0, 10));
+        character->setPosZ(
+            std::get<2>(character->getMapPos()) + 30);
+        character->setPosX(
+            std::get<2>(character->getMapPos()) + 80);
+        changeModelPos(character->getEntityNb(), std::make_tuple(
+            std::get<0>(
+                character->getMapPos()),
+                std::get<1>(
+                    character->getMapPos()),
+                    std::get<2>(
+                        character->getMapPos())));
+        break;
+    case 3:
+        character->setPos2d(std::make_tuple(10, 10));
+       character->setPosZ(
+            std::get<2>(character->getMapPos()) - 70);
+        character->setPosX(
+            std::get<2>(character->getMapPos()) + 80);
+        changeModelPos(character->getEntityNb(), std::make_tuple(
+            std::get<0>(
+                character->getMapPos()),
+                std::get<1>(
+                    character->getMapPos()),
+                    std::get<2>(
+                        character->getMapPos())));
+    default:
+        break;
+    }
+}
+
+void GameBisScene::placePlayer()
+{
+    auto player = _game->getPlayers();
+    auto bot = _game->getBots();
+    int idx = 0;
+
+    while (idx != 4) {
+        for (auto play : player) {
+            if (play->getEntityNb() == idx)
+                placeCharacter(play);
+        }
+        for (auto b : bot) {
+            if (b->getEntityNb() == idx)
+                placeCharacter(b);
+        }
+        idx++;
+    }
+}
+
+void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game, SceneInfo info)
 {
     //_map = std::shared_ptr<IMap>(new Map);
     _map = info._map;
@@ -244,27 +332,8 @@ GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game,
     _event = std::make_unique<Events>(Events(_display->_device, _display));
     _display->_device->setEventReceiver(_event.get());
 
-    // TEMPO - REPLACE IT BY GENERIC METHOD
-    _game->getPlayers()[0]->setPosZ(
-        std::get<2>(_game->getPlayers()[0]->getMapPos()) + 30);
-    changeModelPos(_game->getPlayers()[0]->getEntityNb(),
-        std::make_tuple(
-            std::get<0>(
-                _game->getPlayers()[0]->getMapPos()),
-                std::get<1>(
-                    _game->getPlayers()[0]->getMapPos()),
-                    std::get<2>(
-                        _game->getPlayers()[0]->getMapPos())));
-    // TEMPO - REPLACE IT BY GENERIC METHOD
-    _game->getBots()[0]->setPosZ(
-        std::get<2>(_game->getPlayers()[0]->getMapPos()) - 100);
-        changeModelPos(_game->getBots()[0]->getEntityNb(),
-                             std::make_tuple(
-                                 std::get<0>(_game->getBots()[0]->getMapPos()),
-                                 std::get<1>(_game->getBots()[0]->getMapPos()),
-                                 std::get<2>(
-                                     _game->getBots()[0]->getMapPos())));
     _map->getMapData()._mapWall[10][0] = '0';
+    placePlayer();
 }
 
 void GameBisScene::loadScene(SceneInfo &info)
@@ -290,13 +359,13 @@ void GameBisScene::loadScene(SceneInfo &info)
 
     _is_load = true;
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
-    auto players = loadPlayer();
-    auto bots = loadBot();
+    // auto players = loadPlayer();
+    // auto bots = loadBot();
     // auto l = LoadManager();
     // auto game = l.load();
-    auto game = std::unique_ptr<AGame>(new BombermanGame(players, bots));
     // auto s = SaveManager(*game.get(), info._map->getMapData());
     // s.save();
+    auto game = std::unique_ptr<AGame>(new BombermanGame(info._players, info._bot));
     _master->setVisible(true);
     loadGame("./../resources/maps/3", game, info);
     camera->addAnimator(_manager->createFlyStraightAnimator(
@@ -393,7 +462,7 @@ void GameBisScene::changeAnimation(const std::size_t &i,
 std::vector<ACharacter::move_t> GameBisScene::playersAction()
 {
     auto playersMove = _game->movePlayers(_event, _map->getMapData()._mapWall, _display.get());
-    for (std::size_t i {0}; i < _game->getPlayers().size(); ++i) {
+    for (auto i {0}; i < _game->getPlayers().size(); ++i) {
         changeFrameAndPos(_game->getPlayers()[i].get(), playersMove[i].action, _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         changeAnimation(_game->getPlayers()[i]->getEntityNb(), playersMove[i].action, _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         _lastActions[_game->getPlayers()[i]->getEntityNb()] = playersMove[i].action;
@@ -404,7 +473,7 @@ std::vector<ACharacter::move_t> GameBisScene::playersAction()
 std::vector<ACharacter::move_t> GameBisScene::botsAction()
 {
     auto botsMove = _game->moveBots(_map->getMapData()._mapWall, _display.get());
-    for (std::size_t i {0}; i < _game->getBots().size(); ++i) {
+    for (auto i {0}; i < _game->getBots().size(); ++i) {
         changeFrameAndPos(_game->getBots()[i].get(), botsMove[i].action, _lastActions[_game->getBots()[i]->getEntityNb()]);
         changeAnimation(_game->getBots()[i]->getEntityNb(), botsMove[i].action, _lastActions[_game->getBots()[i]->getEntityNb()]);
         _lastActions[_game->getBots()[i]->getEntityNb()] = botsMove[i].action;
