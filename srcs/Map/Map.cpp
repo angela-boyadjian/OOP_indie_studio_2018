@@ -64,11 +64,8 @@ std::vector<std::string> Map::DigStart(std::vector<std::string> &map)
 
 void Map::generate3dMap(int template_index, int range, long seed)
 {
-    // std::cout << "coucou" << std::endl;
     auto files_names = _reader.readDir("./../resources/maps/map_template/");
-    // std::cout << "coucou" << std::endl;
     auto default_template = loadDefaultTemplate(files_names);
-    // std::cout << "coucou" << std::endl;
 
     if (seed == -1)
         std::srand(time(NULL));
@@ -84,6 +81,8 @@ void Map::generate3dMap(int template_index, int range, long seed)
                 if (rand_nb <= range)
                     tile = '2';
             }
+            if (tile == '.')
+                tile = '0';
         }
     }
 }

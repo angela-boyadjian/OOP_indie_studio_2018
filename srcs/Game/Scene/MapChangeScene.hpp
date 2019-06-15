@@ -10,17 +10,20 @@
 
 #include <IDisplay.hpp>
 #include <IMap.hpp>
+
 #include "IScene.hpp"
+#include "SceneInfo.hpp"
 
 class MapChangeScene : public IScene {
     public:
-        MapChangeScene(std::shared_ptr<IDisplay>, irr::scene::ISceneNode *, std::string const &);
+        MapChangeScene(std::shared_ptr<IDisplay>, irr::scene::ISceneNode *,
+                       std::string const &);
         ~MapChangeScene() = default;
 
         // MANDATORY
         void deLoad() final;
-        std::string runScene() final;
-        void loadScene() final;
+        SceneInfo runScene() final;
+        void loadScene(SceneInfo &) final;
         std::string getName() final;
 
     private:
@@ -30,10 +33,11 @@ class MapChangeScene : public IScene {
         bool _is_load;
         std::vector<std::shared_ptr<irr::scene::ISceneNode>> _cubes;
         std::vector<irr::gui::IGUIButton *> _buttons;
-        const irr::core::dimension2du& _win_size;
+        const irr::core::dimension2du &_win_size;
         std::shared_ptr<irr::IrrlichtDevice> _device;
-        std::unique_ptr<IMap>           _map;
+        std::unique_ptr<IMap> _map;
         const std::shared_ptr<IDisplay> _display;
+        irr::scene::ICameraSceneNode *_camera;
 };
 
 

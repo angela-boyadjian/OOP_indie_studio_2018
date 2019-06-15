@@ -27,7 +27,15 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
     _display(display),
     _powerUpPath({"../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"})
 {
+    addSfEffect("PUT_BOMB", "./../resources/sounds/Bomb/BombClock.wav");
+    addSfEffect("BOMB_EXP", "./../resources/sounds/Bomb/BombExplode.wav");
     _master->setVisible(false);
+}
+
+GameBisScene::~GameBisScene()
+{
+    _sfEffects["BOMB_EXP"]->stop();
+    _sfEffects["PUT_BOMB"]->stop();
 }
 
 std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
@@ -57,6 +65,7 @@ void GameBisScene::removeBlock(const int &x, const int &y, bool neg)
     auto vec = _display->getColiMap().at(index)->getPosition();
     _display->getColiMap().at(index)->setVisible(false);
     _display->getColiMap().at(index).release();
+    _sfEffects["BOMB_EXP"]->play();
     _display->getColiMap().erase(_display->getColiMap().begin() + index);
     _rm.emplace_back(index);
     _map->getMapData()._mapWall[y][x] = '7';
@@ -96,8 +105,8 @@ void    GameBisScene::exploseBlock(const int &x, const int &y)
 
 void GameBisScene::exploseEmpty(const int &x, const int &y)
 {
-    auto tmp_x = x;
-    auto tmp_y = y;
+    std::size_t tmp_x = x;
+    std::size_t tmp_y = y;
 
     while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
@@ -145,6 +154,7 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
 {
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB) {
+            _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
             bombs_pos.emplace_back(a);
             bombs_time.emplace_back(std::chrono::system_clock::now());
@@ -166,8 +176,7 @@ void GameBisScene::stopExplosion()
     }
 }
 
-// FIXME SaveManager
-std::string GameBisScene::runScene()
+SceneInfo GameBisScene::runScene()
 {
     // TEMPO - REPLACE IT BY GENERIC METHOD
     if (!_is_load)
@@ -182,7 +191,7 @@ std::string GameBisScene::runScene()
     auto l = LoadManager();
     l.load();
 //    _display->draw();
-    return _name;
+    return SceneInfo(_name);
 }
 
 // NOTE LOAD
@@ -213,17 +222,23 @@ std::vector<std::unique_ptr<Bot>> GameBisScene::loadBot()
 }
 
 void
-GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
+GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game, SceneInfo info)
 {
-    _map = std::shared_ptr<IMap>(new Map);
-    // std::cout << "rien" << std::endl;
-    _map->load(mapPath);
-    // std::cout << "map" << std::endl;
+    //_map = std::shared_ptr<IMap>(new Map);
+    _map = info._map;
+    for (auto &lines : _map->getMapData()._mapWall)
+        std::cout << lines << std::endl;
+    //_map->load(mapPath);
     _game = std::move(game);
     _dispLoader->loadGame(_game);
-    // std::cout << "game" << std::endl;
-    _dispLoader->loadMap(_map->getMapData());
-
+    std::cout << "game" << std::endl;
+    for (auto &t : _display->getColiMap())
+        t->setParent(_master.get());
+    for (auto &t : _display->getNonColiMap())
+        t->setParent(_master.get());
+    _dispLoader->setExplosionPos();
+    _dispLoader->setBombsPos();
+    //    _dispLoader->loadMap(_map->getMapData());
     // NOTE TEMPO
     _event = std::make_unique<Events>(Events(_display->_device, _display));
     _display->_device->setEventReceiver(_event.get());
@@ -251,7 +266,7 @@ GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
     _map->getMapData()._mapWall[10][0] = '0';
 }
 
-void GameBisScene::loadScene()
+void GameBisScene::loadScene(SceneInfo &info)
 {
     /*std::cout << "load Game" << std::endl;
     irr::SKeyMap keyMap[5];                             // re-assigne les commandes
@@ -269,17 +284,20 @@ void GameBisScene::loadScene()
     _manager->addCameraSceneNodeFPS(                // ajout de la camera FPS
         0, 100.0f, 0.1f, -1, keyMap, 5);*/
 
-
     auto camera = _manager->addCameraSceneNode(_master.get());
-    camera->setTarget(irr::core::vector3df(0, -15, 25));
-    camera->setPosition(irr::core::vector3df(0, 0, 20));
+    camera->setPosition(irr::core::vector3df(192.264, 53.8758, 112.409));
+    camera->setTarget(irr::core::vector3df(-3, -15, 15));
+
     _is_load = true;
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     auto players = loadPlayer();
     auto bots = loadBot();
     auto game = std::unique_ptr<AGame>(new BombermanGame(players, bots));
     _master->setVisible(true);
-    loadGame("./../resources/maps/3", game);
+    loadGame("./../resources/maps/3", game, info);
+    camera->addAnimator(_manager->createFlyStraightAnimator(
+            camera->getPosition(), irr::core::vector3df(-3.18643, 10.1158, 4.47983),
+            1000, false, false));
 }
 
 std::string GameBisScene::getName()
@@ -396,4 +414,12 @@ std::vector<ACharacter::move_t> GameBisScene::action()
     auto b = botsAction();
     p.insert(p.end(), b.begin(), b.end());
     return p;
+}
+
+void GameBisScene::addSfEffect(const std::string &key, const std::string &path)
+{
+    _sfBuf.emplace_back(std::make_unique<sf::SoundBuffer>(sf::SoundBuffer()));
+    _sfBuf.back()->loadFromFile(path);
+    _sfEffects[key] = std::make_unique<sf::Sound>(sf::Sound());
+    _sfEffects[key]->setBuffer(*_sfBuf.back().get());
 }

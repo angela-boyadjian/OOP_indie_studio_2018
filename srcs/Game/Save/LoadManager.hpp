@@ -24,7 +24,7 @@ public:
     std::unique_ptr<AGame> load();
 
 private:
-    ACharacter &addCharacter(std::string const &);
+    void addCharacter(std::string const &);
     ACharacter::MapPos  getMapPos(std::string const &, int);
     void printPos(ACharacter::MapPos const &) const;
     float convertVal(std::string &, int &);

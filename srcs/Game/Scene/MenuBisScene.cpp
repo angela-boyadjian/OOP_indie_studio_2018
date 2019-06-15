@@ -19,13 +19,17 @@ MenuBisScene::MenuBisScene(std::shared_ptr<IDisplay> display, irr::scene::IScene
 {
 }
 
-std::string MenuBisScene::runScene()
+SceneInfo MenuBisScene::runScene()
 {
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str()); // A CHANGER
     if (_buttons[0]->isPressed())
-        return "map_choose";
-    return _name;
+        return SceneInfo("player_choose");
+    if (_buttons[1]->isPressed())
+        return SceneInfo("settings");
+    if (_buttons[2]->isPressed())
+        _device->closeDevice();
+    return SceneInfo(_name);
 }
 
 void MenuBisScene::loadButtons()
@@ -36,10 +40,9 @@ void MenuBisScene::loadButtons()
                                                                                              _win_size.Width / 2 + 300, 440 + 42 + 10 + 42), nullptr, 103, L"Settings"));
     _buttons.emplace_back(_manager->getGUIEnvironment()->addButton(irr::core::rect<irr::s32>(_win_size.Width / 2 - 300, 440 + 84 + 20,
                                                                                              _win_size.Width / 2 + 300, 440 + 84 + 20 + 42), nullptr, 101, L"Exit"));
-
 }
 
-void MenuBisScene::loadScene()
+void MenuBisScene::loadScene(SceneInfo &info)
 {
     std::cout << "Load menu" << std::endl;
     _is_load = true;
@@ -61,8 +64,8 @@ void MenuBisScene::deLoad()
 {
     std::cout << "Deload Menu" << std::endl;
     _master->setVisible(false);
-    for (auto &bouton : _buttons)
-        bouton->remove();
+    for (auto &button : _buttons)
+        button->remove();
     _buttons.clear();
     _background->remove();
     _is_load = false;

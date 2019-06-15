@@ -37,6 +37,7 @@ class SceneManager {
         std::tuple<unsigned long, std::string> _current;
         std::vector<std::unique_ptr<IScene>> _scenes;
         irr::gui::IGUIEnvironment *_gui;
+        SceneInfo _info;
 };
 
 

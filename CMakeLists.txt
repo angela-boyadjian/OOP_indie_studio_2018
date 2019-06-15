@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.11)
 project(bomberman)
 
 set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_COMPILER clang++)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
 
@@ -47,8 +48,6 @@ set(SOURCE_FILES
         srcs/Game/SceneManager/GameScene.hpp
         srcs/Game/SceneManager/MenuScene.cpp
         srcs/Game/SceneManager/MenuScene.hpp
-        srcs/Game/SceneManager/SettingScene.cpp
-        srcs/Game/SceneManager/SettingScene.hpp
         srcs/Game/SceneManager/MapSelectionScene.cpp
         srcs/Game/SceneManager/MapSelectionScene.hpp
         srcs/Game/Scene/MenuBisScene.hpp srcs/Game/Scene/MenuBisScene.cpp
@@ -63,6 +62,8 @@ set(SOURCE_FILES
         srcs/Game/Save/SaveManager.cpp srcs/Game/Save/SaveManager.hpp
         srcs/Game/Save/ILoad.hpp
         srcs/Game/Save/LoadManager.cpp srcs/Game/Save/LoadManager.hpp
+        srcs/Game/Scene/SettingsScene.cpp srcs/Game/Scene/SettingsScene.hpp srcs/Game/Scene/ChoosePlayerScene.cpp srcs/Game/Scene/ChoosePlayerScene.hpp
+        srcs/Game/Scene/SceneInfo.hpp
         )
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}")
@@ -71,7 +72,7 @@ find_package(SFML 2.3 COMPONENTS audio REQUIRED)
 include(FindPkgConfig)
 find_package(Irrlicht REQUIRED)
 
-#include_directories(lib/irrLicht/include)
+include_directories(lib/irrLicht/include)
 
 include_directories(
         srcs/Map

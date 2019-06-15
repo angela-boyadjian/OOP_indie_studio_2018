@@ -21,21 +21,20 @@ bool    Events::OnEvent(const Event& event)
     if (isInputEvent(event) && isGuiEvent(event))
         std::cout << "IDD " << event.GUIEvent.Caller->getID() << std::endl;
     if (isInputEvent(event)) {
-//            std::cout << "pass" << std::endl;
         _keyIsPressed[event.KeyInput.Key] = event.KeyInput.PressedDown;
         if (event.KeyInput.Key == irr::KEY_ESCAPE) {
             _display->changeScene("menu");
             return true;
         }
     }
-    if (isGuiEvent(event)) {
+/*    if (isGuiEvent(event)) {
         index id = event.GUIEvent.Caller->getID();
         // std::cout << id << std::endl;
         if (event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
             switch (id) {
             case (GUI_ID_QUIT_BUTTON):
-                _display->_sceneManagers.at(
-                    "game")->getSceneManager()->saveScene("test.irr");
+//                _display->_sceneManagers.at(
+//                    "game")->getSceneManager()->saveScene("test.irr");
                 _device->closeDevice();
                 return true;
             case (GUI_ID_START_BUTTON):
@@ -48,7 +47,7 @@ bool    Events::OnEvent(const Event& event)
                 break;
             }
         }
-    }
+    }*/
     return false;
 }
 

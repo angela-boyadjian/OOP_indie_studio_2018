@@ -25,6 +25,8 @@ public:
     virtual void    loadMenu(const std::unique_ptr<Menu> &) = 0;
 
     // GAME LOADER
+    virtual void    setExplosionPos() = 0;
+    virtual void    setBombsPos() = 0;
     virtual void    loadGame(const std::unique_ptr<AGame> &) = 0;
     virtual void    loadPlayer(const ACharacter::Color &, const std::vector<std::string> &) = 0;
     virtual IDisplay::Object    *createBonus(const std::string &) = 0;

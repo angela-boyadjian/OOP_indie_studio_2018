@@ -20,6 +20,8 @@
 #include "IntroScene.hpp"
 #include "MapChangeScene.hpp"
 #include "SaveManager.hpp"
+#include "SettingsScene.hpp"
+#include "ChoosePlayerScene.hpp"
 
 core::Bomberman::Bomberman()
 {
@@ -51,7 +53,7 @@ void core::Bomberman::setMusic()
 // ATTTET
 std::size_t core::Bomberman::getColiIndex(const int &x, const int &y)
 {
-    auto count {0};
+    std::size_t count {0};
 
     for (auto j {0}; j < y; ++j)
         for (std::size_t i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
@@ -75,8 +77,8 @@ void    core::Bomberman::setExplosion(const int &x, const int &y)
 
 void    core::Bomberman::exploseEmpty(const int &x, const int &y)
 {
-    auto tmp_x = x;
-    auto tmp_y = y;
+    std::size_t tmp_x = x;
+    std::size_t tmp_y = y;
 
     while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
@@ -296,7 +298,7 @@ void core::Bomberman::loadGame(const std::string &mapPath,
 void core::Bomberman::Trun()
 {
     while (_display->isRunning()) {
-        _display->getDevice()->getVideoDriver()->beginScene(true, true,  irr::video::SColor(255, 255, 255, 255));
+        _display->getDevice()->getVideoDriver()->beginScene(true, true,  irr::video::SColor(255, 100, 101, 140));
         _manager.runCurrentScene();
         _display->getDevice()->getVideoDriver()->endScene();
     }
@@ -308,6 +310,8 @@ void core::Bomberman::initScene()
     _manager.addScenes(std::make_unique<MapChangeScene>(_display, _manager.getMaster(), "map_choose"));
     _manager.addScenes(std::make_unique<GameBisScene>(_display->getDevice(), _manager.getMaster(), "game", _event, _display));
     _manager.addScenes(std::make_unique<IntroScene>(_display, _manager.getMaster(), "intro", _event));
+    _manager.addScenes(std::make_unique<SettingsScene>(_display, _manager.getMaster(), "settings", _event));
+    _manager.addScenes(std::make_unique<ChoosePlayerScene>(_display, _manager.getMaster(), "player_choose", _event));
     _manager.changeCurrent("intro");
 }
 

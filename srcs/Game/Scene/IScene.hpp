@@ -10,10 +10,12 @@
 #include <irrlicht.h>
 #include <iostream>
 
+#include "SceneInfo.hpp"
+
 class IScene {
     public:
         virtual void deLoad() = 0;
-        virtual std::string runScene() = 0;
-        virtual void loadScene() = 0;
+        virtual SceneInfo runScene() = 0;
+        virtual void loadScene(SceneInfo &) = 0;
         virtual std::string getName() = 0;
 };

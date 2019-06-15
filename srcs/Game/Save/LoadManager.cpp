@@ -74,12 +74,10 @@ ACharacter::MapPos LoadManager::getMapPos(std::string const &line, int i)
     return std::make_tuple(x, y, z);
 }
 
-ACharacter &LoadManager::addCharacter(std::string const &line)
+void LoadManager::addCharacter(std::string const &line)
 {
-    auto i = Player(0, ACharacter::Color::PINK, getMapPos(line, 2));
-
-    printPos(getMapPos(line, 2));
-    return i;
+    _players.push_back(std::make_unique<Player>(Player(0,
+        ACharacter::Color::PINK, getMapPos(line, 2))));
 }
 
 void LoadManager::printPos(ACharacter::MapPos const &pos) const
