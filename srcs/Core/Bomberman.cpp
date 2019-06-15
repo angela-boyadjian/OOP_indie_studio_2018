@@ -340,7 +340,7 @@ void core::Bomberman::initGame(Events *event)
                                                         std::size_t(0),
                                                         std::size_t(0)))));
     auto bots = std::vector<std::shared_ptr<Bot>>();
-    bots.push_back(std::make_shared<Bot>(Bot(1, std::make_tuple(std::size_t(0),
+    bots.push_back(std::make_shared<Bot>(Bot(1, ACharacter::Color::RED, std::make_tuple(std::size_t(0),
                                                                 std::size_t(0),
                                                                 std::size_t(
                                                                     0)))));

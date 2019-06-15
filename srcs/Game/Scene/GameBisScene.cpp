@@ -234,7 +234,7 @@ std::vector<std::unique_ptr<Player>> GameBisScene::loadPlayer()
 std::vector<std::unique_ptr<Bot>> GameBisScene::loadBot()
 {
     auto bots = std::vector<std::unique_ptr<Bot>>();
-    bots.push_back(std::make_unique<Bot>(Bot(1, std::make_tuple(std::size_t(0),
+    bots.push_back(std::make_unique<Bot>(Bot(1, ACharacter::Color::RED, std::make_tuple(std::size_t(0),
                                                                 std::size_t(0),
                                                                 std::size_t(
                                                                     0)))));
@@ -257,7 +257,7 @@ void GameBisScene::placeCharacter(std::shared_ptr<ACharacter> character)
                         character->getMapPos())));
         break;
     case 1:
-        character->setPos2d(std::make_tuple(0, 10));
+        character->setPos2d(std::make_tuple(10, 0));
         character->setPosZ(
         std::get<2>(character->getMapPos()) - 70);
         changeModelPos(character->getEntityNb(),
@@ -267,7 +267,7 @@ void GameBisScene::placeCharacter(std::shared_ptr<ACharacter> character)
                                  std::get<2>(character->getMapPos())));
         break;
     case 2:
-        character->setPos2d(std::make_tuple(10, 0));
+        character->setPos2d(std::make_tuple(0, 10));
         character->setPosZ(
             std::get<2>(character->getMapPos()) + 30);
         character->setPosX(

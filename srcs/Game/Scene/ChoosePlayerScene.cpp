@@ -65,8 +65,8 @@ void ChoosePlayerScene::loadImg() noexcept
 //    _images[0]->setScaleImage(true);
     auto _camera = _manager->addCameraSceneNode(_master.get());
     _camera->setPosition(irr::core::vector3df(0, 0, -4));
-    addPlayer("../resources/models/Character/PinkBombermanTextures.png", irr::core::vector3df(-2.2, -0.5, 0), irr::core::vector3df(0, 90, 0));
-    addPlayer("../resources/models/Character/BlackBombermanTextures.png", irr::core::vector3df(-0.8, -0.5, 0), irr::core::vector3df(0, 50, 0));
+    addPlayer("../resources/models/Character/BlackBombermanTextures.png", irr::core::vector3df(-2.2, -0.5, 0), irr::core::vector3df(0, 90, 0));
+    addPlayer("../resources/models/Character/PinkBombermanTextures.png", irr::core::vector3df(-0.8, -0.5, 0), irr::core::vector3df(0, 50, 0));
     addPlayer("../resources/models/Character/RedBombermanTextures.png", irr::core::vector3df(0.8, -0.5, 0), irr::core::vector3df(0, 0, 0));
     addPlayer("../resources/models/Character/WhiteBombermanTextures.png", irr::core::vector3df(2.2, -0.5, 0), irr::core::vector3df(0, 180, 0));
 }
@@ -125,19 +125,21 @@ void ChoosePlayerScene::addPlayer(char *rsc, irr::core::vector3df pos, irr::core
 SceneInfo ChoosePlayerScene::createInfo(char *scene)
 {
     int id = 0;
+    int color = 0;
 
     for (auto box : _box) {
         std::cout << "ID  " << box->getSelected() << std::endl;
         if (box->getSelected() == 1) {
             _info._players.push_back(std::make_shared<Player>(
-                Player(id, ACharacter::Color::RED,
+                Player(id, static_cast<ACharacter::Color>(color),
                     std::make_tuple(std::size_t(0), std::size_t(50000),
                         std::size_t(0)))));
        } else {
-            _info._bot.push_back(std::make_shared<Bot>(Bot(id, std::make_tuple(std::size_t(0),
-                    std::size_t(0), std::size_t(0)))));
+            _info._bot.push_back(std::make_shared<Bot>(Bot(id, static_cast<ACharacter::Color>(color),
+                std::make_tuple(std::size_t(0), std::size_t(0), std::size_t(0)))));
         }
         id++;
+        color++;
     }
     _info._dest = scene;
     return _info;
