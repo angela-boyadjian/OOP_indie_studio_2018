@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.11)
 project(bomberman)
 
 set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_COMPILER clang++)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -lXxf86vm -lXext -lX11 -lGL -lGLU")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
 
@@ -47,8 +48,6 @@ set(SOURCE_FILES
         srcs/Game/SceneManager/GameScene.hpp
         srcs/Game/SceneManager/MenuScene.cpp
         srcs/Game/SceneManager/MenuScene.hpp
-        srcs/Game/SceneManager/SettingScene.cpp
-        srcs/Game/SceneManager/SettingScene.hpp
         srcs/Game/SceneManager/MapSelectionScene.cpp
         srcs/Game/SceneManager/MapSelectionScene.hpp
         srcs/Game/Scene/MenuBisScene.hpp srcs/Game/Scene/MenuBisScene.cpp
@@ -59,7 +58,7 @@ set(SOURCE_FILES
         srcs/Game/Scene/SceneManagerException.cpp srcs/Game/Scene/SceneManagerException.hpp
         srcs/Game/Scene/SceneException.cpp srcs/Game/Scene/SceneException.hpp
         srcs/Game/Scene/MapChangeScene.cpp srcs/Game/Scene/MapChangeScene.hpp
-        )
+        srcs/Game/Scene/SettingsScene.cpp srcs/Game/Scene/SettingsScene.hpp)
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}")
 
