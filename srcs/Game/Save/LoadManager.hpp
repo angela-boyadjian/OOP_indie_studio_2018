@@ -21,7 +21,8 @@ public:
     LoadManager();
     ~LoadManager();
 
-    std::unique_ptr<AGame> load();
+    MapData &loadMapData();
+    std::unique_ptr<AGame> loadGame();
 
 private:
     // NOTE Add
@@ -36,6 +37,7 @@ private:
     // NOTE Display
     void printPos(ACharacter::MapPos const &) const;
 private:
+    MapData         _mapData;
     BotVec          _bots;
     std::ifstream   _file;
     PlayerVec       _players;

@@ -24,7 +24,12 @@ LoadManager::~LoadManager()
         _file.close();
 }
 
-std::unique_ptr<AGame> LoadManager::load()
+MapData &LoadManager::loadMapData()
+{
+    return _mapData;
+}
+
+std::unique_ptr<AGame> LoadManager::loadGame()
 {
     std::string line;
 
@@ -35,6 +40,10 @@ std::unique_ptr<AGame> LoadManager::load()
                 break;
             case 'B' :
                 addBot(line);
+                break;
+            case 'T' :
+                break;
+            case 'E' :
                 break;
             default :
                 break;
@@ -64,7 +73,7 @@ ACharacter::MapPos LoadManager::getMapPos(std::string const &line, int i)
             x = convertVal(tmp, count);
         } else if (line[i] == ' ' && count == 1) {
             y = convertVal(tmp, count);
-        } else if (line[i] == '/') {
+        } else if (line[i] == ':') {
             z = std::atof(tmp.c_str());
             _index = i + 1;
             break;
