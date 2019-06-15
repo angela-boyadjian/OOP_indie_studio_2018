@@ -265,6 +265,7 @@ void GameBisScene::placeCharacter(std::shared_ptr<ACharacter> character)
                                  std::get<0>(character->getMapPos()),
                                  std::get<1>(character->getMapPos()),
                                  std::get<2>(character->getMapPos())));
+        break;
     case 2:
         character->setPos2d(std::make_tuple(10, 0));
         character->setPosZ(
@@ -281,7 +282,7 @@ void GameBisScene::placeCharacter(std::shared_ptr<ACharacter> character)
         break;
     case 3:
         character->setPos2d(std::make_tuple(10, 10));
-        character->setPosZ(
+       character->setPosZ(
             std::get<2>(character->getMapPos()) - 70);
         character->setPosX(
             std::get<2>(character->getMapPos()) + 80);
@@ -337,8 +338,8 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
     _event = std::make_unique<Events>(Events(_display->_device, _display));
     _display->_device->setEventReceiver(_event.get());
 
-    placePlayer();
     _map->getMapData()._mapWall[10][0] = '0';
+    placePlayer();
 }
 
 void GameBisScene::loadScene(SceneInfo &info)
@@ -365,8 +366,8 @@ void GameBisScene::loadScene(SceneInfo &info)
 
     _is_load = true;
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
-    auto players = loadPlayer();
-    auto bots = loadBot();
+//    auto players = loadPlayer();
+//    auto bots = loadBot();
     auto game = std::unique_ptr<AGame>(new BombermanGame(info._players, info._bot));
     _master->setVisible(true);
     loadGame("./../resources/maps/3", game, info);

@@ -130,7 +130,7 @@ SceneInfo ChoosePlayerScene::createInfo(char *scene)
         std::cout << "ID  " << box->getSelected() << std::endl;
         if (box->getSelected() == 1) {
             _info._players.push_back(std::make_shared<Player>(
-                Player(id, ACharacter::Color::BLACK,
+                Player(id, ACharacter::Color::RED,
                     std::make_tuple(std::size_t(0), std::size_t(50000),
                         std::size_t(0)))));
        } else {

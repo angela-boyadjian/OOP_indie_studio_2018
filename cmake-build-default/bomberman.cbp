@@ -41,6 +41,7 @@
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Display"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Display/IrrlichtDisplay"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Characters"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Characters/BombermanPlayers"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Objects"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Tool"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Core"/>
@@ -49,6 +50,7 @@
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/SceneManager"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Scene"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Save"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/src"/>
 					<Add directory="/usr/local/include/irrlicht"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7"/>
@@ -79,6 +81,7 @@
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Display"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Display/IrrlichtDisplay"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Characters"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Characters/BombermanPlayers"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Objects"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Tool"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Core"/>
@@ -87,6 +90,7 @@
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/SceneManager"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Scene"/>
+					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Save"/>
 					<Add directory="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/src"/>
 					<Add directory="/usr/local/include/irrlicht"/>
 					<Add directory="/usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7"/>
@@ -169,6 +173,24 @@
 			<Option target="bomberman"/>
 		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/ISceneManager.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Save/ILoad.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Save/ISave.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Save/LoadManager.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Save/LoadManager.hpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Save/SaveManager.cpp">
+			<Option target="bomberman"/>
+		</Unit>
+		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Save/SaveManager.hpp">
 			<Option target="bomberman"/>
 		</Unit>
 		<Unit filename="/home/dclement/EPITECH/second_year/OOP_indie_studio_2018/srcs/Game/Scene/ChoosePlayerScene.cpp">
