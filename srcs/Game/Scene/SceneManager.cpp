@@ -79,10 +79,8 @@ void SceneManager::runCurrentScene()
     if (std::get<1>(_current) == "None")
         throw SceneManagerException("Current is not set","None");
     auto dest = _scenes[std::get<0>(_current)]->runScene();
-    if (dest != std::get<1>(_current)) {
-        std::cout << "DESTINATION : " << dest << std::endl;
-        changeCurrent(dest);
-    }
+    if (dest._dest != std::get<1>(_current))
+        changeCurrent(dest._dest);
     _manager->drawAll();
     _manager->getGUIEnvironment()->drawAll();
 }

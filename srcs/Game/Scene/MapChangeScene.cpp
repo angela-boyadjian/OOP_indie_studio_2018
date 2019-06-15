@@ -32,15 +32,15 @@ void MapChangeScene::deLoad()
     _is_load = false;
 }
 
-std::string MapChangeScene::runScene()
+SceneInfo MapChangeScene::runScene()
 {
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
     if (_buttons.back()->isPressed())
-        return "game";
+        return SceneInfo("game");
     if (_buttons[0]->isPressed())
-        return "menu";
-    return _name;
+        return SceneInfo("menu");
+    return SceneInfo(_name);
 }
 
 void MapChangeScene::loadScene()

@@ -164,7 +164,7 @@ void GameBisScene::stopExplosion()
     }
 }
 
-std::string GameBisScene::runScene()
+SceneInfo GameBisScene::runScene()
 {
     // TEMPO - REPLACE IT BY GENERIC METHOD
     if (!_is_load)
@@ -175,7 +175,7 @@ std::string GameBisScene::runScene()
     stopExplosion();
     checkPowerUp();
   //  _display->draw();
-    return _name;
+    return SceneInfo(_name);
 }
 
 // NOTE LOAD

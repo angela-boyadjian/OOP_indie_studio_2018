@@ -19,13 +19,13 @@ MenuBisScene::MenuBisScene(std::shared_ptr<IDisplay> display, irr::scene::IScene
 {
 }
 
-std::string MenuBisScene::runScene()
+SceneInfo MenuBisScene::runScene()
 {
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str()); // A CHANGER
     if (_buttons[0]->isPressed())
-        return "map_choose";
-    return _name;
+        return SceneInfo("map_choose");
+    return SceneInfo(_name);
 }
 
 void MenuBisScene::loadButtons()

@@ -32,15 +32,15 @@ void IntroScene::updateImg()
     _isVisible = update;
 }
 
-std::string IntroScene::runScene()
+SceneInfo IntroScene::runScene()
 {
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str()); // A CHANGER
     if (_event->IsKeyDown(irr::KEY_SPACE))
-        return "menu";
+        return SceneInfo("menu");
     if (getElapsedTime() >= 0.8)
         updateImg();
-    return _name;
+    return SceneInfo(_name);
 }
 
 void IntroScene::loadImg() noexcept
