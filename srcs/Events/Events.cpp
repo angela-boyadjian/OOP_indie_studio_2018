@@ -21,14 +21,13 @@ bool    Events::OnEvent(const Event& event)
     if (isInputEvent(event) && isGuiEvent(event))
         std::cout << "IDD " << event.GUIEvent.Caller->getID() << std::endl;
     if (isInputEvent(event)) {
-//            std::cout << "pass" << std::endl;
         _keyIsPressed[event.KeyInput.Key] = event.KeyInput.PressedDown;
         if (event.KeyInput.Key == irr::KEY_ESCAPE) {
             _display->changeScene("menu");
             return true;
         }
     }
-    if (isGuiEvent(event)) {
+/*    if (isGuiEvent(event)) {
         index id = event.GUIEvent.Caller->getID();
         std::cout << id << std::endl;
         if (event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
@@ -48,7 +47,7 @@ bool    Events::OnEvent(const Event& event)
                 break;
             }
         }
-    }
+    }*/
     return false;
 }
 

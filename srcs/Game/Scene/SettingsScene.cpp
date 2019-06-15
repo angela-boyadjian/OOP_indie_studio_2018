@@ -16,7 +16,6 @@ SettingsScene::SettingsScene(std::shared_ptr<IDisplay> display,
     _device(display->getDevice()),
     _event(event)
 {
-    _master->setVisible(false);
 }
 
 std::string SettingsScene::runScene()

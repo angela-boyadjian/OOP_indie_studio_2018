@@ -24,7 +24,11 @@ std::string MenuBisScene::runScene()
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str()); // A CHANGER
     if (_buttons[0]->isPressed())
-        return "map_choose";
+        return "player_choose";
+    if (_buttons[1]->isPressed())
+        return "settings";
+    if (_buttons[2]->isPressed())
+        _device->closeDevice();
     return _name;
 }
 
@@ -60,8 +64,8 @@ void MenuBisScene::deLoad()
 {
     std::cout << "Deload Menu" << std::endl;
     _master->setVisible(false);
-    for (auto &bouton : _buttons)
-        bouton->remove();
+    for (auto &button : _buttons)
+        button->remove();
     _buttons.clear();
     _background->remove();
     _is_load = false;
