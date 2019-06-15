@@ -14,7 +14,7 @@ BombermanGame::BombermanGame(Players &p, Bots &b) : AGame(p, b)
 std::vector<ACharacter::move_t> BombermanGame::moveBots(BombermanGame::Map &map, IDisplay *d)
 {
     std::vector<ACharacter::move_t> actionVector;
-    for (std::size_t i {0}; i < _bots.size(); ++i) {
+    for (auto i {0}; i < _bots.size(); ++i) {
         auto m = _bots[i]->move(map, d);
         actionVector.push_back(m);
     }
@@ -43,7 +43,7 @@ std::vector<ACharacter::move_t> BombermanGame::movePlayers(const Event &events, 
 {
     std::vector<ACharacter::move_t> actionVector;
 
-    for (std::size_t i {0}; i < _players.size(); ++i) {
+    for (auto i {0}; i < _players.size(); ++i) {
         auto action = pressKeyAction(events, i);
         _players[i]->setAction(action);
         auto m = _players[i]->move(map, d);

@@ -43,7 +43,7 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
     auto count {0};
 
     for (auto j {0}; j < y; ++j)
-        for (std::size_t i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
+        for (auto i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
             if (_map->getMapData()._mapWall[j][i] == '2')
                 ++count;
     for (auto i {0}; i <= x; ++i)
@@ -54,7 +54,7 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
 
 void    GameBisScene::checkPowerUp()
 {
-    for (std::size_t i {0}; i < _powerUp.size(); ++i) {
+    for (auto i {0}; i < _powerUp.size(); ++i) {
         if (_map->getMapData()._mapWall[std::get<1>(_powerUpPos[i])][std::get<0>(_powerUpPos[i])] < '7')
             _powerUp[i]->setVisible(false);
     }
@@ -104,8 +104,8 @@ void    GameBisScene::exploseBlock(const int &x, const int &y)
 
 void GameBisScene::exploseEmpty(const int &x, const int &y)
 {
-    std::size_t tmp_x = x;
-    std::size_t tmp_y = y;
+    auto tmp_x = x;
+    auto tmp_y = y;
 
     while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
@@ -139,7 +139,7 @@ void GameBisScene::explosion(const int &x, const int &y, const bool &b)
 
 void GameBisScene::exploseBomb()
 {
-    for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
+    for (auto i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
         if (elapsedTime.count() >= 2) {
             std::cout << "EXPLOSION BOMB" << std::endl;
@@ -181,7 +181,7 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
 
 void GameBisScene::stopExplosion()
 {
-    for (std::size_t i {0}; i < _explosionPos.size(); ++i) {
+    for (auto i {0}; i < _explosionPos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - _explosionTime[i];
         if (elapsedTime.count() >= 1) {
             std::cout << "STOP EXPLOSION BOMB" << std::endl;
@@ -465,7 +465,7 @@ void GameBisScene::changeAnimation(const std::size_t &i,
 std::vector<ACharacter::move_t> GameBisScene::playersAction()
 {
     auto playersMove = _game->movePlayers(_event, _map->getMapData()._mapWall, _display.get());
-    for (std::size_t i {0}; i < _game->getPlayers().size(); ++i) {
+    for (auto i {0}; i < _game->getPlayers().size(); ++i) {
         changeFrameAndPos(_game->getPlayers()[i].get(), playersMove[i].action, _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         changeAnimation(_game->getPlayers()[i]->getEntityNb(), playersMove[i].action, _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         _lastActions[_game->getPlayers()[i]->getEntityNb()] = playersMove[i].action;
@@ -476,7 +476,7 @@ std::vector<ACharacter::move_t> GameBisScene::playersAction()
 std::vector<ACharacter::move_t> GameBisScene::botsAction()
 {
     auto botsMove = _game->moveBots(_map->getMapData()._mapWall, _display.get());
-    for (std::size_t i {0}; i < _game->getBots().size(); ++i) {
+    for (auto i {0}; i < _game->getBots().size(); ++i) {
         changeFrameAndPos(_game->getBots()[i].get(), botsMove[i].action, _lastActions[_game->getBots()[i]->getEntityNb()]);
         changeAnimation(_game->getBots()[i]->getEntityNb(), botsMove[i].action, _lastActions[_game->getBots()[i]->getEntityNb()]);
         _lastActions[_game->getBots()[i]->getEntityNb()] = botsMove[i].action;
