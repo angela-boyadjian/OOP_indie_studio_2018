@@ -24,6 +24,7 @@ public:
     void loadButton();
     void setBackground();
     void addPlayer(char *rsc, irr::core::vector3df pos, irr::core::vector3df rotation);
+    SceneInfo createInfo(char *scene);
 
 private:
     std::shared_ptr<irr::scene::ISceneNode> _master;
@@ -37,4 +38,5 @@ private:
     std::array<irr::gui::IGUIImage *, 2>    _images;
     std::vector<irr::gui::IGUIComboBox *> _box;
     std::vector<irr::gui::IGUIButton *> _buttons;
+    SceneInfo _info;
 };

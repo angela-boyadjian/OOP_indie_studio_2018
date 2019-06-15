@@ -38,6 +38,7 @@ class MapChangeScene : public IScene {
         std::unique_ptr<IMap> _map;
         const std::shared_ptr<IDisplay> _display;
         irr::scene::ICameraSceneNode *_camera;
+        SceneInfo _info;
 };
 
 

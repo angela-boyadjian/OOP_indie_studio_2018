@@ -205,8 +205,82 @@ std::vector<std::unique_ptr<Bot>> GameBisScene::loadBot()
     return bots;
 }
 
-void
-GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game, SceneInfo info)
+void GameBisScene::placeCharacter(std::shared_ptr<ACharacter> character)
+{
+    switch (character->getEntityNb()) {
+    case 0:
+        character->setPos2d(std::make_tuple(0, 0));
+        character->setPosZ(
+            std::get<2>(character->getMapPos()) + 30);
+        changeModelPos(character->getEntityNb(), std::make_tuple(
+            std::get<0>(
+                character->getMapPos()),
+                std::get<1>(
+                    character->getMapPos()),
+                    std::get<2>(
+                        character->getMapPos())));
+        break;
+    case 1:
+        character->setPos2d(std::make_tuple(0, 10));
+        character->setPosZ(
+        std::get<2>(character->getMapPos()) - 70);
+        changeModelPos(character->getEntityNb(),
+                             std::make_tuple(
+                                 std::get<0>(character->getMapPos()),
+                                 std::get<1>(character->getMapPos()),
+                                 std::get<2>(character->getMapPos())));
+    case 2:
+        character->setPos2d(std::make_tuple(10, 0));
+        character->setPosZ(
+            std::get<2>(character->getMapPos()) + 30);
+        character->setPosX(
+            std::get<2>(character->getMapPos()) + 80);
+        changeModelPos(character->getEntityNb(), std::make_tuple(
+            std::get<0>(
+                character->getMapPos()),
+                std::get<1>(
+                    character->getMapPos()),
+                    std::get<2>(
+                        character->getMapPos())));
+        break;
+    case 3:
+        character->setPos2d(std::make_tuple(10, 10));
+        character->setPosZ(
+            std::get<2>(character->getMapPos()) - 70);
+        character->setPosX(
+            std::get<2>(character->getMapPos()) + 80);
+        changeModelPos(character->getEntityNb(), std::make_tuple(
+            std::get<0>(
+                character->getMapPos()),
+                std::get<1>(
+                    character->getMapPos()),
+                    std::get<2>(
+                        character->getMapPos())));
+    default:
+        break;
+    }
+}
+
+void GameBisScene::placePlayer()
+{
+    auto player = _game->getPlayers();
+    auto bot = _game->getBots();
+    int idx = 0;
+
+    while (idx != 4) {
+        for (auto play : player) {
+            if (play->getEntityNb() == idx)
+                placeCharacter(play);
+        }
+        for (auto b : bot) {
+            if (b->getEntityNb() == idx)
+                placeCharacter(b);
+        }
+        idx++;
+    }
+}
+
+void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game, SceneInfo info)
 {
     //_map = std::shared_ptr<IMap>(new Map);
     _map = info._map;
@@ -222,26 +296,7 @@ GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game,
     _event = std::make_unique<Events>(Events(_display->_device, _display));
     _display->_device->setEventReceiver(_event.get());
 
-    // TEMPO - REPLACE IT BY GENERIC METHOD
-    _game->getPlayers()[0]->setPosZ(
-        std::get<2>(_game->getPlayers()[0]->getMapPos()) + 30);
-    changeModelPos(_game->getPlayers()[0]->getEntityNb(),
-        std::make_tuple(
-            std::get<0>(
-                _game->getPlayers()[0]->getMapPos()),
-                std::get<1>(
-                    _game->getPlayers()[0]->getMapPos()),
-                    std::get<2>(
-                        _game->getPlayers()[0]->getMapPos())));
-    // TEMPO - REPLACE IT BY GENERIC METHOD
-    _game->getBots()[0]->setPosZ(
-        std::get<2>(_game->getPlayers()[0]->getMapPos()) - 100);
-        changeModelPos(_game->getBots()[0]->getEntityNb(),
-                             std::make_tuple(
-                                 std::get<0>(_game->getBots()[0]->getMapPos()),
-                                 std::get<1>(_game->getBots()[0]->getMapPos()),
-                                 std::get<2>(
-                                     _game->getBots()[0]->getMapPos())));
+    placePlayer();
     _map->getMapData()._mapWall[10][0] = '0';
 }
 
@@ -271,7 +326,7 @@ void GameBisScene::loadScene(SceneInfo &info)
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     auto players = loadPlayer();
     auto bots = loadBot();
-    auto game = std::unique_ptr<AGame>(new BombermanGame(players, bots));
+    auto game = std::unique_ptr<AGame>(new BombermanGame(info._players, info._bot));
     _master->setVisible(true);
     loadGame("./../resources/maps/3", game, info);
     camera->addAnimator(_manager->createFlyStraightAnimator(

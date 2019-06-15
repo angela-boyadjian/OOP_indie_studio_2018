@@ -332,14 +332,14 @@ void core::Bomberman::lauch()
 
 void core::Bomberman::initGame(Events *event)
 {
-    auto players = std::vector<std::unique_ptr<Player>>();
+    auto players = std::vector<std::shared_ptr<Player>>();
     players.push_back(
-        std::make_unique<Player>(Player(0, ACharacter::Color::BLACK,
+        std::make_shared<Player>(Player(0, ACharacter::Color::BLACK,
                                         std::make_tuple(std::size_t(0),
                                                         std::size_t(0),
                                                         std::size_t(0)))));
-    auto bots = std::vector<std::unique_ptr<Bot>>();
-    bots.push_back(std::make_unique<Bot>(Bot(1, std::make_tuple(std::size_t(0),
+    auto bots = std::vector<std::shared_ptr<Bot>>();
+    bots.push_back(std::make_shared<Bot>(Bot(1, std::make_tuple(std::size_t(0),
                                                                 std::size_t(0),
                                                                 std::size_t(
                                                                     0)))));

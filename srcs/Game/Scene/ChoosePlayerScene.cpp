@@ -2,6 +2,8 @@
 // Created by dclement on 6/15/19.
 //
 
+#include <BombermanPlayers/Player.hpp>
+#include <BombermanPlayers/Bot.hpp>
 #include "ChoosePlayerScene.hpp"
 #include "SceneException.hpp"
 
@@ -13,7 +15,8 @@ ChoosePlayerScene::ChoosePlayerScene(std::shared_ptr<IDisplay> display,
     _is_load(false),
     _win_size(display->getDevice()->getVideoDriver()->getScreenSize()),
     _device(display->getDevice()),
-    _event(event)
+    _event(event),
+    _info({})
 {
 }
 
@@ -24,8 +27,8 @@ SceneInfo ChoosePlayerScene::runScene()
     if (_buttons[1]->isPressed())
         return SceneInfo("menu");
     if (_buttons[0]->isPressed())
-        return SceneInfo("map_choose");
-    return SceneInfo(_name);
+        return createInfo("map_choose");
+    return _info;
 }
 
 void ChoosePlayerScene::loadScene(SceneInfo &info)
@@ -34,6 +37,7 @@ void ChoosePlayerScene::loadScene(SceneInfo &info)
     loadImg();
     loadButton();
 //    setBackground();
+    _info = info;
     _is_load = true;
 }
 
@@ -61,20 +65,20 @@ void ChoosePlayerScene::loadImg() noexcept
 //    _images[0]->setScaleImage(true);
     auto _camera = _manager->addCameraSceneNode(_master.get());
     _camera->setPosition(irr::core::vector3df(0, 0, -4));
-    addPlayer("../resources/models/Character/PinkBombermanTextures.png", irr::core::vector3df(-2.2, -0.5, 0), irr::core::vector3df(0, 90, 0));//textures[static_cast<int>(color)].c_str()));
-    addPlayer("../resources/models/Character/BlackBombermanTextures.png", irr::core::vector3df(-0.8, -0.5, 0), irr::core::vector3df(0, 50, 0));//textures[static_cast<int>(color)].c_str()));
-    addPlayer("../resources/models/Character/RedBombermanTextures.png", irr::core::vector3df(0.8, -0.5, 0), irr::core::vector3df(0, 0, 0));//textures[static_cast<int>(color)].c_str()));
-    addPlayer("../resources/models/Character/WhiteBombermanTextures.png", irr::core::vector3df(2.2, -0.5, 0), irr::core::vector3df(0, 180, 0));//textures[static_cast<int>(color)].c_str()));
+    addPlayer("../resources/models/Character/PinkBombermanTextures.png", irr::core::vector3df(-2.2, -0.5, 0), irr::core::vector3df(0, 90, 0));
+    addPlayer("../resources/models/Character/BlackBombermanTextures.png", irr::core::vector3df(-0.8, -0.5, 0), irr::core::vector3df(0, 50, 0));
+    addPlayer("../resources/models/Character/RedBombermanTextures.png", irr::core::vector3df(0.8, -0.5, 0), irr::core::vector3df(0, 0, 0));
+    addPlayer("../resources/models/Character/WhiteBombermanTextures.png", irr::core::vector3df(2.2, -0.5, 0), irr::core::vector3df(0, 180, 0));
 }
 
 void ChoosePlayerScene::loadButton()
 {
     auto const &gui {_device->getGUIEnvironment()};
 
-    _box.emplace_back(gui->addComboBox(irr::core::rect<irr::s32>(_win_size.Width / 2 - 420, 540, _win_size.Width / 2 - 230, 540 + 20), nullptr, 102));
-    _box.emplace_back(gui->addComboBox(irr::core::rect<irr::s32>(_win_size.Width / 2 - 210, 540, _win_size.Width / 2 - 10, 540 + 20), nullptr, 102));
-    _box.emplace_back(gui->addComboBox(irr::core::rect<irr::s32>(_win_size.Width / 2 + 10, 540, _win_size.Width / 2 + 210, 540 + 20), nullptr, 102));
-    _box.emplace_back(gui->addComboBox(irr::core::rect<irr::s32>(_win_size.Width / 2 + 230, 540, _win_size.Width / 2 + 420, 540 + 20), nullptr, 102));
+    _box.emplace_back(gui->addComboBox(irr::core::rect<irr::s32>(_win_size.Width / 2 - 420, 540, _win_size.Width / 2 - 230, 540 + 20), nullptr));
+    _box.emplace_back(gui->addComboBox(irr::core::rect<irr::s32>(_win_size.Width / 2 - 210, 540, _win_size.Width / 2 - 10, 540 + 20), nullptr));
+    _box.emplace_back(gui->addComboBox(irr::core::rect<irr::s32>(_win_size.Width / 2 + 10, 540, _win_size.Width / 2 + 210, 540 + 20), nullptr));
+    _box.emplace_back(gui->addComboBox(irr::core::rect<irr::s32>(_win_size.Width / 2 + 230, 540, _win_size.Width / 2 + 420, 540 + 20), nullptr));
     for (auto &box : _box) {
         box->addItem(L"Bot");
         box->addItem(L"Player");
@@ -116,4 +120,25 @@ void ChoosePlayerScene::addPlayer(char *rsc, irr::core::vector3df pos, irr::core
     newScene->setLoopMode(true);
     newScene->setFrameLoop(27, 75);
     newScene->setMaterialTexture(0, _device->getVideoDriver()->getTexture(rsc));//textures[static_cast<int>(color)].c_str()));
+}
+
+SceneInfo ChoosePlayerScene::createInfo(char *scene)
+{
+    int id = 0;
+
+    for (auto box : _box) {
+        std::cout << "ID  " << box->getSelected() << std::endl;
+        if (box->getSelected() == 1) {
+            _info._players.push_back(std::make_shared<Player>(
+                Player(id, ACharacter::Color::BLACK,
+                    std::make_tuple(std::size_t(0), std::size_t(50000),
+                        std::size_t(0)))));
+       } else {
+            _info._bot.push_back(std::make_shared<Bot>(Bot(id, std::make_tuple(std::size_t(0),
+                    std::size_t(0), std::size_t(0)))));
+        }
+        id++;
+    }
+    _info._dest = scene;
+    return _info;
 }

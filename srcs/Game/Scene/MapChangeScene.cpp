@@ -19,7 +19,8 @@ MapChangeScene::MapChangeScene(std::shared_ptr<IDisplay> display, irr::scene::IS
     _win_size(display->getDevice()->getVideoDriver()->getScreenSize()),
     _device(display->getDevice()),
     _map(new Map()),
-    _display(display)
+    _display(display),
+    _info({})
 {}
 
 void MapChangeScene::deLoad()
@@ -37,13 +38,15 @@ SceneInfo MapChangeScene::runScene()
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
     if (_buttons.back()->isPressed()) {
-        auto ret = SceneInfo("game");
-        ret._map = std::move(_map);
-        return ret;
+//        auto ret = SceneInfo("game");
+        _info._dest = "game";
+        _info._map = std::move(_map);
+//        ret._map = std::move(_map);
+        return _info;
     }
     if (_buttons[0]->isPressed())
         return SceneInfo("menu");
-    return SceneInfo(_name);
+    return _info;
 }
 
 void MapChangeScene::loadScene(SceneInfo &info)
@@ -51,6 +54,7 @@ void MapChangeScene::loadScene(SceneInfo &info)
     auto _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     std::cout << "mapchange load" << std::endl;
 
+    _info = info;
     _camera = _manager->addCameraSceneNode(_master.get());
     _camera->setTarget(irr::core::vector3df(0, -15, 25));
     _camera->setPosition(irr::core::vector3df(0, 120, -20));
