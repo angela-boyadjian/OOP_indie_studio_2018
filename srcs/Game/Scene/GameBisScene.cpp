@@ -25,7 +25,15 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
     _display(display),
     _powerUpPath({"../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"})
 {
+    addSfEffect("PUT_BOMB", "./../resources/sounds/Bomb/BombClock.wav");
+    addSfEffect("BOMB_EXP", "./../resources/sounds/Bomb/BombExplode.wav");
     _master->setVisible(false);
+}
+
+GameBisScene::~GameBisScene()
+{
+    _sfEffects["BOMB_EXP"]->stop();
+    _sfEffects["PUT_BOMB"]->stop();
 }
 
 std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
@@ -55,6 +63,7 @@ void GameBisScene::removeBlock(const int &x, const int &y, bool neg)
     auto vec = _display->getColiMap().at(index)->getPosition();
     _display->getColiMap().at(index)->setVisible(false);
     _display->getColiMap().at(index).release();
+    _sfEffects["BOMB_EXP"]->play();
     _display->getColiMap().erase(_display->getColiMap().begin() + index);
     _rm.emplace_back(index);
     _map->getMapData()._mapWall[y][x] = '7';
@@ -143,6 +152,7 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
 {
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB) {
+            _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
             bombs_pos.emplace_back(a);
             bombs_time.emplace_back(std::chrono::system_clock::now());
@@ -398,4 +408,12 @@ std::vector<ACharacter::move_t> GameBisScene::action()
     auto b = botsAction();
     p.insert(p.end(), b.begin(), b.end());
     return p;
+}
+
+void GameBisScene::addSfEffect(const std::string &key, const std::string &path)
+{
+    _sfBuf.emplace_back(std::make_unique<sf::SoundBuffer>(sf::SoundBuffer()));
+    _sfBuf.back()->loadFromFile(path);
+    _sfEffects[key] = std::make_unique<sf::Sound>(sf::Sound());
+    _sfEffects[key]->setBuffer(*_sfBuf.back().get());
 }
