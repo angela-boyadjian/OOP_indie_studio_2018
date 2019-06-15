@@ -47,7 +47,7 @@ class GameBisScene : public IScene {
         void checkPowerUp();
         // BOMB
         void exploseBomb();
-        void explosion(const int &, const int &);
+        void explosion(const int &, const int &, const bool &);
         void exploseBlock(const int &, const int &);
         std::size_t getColiIndex(const int &, const int &);
         void setExplosion(const int &, const int &);
