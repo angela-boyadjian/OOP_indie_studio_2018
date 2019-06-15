@@ -7,6 +7,7 @@
 
 #include "SceneManagerException.hpp"
 #include "SceneManager.hpp"
+#include "SaveManager.hpp"
 
 SceneManager::SceneManager() : _current(0, "None"), _info("None")
 {}
@@ -74,6 +75,7 @@ void SceneManager::loadCurrent()
     _scenes[std::get<0>(_current)]->loadScene(_info);
 }
 
+// FIXME 
 void SceneManager::runCurrentScene()
 {
     if (std::get<1>(_current) == "None")
@@ -94,8 +96,6 @@ void SceneManager::runCurrentScene()
     _manager->drawAll();
     _manager->getGUIEnvironment()->drawAll();
 }
-
-
 
 irr::scene::ISceneManager *SceneManager::getManager()
 {

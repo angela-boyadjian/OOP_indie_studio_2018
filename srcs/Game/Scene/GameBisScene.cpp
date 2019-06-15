@@ -11,6 +11,8 @@
 #include "SceneException.hpp"
 #include "GameBisScene.hpp"
 #include "Map.hpp"
+#include "SaveManager.hpp"
+#include "LoadManager.hpp"
 
 GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
                            irr::scene::ISceneNode *father,
@@ -102,8 +104,8 @@ void    GameBisScene::exploseBlock(const int &x, const int &y)
 
 void GameBisScene::exploseEmpty(const int &x, const int &y)
 {
-    auto tmp_x = x;
-    auto tmp_y = y;
+    std::size_t tmp_x = x;
+    std::size_t tmp_y = y;
 
     while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
@@ -191,7 +193,11 @@ SceneInfo GameBisScene::runScene()
     putBomb(actions);
     stopExplosion();
     checkPowerUp();
-  //  _display->draw();
+    // auto s = SaveManager(*_game.get());
+    // s.save();
+    auto l = LoadManager();
+    l.load();
+//    _display->draw();
     return SceneInfo(_name);
 }
 

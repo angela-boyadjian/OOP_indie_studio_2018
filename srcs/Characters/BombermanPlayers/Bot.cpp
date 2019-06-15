@@ -186,11 +186,11 @@ void    Bot::changePosition(const ACharacter::Action &a) {
 
 void    Bot::bombExplosion(std::vector<std::string> &map)
 {
-    for (auto j {0}; j < map.size(); ++j) {
-        for (auto i = 0; i < map[j].size(); ++i) {
+    for (std::size_t j {0}; j < map.size(); ++j) {
+        for (std::size_t i = 0; i < map[j].size(); ++i) {
             if (map[j][i] == '5') {
                 map[j][i] = '0';
-                for (auto k {1}; k < _fireRange + 1; ++k) {
+                for (std::size_t k {1}; k < _fireRange + 1; ++k) {
                     if (j - (k - 1) > 0 and (map[j - k][i] == '3' or map[j - k][i] == '2'))
                         map[j - k][i] = '0';
                     if (j + (k - 1) < map.size() and (map[j + k][i] == '3' or map[j + k][i] == '2'))
@@ -214,7 +214,7 @@ void    Bot::putBomb(std::vector<std::string> &map)
     //std::cout << "Pos Y = " << posY << std::endl;
 
     map[posY][posX] = '5';
-    for (auto i {1}; i < _fireRange + 1; ++i) {
+    for (std::size_t i {1}; i < _fireRange + 1; ++i) {
         if (posY - (i - 1) > 0 and map[posY - i][posX] != '1'
                 and map[posY - i][posX] != '2')
             map[posY - i][posX] = '3';
@@ -268,7 +268,7 @@ std::tuple<bool, std::size_t>           Bot::isPowerUp(std::vector<std::string> 
 std::tuple<bool, std::size_t>           Bot::isPowerDown(std::vector<std::string> &map, const int &x, const int &y)
 {
     auto count {0};
-    for (auto tmpY {y + 1}; tmpY < map.size() and !isBlock(x, tmpY, map); ++tmpY) {
+    for (std::size_t tmpY {y + 1}; tmpY < map.size() and !isBlock(x, tmpY, map); ++tmpY) {
         if (map[tmpY][x] >= '7')
             return std::make_tuple(true, count);
         ++count;
@@ -290,7 +290,7 @@ std::tuple<bool, std::size_t>           Bot::isPowerLeft(std::vector<std::string
 std::tuple<bool, std::size_t>           Bot::isPowerRight(std::vector<std::string> &map, const int &x, const int &y)
 {
     auto count {0};
-    for (auto tmpX {x + 1}; tmpX < map[y].size() and !isBlock(tmpX, y, map); ++tmpX) {
+    for (std::size_t tmpX {x + 1}; tmpX < map[y].size() and !isBlock(tmpX, y, map); ++tmpX) {
         if (map[y][tmpX] >= '7')
             return std::make_tuple(true, count);
         ++count;

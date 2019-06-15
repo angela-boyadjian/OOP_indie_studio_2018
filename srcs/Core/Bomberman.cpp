@@ -19,6 +19,7 @@
 #include "GameBisScene.hpp"
 #include "IntroScene.hpp"
 #include "MapChangeScene.hpp"
+#include "SaveManager.hpp"
 #include "SettingsScene.hpp"
 #include "ChoosePlayerScene.hpp"
 
@@ -52,7 +53,7 @@ void core::Bomberman::setMusic()
 // ATTTET
 std::size_t core::Bomberman::getColiIndex(const int &x, const int &y)
 {
-    auto count {0};
+    std::size_t count {0};
 
     for (auto j {0}; j < y; ++j)
         for (std::size_t i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
@@ -76,8 +77,8 @@ void    core::Bomberman::setExplosion(const int &x, const int &y)
 
 void    core::Bomberman::exploseEmpty(const int &x, const int &y)
 {
-    auto tmp_x = x;
-    auto tmp_y = y;
+    std::size_t tmp_x = x;
+    std::size_t tmp_y = y;
 
     while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';

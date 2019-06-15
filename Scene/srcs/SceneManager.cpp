@@ -79,7 +79,7 @@ void SceneManager::runCurrentScene()
     if (dest != std::get<1>(_current))
         changeCurrent(dest);
     _manager->drawAll();
-    _dmanager->getGUIEnvironment()->drawAll();
+    _manager->getGUIEnvironment()->drawAll();
 }
 
 

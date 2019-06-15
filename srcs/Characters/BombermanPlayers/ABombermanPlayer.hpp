@@ -31,6 +31,7 @@ public:
     const bool          &canShoot() const;
     const std::size_t   &getFireRange() const;
     const Action        &getDirection() const;
+    std::size_t         getBombNb() const;
 
     // INCREASER
     void    increaseSpeed();
