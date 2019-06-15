@@ -31,9 +31,10 @@ std::unique_ptr<AGame> LoadManager::load()
     while (std::getline(_file, line)) {
         switch (line[0]) {
             case 'P' :
-                addCharacter(line);
+                addPlayer(line);
                 break;
             case 'B' :
+                addBot(line);
                 break;
             default :
                 break;
@@ -74,12 +75,38 @@ ACharacter::MapPos LoadManager::getMapPos(std::string const &line, int i)
     return std::make_tuple(x, y, z);
 }
 
-void LoadManager::addCharacter(std::string const &line)
+ACharacter::Color LoadManager::getSkin(std::string const &line)
 {
-    _players.push_back(std::make_unique<Player>(Player(0,
-        ACharacter::Color::PINK, getMapPos(line, 2))));
+    auto n {line[_index] + 48};
+
+    _index += 2;
+    switch (n) {
+        case 0 :
+            return ACharacter::Color::BLACK;
+        case 1 :
+            return ACharacter::Color::PINK;
+        case 2 :
+            return ACharacter::Color::RED;
+        default :
+            return ACharacter::Color::WHITE;
+    }
 }
 
+void LoadManager::addPlayer(std::string const &line)
+{
+    auto pos {getMapPos(line, 2)};
+
+    _players.push_back(std::make_unique<Player>(Player(0,
+        getSkin(line), pos)));
+}
+
+
+void LoadManager::addBot(std::string const &line)
+{
+    auto pos {getMapPos(line, 2)};
+
+    _bots.push_back(std::make_unique<Bot>(Bot(0, pos)));
+}
 void LoadManager::printPos(ACharacter::MapPos const &pos) const
 {
     std::cout << "Pos = " << std::get<0>(pos) << " "

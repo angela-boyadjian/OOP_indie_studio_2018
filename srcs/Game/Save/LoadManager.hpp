@@ -24,10 +24,17 @@ public:
     std::unique_ptr<AGame> load();
 
 private:
-    void addCharacter(std::string const &);
-    ACharacter::MapPos  getMapPos(std::string const &, int);
-    void printPos(ACharacter::MapPos const &) const;
+    // NOTE Add
+    void addBot(std::string const &);
+    void addPlayer(std::string const &);
+
+    // NOTE Utils
     float convertVal(std::string &, int &);
+    ACharacter::Color getSkin(std::string const &);
+    ACharacter::MapPos  getMapPos(std::string const &, int);
+
+    // NOTE Display
+    void printPos(ACharacter::MapPos const &) const;
 private:
     BotVec          _bots;
     std::ifstream   _file;
