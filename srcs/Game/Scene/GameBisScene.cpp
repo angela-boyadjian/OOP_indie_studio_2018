@@ -195,8 +195,8 @@ SceneInfo GameBisScene::runScene()
     checkPowerUp();
     // auto s = SaveManager(*_game.get());
     // s.save();
-    auto l = LoadManager();
-    l.load();
+    // auto l = LoadManager();
+    // l.load();
 //    _display->draw();
     return SceneInfo(_name);
 }
