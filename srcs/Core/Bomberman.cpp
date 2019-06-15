@@ -147,7 +147,7 @@ void    core::Bomberman::exploseBomb()
 {
     for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
-        if (elapsedTime.count() >= 1) {
+        if (elapsedTime.count() >= 2) {
             explosion(bombs_pos[i].x, bombs_pos[i].y);
             _display->visiBomb(bombs_pos[i].x, bombs_pos[i].y, false);
             bombs_player[i]->increaseBombNumber();

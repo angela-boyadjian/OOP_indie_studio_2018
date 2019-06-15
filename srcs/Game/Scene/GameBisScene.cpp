@@ -65,7 +65,6 @@ void GameBisScene::removeBlock(const int &x, const int &y, bool neg)
     auto vec = _display->getColiMap().at(index)->getPosition();
     _display->getColiMap().at(index)->setVisible(false);
     _display->getColiMap().at(index).release();
-    _sfEffects["BOMB_EXP"]->play();
     _display->getColiMap().erase(_display->getColiMap().begin() + index);
     _rm.emplace_back(index);
     _map->getMapData()._mapWall[y][x] = '7';
@@ -128,8 +127,11 @@ void GameBisScene::exploseEmpty(const int &x, const int &y)
     }
 }
 
-void GameBisScene::explosion(const int &x, const int &y)
+void GameBisScene::explosion(const int &x, const int &y, const bool &b)
 {
+    if (b)
+        _sfEffects["PUT_BOMB"]->stop();
+    _sfEffects["BOMB_EXP"]->play();
     exploseBlock(x, y);
     exploseEmpty(x, y);
 }
@@ -139,7 +141,8 @@ void GameBisScene::exploseBomb()
     for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
         if (elapsedTime.count() >= 2) {
-            explosion(bombs_pos[i].x, bombs_pos[i].y);
+            bombs_pos.size() > 1 ? explosion(bombs_pos[i].x, bombs_pos[i].y, false)
+                : explosion(bombs_pos[i].x, bombs_pos[i].y, true);
             _display->visiBomb(bombs_pos[i].x, bombs_pos[i].y, false);
             bombs_player[i]->increaseBombNumber();
             bombs_player.erase(bombs_player.begin() + i);
@@ -152,9 +155,13 @@ void GameBisScene::exploseBomb()
 
 void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
 {
+    static bool isRunning = false;
+
     for (auto a : actions) {
-        if (a.action == ACharacter::Action::BOMB) {
-            _sfEffects["PUT_BOMB"]->play();
+        if (a.action == ACharacter::Action::BOMB and _map->getMapData()._mapWall[a.y][a.x] != '1'
+                                                     and _map->getMapData()._mapWall[a.y][a.x] != '2') {
+            if (!isRunning)
+                _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
             bombs_pos.emplace_back(a);
             bombs_time.emplace_back(std::chrono::system_clock::now());
@@ -188,8 +195,8 @@ SceneInfo GameBisScene::runScene()
     checkPowerUp();
     // auto s = SaveManager(*_game.get());
     // s.save();
-    auto l = LoadManager();
-    l.load();
+    // auto l = LoadManager();
+    // l.load();
 //    _display->draw();
     return SceneInfo(_name);
 }
