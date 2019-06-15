@@ -23,7 +23,7 @@ bool            Bot::isBlock(const float &x, const float &y, std::vector<std::st
 
 std::size_t     Bot::countBlock(std::vector<std::string> &map)
 {
-    std::size_t count {0};
+    auto count {0};
     auto        posX {std::get<0>(_2dPos)};
     auto        posY {std::get<1>(_2dPos)};
 
@@ -52,7 +52,7 @@ bool            Bot::isInDanger(std::vector<std::string> &map)
 
 std::size_t Bot::getDistanceUp(float x, float y, std::vector<std::string> &map)
 {
-    std::size_t count {0};
+    auto count {0};
     while (--y >= 0) {
         if (map[y][x] != '0')
             return count;
@@ -63,7 +63,7 @@ std::size_t Bot::getDistanceUp(float x, float y, std::vector<std::string> &map)
 
 std::size_t Bot::getDistanceDown(float x, float y, std::vector<std::string> &map)
 {
-    std::size_t count {0};
+    auto count {0};
     while (++y < map.size()) {
         if (map[y][x] != '0')
             return count;
@@ -74,7 +74,7 @@ std::size_t Bot::getDistanceDown(float x, float y, std::vector<std::string> &map
 
 std::size_t Bot::getDistanceLeft(float x, float y, std::vector<std::string> &map)
 {
-    std::size_t count {0};
+    auto count {0};
     while (--x >= 0) {
         if (map[y][x] != '0')
             return count;
@@ -85,7 +85,7 @@ std::size_t Bot::getDistanceLeft(float x, float y, std::vector<std::string> &map
 
 std::size_t Bot::getDistanceRight(float x, float y, std::vector<std::string> &map)
 {
-    std::size_t count {0};
+    auto count {0};
     while (++x < map[y].size()) {
         if (map[y][x] != '0')
             return count;
@@ -112,7 +112,7 @@ ACharacter::Action  Bot::getOutOfDanger(std::vector<std::string> &map)
     //std::cout << "GET OUT OF DANGER" << std::endl;
     if (map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] == '0')
         return ACharacter::Action::WAIT;
-    std::size_t     index {0};
+    auto     index {0};
     auto            distances = getDistancesToSurvive(map);
     auto            minElement = std::max_element(distances.begin(), distances.end());
     for (auto tmp {distances.begin()}; tmp != minElement; ++tmp)
@@ -186,11 +186,11 @@ void    Bot::changePosition(const ACharacter::Action &a) {
 
 void    Bot::bombExplosion(std::vector<std::string> &map)
 {
-    for (std::size_t j {0}; j < map.size(); ++j) {
-        for (std::size_t i = 0; i < map[j].size(); ++i) {
+    for (auto j {0}; j < map.size(); ++j) {
+        for (auto i = 0; i < map[j].size(); ++i) {
             if (map[j][i] == '5') {
                 map[j][i] = '0';
-                for (std::size_t k {1}; k < _fireRange + 1; ++k) {
+                for (auto k {1}; k < _fireRange + 1; ++k) {
                     if (j - (k - 1) > 0 and (map[j - k][i] == '3' or map[j - k][i] == '2'))
                         map[j - k][i] = '0';
                     if (j + (k - 1) < map.size() and (map[j + k][i] == '3' or map[j + k][i] == '2'))
@@ -214,7 +214,7 @@ void    Bot::putBomb(std::vector<std::string> &map)
     //std::cout << "Pos Y = " << posY << std::endl;
 
     map[posY][posX] = '5';
-    for (std::size_t i {1}; i < _fireRange + 1; ++i) {
+    for (auto i {1}; i < _fireRange + 1; ++i) {
         if (posY - i >= 0 and map[posY - i][posX] != '1'
                 and map[posY - i][posX] != '2')
             map[posY - i][posX] = '3';
@@ -268,7 +268,7 @@ std::tuple<bool, std::size_t>           Bot::isPowerUp(std::vector<std::string> 
 std::tuple<bool, std::size_t>           Bot::isPowerDown(std::vector<std::string> &map, const int &x, const int &y)
 {
     auto count {0};
-    for (std::size_t tmpY = y + 1; tmpY < map.size() and !isBlock(x, tmpY, map); ++tmpY) {
+    for (auto tmpY = y + 1; tmpY < map.size() and !isBlock(x, tmpY, map); ++tmpY) {
         if (map[tmpY][x] >= '7')
             return std::make_tuple(true, count);
         ++count;
@@ -290,7 +290,7 @@ std::tuple<bool, std::size_t>           Bot::isPowerLeft(std::vector<std::string
 std::tuple<bool, std::size_t>           Bot::isPowerRight(std::vector<std::string> &map, const int &x, const int &y)
 {
     auto count {0};
-    for (std::size_t tmpX = x + 1; tmpX < map[y].size() and !isBlock(tmpX, y, map); ++tmpX) {
+    for (auto tmpX = x + 1; tmpX < map[y].size() and !isBlock(tmpX, y, map); ++tmpX) {
         if (map[y][tmpX] >= '7')
             return std::make_tuple(true, count);
         ++count;

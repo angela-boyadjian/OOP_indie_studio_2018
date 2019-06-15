@@ -53,10 +53,10 @@ void core::Bomberman::setMusic()
 // ATTTET
 std::size_t core::Bomberman::getColiIndex(const int &x, const int &y)
 {
-    std::size_t count {0};
+    auto count {0};
 
     for (auto j {0}; j < y; ++j)
-        for (std::size_t i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
+        for (auto i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
             if (_map->getMapData()._mapWall[j][i] == '2')
                 ++count;
     for (auto i {0}; i <= x; ++i)
@@ -126,7 +126,7 @@ void    core::Bomberman::exploseBlock(const int &x, const int &y)
 
 void    core::Bomberman::stopExplosion()
 {
-    for (std::size_t i {0}; i < _explosionPos.size(); ++i) {
+    for (auto i {0}; i < _explosionPos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - _explosionTime[i];
         if (elapsedTime.count() >= 1) {
             _display->getExplosionMap()[std::get<1>(_explosionPos[i])][std::get<0>(_explosionPos[i])]->setVisible(false);
@@ -145,7 +145,7 @@ void    core::Bomberman::explosion(const int &x, const int &y)
 
 void    core::Bomberman::exploseBomb()
 {
-    for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
+    for (auto i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
         if (elapsedTime.count() >= 2) {
             explosion(bombs_pos[i].x, bombs_pos[i].y);
@@ -210,7 +210,7 @@ void core::Bomberman::run()
 std::vector<ACharacter::move_t> core::Bomberman::botsAction()
 {
     auto botsMove = _game->moveBots(_map->getMapData()._mapWall, _display.get());
-    for (std::size_t i {0}; i < _game->getBots().size(); ++i) {
+    for (auto i {0}; i < _game->getBots().size(); ++i) {
         changeFrameAndPos(_game->getBots()[i].get(), botsMove[i].action, _lastActions[_game->getBots()[i]->getEntityNb()]);
         changeAnimation(_game->getBots()[i]->getEntityNb(), botsMove[i].action, _lastActions[_game->getBots()[i]->getEntityNb()]);
         _lastActions[_game->getBots()[i]->getEntityNb()] = botsMove[i].action;
@@ -221,7 +221,7 @@ std::vector<ACharacter::move_t> core::Bomberman::botsAction()
 std::vector<ACharacter::move_t> core::Bomberman::playersAction()
 {
     auto playersMove = _game->movePlayers(_event, _map->getMapData()._mapWall, _display.get());
-    for (std::size_t i {0}; i < _game->getPlayers().size(); ++i) {
+    for (auto i {0}; i < _game->getPlayers().size(); ++i) {
         changeFrameAndPos(_game->getPlayers()[i].get(), playersMove[i].action, _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         changeAnimation(_game->getPlayers()[i]->getEntityNb(), playersMove[i].action, _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         _lastActions[_game->getPlayers()[i]->getEntityNb()] = playersMove[i].action;

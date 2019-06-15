@@ -83,7 +83,7 @@ void IrrlichtDisplayLoader::loadMapEdgeSide(const MapData &map)
     auto z = 30.0f + posZ;
     auto pos = map._rulesWall.find('/');
 
-    for (std::size_t i = 0; i != map._mapWall.size(); i++) {
+    for (auto i = 0; i != map._mapWall.size(); i++) {
         auto x = map._mapWall[i].size() * 10.0f + posX;
         addTileToMap(irr::core::vector3df(x, y, z), pos->second, 10.0f);
         addTileToMap(irr::core::vector3df(posX - 10.0f, y, z), pos->second,

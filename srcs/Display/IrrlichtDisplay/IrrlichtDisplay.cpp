@@ -132,7 +132,7 @@ void    IrrlichtDisplay::changeModelFrame(const std::size_t &i, const std::size_
 
 bool    IrrlichtDisplay::isCollisionFromMap(irr::core::aabbox3d<irr::f32> &b) const
 {
-    for (std::size_t i {0}; i < _coliMap.size(); ++i) {
+    for (auto i {0}; i < _coliMap.size(); ++i) {
         auto b2 = _coliMap[i]->getBoundingBox();
         _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
         if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())
@@ -143,7 +143,7 @@ bool    IrrlichtDisplay::isCollisionFromMap(irr::core::aabbox3d<irr::f32> &b) co
 
 bool    IrrlichtDisplay::isCollisionFromObstacles(irr::core::aabbox3d<irr::f32> &b) const
 {
-    for (std::size_t i {0}; i < _noncoliMap.size(); ++i) {
+    for (auto i {0}; i < _noncoliMap.size(); ++i) {
         auto b2 = _noncoliMap[i]->getBoundingBox();
         _noncoliMap[i]->getRelativeTransformation().transformBoxEx(b2);
         if (b.intersectsWithBox(b2) && _noncoliMap[i]->isVisible())
@@ -166,7 +166,7 @@ void    IrrlichtDisplay::destroyCollision(std::shared_ptr<irr::scene::IAnimatedM
     // auto b = meshsScene[target]->getBoundingBox();
     auto b = scene->getBoundingBox();
     scene->getRelativeTransformation().transformBoxEx(b);
-    for (std::size_t i {0}; i < _coliMap.size(); ++i) {
+    for (auto i {0}; i < _coliMap.size(); ++i) {
         auto b2 = _coliMap[i]->getBoundingBox();
         _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
         if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())
