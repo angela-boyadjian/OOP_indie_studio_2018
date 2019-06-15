@@ -1,0 +1,9 @@
+P/x y z/1/2/4142
+B/x y z/2/2/9988
+
+
+// P = player
+// x y z = pos
+// 1 = skin
+// 2 = Bomb nb
+// 4142 = score

@@ -20,7 +20,7 @@ void Bomb::addMesh(Mesh *mesh)
     if (mesh) {
         _mesh = std::shared_ptr<Mesh>(mesh);
     } else {
-        std::cout << "KOOOO\n";
+        // std::cout << "KOOOO\n";
         _mesh = nullptr;
     }
 }

@@ -11,6 +11,8 @@
 #include "SceneException.hpp"
 #include "GameBisScene.hpp"
 #include "Map.hpp"
+#include "SaveManager.hpp"
+#include "LoadManager.hpp"
 
 GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
                            irr::scene::ISceneNode *father,
@@ -25,7 +27,15 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
     _display(display),
     _powerUpPath({"../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"})
 {
+    addSfEffect("PUT_BOMB", "./../resources/sounds/Bomb/BombClock.wav");
+    addSfEffect("BOMB_EXP", "./../resources/sounds/Bomb/BombExplode.wav");
     _master->setVisible(false);
+}
+
+GameBisScene::~GameBisScene()
+{
+    _sfEffects["BOMB_EXP"]->stop();
+    _sfEffects["PUT_BOMB"]->stop();
 }
 
 std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
@@ -94,8 +104,8 @@ void    GameBisScene::exploseBlock(const int &x, const int &y)
 
 void GameBisScene::exploseEmpty(const int &x, const int &y)
 {
-    auto tmp_x = x;
-    auto tmp_y = y;
+    std::size_t tmp_x = x;
+    std::size_t tmp_y = y;
 
     while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
@@ -115,10 +125,14 @@ void GameBisScene::exploseEmpty(const int &x, const int &y)
         _map->getMapData()._mapWall[tmp_y][x] = '0';
         setExplosion(x, tmp_y);
     }
+    _map->getMapData()._mapWall[y][x] = '0';
 }
 
-void GameBisScene::explosion(const int &x, const int &y)
+void GameBisScene::explosion(const int &x, const int &y, const bool &b)
 {
+    if (b)
+        _sfEffects["PUT_BOMB"]->stop();
+    _sfEffects["BOMB_EXP"]->play();
     exploseBlock(x, y);
     exploseEmpty(x, y);
 }
@@ -128,7 +142,12 @@ void GameBisScene::exploseBomb()
     for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
         if (elapsedTime.count() >= 2) {
-            explosion(bombs_pos[i].x, bombs_pos[i].y);
+            std::cout << "EXPLOSION BOMB" << std::endl;
+            for (auto &m : _map->getMapData()._mapWall)
+                std::cout << m << std::endl;
+            std::cout << std::endl;
+            bombs_pos.size() > 1 ? explosion(bombs_pos[i].x, bombs_pos[i].y, false)
+                : explosion(bombs_pos[i].x, bombs_pos[i].y, true);
             _display->visiBomb(bombs_pos[i].x, bombs_pos[i].y, false);
             bombs_player[i]->increaseBombNumber();
             bombs_player.erase(bombs_player.begin() + i);
@@ -141,8 +160,17 @@ void GameBisScene::exploseBomb()
 
 void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
 {
+    static bool isRunning = false;
+
     for (auto a : actions) {
-        if (a.action == ACharacter::Action::BOMB) {
+        if (a.action == ACharacter::Action::BOMB and _map->getMapData()._mapWall[a.y][a.x] != '1'
+                                                     and _map->getMapData()._mapWall[a.y][a.x] != '2') {
+            std::cout << "PUT BOMB" << std::endl;
+            for (auto &m : _map->getMapData()._mapWall)
+                std::cout << m << std::endl;
+            std::cout << std::endl;
+            if (!isRunning)
+                _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
             bombs_pos.emplace_back(a);
             bombs_time.emplace_back(std::chrono::system_clock::now());
@@ -156,6 +184,10 @@ void GameBisScene::stopExplosion()
     for (std::size_t i {0}; i < _explosionPos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - _explosionTime[i];
         if (elapsedTime.count() >= 1) {
+            std::cout << "STOP EXPLOSION BOMB" << std::endl;
+            for (auto &m : _map->getMapData()._mapWall)
+                std::cout << m << std::endl;
+            std::cout << std::endl;
             _display->getExplosionMap()[std::get<1>(_explosionPos[i])][std::get<0>(_explosionPos[i])]->setVisible(false);
             _explosionTime.erase(_explosionTime.begin() + i);
             _explosionPos.erase(_explosionPos.begin() + i);
@@ -174,7 +206,11 @@ SceneInfo GameBisScene::runScene()
     putBomb(actions);
     stopExplosion();
     checkPowerUp();
-  //  _display->draw();
+    // auto s = SaveManager(*_game.get());
+    // s.save();
+    // auto l = LoadManager();
+    // l.load();
+//    _display->draw();
     return SceneInfo(_name);
 }
 
@@ -290,8 +326,13 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
     _game = std::move(game);
     _dispLoader->loadGame(_game);
     std::cout << "game" << std::endl;
-    _dispLoader->loadMap(_map->getMapData());
-
+    for (auto &t : _display->getColiMap())
+        t->setParent(_master.get());
+    for (auto &t : _display->getNonColiMap())
+        t->setParent(_master.get());
+    _dispLoader->setExplosionPos();
+    _dispLoader->setBombsPos();
+    //    _dispLoader->loadMap(_map->getMapData());
     // NOTE TEMPO
     _event = std::make_unique<Events>(Events(_display->_device, _display));
     _display->_device->setEventReceiver(_event.get());
@@ -448,4 +489,12 @@ std::vector<ACharacter::move_t> GameBisScene::action()
     auto b = botsAction();
     p.insert(p.end(), b.begin(), b.end());
     return p;
+}
+
+void GameBisScene::addSfEffect(const std::string &key, const std::string &path)
+{
+    _sfBuf.emplace_back(std::make_unique<sf::SoundBuffer>(sf::SoundBuffer()));
+    _sfBuf.back()->loadFromFile(path);
+    _sfEffects[key] = std::make_unique<sf::Sound>(sf::Sound());
+    _sfEffects[key]->setBuffer(*_sfBuf.back().get());
 }
