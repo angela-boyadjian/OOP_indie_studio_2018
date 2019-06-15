@@ -185,7 +185,6 @@ static const char *res = "../resources/models/Character/Bomberman.MD3";
 void IrrlichtDisplayLoader::loadPlayer(const ACharacter::Color &color,
                                        const std::vector<std::string> &textures)
 {
-
     auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Character/Bomberman.MD3"), _father.get());
     newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
     newScene->setMD2Animation(irr::scene::EMAT_STAND);

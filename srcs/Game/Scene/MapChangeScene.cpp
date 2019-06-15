@@ -48,9 +48,14 @@ void MapChangeScene::loadScene()
     auto _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     std::cout << "mapchange load" << std::endl;
     auto camera = _manager->addCameraSceneNode(_master.get());
+    camera->setPosition(irr::core::vector3df(50, 0, -150));
     camera->setTarget(irr::core::vector3df(0, -15, 25));
-    camera->setPosition(irr::core::vector3df(0, 60, -20));
+/*    camera->bindTargetAndRotation(true);
+    camera->setRotation(irr::core::vector3df(0, 90, 0));
+    auto animation = _manager->createRotationAnimator(irr::core::vector3df(1, 0, 0));
+    camera->addAnimator(animation);*/
     _is_load = true;
+
      _map->generate3dMap(-1, 80, -1);
     _dispLoader->loadMap(_map->getMapData());
     auto rec = irr::core::rect<irr::s32>(_win_size.Width / 10, _win_size.Height - (_win_size.Height / 5), _win_size.Width / 10 + 300, _win_size.Height - (_win_size.Height / 5) + 42);
