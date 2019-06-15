@@ -11,6 +11,8 @@
 #include "SceneException.hpp"
 #include "GameBisScene.hpp"
 #include "Map.hpp"
+#include "SaveManager.hpp"
+#include "LoadManager.hpp"
 
 GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
                            irr::scene::ISceneNode *father,
@@ -164,6 +166,7 @@ void GameBisScene::stopExplosion()
     }
 }
 
+// FIXME SaveManager
 std::string GameBisScene::runScene()
 {
     // TEMPO - REPLACE IT BY GENERIC METHOD
@@ -174,7 +177,11 @@ std::string GameBisScene::runScene()
     putBomb(actions);
     stopExplosion();
     checkPowerUp();
-  //  _display->draw();
+    // auto s = SaveManager(*_game.get());
+    // s.save();
+    auto l = LoadManager();
+    l.load();
+//    _display->draw();
     return _name;
 }
 
@@ -209,12 +216,12 @@ void
 GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
 {
     _map = std::shared_ptr<IMap>(new Map);
-    std::cout << "rien" << std::endl;
+    // std::cout << "rien" << std::endl;
     _map->load(mapPath);
-    std::cout << "map" << std::endl;
+    // std::cout << "map" << std::endl;
     _game = std::move(game);
     _dispLoader->loadGame(_game);
-    std::cout << "game" << std::endl;
+    // std::cout << "game" << std::endl;
     _dispLoader->loadMap(_map->getMapData());
 
     // NOTE TEMPO

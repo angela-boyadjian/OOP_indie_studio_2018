@@ -58,7 +58,7 @@ void IrrlichtDisplayLoader::loadEdge(const MapData &map)
     int start = 0;
 
     while (map._mapWall[start][0] == ' ') {
-        std::cout << map._mapWall[start][0] << std::endl;
+        // std::cout << map._mapWall[start][0] << std::endl;
         start++;
     }
 }
@@ -348,7 +348,7 @@ IDisplay::Object    *IrrlichtDisplayLoader::createBonus(const std::string &path)
     newScene->setScale(irr::core::vector3df(1,0.1,1));
     newScene->setRotation(irr::core::vector3df(0, -90, 0));
     newScene->setPosition(irr::core::vector3df(0, 0, 0));
-    std::cout << path << std::endl;
+    // std::cout << path << std::endl;
     newScene->setMaterialTexture(0, _d->getDevice()->getVideoDriver()->getTexture(path.c_str()));
     return newScene;
 }

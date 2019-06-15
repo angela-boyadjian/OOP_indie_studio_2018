@@ -54,7 +54,7 @@ std::vector<std::string> Reader::readDir(const std::string &dirname)
     } else {
         throw std::exception(); // tempo
     }
-    std::cout << std::endl;
+    // std::cout << std::endl;
     return read;
 }
 

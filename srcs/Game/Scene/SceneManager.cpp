@@ -7,6 +7,7 @@
 
 #include "SceneManagerException.hpp"
 #include "SceneManager.hpp"
+#include "SaveManager.hpp"
 
 SceneManager::SceneManager() : _current(0, "None")
 {}
@@ -74,13 +75,14 @@ void SceneManager::loadCurrent()
     _scenes[std::get<0>(_current)]->loadScene();
 }
 
+// FIXME 
 void SceneManager::runCurrentScene()
 {
     if (std::get<1>(_current) == "None")
         throw SceneManagerException("Current is not set","None");
     auto dest = _scenes[std::get<0>(_current)]->runScene();
     if (dest != std::get<1>(_current)) {
-        std::cout << "DESTINATION : " << dest << std::endl;
+        // std::cout << "DESTINATION : " << dest << std::endl;
         changeCurrent(dest);
     }
     _manager->drawAll();

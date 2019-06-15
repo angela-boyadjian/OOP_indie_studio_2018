@@ -185,7 +185,6 @@ void    IrrlichtDisplay::changeScene(std::string const &scene)
     if (_currentScene == "map select") {
         _device->getCursorControl()->setVisible(false);
         _gui->getRootGUIElement()->setVisible(false);
-        std::cout << "coucou" << std::endl;
         return;
     }
 

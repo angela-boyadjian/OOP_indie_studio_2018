@@ -19,6 +19,7 @@
 #include "GameBisScene.hpp"
 #include "IntroScene.hpp"
 #include "MapChangeScene.hpp"
+#include "SaveManager.hpp"
 
 core::Bomberman::Bomberman()
 {

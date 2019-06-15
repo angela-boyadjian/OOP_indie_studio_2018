@@ -59,6 +59,10 @@ set(SOURCE_FILES
         srcs/Game/Scene/SceneManagerException.cpp srcs/Game/Scene/SceneManagerException.hpp
         srcs/Game/Scene/SceneException.cpp srcs/Game/Scene/SceneException.hpp
         srcs/Game/Scene/MapChangeScene.cpp srcs/Game/Scene/MapChangeScene.hpp
+        srcs/Game/Save/ISave.hpp
+        srcs/Game/Save/SaveManager.cpp srcs/Game/Save/SaveManager.hpp
+        srcs/Game/Save/ILoad.hpp
+        srcs/Game/Save/LoadManager.cpp srcs/Game/Save/LoadManager.hpp
         )
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}")
@@ -76,6 +80,7 @@ include_directories(
         srcs/Display
         srcs/Display/IrrlichtDisplay
         srcs/Characters
+        srcs/Characters/BombermanPlayers
         srcs/Objects
         srcs/Tool
         srcs/Core
@@ -84,6 +89,7 @@ include_directories(
         srcs/Game
         srcs/Game/SceneManager
         srcs/Game/Scene
+        srcs/Game/Save
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

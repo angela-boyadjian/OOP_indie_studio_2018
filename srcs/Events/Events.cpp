@@ -30,7 +30,7 @@ bool    Events::OnEvent(const Event& event)
     }
     if (isGuiEvent(event)) {
         index id = event.GUIEvent.Caller->getID();
-        std::cout << id << std::endl;
+        // std::cout << id << std::endl;
         if (event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
             switch (id) {
             case (GUI_ID_QUIT_BUTTON):

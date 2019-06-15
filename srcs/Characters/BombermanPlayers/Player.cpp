@@ -62,8 +62,8 @@ ACharacter::move_t  Player::move(std::vector<std::string> &map, IDisplay *d)
             break;
     }
     map.at(std::get<1>(_2dPos)).at(std::get<0>(_2dPos)) = '4';
-    for (auto &m : map)
-        std::cout << m << std::endl;
-    std::cout << std::endl;
+    // for (auto &m : map)
+    //     std::cout << m << std::endl;
+    // std::cout << std::endl;
     return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _action, .itself = this};
 }

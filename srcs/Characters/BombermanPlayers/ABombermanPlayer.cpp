@@ -120,6 +120,11 @@ std::vector<Bomb> const &ABombermanPlayer::getBombs() const
     return _bombs;
 }
 
+std::size_t ABombermanPlayer::getBombNb() const
+{
+    return _maxBombNumber;
+}
+
 void    ABombermanPlayer::bomb(IDisplay *d)
 {
     auto b = _bombs[0];
