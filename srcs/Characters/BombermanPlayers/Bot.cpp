@@ -215,7 +215,7 @@ void    Bot::putBomb(std::vector<std::string> &map)
 
     map[posY][posX] = '5';
     for (std::size_t i {1}; i < _fireRange + 1; ++i) {
-        if (posY - (i - 1) > 0 and map[posY - i][posX] != '1'
+        if (posY - i >= 0 and map[posY - i][posX] != '1'
                 and map[posY - i][posX] != '2')
             map[posY - i][posX] = '3';
 
@@ -223,7 +223,7 @@ void    Bot::putBomb(std::vector<std::string> &map)
                 and map[posY + i][posX] != '2')
             map[posY + i][posX] = '3';
 
-        if (posX - (i - 1) > 0 and map[posY][posX - i] != '1'
+        if (posX - i >= 0 and map[posY][posX - i] != '1'
                 and map[posY][posX - i] != '2')
             map[posY][posX - i] = '3';
 

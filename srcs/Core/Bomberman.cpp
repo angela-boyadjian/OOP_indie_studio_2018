@@ -77,8 +77,8 @@ void    core::Bomberman::setExplosion(const int &x, const int &y)
 
 void    core::Bomberman::exploseEmpty(const int &x, const int &y)
 {
-    std::size_t tmp_x = x;
-    std::size_t tmp_y = y;
+    auto tmp_x = x;
+    auto tmp_y = y;
 
     while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';

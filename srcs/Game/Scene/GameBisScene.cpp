@@ -43,7 +43,7 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
     auto count {0};
 
     for (auto j {0}; j < y; ++j)
-        for (std::size_t i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
+        for (auto i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
             if (_map->getMapData()._mapWall[j][i] == '2')
                 ++count;
     for (auto i {0}; i <= x; ++i)
@@ -104,8 +104,8 @@ void    GameBisScene::exploseBlock(const int &x, const int &y)
 
 void GameBisScene::exploseEmpty(const int &x, const int &y)
 {
-    std::size_t tmp_x = x;
-    std::size_t tmp_y = y;
+    auto tmp_x = x;
+    auto tmp_y = y;
 
     while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
