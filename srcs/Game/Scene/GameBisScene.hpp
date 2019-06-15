@@ -35,11 +35,11 @@ class GameBisScene : public IScene {
         // MANDATORY
         void deLoad() override;
         SceneInfo runScene() override;
-        void loadScene() override;
+        void loadScene(SceneInfo &) override;
         std::string getName() override;
 
         // ONLY IN GAME
-        void loadGame(const std::string &, std::unique_ptr<AGame> &);
+        void loadGame(const std::string &, std::unique_ptr<AGame> &, SceneInfo );
         std::vector<std::unique_ptr<Player>> loadPlayer();
         std::vector<std::unique_ptr<Bot>> loadBot();
         // POWER UP

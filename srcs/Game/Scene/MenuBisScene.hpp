@@ -23,7 +23,7 @@ class MenuBisScene : public IScene {
     public:
         void deLoad() override;
         SceneInfo runScene() override;
-        void loadScene() override;
+        void loadScene(SceneInfo &) override;
         std::string getName() override;
 
     private:

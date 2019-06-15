@@ -16,7 +16,7 @@ struct SceneInfo {
 
         std::string _dest;
         std::shared_ptr<IMap> _map;
-        std::vector<ACharacter> _characters;
+        std::vector<std::shared_ptr<ACharacter>> _characters;
 };
 
 

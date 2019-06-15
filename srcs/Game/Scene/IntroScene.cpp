@@ -66,7 +66,7 @@ std::size_t IntroScene::getElapsedTime() const
     return std::chrono::duration_cast<std::chrono::seconds>(end - _clock).count();
 }
 
-void IntroScene::loadScene()
+void IntroScene::loadScene(SceneInfo &info)
 {
     std::cout << "Load intro" << std::endl;
     _is_load = true;

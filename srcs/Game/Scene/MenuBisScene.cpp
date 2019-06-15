@@ -39,7 +39,7 @@ void MenuBisScene::loadButtons()
 
 }
 
-void MenuBisScene::loadScene()
+void MenuBisScene::loadScene(SceneInfo &info)
 {
     std::cout << "Load menu" << std::endl;
     _is_load = true;

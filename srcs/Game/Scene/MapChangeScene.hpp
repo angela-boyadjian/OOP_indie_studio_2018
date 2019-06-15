@@ -23,7 +23,7 @@ class MapChangeScene : public IScene {
         // MANDATORY
         void deLoad() final;
         SceneInfo runScene() final;
-        void loadScene() final;
+        void loadScene(SceneInfo &) final;
         std::string getName() final;
 
     private:
@@ -37,6 +37,7 @@ class MapChangeScene : public IScene {
         std::shared_ptr<irr::IrrlichtDevice> _device;
         std::unique_ptr<IMap> _map;
         const std::shared_ptr<IDisplay> _display;
+        irr::scene::ICameraSceneNode *_camera;
 };
 
 

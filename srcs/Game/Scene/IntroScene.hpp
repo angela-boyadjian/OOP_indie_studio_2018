@@ -28,7 +28,7 @@ class IntroScene : public IScene {
     public:
         void deLoad() final;
         SceneInfo runScene() final;
-        void loadScene() final;
+        void loadScene(SceneInfo &) final;
         std::string getName() final;
 
     private:

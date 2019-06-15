@@ -36,20 +36,23 @@ SceneInfo MapChangeScene::runScene()
 {
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
-    if (_buttons.back()->isPressed())
-        return SceneInfo("game");
+    if (_buttons.back()->isPressed()) {
+        auto ret = SceneInfo("game");
+        ret._map = std::move(_map);
+        return ret;
+    }
     if (_buttons[0]->isPressed())
         return SceneInfo("menu");
     return SceneInfo(_name);
 }
 
-void MapChangeScene::loadScene()
+void MapChangeScene::loadScene(SceneInfo &info)
 {
     auto _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     std::cout << "mapchange load" << std::endl;
-    auto camera = _manager->addCameraSceneNode(_master.get());
-    camera->setTarget(irr::core::vector3df(0, -15, 25));
-    camera->setPosition(irr::core::vector3df(0, 60, -20));
+    _camera = _manager->addCameraSceneNode(_master.get());
+    _camera->setTarget(irr::core::vector3df(0, -15, 25));
+    _camera->setPosition(irr::core::vector3df(0, 120, -20));
     _is_load = true;
      _map->generate3dMap(-1, 80, -1);
     _dispLoader->loadMap(_map->getMapData());
