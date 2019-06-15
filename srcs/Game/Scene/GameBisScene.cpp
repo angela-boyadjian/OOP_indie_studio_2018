@@ -216,8 +216,13 @@ GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game,
     _game = std::move(game);
     _dispLoader->loadGame(_game);
     std::cout << "game" << std::endl;
-    _dispLoader->loadMap(_map->getMapData());
-
+    for (auto &t : _display->getColiMap())
+        t->setParent(_master.get());
+    for (auto &t : _display->getNonColiMap())
+        t->setParent(_master.get());
+    _dispLoader->setExplosionPos();
+    _dispLoader->setBombsPos();
+    //    _dispLoader->loadMap(_map->getMapData());
     // NOTE TEMPO
     _event = std::make_unique<Events>(Events(_display->_device, _display));
     _display->_device->setEventReceiver(_event.get());
