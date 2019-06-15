@@ -125,6 +125,7 @@ void GameBisScene::exploseEmpty(const int &x, const int &y)
         _map->getMapData()._mapWall[tmp_y][x] = '0';
         setExplosion(x, tmp_y);
     }
+    _map->getMapData()._mapWall[y][x] = '0';
 }
 
 void GameBisScene::explosion(const int &x, const int &y, const bool &b)
@@ -141,6 +142,10 @@ void GameBisScene::exploseBomb()
     for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
         if (elapsedTime.count() >= 2) {
+            std::cout << "EXPLOSION BOMB" << std::endl;
+            for (auto &m : _map->getMapData()._mapWall)
+                std::cout << m << std::endl;
+            std::cout << std::endl;
             bombs_pos.size() > 1 ? explosion(bombs_pos[i].x, bombs_pos[i].y, false)
                 : explosion(bombs_pos[i].x, bombs_pos[i].y, true);
             _display->visiBomb(bombs_pos[i].x, bombs_pos[i].y, false);
@@ -160,6 +165,10 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB and _map->getMapData()._mapWall[a.y][a.x] != '1'
                                                      and _map->getMapData()._mapWall[a.y][a.x] != '2') {
+            std::cout << "PUT BOMB" << std::endl;
+            for (auto &m : _map->getMapData()._mapWall)
+                std::cout << m << std::endl;
+            std::cout << std::endl;
             if (!isRunning)
                 _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
@@ -175,6 +184,10 @@ void GameBisScene::stopExplosion()
     for (std::size_t i {0}; i < _explosionPos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - _explosionTime[i];
         if (elapsedTime.count() >= 1) {
+            std::cout << "STOP EXPLOSION BOMB" << std::endl;
+            for (auto &m : _map->getMapData()._mapWall)
+                std::cout << m << std::endl;
+            std::cout << std::endl;
             _display->getExplosionMap()[std::get<1>(_explosionPos[i])][std::get<0>(_explosionPos[i])]->setVisible(false);
             _explosionTime.erase(_explosionTime.begin() + i);
             _explosionPos.erase(_explosionPos.begin() + i);

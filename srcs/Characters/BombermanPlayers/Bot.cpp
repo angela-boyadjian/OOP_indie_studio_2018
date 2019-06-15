@@ -219,7 +219,7 @@ void    Bot::putBomb(std::vector<std::string> &map)
                 and map[posY - i][posX] != '2')
             map[posY - i][posX] = '3';
 
-        if (posY + (i - 1) < map.size() and map[posY + i][posX] != '1'
+        if (posY + i < map.size() and map[posY + i][posX] != '1'
                 and map[posY + i][posX] != '2')
             map[posY + i][posX] = '3';
 
@@ -227,7 +227,7 @@ void    Bot::putBomb(std::vector<std::string> &map)
                 and map[posY][posX - i] != '2')
             map[posY][posX - i] = '3';
 
-        if (posX + (i - 1) < map[posY].size() and map[posY][posX + i] != '1'
+        if (posX + i < map[posY].size() and map[posY][posX + i] != '1'
                 and map[posY][posX + i] != '2')
             map[posY][posX + i] = '3';
     }
@@ -268,7 +268,7 @@ std::tuple<bool, std::size_t>           Bot::isPowerUp(std::vector<std::string> 
 std::tuple<bool, std::size_t>           Bot::isPowerDown(std::vector<std::string> &map, const int &x, const int &y)
 {
     auto count {0};
-    for (std::size_t tmpY {y + 1}; tmpY < map.size() and !isBlock(x, tmpY, map); ++tmpY) {
+    for (std::size_t tmpY = y + 1; tmpY < map.size() and !isBlock(x, tmpY, map); ++tmpY) {
         if (map[tmpY][x] >= '7')
             return std::make_tuple(true, count);
         ++count;
@@ -290,7 +290,7 @@ std::tuple<bool, std::size_t>           Bot::isPowerLeft(std::vector<std::string
 std::tuple<bool, std::size_t>           Bot::isPowerRight(std::vector<std::string> &map, const int &x, const int &y)
 {
     auto count {0};
-    for (std::size_t tmpX {x + 1}; tmpX < map[y].size() and !isBlock(tmpX, y, map); ++tmpX) {
+    for (std::size_t tmpX = x + 1; tmpX < map[y].size() and !isBlock(tmpX, y, map); ++tmpX) {
         if (map[y][tmpX] >= '7')
             return std::make_tuple(true, count);
         ++count;
