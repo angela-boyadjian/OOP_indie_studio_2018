@@ -33,6 +33,7 @@ void ChoosePlayerScene::loadScene(SceneInfo &info)
     std::cout << "load Choose player" << std::endl;
     loadImg();
     loadButton();
+//    setBackground();
     _is_load = true;
 }
 
@@ -58,6 +59,12 @@ void ChoosePlayerScene::loadImg() noexcept
 //    _images[0] = gui->addImage(irr::core::rect<irr::s32>(10, 10, 40, 40));
 //    _images[0]->setImage(texture);
 //    _images[0]->setScaleImage(true);
+    auto _camera = _manager->addCameraSceneNode(_master.get());
+    _camera->setPosition(irr::core::vector3df(0, 0, -4));
+    addPlayer("../resources/models/Character/PinkBombermanTextures.png", irr::core::vector3df(-2.2, -0.5, 0), irr::core::vector3df(0, 90, 0));//textures[static_cast<int>(color)].c_str()));
+    addPlayer("../resources/models/Character/BlackBombermanTextures.png", irr::core::vector3df(-0.8, -0.5, 0), irr::core::vector3df(0, 50, 0));//textures[static_cast<int>(color)].c_str()));
+    addPlayer("../resources/models/Character/RedBombermanTextures.png", irr::core::vector3df(0.8, -0.5, 0), irr::core::vector3df(0, 0, 0));//textures[static_cast<int>(color)].c_str()));
+    addPlayer("../resources/models/Character/WhiteBombermanTextures.png", irr::core::vector3df(2.2, -0.5, 0), irr::core::vector3df(0, 180, 0));//textures[static_cast<int>(color)].c_str()));
 }
 
 void ChoosePlayerScene::loadButton()
@@ -74,4 +81,39 @@ void ChoosePlayerScene::loadButton()
     }
     _buttons.emplace_back(gui->addButton(irr::core::rect<irr::s32>(_win_size.Width - 150, 740, _win_size.Width - 50, 740 + 20), nullptr, 102, L"Map select"));
     _buttons.emplace_back(gui->addButton(irr::core::rect<irr::s32>(50, 740, 150, 740 + 20), nullptr, 102, L"Go back"));
+}
+
+void ChoosePlayerScene::setBackground()
+{
+    auto _terrain = std::unique_ptr<irr::scene::ITerrainSceneNode>(_device->getSceneManager()->addTerrainSceneNode(
+            "../lib/irrLicht/media/terrain-heightmap.bmp",
+            nullptr, -1, irr::core::vector3df(0.f, 0.f, 0.f),
+            irr::core::vector3df(0.f, 0.f, 0.f), irr::core::vector3df(40.f, 4.4f, 40.f),
+            irr::video::SColor ( 255, 255, 255, 255 ), 5, irr::scene::ETPS_17, 4
+    ));
+    _terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    _terrain->setMaterialTexture(0, _device->getVideoDriver()->getTexture("../lib/irrLicht/media/terrain-texture.jpg"));
+    _terrain->setMaterialTexture(1, _device->getVideoDriver()->getTexture("../lib/irrLicht/media/detailmap3.jpg"));
+    _terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
+    _terrain->scaleTexture(1.0f, 20.0f);
+    auto _selector = std::unique_ptr<irr::scene::ITriangleSelector>
+            (_device->getSceneManager()->createTerrainTriangleSelector(_terrain.get(), 0));
+    _terrain->setTriangleSelector(_selector.get());
+}
+
+void ChoosePlayerScene::addPlayer(char *rsc, irr::core::vector3df pos, irr::core::vector3df rotation)
+{
+    auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Character/Bomberman.MD3"), _master.get());
+    newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    newScene->setMD2Animation(irr::scene::EMAT_ATTACK);
+//    newScene->setScale(irr::core::vector3df(6,6,6));
+    irr::core::vector3df random = irr::core::vector3df(0, 1, 0);
+    auto animation = _manager->createRotationAnimator(random);
+    newScene->addAnimator(animation);
+    newScene->setRotation(rotation);
+    newScene->setPosition(pos);
+    newScene->setAnimationSpeed(30);
+    newScene->setLoopMode(true);
+    newScene->setFrameLoop(27, 75);
+    newScene->setMaterialTexture(0, _device->getVideoDriver()->getTexture(rsc));//textures[static_cast<int>(color)].c_str()));
 }

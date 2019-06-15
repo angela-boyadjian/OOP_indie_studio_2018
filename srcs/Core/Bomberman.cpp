@@ -297,7 +297,7 @@ void core::Bomberman::loadGame(const std::string &mapPath,
 void core::Bomberman::Trun()
 {
     while (_display->isRunning()) {
-        _display->getDevice()->getVideoDriver()->beginScene(true, true,  irr::video::SColor(255, 255, 255, 255));
+        _display->getDevice()->getVideoDriver()->beginScene(true, true,  irr::video::SColor(255, 100, 101, 140));
         _manager.runCurrentScene();
         _display->getDevice()->getVideoDriver()->endScene();
     }

@@ -22,6 +22,8 @@ public:
     private:
     void loadImg() noexcept;
     void loadButton();
+    void setBackground();
+    void addPlayer(char *rsc, irr::core::vector3df pos, irr::core::vector3df rotation);
 
 private:
     std::shared_ptr<irr::scene::ISceneNode> _master;

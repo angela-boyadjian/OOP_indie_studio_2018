@@ -83,14 +83,14 @@ void SceneManager::runCurrentScene()
     _info = _scenes[std::get<0>(_current)]->runScene();
     if (_info._dest != std::get<1>(_current))
         changeCurrent(_info._dest);
-/*    if (dest == "game") {
+    if (_info._dest == "player_choose") {
        auto pos = _manager->getActiveCamera()->getTarget();
         auto posi = _manager->getActiveCamera()->getPosition();
         std::cout << "pos" << pos.X << " " << pos.Y << "  " << pos.Z
             << std::endl;
         std::cout << "posi" << posi.X << " " << posi.Y << "  " << posi.Z
             << std::endl;
-    }*/
+    }
     _manager->drawAll();
     _manager->getGUIEnvironment()->drawAll();
 }
