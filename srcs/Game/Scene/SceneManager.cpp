@@ -8,7 +8,7 @@
 #include "SceneManagerException.hpp"
 #include "SceneManager.hpp"
 
-SceneManager::SceneManager() : _current(0, "None")
+SceneManager::SceneManager() : _current(0, "None"), _info("None")
 {}
 
 void SceneManager::initManager(irr::scene::ISceneManager *scene_manageur)
@@ -58,7 +58,7 @@ void SceneManager::changeCurrent(const unsigned long current)
     if (std::get<1>(_current) != "None")
         _scenes[std::get<0>(_current)]->deLoad();
     setCurrent(current);
-    _scenes[std::get<0>(_current)]->loadScene();
+    _scenes[std::get<0>(_current)]->loadScene(_info);
 }
 
 void SceneManager::changeCurrent(const std::string &name)
@@ -66,25 +66,23 @@ void SceneManager::changeCurrent(const std::string &name)
     if (std::get<1>(_current) != "None")
         _scenes[std::get<0>(_current)]->deLoad();
     setCurrent(name);
-    _scenes[std::get<0>(_current)]->loadScene();
+    _scenes[std::get<0>(_current)]->loadScene(_info);
 }
 
 void SceneManager::loadCurrent()
 {
-    _scenes[std::get<0>(_current)]->loadScene();
+    _scenes[std::get<0>(_current)]->loadScene(_info);
 }
 
 void SceneManager::runCurrentScene()
 {
     if (std::get<1>(_current) == "None")
         throw SceneManagerException("Current is not set","None");
-    auto dest = _scenes[std::get<0>(_current)]->runScene();
-    if (dest != std::get<1>(_current)) {
-        std::cout << "DESTINATION : " << dest << std::endl;
-        changeCurrent(dest);
-    }
 //    auto pos = ->getSceneManager()->getActiveCamera()->getPosition();
 
+    _info = _scenes[std::get<0>(_current)]->runScene();
+    if (_info._dest != std::get<1>(_current))
+        changeCurrent(_info._dest);
 /*    if (dest == "game") {
        auto pos = _manager->getActiveCamera()->getTarget();
         auto posi = _manager->getActiveCamera()->getPosition();

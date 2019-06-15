@@ -6,6 +6,7 @@
 
 #include "IScene.hpp"
 #include "Events.hpp"
+#include "SceneInfo.hpp"
 
 class ChoosePlayerScene : public IScene {
 public:
@@ -14,8 +15,8 @@ public:
     ~ChoosePlayerScene() = default;
 
     void deLoad() final;
-    std::string runScene() final;
-    void loadScene() final;
+    SceneInfo runScene() final;
+    void loadScene(SceneInfo &) final;
     std::string getName() final;
 
     private:

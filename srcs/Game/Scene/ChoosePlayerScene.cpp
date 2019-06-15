@@ -17,18 +17,18 @@ ChoosePlayerScene::ChoosePlayerScene(std::shared_ptr<IDisplay> display,
 {
 }
 
-std::string ChoosePlayerScene::runScene()
+SceneInfo ChoosePlayerScene::runScene()
 {
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
     if (_buttons[1]->isPressed())
-        return "menu";
+        return SceneInfo("menu");
     if (_buttons[0]->isPressed())
-        return "map_choose";
-    return _name;
+        return SceneInfo("map_choose");
+    return SceneInfo(_name);
 }
 
-void ChoosePlayerScene::loadScene()
+void ChoosePlayerScene::loadScene(SceneInfo &info)
 {
     std::cout << "load Choose player" << std::endl;
     loadImg();

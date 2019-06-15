@@ -164,7 +164,7 @@ void GameBisScene::stopExplosion()
     }
 }
 
-std::string GameBisScene::runScene()
+SceneInfo GameBisScene::runScene()
 {
     // TEMPO - REPLACE IT BY GENERIC METHOD
     if (!_is_load)
@@ -175,7 +175,7 @@ std::string GameBisScene::runScene()
     stopExplosion();
     checkPowerUp();
   //  _display->draw();
-    return _name;
+    return SceneInfo(_name);
 }
 
 // NOTE LOAD
@@ -206,12 +206,13 @@ std::vector<std::unique_ptr<Bot>> GameBisScene::loadBot()
 }
 
 void
-GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
+GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game, SceneInfo info)
 {
-    _map = std::shared_ptr<IMap>(new Map);
-    std::cout << "rien" << std::endl;
-    _map->load(mapPath);
-    std::cout << "map" << std::endl;
+    //_map = std::shared_ptr<IMap>(new Map);
+    _map = info._map;
+    for (auto &lines : _map->getMapData()._mapWall)
+        std::cout << lines << std::endl;
+    //_map->load(mapPath);
     _game = std::move(game);
     _dispLoader->loadGame(_game);
     std::cout << "game" << std::endl;
@@ -244,7 +245,7 @@ GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &game)
     _map->getMapData()._mapWall[10][0] = '0';
 }
 
-void GameBisScene::loadScene()
+void GameBisScene::loadScene(SceneInfo &info)
 {
     /*std::cout << "load Game" << std::endl;
     irr::SKeyMap keyMap[5];                             // re-assigne les commandes
@@ -272,7 +273,7 @@ void GameBisScene::loadScene()
     auto bots = loadBot();
     auto game = std::unique_ptr<AGame>(new BombermanGame(players, bots));
     _master->setVisible(true);
-    loadGame("./../resources/maps/3", game);
+    loadGame("./../resources/maps/3", game, info);
     camera->addAnimator(_manager->createFlyStraightAnimator(
             camera->getPosition(), irr::core::vector3df(-3.18643, 10.1158, 4.47983),
             1000, false, false));

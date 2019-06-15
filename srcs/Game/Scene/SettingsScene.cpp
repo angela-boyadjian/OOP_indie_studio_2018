@@ -18,14 +18,14 @@ SettingsScene::SettingsScene(std::shared_ptr<IDisplay> display,
 {
 }
 
-std::string SettingsScene::runScene()
+SceneInfo SettingsScene::runScene()
 {
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
-    return _name;
+    return SceneInfo(_name);
 }
 
-void SettingsScene::loadScene()
+void SettingsScene::loadScene(SceneInfo &info)
 {
     std::cout << "load settings" << std::endl;
     _is_load = true;
