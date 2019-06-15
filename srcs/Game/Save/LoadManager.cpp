@@ -7,6 +7,7 @@
 
 #include <iostream>
 
+#include <Bomberman/BombermanGame.hpp>
 #include "LoadManager.hpp"
 
 LoadManager::LoadManager() : _index(0)
@@ -25,7 +26,6 @@ LoadManager::~LoadManager()
 
 std::unique_ptr<AGame> LoadManager::load()
 {
-    // auto g = std::make_unique<AGame>(_players, _bots);
     std::string line;
 
     while (std::getline(_file, line)) {
@@ -40,8 +40,7 @@ std::unique_ptr<AGame> LoadManager::load()
                 break;
         }
     }
-    // return std::move(g);
-    return nullptr;
+    return std::unique_ptr<AGame>(new BombermanGame(_players, _bots));
 }
 
 float LoadManager::convertVal(std::string &tmp, int &count)
@@ -97,7 +96,7 @@ void LoadManager::addPlayer(std::string const &line)
     auto pos {getMapPos(line, 2)};
 
     _players.push_back(std::make_unique<Player>(Player(0,
-        getSkin(line), pos)));
+        ACharacter::Color::PINK, pos)));
 }
 
 
@@ -105,8 +104,9 @@ void LoadManager::addBot(std::string const &line)
 {
     auto pos {getMapPos(line, 2)};
 
-    _bots.push_back(std::make_unique<Bot>(Bot(0, pos)));
+    _bots.push_back(std::make_unique<Bot>(Bot(1, pos)));
 }
+
 void LoadManager::printPos(ACharacter::MapPos const &pos) const
 {
     std::cout << "Pos = " << std::get<0>(pos) << " "

@@ -30,7 +30,7 @@ SceneInfo ChoosePlayerScene::runScene()
 
 void ChoosePlayerScene::loadScene(SceneInfo &info)
 {
-    std::cout << "load Choose player" << std::endl;
+    // std::cout << "load Choose player" << std::endl;
     loadImg();
     loadButton();
 //    setBackground();
@@ -41,7 +41,7 @@ std::string ChoosePlayerScene::getName() { return _name; }
 
 void ChoosePlayerScene::deLoad()
 {
-    std::cout << "Deload Choose player" << std::endl;
+    // std::cout << "Deload Choose player" << std::endl;
         _master->setVisible(false);
     for (auto &button : _buttons)
         button->remove();

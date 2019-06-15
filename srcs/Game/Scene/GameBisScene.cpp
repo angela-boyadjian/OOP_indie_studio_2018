@@ -153,6 +153,7 @@ void GameBisScene::exploseBomb()
     }
 }
 
+// FIXME Save
 void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
 {
     static bool isRunning = false;
@@ -183,6 +184,7 @@ void GameBisScene::stopExplosion()
     }
 }
 
+// NOTE Run scene
 SceneInfo GameBisScene::runScene()
 {
     // TEMPO - REPLACE IT BY GENERIC METHOD
@@ -193,17 +195,9 @@ SceneInfo GameBisScene::runScene()
     putBomb(actions);
     stopExplosion();
     checkPowerUp();
-    // auto s = SaveManager(*_game.get());
-    // s.save();
-    // auto l = LoadManager();
-    // l.load();
 //    _display->draw();
     return SceneInfo(_name);
 }
-
-// NOTE LOAD
-
-// NOTE LOAD MAP
 
 std::vector<std::unique_ptr<Player>> GameBisScene::loadPlayer()
 {
@@ -290,7 +284,6 @@ void GameBisScene::loadScene(SceneInfo &info)
 
     _manager->addCameraSceneNodeFPS(                // ajout de la camera FPS
         0, 100.0f, 0.1f, -1, keyMap, 5);*/
-
     auto camera = _manager->addCameraSceneNode(_master.get());
     camera->setPosition(irr::core::vector3df(192.264, 53.8758, 112.409));
     camera->setTarget(irr::core::vector3df(-3, -15, 15));
@@ -299,7 +292,11 @@ void GameBisScene::loadScene(SceneInfo &info)
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     auto players = loadPlayer();
     auto bots = loadBot();
+    // auto l = LoadManager();
+    // auto game = l.load();
     auto game = std::unique_ptr<AGame>(new BombermanGame(players, bots));
+    // auto s = SaveManager(*game.get(), info._map->getMapData());
+    // s.save();
     _master->setVisible(true);
     loadGame("./../resources/maps/3", game, info);
     camera->addAnimator(_manager->createFlyStraightAnimator(
