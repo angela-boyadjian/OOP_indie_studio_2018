@@ -66,5 +66,4 @@ protected:
     std::size_t         _fireRange;
     std::size_t         _bombNumber;
     std::size_t         _maxBombNumber;
-    std::tuple<float, float> _3dPos;
 };

@@ -70,6 +70,7 @@ SceneInfo MapChangeScene::runScene()
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
     if (_buttons[static_cast<int>(BUTTON::GO)]->isPressed()) {
+        std::cout << "coucou" << std::endl;
         _info._dest = "game";
         _info._map = std::move(_map);
         return _info;
@@ -109,8 +110,9 @@ void MapChangeScene::loadScene(SceneInfo &info)
     _is_load = true;
      _map->generate3dMap(-1, 80, -1);
     _dispLoader->loadMap(_map->getMapData());
-    std::cout << "toto " << _display->getColiMap().size() << std::endl;
-
+    _manager->addSkyDomeSceneNode
+            (_manager->getVideoDriver()->getTexture("./../lib/irrLicht/media/skydome2.jpg"),16,8,0.95f,2.0f);
+    _manager->getVideoDriver()->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 
 std::string MapChangeScene::getName()

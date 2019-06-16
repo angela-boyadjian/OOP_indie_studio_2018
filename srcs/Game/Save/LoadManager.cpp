@@ -10,7 +10,8 @@
 #include <Bomberman/BombermanGame.hpp>
 #include "LoadManager.hpp"
 
-LoadManager::LoadManager() : _index(0)
+LoadManager::LoadManager() : _index(0), _isMapWall(false),
+    _isRulesWall(false), _isGameLoaded(false), _isRulesGround(false)
 {
     _file.open("../srcs/Game/Save/save.txt");
 
@@ -24,9 +25,94 @@ LoadManager::~LoadManager()
         _file.close();
 }
 
-MapData &LoadManager::loadMapData()
+MapData &LoadManager::getMapData()
 {
+    if (!_isGameLoaded)
+        std::cerr << "Careful ! Game not loaded. Problems incoming !" << std::endl;
     return _mapData;
+}
+
+void LoadManager::getMapWall(std::string const &line)
+{
+    _mapData._mapWall.push_back(line);
+}
+
+void LoadManager::getRulesWall(std::string const &line)
+{
+    _mapData._rulesWall.insert({line[_index], getSpriteInfo(line)});
+    _index = 0;
+}
+
+void LoadManager::getRulesGround(std::string const &line)
+{
+    _mapData._rulesGround.insert({line[_index], getSpriteInfo(line)});
+    _index = 0;
+}
+
+std::string const LoadManager::getPath(std::string const &line)
+{
+    std::string path;
+
+    while (line[_index++] != ':')
+        path.push_back(line[_index]);
+    ++_index;
+    return path;
+}
+
+irr::core::vector3df LoadManager::getSize(std::string const &line)
+{
+    std::string tmp;
+    irr::core::vector3df vec;
+    auto count {0};
+
+    while (line[_index++]) {
+        if (line[_index] == ' ' && count == 0) {
+            vec.X = convertVal(tmp, count);
+        } else if (line[_index] == ' ' && count == 1) {
+            vec.Y = convertVal(tmp, count);
+        } else if (line[_index] == ':') {
+            vec.Z = std::atof(tmp.c_str());
+            break;
+        }
+        tmp.push_back(line[_index]);
+    }
+    ++_index;
+    return vec;
+}
+
+SpriteInfo &LoadManager::getSpriteInfo(std::string const &line)
+{
+    _index = 4;
+    auto sprite = new SpriteInfo(SpriteInfo(std::to_string(line[0]), getPath(line),
+        getPath(line), getSize(line), line[_index] == '1' ? true : false));
+
+    return *sprite;
+}
+
+void LoadManager::getInfo(std::string const &line)
+{
+    switch (line[0]) {
+        case 'P' :
+            addPlayer(line);
+            break;
+        case 'B' :
+            addBot(line);
+            break;
+        case 'T' :
+            _mapData._time = line[2] - 48;
+            break;
+        case 'E' :
+            _mapData._nbEnnemie = line[2] - 48;
+            break;
+        default :
+            if (_isMapWall)
+                getMapWall(line);
+            else if (_isRulesWall)
+                getRulesWall(line);
+            else if (_isRulesGround)
+                getRulesGround(line);
+            break;
+    }
 }
 
 std::unique_ptr<AGame> LoadManager::loadGame()
@@ -34,21 +120,21 @@ std::unique_ptr<AGame> LoadManager::loadGame()
     std::string line;
 
     while (std::getline(_file, line)) {
-        switch (line[0]) {
-            case 'P' :
-                addPlayer(line);
-                break;
-            case 'B' :
-                addBot(line);
-                break;
-            case 'T' :
-                break;
-            case 'E' :
-                break;
-            default :
-                break;
+        if (!_isMapWall && !_isRulesWall && !_isRulesGround) {
+            if (line.compare("MapWall") == 0)
+                _isMapWall = true;
+            else if (line.compare("RulesWall")) {
+                _isRulesWall = true;
+                _isMapWall = false;
+            } else if (line.compare("RulesGround")) {
+                _isRulesGround = true;
+                _isRulesWall = false;
+            }
+        } else {
+            getInfo(line);
         }
     }
+    _isGameLoaded = true;
     return std::unique_ptr<AGame>(new BombermanGame(_players, _bots));
 }
 
@@ -85,7 +171,7 @@ ACharacter::MapPos LoadManager::getMapPos(std::string const &line, int i)
 
 ACharacter::Color LoadManager::getSkin(std::string const &line)
 {
-    auto n {line[_index] + 48};
+    auto n {line[_index] - 48};
 
     _index += 2;
     switch (n) {
@@ -105,7 +191,8 @@ void LoadManager::addPlayer(std::string const &line)
     auto pos {getMapPos(line, 2)};
 
     _players.push_back(std::make_unique<Player>(Player(0,
-        ACharacter::Color::WHITE, pos)));
+        getSkin(line), pos)));
+    _index = 0;
 }
 
 void LoadManager::addBot(std::string const &line)

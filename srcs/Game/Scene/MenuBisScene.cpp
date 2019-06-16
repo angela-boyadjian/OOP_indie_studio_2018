@@ -56,6 +56,9 @@ void MenuBisScene::loadScene(SceneInfo &info)
     _cubes.emplace_back(_manager->addCubeSceneNode(10.0f, _master.get(), -1, irr::core::vector3df(0.0f, 0.0f, 20.0f)));
     _cubes.back()->setMaterialFlag(irr::video::EMF_WIREFRAME, true);
     loadButtons();
+    _manager->addSkyDomeSceneNode
+            (_manager->getVideoDriver()->getTexture("./../lib/irrLicht/media/skydome.jpg"),16,8,0.95f,2.0f);
+    _manager->getVideoDriver()->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 
 std::string MenuBisScene::getName() { return _name; }

@@ -12,6 +12,8 @@
 #include "ILoad.hpp"
 #include "Player.hpp"
 #include "Bot.hpp"
+#include "MapData.hpp"
+#include "SpriteInfo.hpp"
 
 class LoadManager : public ILoad {
 public:
@@ -21,7 +23,7 @@ public:
     LoadManager();
     ~LoadManager();
 
-    MapData &loadMapData();
+    MapData &getMapData();
     std::unique_ptr<AGame> loadGame();
 
 private:
@@ -30,16 +32,27 @@ private:
     void addPlayer(std::string const &);
 
     // NOTE Utils
-    float convertVal(std::string &, int &);
-    ACharacter::Color getSkin(std::string const &);
-    ACharacter::MapPos  getMapPos(std::string const &, int);
+    ACharacter::Color       getSkin(std::string const &);
+    void                    getInfo(std::string const &);
+    irr::core::vector3df    getSize(std::string const &);
+    void                    getMapWall(std::string const &);
+    std::string const       getPath(std::string const &);
+    float                   convertVal(std::string &, int &);
+    void                    getRulesWall(std::string const &);
+    void                    getRulesGround(std::string const &);
+    SpriteInfo              &getSpriteInfo(std::string const &);
+    ACharacter::MapPos      getMapPos(std::string const &, int);
 
     // NOTE Display
     void printPos(ACharacter::MapPos const &) const;
 private:
-    MapData         _mapData;
     BotVec          _bots;
     std::ifstream   _file;
-    PlayerVec       _players;
     std::size_t     _index;
+    PlayerVec       _players;
+    MapData         _mapData;
+    bool            _isMapWall;
+    bool            _isRulesWall;
+    bool            _isGameLoaded;
+    bool            _isRulesGround;
 };

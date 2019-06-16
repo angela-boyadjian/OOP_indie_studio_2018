@@ -23,9 +23,6 @@ void    Player::putBomb(std::vector<std::string> &map)
     auto    posX {std::get<0>(_2dPos)};
     auto    posY {std::get<1>(_2dPos)};
 
-    //std::cout << "Pos X = " << posX << std::endl;
-    //std::cout << "Pos Y = " << posY << std::endl;
-
     map[posY][posX] = '5';
     for (auto i {1}; i < _fireRange + 1; ++i) {
         if (posY - i >= 0 and map[posY - i][posX] != '1'
@@ -48,6 +45,8 @@ void    Player::putBomb(std::vector<std::string> &map)
 
 void    Player::takeBonus(std::vector<std::string> &map)
 {
+    std::cout << "posX = " << std::get<0>(_2dPos) << std::endl;
+    std::cout << "posY = " << std::get<1>(_2dPos) << std::endl;
     auto b = map[std::get<1>(_2dPos)][std::get<0>(_2dPos)];
     if (b >= '7') {
         auto pu = PowerUp(b - 7 - 48);
