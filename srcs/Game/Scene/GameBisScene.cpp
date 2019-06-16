@@ -25,11 +25,13 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
     _device(device),
     _event(event),
     _display(display),
+    _isPlaying(false),
     _powerUpPath({"../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"})
 {
     addSfEffect("PUT_BOMB", "./../resources/sounds/Bomb/BombClock.wav");
     addSfEffect("BOMB_EXP", "./../resources/sounds/Bomb/BombExplode.wav");
     addSfEffect("DEATH", "./../resources/sounds/Character/CharacterDeath.wav");
+    addSfEffect("MUSIC", "./../resources/sounds/rasputin.wav");
     _master->setVisible(false);
 }
 
@@ -38,6 +40,7 @@ GameBisScene::~GameBisScene()
     _sfEffects["BOMB_EXP"]->stop();
     _sfEffects["PUT_BOMB"]->stop();
     _sfEffects["DEATH"]->stop();
+    _sfEffects["MUSIC"]->stop();
 }
 
 std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
@@ -233,6 +236,10 @@ void GameBisScene::stopExplosion()
 SceneInfo GameBisScene::runScene()
 {
     // TEMPO - REPLACE IT BY GENERIC METHOD
+    if (!_isPlaying) {
+        _isPlaying = true;
+        _sfEffects["MUSIC"]->play();
+    }
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
     exploseBomb();

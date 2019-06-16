@@ -79,6 +79,7 @@ class GameBisScene : public IScene {
         void addSfEffect(const std::string &, const std::string &);
 
     private:
+        bool _isPlaying;
         std::shared_ptr<irr::scene::ISceneNode> _master;
         irr::scene::ISceneManager *_manager;
         std::string _name;
