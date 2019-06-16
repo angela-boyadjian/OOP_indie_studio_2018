@@ -75,34 +75,34 @@ void    ABombermanPlayer::moveRight()
 
 void    ABombermanPlayer::isWallUp(IDisplay *d)
 {
-    std::get<2>(_pos) += 3;
+    std::get<2>(_pos) += 2;
     d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[0] = d->isCollision(getEntityNb());
-    std::get<2>(_pos) -= 3;
+    std::get<2>(_pos) -= 2;
 }
 
 void    ABombermanPlayer::isWallDown(IDisplay *d)
 {
-    std::get<2>(_pos) -= 3;
+    std::get<2>(_pos) -= 2;
     d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[1] = d->isCollision(getEntityNb());
-    std::get<2>(_pos) += 3;
+    std::get<2>(_pos) += 2;
 }
 
 void    ABombermanPlayer::isWallLeft(IDisplay *d)
 {
-    std::get<0>(_pos) -= 3;
+    std::get<0>(_pos) -= 2;
     d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[2] = d->isCollision(getEntityNb());
-    std::get<0>(_pos) += 3;
+    std::get<0>(_pos) += 2;
 }
 
 void    ABombermanPlayer::isWallRight(IDisplay *d)
 {
-    std::get<0>(_pos) += 3;
+    std::get<0>(_pos) += 2;
     d->changeModelPos(getEntityNb(), std::make_tuple(std::get<0>(_pos), 0, std::get<2>(_pos)));
     _walls[3] = d->isCollision(getEntityNb());
-    std::get<0>(_pos) -= 3;
+    std::get<0>(_pos) -= 2;
 }
 
 void    ABombermanPlayer::isWalls(IDisplay *d)

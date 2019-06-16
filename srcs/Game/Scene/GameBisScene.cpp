@@ -251,7 +251,7 @@ void GameBisScene::placeCharacter(std::shared_ptr<ACharacter> character)
                         character->getMapPos())));
         break;
     case 1:
-        character->setPos2d(std::make_tuple(10, 0));
+        character->setPos2d(std::make_tuple(0, 10));
         character->setPosZ(
         std::get<2>(character->getMapPos()) - 70);
         changeModelPos(character->getEntityNb(),
@@ -261,11 +261,11 @@ void GameBisScene::placeCharacter(std::shared_ptr<ACharacter> character)
                                  std::get<2>(character->getMapPos())));
         break;
     case 2:
-        character->setPos2d(std::make_tuple(0, 10));
+        character->setPos2d(std::make_tuple(12, 0));
         character->setPosZ(
             std::get<2>(character->getMapPos()) + 30);
         character->setPosX(
-            std::get<2>(character->getMapPos()) + 80);
+            std::get<2>(character->getMapPos()) + 90);
         changeModelPos(character->getEntityNb(), std::make_tuple(
             std::get<0>(
                 character->getMapPos()),
@@ -275,11 +275,11 @@ void GameBisScene::placeCharacter(std::shared_ptr<ACharacter> character)
                         character->getMapPos())));
         break;
     case 3:
-        character->setPos2d(std::make_tuple(10, 10));
+        character->setPos2d(std::make_tuple(12, 10));
        character->setPosZ(
             std::get<2>(character->getMapPos()) - 70);
         character->setPosX(
-            std::get<2>(character->getMapPos()) + 80);
+            std::get<2>(character->getMapPos()) + 190);
         changeModelPos(character->getEntityNb(), std::make_tuple(
             std::get<0>(
                 character->getMapPos()),

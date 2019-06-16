@@ -12,11 +12,38 @@ Player::Player(const std::size_t &enb, ACharacter::Color color, MapPos const &po
     ABombermanPlayer(enb, pos, color)
 {
     _action = ACharacter::Action::WAIT;
-    _2dPos = std::make_tuple(0, 0);
 }
 
 Player::~Player()
 {
+}
+
+void    Player::putBomb(std::vector<std::string> &map)
+{
+    auto    posX {std::get<0>(_2dPos)};
+    auto    posY {std::get<1>(_2dPos)};
+
+    //std::cout << "Pos X = " << posX << std::endl;
+    //std::cout << "Pos Y = " << posY << std::endl;
+
+    map[posY][posX] = '5';
+    for (auto i {1}; i < _fireRange + 1; ++i) {
+        if (posY - i >= 0 and map[posY - i][posX] != '1'
+            and map[posY - i][posX] != '2')
+            map[posY - i][posX] = '3';
+
+        if (posY + i < map.size() and map[posY + i][posX] != '1'
+            and map[posY + i][posX] != '2')
+            map[posY + i][posX] = '3';
+
+        if (posX - i >= 0 and map[posY][posX - i] != '1'
+            and map[posY][posX - i] != '2')
+            map[posY][posX - i] = '3';
+
+        if (posX + i < map[posY].size() and map[posY][posX + i] != '1'
+            and map[posY][posX + i] != '2')
+            map[posY][posX + i] = '3';
+    }
 }
 
 void    Player::takeBonus(std::vector<std::string> &map)
@@ -56,7 +83,10 @@ ACharacter::move_t  Player::move(std::vector<std::string> &map, IDisplay *d)
         case ACharacter::Action::BOMB:
             if (_bombNumber == 0)
                 _action = ACharacter::Action::WAIT;
-            _bombNumber -= 1;
+            else {
+                putBomb(map);
+                _bombNumber -= 1;
+            }
             break;
         default:
             break;
