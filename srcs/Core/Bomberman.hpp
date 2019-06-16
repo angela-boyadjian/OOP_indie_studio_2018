@@ -83,7 +83,5 @@ private:
     std::vector<std::tuple<int, int>>   _explosionPos;
     std::vector<std::chrono::time_point<std::chrono::system_clock>> _explosionTime;
     std::vector<std::size_t> _rm;
-
-
 //    std::vector<IDisplay::Scenes> _sceneManager;
 };
