@@ -23,12 +23,17 @@ SceneInfo SettingsScene::runScene()
 {
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
-    return SceneInfo(_name);
+    return SceneInfo("player_choose");
 }
 
 void SettingsScene::loadScene(SceneInfo &info)
 {
+    // auto load = LoadManager();
     std::cout << "load settings" << std::endl;
+
+    // info._map = load.getMap();
+    // info.load = true;
+    // info._dest = "player_choose";
     _is_load = true;
 }
 

@@ -14,7 +14,7 @@
 #include "BombermanPlayers/Bot.hpp"
 
 struct SceneInfo {
-        SceneInfo(const std::string dest) : _dest(dest) {};
+SceneInfo(const std::string dest) : _dest(dest) {};
 
         std::string _dest;
         std::shared_ptr<IMap> _map;
