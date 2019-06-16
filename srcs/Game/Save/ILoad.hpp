@@ -15,7 +15,7 @@ public:
     virtual ~ILoad() {};
 
 public:
-    virtual MapData &loadMapData() = 0;
+    virtual MapData &getMapData() = 0;
     virtual std::unique_ptr<AGame> loadGame() = 0;
 
 private:

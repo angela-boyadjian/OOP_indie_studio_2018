@@ -359,8 +359,6 @@ void GameBisScene::loadScene(SceneInfo &info)
 
     _is_load = true;
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
-    // auto players = loadPlayer();
-    // auto bots = loadBot();
     // auto l = LoadManager();
     // auto game = l.loadGame();
     // auto s = SaveManager(*game.get(), info._map->getMapData());
