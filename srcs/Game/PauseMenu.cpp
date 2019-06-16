@@ -25,7 +25,7 @@ void PauseMenu::switchStatus()
 
 void PauseMenu::runPause()
 {
-    std::cout << "coucou" << std::endl;
+    // std::cout << "coucou" << std::endl;
     if (_event->IsKeyDown(irr::KEY_ESCAPE))
         switchStatus();
     while (_status) {

@@ -70,7 +70,7 @@ SceneInfo MapChangeScene::runScene()
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
     if (_buttons[static_cast<int>(BUTTON::GO)]->isPressed()) {
-        std::cout << "coucou" << std::endl;
+        // std::cout << "coucou" << std::endl;
         _info._dest = "game";
         _info._map = std::move(_map);
         return _info;

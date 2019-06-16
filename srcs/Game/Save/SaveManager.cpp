@@ -77,9 +77,18 @@ void SaveManager::addRules()
     }
     _file << "RulesGround" << std::endl;
     for (auto const &ground : _mapData._rulesGround) {
-        _file << ground.first << ":";
-        addSpriteInfo(ground.second);
-        _file << std::endl;
+        if (ground.first == '0') {
+            _file << ground.first << ":";
+            addSpriteInfo(ground.second);
+            _file << std::endl;
+        }
+    }
+    for (auto const &ground : _mapData._rulesGround) {
+        if (ground.first == '1') {
+            _file << ground.first << ":";
+            addSpriteInfo(ground.second);
+            _file << std::endl;
+        }
     }
 }
 

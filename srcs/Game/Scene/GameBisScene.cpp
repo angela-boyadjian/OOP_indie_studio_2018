@@ -199,6 +199,8 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB and _map->getMapData()._mapWall[a.y][a.x] != '1'
                                                      and _map->getMapData()._mapWall[a.y][a.x] != '2') {
+            // auto s = SaveManager(*_game.get(), _map->getMapData());
+            // s.save();
             if (!isRunning)
                 _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
