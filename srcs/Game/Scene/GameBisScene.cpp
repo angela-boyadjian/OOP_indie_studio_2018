@@ -54,11 +54,12 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
 
 void    GameBisScene::checkPowerUp()
 {
-    for (auto i {0}; i < _powerUp.size(); ++i) {
+    for (auto i {0}; i < _powerUpPos.size(); ++i) {
         if (_map->getMapData()._mapWall[std::get<1>(_powerUpPos[i])][std::get<0>(_powerUpPos[i])] < '7')
             _powerUp[i]->setVisible(false);
     }
 }
+
 void GameBisScene::removeBlock(const int &x, const int &y, bool neg)
 {
     auto index = getColiIndex(x, y) - neg;
@@ -240,53 +241,41 @@ void GameBisScene::placeCharacter(std::shared_ptr<ACharacter> character)
     switch (character->getEntityNb()) {
     case 0:
         character->setPos2d(std::make_tuple(0, 0));
-        character->setPosZ(
-            std::get<2>(character->getMapPos()) + 30);
+        character->setPosZ(std::get<2>(character->getMapPos()) + 30);
         changeModelPos(character->getEntityNb(), std::make_tuple(
-            std::get<0>(
-                character->getMapPos()),
-                std::get<1>(
-                    character->getMapPos()),
-                    std::get<2>(
-                        character->getMapPos())));
+            std::get<0>(character->getMapPos()),
+            std::get<1>(character->getMapPos()),
+            std::get<2>(character->getMapPos())));
+        character->setPos3d(std::make_tuple(5, 5));
         break;
     case 1:
         character->setPos2d(std::make_tuple(0, 10));
-        character->setPosZ(
-        std::get<2>(character->getMapPos()) - 70);
-        changeModelPos(character->getEntityNb(),
-                             std::make_tuple(
-                                 std::get<0>(character->getMapPos()),
-                                 std::get<1>(character->getMapPos()),
-                                 std::get<2>(character->getMapPos())));
+        character->setPosZ(std::get<2>(character->getMapPos()) - 70);
+        changeModelPos(character->getEntityNb(),std::make_tuple(
+            std::get<0>(character->getMapPos()),
+            std::get<1>(character->getMapPos()),
+            std::get<2>(character->getMapPos())));
+        character->setPos3d(std::make_tuple(0, 105));
         break;
     case 2:
         character->setPos2d(std::make_tuple(12, 0));
-        character->setPosZ(
-            std::get<2>(character->getMapPos()) + 30);
-        character->setPosX(
-            std::get<2>(character->getMapPos()) + 90);
+        character->setPosZ(std::get<2>(character->getMapPos()) + 30);
+        character->setPosX(std::get<2>(character->getMapPos()) + 90);
         changeModelPos(character->getEntityNb(), std::make_tuple(
-            std::get<0>(
-                character->getMapPos()),
-                std::get<1>(
-                    character->getMapPos()),
-                    std::get<2>(
-                        character->getMapPos())));
+            std::get<0>(character->getMapPos()),
+            std::get<1>(character->getMapPos()),
+            std::get<2>(character->getMapPos())));
+        character->setPos3d(std::make_tuple(125, 5));
         break;
     case 3:
         character->setPos2d(std::make_tuple(12, 10));
-       character->setPosZ(
-            std::get<2>(character->getMapPos()) - 70);
-        character->setPosX(
-            std::get<2>(character->getMapPos()) + 190);
+        character->setPosZ(std::get<2>(character->getMapPos()) - 70);
+        character->setPosX(std::get<2>(character->getMapPos()) + 190);
         changeModelPos(character->getEntityNb(), std::make_tuple(
-            std::get<0>(
-                character->getMapPos()),
-                std::get<1>(
-                    character->getMapPos()),
-                    std::get<2>(
-                        character->getMapPos())));
+            std::get<0>(character->getMapPos()),
+            std::get<1>(character->getMapPos()),
+            std::get<2>(character->getMapPos())));
+        character->setPos3d(std::make_tuple(125, 105));
     default:
         break;
     }
@@ -299,11 +288,11 @@ void GameBisScene::placePlayer()
     int idx = 0;
 
     while (idx != 4) {
-        for (auto play : player) {
+        for (auto &play : player) {
             if (play->getEntityNb() == idx)
                 placeCharacter(play);
         }
-        for (auto b : bot) {
+        for (auto &b : bot) {
             if (b->getEntityNb() == idx)
                 placeCharacter(b);
         }

@@ -55,6 +55,7 @@ public:
     void    setPosY(const float &);
     void    setPosX(const float &);
     void    setPos2d(std::tuple<int, int> const &pos);
+    void    setPos3d(std::tuple<float, float> const &pos);
 
     // GETTERS
     KeyMap              &getKeyMap();
@@ -69,6 +70,7 @@ public:
     std::vector<std::string>    _textures;
 protected:
     MapPos                      _pos;
+    std::tuple<float, float>    _3dPos;
     std::size_t                 _speed;
     KeyMap                      _keyMap;
     Action                      _action;
