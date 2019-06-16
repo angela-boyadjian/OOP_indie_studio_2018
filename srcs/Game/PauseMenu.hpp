@@ -16,12 +16,19 @@
 
 class PauseMenu {
     public:
-        PauseMenu(irr::scene::ISceneNode *,  irr::scene::ISceneManager *, const irr::core::dimension2du &, std::shared_ptr<Events>);
+
+        enum class BUTTON {
+                MENU = 0,
+                SAVE,
+                RESUME,
+        };
+
+        PauseMenu(irr::scene::ISceneNode *,  irr::scene::ISceneManager *, const irr::core::dimension2du &, std::shared_ptr<Events>, std::shared_ptr<irr::IrrlichtDevice>);
         ~PauseMenu() = default;
 
         void switchStatus();
         bool getStatus() { return _status; };
-        void runPause();
+        std::string runPause(const std::string &);
 
     private:
         const irr::core::dimension2du &_win_size;
@@ -29,6 +36,8 @@ class PauseMenu {
         std::vector<std::shared_ptr<irr::gui::IGUIButton>> _buttons;
         std::shared_ptr<Events> _event;
         bool _status;
+        int _delay;
+        std::chrono::time_point<std::chrono::system_clock> _start;
 };
 
 

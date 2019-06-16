@@ -26,8 +26,7 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
     _device(device),
     _event(event),
     _display(display),
-    _powerUpPath({"../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"}),
-    _pause(_master.get(), _manager, device->getVideoDriver()->getScreenSize(), event)
+    _powerUpPath({"../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"})
 {
     addSfEffect("PUT_BOMB", "./../resources/sounds/Bomb/BombClock.wav");
     addSfEffect("BOMB_EXP", "./../resources/sounds/Bomb/BombExplode.wav");
@@ -214,7 +213,7 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
 void GameBisScene::stopExplosion()
 {
     for (std::size_t i {0}; i < _explosionPos.size(); ++i) {
-        std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - _explosionTime[i];
+        std::chrono::duration<double> elapsedTime = std::chrono::system_clock::now() - _explosionTime[i];
         if (elapsedTime.count() >= 1) {
             _display->getExplosionMap()[std::get<1>(_explosionPos[i])][std::get<0>(_explosionPos[i])]->setVisible(false);
             _explosionTime.erase(_explosionTime.begin() + i);
@@ -224,11 +223,24 @@ void GameBisScene::stopExplosion()
     }
 }
 
+bool GameBisScene::pauseEvent()
+{
+    if (_event->IsKeyDown(irr::KEY_ESCAPE))
+        _pause->switchStatus();
+    if (_pause->getStatus()) {
+        _name = _pause->runPause(_name);
+        return true;
+    }
+    return false;
+}
+
+
 // NOTE Run scene
 SceneInfo GameBisScene::runScene()
 {
     // TEMPO - REPLACE IT BY GENERIC METHOD
-
+    if (pauseEvent())
+        return SceneInfo(_name);
     if (!_isPlaying) {
         _isPlaying = true;
         _sfEffects["MUSIC"]->play();
@@ -243,9 +255,7 @@ SceneInfo GameBisScene::runScene()
     auto actions = action();
     putBomb(actions);
     stopExplosion();
-    _pause.runPause();
     checkPowerUp();
-//    _display->draw();
     return SceneInfo(_name);
 }
 
@@ -364,12 +374,31 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
 
 void GameBisScene::loadScene(SceneInfo &info)
 {
+
+/*    //La camera
+    irr::SKeyMap keyMap[5];
+    keyMap[0].Action = irr::EKA_MOVE_FORWARD;
+    keyMap[0].KeyCode = irr::KEY_KEY_Z;
+    keyMap[1].Action = irr::EKA_MOVE_BACKWARD;
+    keyMap[1].KeyCode = irr::KEY_KEY_S;
+    keyMap[2].Action = irr::EKA_STRAFE_LEFT;
+    keyMap[2].KeyCode = irr::KEY_KEY_Q;
+    keyMap[3].Action = irr::EKA_STRAFE_RIGHT;
+    keyMap[3].KeyCode = irr::KEY_KEY_D;
+    keyMap[4].Action = irr::EKA_JUMP_UP;
+    keyMap[4].KeyCode = irr::KEY_SPACE;
+    irr::scene::ICameraSceneNode *ccamera;
+    ccamera = _manager->addCameraSceneNodeFPS (0,100.0f,0.02f, -1, keyMap, 15, false, 0.4);
+    ccamera->setPosition(irr::core::vector3df(0.0f, 0.0f, 0.0f));*/
+
+
     auto camera = _manager->addCameraSceneNode(_master.get());
     camera->setPosition(irr::core::vector3df(192.264, 53.8758, 112.409));
     camera->setTarget(irr::core::vector3df(-3, -15, 15));
 
     _is_load = true;
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
+    _pause = std::make_unique<PauseMenu>(_master.get(), _manager, _device->getVideoDriver()->getScreenSize(), _event, _device);
     auto game = std::unique_ptr<AGame>(new BombermanGame(info._players, info._bot));
     _master->setVisible(true);
     loadGame("./../resources/maps/3", game, info);
