@@ -316,7 +316,7 @@ void    IrrlichtDisplayLoader::loadMenu(const std::unique_ptr<Menu> &menu)
     IDisplay::Gui const &gui = _d->getGui();
     IDisplay::Device const &device = _d->getDevice();
     auto screenSize = _d->getScreenSize();
-    auto image = _d->_driver->getTexture("./../resources/ui/bombermanBackground.png");
+    auto image = _d->_driver->getTexture("./../resources/ui/bombermanBackground.jpg");
 
     auto img = gui->addImage(irr::core::rect<irr::s32>(0, 0, screenSize.Width, screenSize.Height));
     img->setImage(image);

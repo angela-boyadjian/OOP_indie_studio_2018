@@ -18,6 +18,7 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
                            irr::scene::ISceneNode *father,
                            const std::string &name,
                            std::shared_ptr<Events> event,  std::shared_ptr<IDisplay> display) :
+    _isPlaying(false),
     _master(device->getSceneManager()->addEmptySceneNode(father)),
     _manager(device->getSceneManager()),
     _name(name),
@@ -25,7 +26,6 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
     _device(device),
     _event(event),
     _display(display),
-    _isPlaying(false),
     _powerUpPath({"../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"})
 {
     addSfEffect("PUT_BOMB", "./../resources/sounds/Bomb/BombClock.wav");

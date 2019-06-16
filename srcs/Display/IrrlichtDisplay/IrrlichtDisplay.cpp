@@ -10,7 +10,7 @@ IrrlichtDisplay::IrrlichtDisplay()
 void    IrrlichtDisplay::setDisplay(Events *events)
 {
     _device = std::unique_ptr<irr::IrrlichtDevice>(irr::createDevice(irr::video::EDT_OPENGL,
-                                         irr::core::dimension2d<irr::u32>(1200, 800), 16, false, false, false, events));
+                                         irr::core::dimension2d<irr::u32>(1600, 800), 16, false, false, false, events));
     if (!_device)
         throw DeviceCreationError();
     _device->setWindowCaption(L"Bomberman");
