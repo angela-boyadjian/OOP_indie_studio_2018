@@ -17,6 +17,7 @@
 #include "BombermanPlayers/Bot.hpp"
 #include "IMap.hpp"
 #include "SceneInfo.hpp"
+#include "PauseMenu.hpp"
 
 #define posX -60
 #define posY -90
@@ -46,6 +47,7 @@ class GameBisScene : public IScene {
         // POWER UP
         void checkPowerUp();
         // BOMB
+
         void killPlayers(const int &, const int &);
         void exploseBomb();
         void explosion(const int &, const int &, const bool &);
@@ -105,4 +107,6 @@ class GameBisScene : public IScene {
         Map3D _powerUp;
         std::vector<std::tuple<int, int>> _powerUpPos;
         std::vector<std::string> _powerUpPath;
+
+       PauseMenu _pause;
 };

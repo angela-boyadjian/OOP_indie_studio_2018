@@ -26,7 +26,8 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
     _event(event),
     _display(display),
     _isPlaying(false),
-    _powerUpPath({"../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"})
+    _powerUpPath({"../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"}),
+    _pause(_master.get(), _manager, device->getVideoDriver()->getScreenSize(), event)
 {
     addSfEffect("PUT_BOMB", "./../resources/sounds/Bomb/BombClock.wav");
     addSfEffect("BOMB_EXP", "./../resources/sounds/Bomb/BombExplode.wav");
@@ -178,10 +179,6 @@ void GameBisScene::exploseBomb()
     for (auto i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
         if (elapsedTime.count() >= 2) {
-            std::cout << "EXPLOSION BOMB" << std::endl;
-            for (auto &m : _map->getMapData()._mapWall)
-                std::cout << m << std::endl;
-            std::cout << std::endl;
             bombs_pos.size() > 1 ? explosion(bombs_pos[i].x, bombs_pos[i].y, false)
                 : explosion(bombs_pos[i].x, bombs_pos[i].y, true);
             _display->visiBomb(bombs_pos[i].x, bombs_pos[i].y, false);
@@ -202,10 +199,6 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB and _map->getMapData()._mapWall[a.y][a.x] != '1'
                                                      and _map->getMapData()._mapWall[a.y][a.x] != '2') {
-            std::cout << "PUT BOMB" << std::endl;
-            for (auto &m : _map->getMapData()._mapWall)
-                std::cout << m << std::endl;
-            std::cout << std::endl;
             if (!isRunning)
                 _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
@@ -221,10 +214,6 @@ void GameBisScene::stopExplosion()
     for (auto i {0}; i < _explosionPos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - _explosionTime[i];
         if (elapsedTime.count() >= 1) {
-            std::cout << "STOP EXPLOSION BOMB" << std::endl;
-            for (auto &m : _map->getMapData()._mapWall)
-                std::cout << m << std::endl;
-            std::cout << std::endl;
             _display->getExplosionMap()[std::get<1>(_explosionPos[i])][std::get<0>(_explosionPos[i])]->setVisible(false);
             _explosionTime.erase(_explosionTime.begin() + i);
             _explosionPos.erase(_explosionPos.begin() + i);
@@ -237,6 +226,7 @@ void GameBisScene::stopExplosion()
 SceneInfo GameBisScene::runScene()
 {
     // TEMPO - REPLACE IT BY GENERIC METHOD
+
     if (!_isPlaying) {
         _isPlaying = true;
         _sfEffects["MUSIC"]->play();
@@ -247,6 +237,7 @@ SceneInfo GameBisScene::runScene()
     auto actions = action();
     putBomb(actions);
     stopExplosion();
+    _pause.runPause();
     checkPowerUp();
 //    _display->draw();
     return SceneInfo(_name);
@@ -343,8 +334,6 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
 {
     //_map = std::shared_ptr<IMap>(new Map);
     _map = info._map;
-    for (auto &lines : _map->getMapData()._mapWall)
-        std::cout << lines << std::endl;
     //_map->load(mapPath);
     _game = std::move(game);
     _display->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
@@ -352,10 +341,7 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
     (_display->_driver->getTexture("./../resources/textures/skyboxes/skybox1.jpg"),16,8,0.95f,2.0f);
     _display->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
     _dispLoader->loadGame(_game);
-    std::cout << "game" << std::endl;
     _dispLoader->loadMap(_map->getMapData());
-    std::cout << _display->getColiMap().size() << std::endl;
-    std::cout << _display->getNonColiMap().size() << std::endl;
     _dispLoader->setExplosionPos();
     _dispLoader->setBombsPos();
     //    _dispLoader->loadMap(_map->getMapData());
