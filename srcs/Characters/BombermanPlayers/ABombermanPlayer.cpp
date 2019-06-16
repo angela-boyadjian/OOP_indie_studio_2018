@@ -9,7 +9,7 @@
 
 ABombermanPlayer::ABombermanPlayer(const std::size_t &enb, const MapPos &pos,
                        const Color &color) : ACharacter(enb, pos, color),
-        _fireRange(1), _bombNumber(1), _maxBombNumber(1)
+            _speed(0.3), _fireRange(1), _bombNumber(1), _maxBombNumber(1)
 {
     _textures = std::vector<std::string>({"../resources/models/Character/BlackBombermanTextures.png",
                "../resources/models/Character/PinkBombermanTextures.png",

@@ -316,6 +316,8 @@ bool    Bot::takeBonus(std::vector<std::string> &map)
         else if (pu == PowerUp::BOMB) {
             _maxBombNumber += 1;
             increaseBombNumber();
+        } else if (pu == PowerUp::SPEED) {
+            _speed -= 0.03;
         }
         map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] = '0';
         return true;
@@ -361,7 +363,7 @@ ACharacter::move_t  Bot::move(std::vector<std::string> &map, IDisplay *d)
     }
     std::chrono::duration<double> diff = std::chrono::system_clock::now() - _c;
 
-    if (diff.count() > 0.3)
+    if (diff.count() > _speed)
         _c = std::chrono::system_clock::now();
     else {
         if (_lastDirection != ACharacter::Action::BOMB)

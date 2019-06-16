@@ -59,17 +59,14 @@ void core::Bomberman::setMusic()
 // ATTTET
 std::size_t core::Bomberman::getColiIndex(const int &x, const int &y)
 {
-    auto count {0};
+    std::size_t count {0};
 
-    for (auto j {0}; j < y; ++j)
-        for (auto i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
+    for (int j {0}; j < y; ++j)
+        for (std::size_t i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
             if (_map->getMapData()._mapWall[j][i] == '2')
                 ++count;
-    for (auto i {0}; i <= x; ++i)
+    for (int i {0}; i <= x; ++i)
         if (_map->getMapData()._mapWall[y][i] == '2')
-            ++count;
-    for (auto &r : _rm)
-        if (count > r)
             ++count;
     return count;
 }
@@ -91,7 +88,8 @@ void    core::Bomberman::exploseEmpty(const int &x, const int &y)
         setExplosion(tmp_x, y);
     }
     tmp_x = x;
-    while (++tmp_x < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][tmp_x] == '3') {
+    while (++tmp_x < static_cast<int>(_map->getMapData()._mapWall[y].size())
+            and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
         setExplosion(tmp_x, y);
     }
@@ -100,7 +98,8 @@ void    core::Bomberman::exploseEmpty(const int &x, const int &y)
         setExplosion(x, tmp_y);
     }
     tmp_y = y;
-    while (++tmp_y < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[tmp_y][x] == '3') {
+    while (++tmp_y < static_cast<int>(_map->getMapData()._mapWall.size())
+            and _map->getMapData()._mapWall[tmp_y][x] == '3') {
         _map->getMapData()._mapWall[tmp_y][x] = '0';
         setExplosion(x, tmp_y);
     }
@@ -110,7 +109,7 @@ void    core::Bomberman::removeBlock(const int &x, const int &y, bool neg)
 {
     auto index = getColiIndex(x, y) - neg;
     _display->getColiMap().at(index)->setVisible(false);
-    _rm.emplace_back(index);
+//    _rm.emplace_back(index);
     _map->getMapData()._mapWall[y][x] = '7';
     setExplosion(x, y);
 }
@@ -119,11 +118,13 @@ void    core::Bomberman::exploseBlock(const int &x, const int &y)
 {
     if (x > 0 and _map->getMapData()._mapWall[y][x - 1] == '2')
         removeBlock(x - 1, y, true);
-    if (x + 1 < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][x + 1] == '2')
+    if (x + 1 < static_cast<int>(_map->getMapData()._mapWall[y].size())
+                and _map->getMapData()._mapWall[y][x + 1] == '2')
         removeBlock(x + 1, y, true);
     if (y > 0 and _map->getMapData()._mapWall[y - 1][x] == '2')
         removeBlock(x, y - 1, true);
-    if (y + 1 < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[y + 1][x] == '2')
+    if (y + 1 < static_cast<int>(_map->getMapData()._mapWall.size())
+            and _map->getMapData()._mapWall[y + 1][x] == '2')
         removeBlock(x, y + 1, true);
     setExplosion(x, y);
     _map->getMapData()._mapWall[y][x] = '7';
@@ -132,7 +133,7 @@ void    core::Bomberman::exploseBlock(const int &x, const int &y)
 
 void    core::Bomberman::stopExplosion()
 {
-    for (auto i {0}; i < _explosionPos.size(); ++i) {
+    for (std::size_t i {0}; i < _explosionPos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - _explosionTime[i];
         if (elapsedTime.count() >= 1) {
             _display->getExplosionMap()[std::get<1>(_explosionPos[i])][std::get<0>(_explosionPos[i])]->setVisible(false);
@@ -151,7 +152,7 @@ void    core::Bomberman::explosion(const int &x, const int &y)
 
 void    core::Bomberman::exploseBomb()
 {
-    for (auto i {0}; i < bombs_pos.size(); ++i) {
+    for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
         if (elapsedTime.count() >= 2) {
             explosion(bombs_pos[i].x, bombs_pos[i].y);
@@ -198,7 +199,7 @@ void core::Bomberman::run()
 std::vector<ACharacter::move_t> core::Bomberman::botsAction()
 {
     auto botsMove = _game->moveBots(_map->getMapData()._mapWall, _display.get());
-    for (auto i {0}; i < _game->getBots().size(); ++i) {
+    for (std::size_t i {0}; i < _game->getBots().size(); ++i) {
         changeFrameAndPos(_game->getBots()[i].get(), botsMove[i].action, _lastActions[_game->getBots()[i]->getEntityNb()]);
         changeAnimation(_game->getBots()[i]->getEntityNb(), botsMove[i].action, _lastActions[_game->getBots()[i]->getEntityNb()]);
         _lastActions[_game->getBots()[i]->getEntityNb()] = botsMove[i].action;
@@ -209,7 +210,7 @@ std::vector<ACharacter::move_t> core::Bomberman::botsAction()
 std::vector<ACharacter::move_t> core::Bomberman::playersAction()
 {
     auto playersMove = _game->movePlayers(_event, _map->getMapData()._mapWall, _display.get());
-    for (auto i {0}; i < _game->getPlayers().size(); ++i) {
+    for (std::size_t i {0}; i < _game->getPlayers().size(); ++i) {
         changeFrameAndPos(_game->getPlayers()[i].get(), playersMove[i].action, _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         changeAnimation(_game->getPlayers()[i]->getEntityNb(), playersMove[i].action, _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         _lastActions[_game->getPlayers()[i]->getEntityNb()] = playersMove[i].action;
