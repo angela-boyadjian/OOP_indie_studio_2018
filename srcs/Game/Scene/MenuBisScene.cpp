@@ -49,7 +49,7 @@ void MenuBisScene::loadScene(SceneInfo &info)
     auto const &gui {_device->getGUIEnvironment()};
     _background = gui->addImage(irr::core::rect<irr::s32>(0, 0,
                                                           _win_size.Width, _win_size.Height));
-    _texture = _device->getVideoDriver()->getTexture("./../resources/ui/bombermanBackground.png");
+    _texture = _device->getVideoDriver()->getTexture("./../resources/ui/bombermanBackground.jpg");
     _background->setImage(_texture);
     _background->setScaleImage(true);
     _background->setVisible(true);

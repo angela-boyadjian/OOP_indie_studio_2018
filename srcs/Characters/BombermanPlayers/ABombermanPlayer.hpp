@@ -62,6 +62,7 @@ public:
 protected:
     std::vector<Bomb>   _bombs;
     bool                _walls[4];
+    float               _speed;
     bool                _canShoot;
     std::size_t         _fireRange;
     std::size_t         _bombNumber;
