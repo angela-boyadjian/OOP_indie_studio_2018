@@ -54,11 +54,12 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
 
 void    GameBisScene::checkPowerUp()
 {
-    for (auto i {0}; i < _powerUp.size(); ++i) {
+    for (auto i {0}; i < _powerUpPos.size(); ++i) {
         if (_map->getMapData()._mapWall[std::get<1>(_powerUpPos[i])][std::get<0>(_powerUpPos[i])] < '7')
             _powerUp[i]->setVisible(false);
     }
 }
+
 void GameBisScene::removeBlock(const int &x, const int &y, bool neg)
 {
     auto index = getColiIndex(x, y) - neg;
@@ -102,6 +103,28 @@ void    GameBisScene::exploseBlock(const int &x, const int &y)
     exploseEmpty(x, y);
 }
 
+void GameBisScene::killPlayers(const int &x, const int &y)
+{
+    for (std::size_t i {0}; i < _game->getPlayers().size(); ++i) {
+        auto p = _game->getPlayers()[i]->get2dPos();
+        if (std::get<0>(p) == x and std::get<1>(p) == y) {
+            _game->getPlayers()[i]->setPosZ(1000);
+            changeModelPos(_game->getPlayers()[i]->getEntityNb(), _game->getPlayers()[i]->getMapPos());
+            _game->getPlayers().erase(_game->getPlayers().begin() + i);
+            return killPlayers(x, y);
+        }
+    }
+    for (std::size_t i {0}; i < _game->getBots().size(); ++i) {
+        auto p = _game->getBots()[i]->get2dPos();
+        if (std::get<0>(p) == x and std::get<1>(p) == y) {
+            _game->getBots()[i]->setPosZ(1000);
+            changeModelPos(_game->getBots()[i]->getEntityNb(), _game->getBots()[i]->getMapPos());
+            _game->getBots().erase(_game->getBots().begin() + i);
+            return killPlayers(x, y);
+        }
+    }
+}
+
 void GameBisScene::exploseEmpty(const int &x, const int &y)
 {
     auto tmp_x = x;
@@ -109,20 +132,24 @@ void GameBisScene::exploseEmpty(const int &x, const int &y)
 
     while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
+        killPlayers(tmp_x, y);
         setExplosion(tmp_x, y);
     }
     tmp_x = x;
     while (++tmp_x < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
+        killPlayers(tmp_x, y);
         setExplosion(tmp_x, y);
     }
     while (--tmp_y >= 0 and _map->getMapData()._mapWall[tmp_y][x] == '3') {
         _map->getMapData()._mapWall[tmp_y][x] = '0';
+        killPlayers(x, tmp_y);
         setExplosion(x, tmp_y);
     }
     tmp_y = y;
     while (++tmp_y < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[tmp_y][x] == '3') {
         _map->getMapData()._mapWall[tmp_y][x] = '0';
+        killPlayers(x, tmp_y);
         setExplosion(x, tmp_y);
     }
     _map->getMapData()._mapWall[y][x] = '0';
@@ -240,53 +267,41 @@ void GameBisScene::placeCharacter(std::shared_ptr<ACharacter> character)
     switch (character->getEntityNb()) {
     case 0:
         character->setPos2d(std::make_tuple(0, 0));
-        character->setPosZ(
-            std::get<2>(character->getMapPos()) + 30);
+        character->setPosZ(std::get<2>(character->getMapPos()) + 30);
         changeModelPos(character->getEntityNb(), std::make_tuple(
-            std::get<0>(
-                character->getMapPos()),
-                std::get<1>(
-                    character->getMapPos()),
-                    std::get<2>(
-                        character->getMapPos())));
+            std::get<0>(character->getMapPos()),
+            std::get<1>(character->getMapPos()),
+            std::get<2>(character->getMapPos())));
+        character->setPos3d(std::make_tuple(5, 5));
         break;
     case 1:
         character->setPos2d(std::make_tuple(0, 10));
-        character->setPosZ(
-        std::get<2>(character->getMapPos()) - 70);
-        changeModelPos(character->getEntityNb(),
-                             std::make_tuple(
-                                 std::get<0>(character->getMapPos()),
-                                 std::get<1>(character->getMapPos()),
-                                 std::get<2>(character->getMapPos())));
+        character->setPosZ(std::get<2>(character->getMapPos()) - 70);
+        changeModelPos(character->getEntityNb(),std::make_tuple(
+            std::get<0>(character->getMapPos()),
+            std::get<1>(character->getMapPos()),
+            std::get<2>(character->getMapPos())));
+        character->setPos3d(std::make_tuple(0, 105));
         break;
     case 2:
         character->setPos2d(std::make_tuple(12, 0));
-        character->setPosZ(
-            std::get<2>(character->getMapPos()) + 30);
-        character->setPosX(
-            std::get<2>(character->getMapPos()) + 90);
+        character->setPosZ(std::get<2>(character->getMapPos()) + 30);
+        character->setPosX(std::get<2>(character->getMapPos()) + 90);
         changeModelPos(character->getEntityNb(), std::make_tuple(
-            std::get<0>(
-                character->getMapPos()),
-                std::get<1>(
-                    character->getMapPos()),
-                    std::get<2>(
-                        character->getMapPos())));
+            std::get<0>(character->getMapPos()),
+            std::get<1>(character->getMapPos()),
+            std::get<2>(character->getMapPos())));
+        character->setPos3d(std::make_tuple(125, 5));
         break;
     case 3:
         character->setPos2d(std::make_tuple(12, 10));
-       character->setPosZ(
-            std::get<2>(character->getMapPos()) - 70);
-        character->setPosX(
-            std::get<2>(character->getMapPos()) + 190);
+        character->setPosZ(std::get<2>(character->getMapPos()) - 70);
+        character->setPosX(std::get<2>(character->getMapPos()) + 190);
         changeModelPos(character->getEntityNb(), std::make_tuple(
-            std::get<0>(
-                character->getMapPos()),
-                std::get<1>(
-                    character->getMapPos()),
-                    std::get<2>(
-                        character->getMapPos())));
+            std::get<0>(character->getMapPos()),
+            std::get<1>(character->getMapPos()),
+            std::get<2>(character->getMapPos())));
+        character->setPos3d(std::make_tuple(125, 105));
     default:
         break;
     }
@@ -299,11 +314,11 @@ void GameBisScene::placePlayer()
     int idx = 0;
 
     while (idx != 4) {
-        for (auto play : player) {
+        for (auto &play : player) {
             if (play->getEntityNb() == idx)
                 placeCharacter(play);
         }
-        for (auto b : bot) {
+        for (auto &b : bot) {
             if (b->getEntityNb() == idx)
                 placeCharacter(b);
         }

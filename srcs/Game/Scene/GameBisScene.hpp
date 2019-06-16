@@ -46,6 +46,7 @@ class GameBisScene : public IScene {
         // POWER UP
         void checkPowerUp();
         // BOMB
+        void killPlayers(const int &, const int &);
         void exploseBomb();
         void explosion(const int &, const int &, const bool &);
         void exploseBlock(const int &, const int &);

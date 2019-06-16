@@ -28,8 +28,8 @@ public:
         return std::chrono::duration_cast<std::chrono::seconds>(
                 std::chrono::system_clock::now() - _secondsElapsed).count();
     }
-    const Bots      &getBots() { return _bots; }
-    const Players   &getPlayers() { return _players; }
+    Bots      &getBots() { return _bots; }
+    Players   &getPlayers() { return _players; }
 
     // DEPLACEMENTS (PURE METHODS)
     virtual std::vector<ACharacter::move_t> moveBots(Map &, IDisplay *) = 0;
