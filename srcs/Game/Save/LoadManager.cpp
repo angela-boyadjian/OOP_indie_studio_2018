@@ -28,9 +28,19 @@ LoadManager::~LoadManager()
 
 std::shared_ptr<IMap> LoadManager::getMap()
 {
-    if (!_isGameLoaded)
-        std::cerr << "Careful ! Game not loaded. Problems incoming !" << std::endl;
-    printMap();
+    for (std::string line; std::getline(_file, line);) {
+        if (line.compare("MapWall") == 0) {
+            _isMapWall = true;
+        } else if (line.compare("RulesWall") == 0) {
+            _isRulesWall = true;
+            _isMapWall = false;
+        } else if (line.compare("RulesGround") == 0) {
+            _isRulesGround = true;
+            _isRulesWall = false;
+        } else {
+            getInfo(line);
+        }
+    }
     return _map;
 }
 
@@ -56,7 +66,6 @@ std::string const LoadManager::getPath(std::string const &line)
     std::string path;
 
     ++_index;
-    std::cout << line[_index] << std::endl;
     while (line[_index] != ':') {
         path.push_back(line[_index]);
         ++_index;

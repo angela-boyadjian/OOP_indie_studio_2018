@@ -198,8 +198,8 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB and _map->getMapData()._mapWall[a.y][a.x] != '1'
                                                      and _map->getMapData()._mapWall[a.y][a.x] != '2') {
-            // auto s = SaveManager(*_game.get(), _map->getMapData());
-            // s.save();
+            auto save = SaveManager(*_game.get(), _map->getMapData());
+            save.save();
             if (!isRunning)
                 _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
@@ -333,8 +333,6 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
 {
     //_map = std::shared_ptr<IMap>(new Map);
     _map = info._map;
-    // for (auto &lines : _map->getMapData()._mapWall)
-    //     std::cout << lines << std::endl;
     //_map->load(mapPath);
     _game = std::move(game);
     _display->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
@@ -344,8 +342,6 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
     _dispLoader->loadGame(_game);
     std::cout << "game" << std::endl;
     _dispLoader->loadMap(_map->getMapData());
-    // std::cout << _display->getColiMap().size() << std::endl;
-    // std::cout << _display->getNonColiMap().size() << std::endl;
     _dispLoader->setExplosionPos();
     _dispLoader->setBombsPos();
     //    _dispLoader->loadMap(_map->getMapData());
@@ -383,27 +379,11 @@ void GameBisScene::loadScene(SceneInfo &info)
 
     _is_load = true;
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
-    // auto l = LoadManager();
-    // auto game = l.loadGame();
-    // info._map = l.getMap();
-
-    // for (auto &i : info._map->getMapData()._mapWall)
-    //     std::cout << i << std::endl;
+    auto l = LoadManager();
+    info._map = l.getMap();
     auto game = std::unique_ptr<AGame>(new BombermanGame(info._players, info._bot));
-    // std::cout << "Player pos IN SCENE\n";
-    // for (auto &i : game->getPlayers()) {
-    //     auto pos = i->getMapPos();
-    //     std::cout << "Pos = " << std::get<0>(pos) << " "
-    //     << std::get<1>(pos) << " " << std::get<2>(pos) << "\n";
-    // }
-    // std::cout << "BOT pos IN SCENE\n";
-    // for (auto &i : game->getBots()) {
-    //     auto pos = i->getMapPos();
-    //     std::cout << "Pos = " << std::get<0>(pos) << " "
-    //     << std::get<1>(pos) << " " << std::get<2>(pos) << "\n";
-    // }
     _master->setVisible(true);
-    loadGame("./../resources/maps/3", game, info);
+    // loadGame("./../resources/maps/3", game, info);
     camera->addAnimator(_manager->createFlyStraightAnimator(
             camera->getPosition(), irr::core::vector3df(-3.18643, 10.1158, 4.47983),
             1000, false, false));
@@ -421,7 +401,6 @@ void GameBisScene::deLoad()
 }
 
 // LOGIC
-
 irr::core::vector3df GameBisScene::pos3dToVector(const IDisplay::pos3d &pos)
 {
     return irr::core::vector3df(std::get<0>(pos), std::get<1>(pos),
