@@ -44,6 +44,7 @@ class GameBisScene : public IScene {
         void loadGame(const std::string &, std::unique_ptr<AGame> &, SceneInfo );
         std::vector<std::unique_ptr<Player>> loadPlayer();
         std::vector<std::unique_ptr<Bot>> loadBot();
+        bool pauseEvent();
         // POWER UP
         void checkPowerUp();
         // BOMB
@@ -108,5 +109,5 @@ class GameBisScene : public IScene {
         std::vector<std::tuple<int, int>> _powerUpPos;
         std::vector<std::string> _powerUpPath;
 
-       PauseMenu _pause;
+       std::unique_ptr<PauseMenu> _pause;
 };
