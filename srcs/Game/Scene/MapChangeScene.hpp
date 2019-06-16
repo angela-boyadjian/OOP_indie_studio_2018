@@ -16,6 +16,12 @@
 
 class MapChangeScene : public IScene {
     public:
+        enum class BUTTON {
+                BACK = 0,
+                GO,
+                RELOAD
+        };
+
         MapChangeScene(std::shared_ptr<IDisplay>, irr::scene::ISceneNode *,
                        std::string const &);
         ~MapChangeScene() = default;
@@ -25,6 +31,9 @@ class MapChangeScene : public IScene {
         SceneInfo runScene() final;
         void loadScene(SceneInfo &) final;
         std::string getName() final;
+
+        void loadButton();
+        void reloadMap();
 
     private:
         std::shared_ptr<irr::scene::ISceneNode> _master;
@@ -39,6 +48,7 @@ class MapChangeScene : public IScene {
         const std::shared_ptr<IDisplay> _display;
         irr::scene::ICameraSceneNode *_camera;
         SceneInfo _info;
+        std::unique_ptr<IrrlichtDisplayLoader> _dispLoader;
 };
 
 

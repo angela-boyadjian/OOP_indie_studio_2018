@@ -133,6 +133,8 @@ void    IrrlichtDisplay::changeModelFrame(const std::size_t &i, const std::size_
 bool    IrrlichtDisplay::isCollisionFromMap(irr::core::aabbox3d<irr::f32> &b) const
 {
     for (auto i {0}; i < _coliMap.size(); ++i) {
+        std::cout << i << std::endl;
+        std::cout <<  _coliMap.size() << std::endl;
         auto b2 = _coliMap[i]->getBoundingBox();
         _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
         if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())

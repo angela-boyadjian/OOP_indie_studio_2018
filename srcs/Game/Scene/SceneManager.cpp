@@ -64,6 +64,7 @@ void SceneManager::changeCurrent(const unsigned long current)
 
 void SceneManager::changeCurrent(const std::string &name)
 {
+    std::cout << std::get<1>(_current) << std::endl;
     if (std::get<1>(_current) != "None")
         _scenes[std::get<0>(_current)]->deLoad();
     setCurrent(name);
@@ -81,7 +82,7 @@ void SceneManager::runCurrentScene()
     if (std::get<1>(_current) == "None")
         throw SceneManagerException("Current is not set","None");
 //    auto pos = ->getSceneManager()->getActiveCamera()->getPosition();
-
+    _manager->drawAll();
     _info = _scenes[std::get<0>(_current)]->runScene();
     if (_info._dest != std::get<1>(_current))
         changeCurrent(_info._dest);
@@ -93,10 +94,10 @@ void SceneManager::runCurrentScene()
         std::cout << "posi" << posi.X << " " << posi.Y << "  " << posi.Z
             << std::endl;
     }*/
-    _manager->drawAll();
+
     _manager->getGUIEnvironment()->drawAll();
 }
-
+//    auto pos = ->getSceneManager()->getActiveCamera()->getPosition();
 irr::scene::ISceneManager *SceneManager::getManager()
 {
     return _manager;

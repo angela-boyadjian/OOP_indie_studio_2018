@@ -64,7 +64,7 @@ void GameBisScene::removeBlock(const int &x, const int &y, bool neg)
     auto index = getColiIndex(x, y) - neg;
     auto vec = _display->getColiMap().at(index)->getPosition();
     _display->getColiMap().at(index)->setVisible(false);
-    _display->getColiMap().at(index).release();
+    _display->getColiMap().at(index).release(); // MODIF DE SES MORT
     _display->getColiMap().erase(_display->getColiMap().begin() + index);
     _rm.emplace_back(index);
     _map->getMapData()._mapWall[y][x] = '7';
@@ -321,10 +321,9 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
     _game = std::move(game);
     _dispLoader->loadGame(_game);
     std::cout << "game" << std::endl;
-    for (auto &t : _display->getColiMap())
-        t->setParent(_master.get());
-    for (auto &t : _display->getNonColiMap())
-        t->setParent(_master.get());
+    _dispLoader->loadMap(_map->getMapData());
+    std::cout << _display->getColiMap().size() << std::endl;
+    std::cout << _display->getNonColiMap().size() << std::endl;
     _dispLoader->setExplosionPos();
     _dispLoader->setBombsPos();
     //    _dispLoader->loadMap(_map->getMapData());
