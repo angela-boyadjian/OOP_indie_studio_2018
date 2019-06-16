@@ -129,7 +129,7 @@ SceneInfo ChoosePlayerScene::createInfo(char *scene)
     int color = 0;
 
     for (auto box : _box) {
-        std::cout << "ID  " << box->getSelected() << std::endl;
+        // std::cout << "ID  " << box->getSelected() << std::endl;
         if (box->getSelected() == 1) {
             _info._players.push_back(std::make_shared<Player>(
                 Player(id, static_cast<ACharacter::Color>(color),

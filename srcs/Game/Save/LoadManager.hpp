@@ -44,8 +44,9 @@ private:
     ACharacter::MapPos      getMapPos(std::string const &, int);
 
     // NOTE Display
-    void printPos(ACharacter::MapPos const &) const;
     void printMap() const;
+    void printCharacter() const;
+    void printPos(ACharacter::MapPos const &) const;
 private:
     std::shared_ptr<IMap>   _map;
     BotVec                  _bots;
