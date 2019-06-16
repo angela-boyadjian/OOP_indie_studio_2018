@@ -70,6 +70,9 @@ void MapChangeScene::loadScene(SceneInfo &info)
     _buttons.emplace_back(_manager->getGUIEnvironment()->addButton(rec, nullptr, 102, L"Back !!"));
     rec = irr::core::rect<irr::s32>(_win_size.Width -  (_win_size.Width / 3), _win_size.Height - (_win_size.Height / 5), _win_size.Width - (_win_size.Width / 3) + 300, _win_size.Height - (_win_size.Height / 5) + 42);
     _buttons.emplace_back(_manager->getGUIEnvironment()->addButton(rec, nullptr, 102, L"GOOOO !!"));
+    _manager->addSkyDomeSceneNode
+            (_manager->getVideoDriver()->getTexture("./../lib/irrLicht/media/skydome2.jpg"),16,8,0.95f,2.0f);
+    _manager->getVideoDriver()->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 
 std::string MapChangeScene::getName()
