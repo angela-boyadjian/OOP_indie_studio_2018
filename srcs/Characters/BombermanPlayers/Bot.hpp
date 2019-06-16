@@ -14,7 +14,7 @@ class Bot : public ABombermanPlayer {
 public:
     // CONSTRUCTOR / DESTRUCTOR
     Bot(const std::size_t &enb, ACharacter::Color color, const MapPos &pos) : ABombermanPlayer(enb, pos, color),
-    _lastDirection(ACharacter::Action::WAIT), _movement(0), _c(std::chrono::system_clock::now()) {};
+        _c(std::chrono::system_clock::now()), _lastDirection(ACharacter::Action::WAIT), _movement(0) {};
     ~Bot() = default;
 
     // BLOCKS
