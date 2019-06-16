@@ -64,7 +64,6 @@ void SceneManager::changeCurrent(const unsigned long current)
 
 void SceneManager::changeCurrent(const std::string &name)
 {
-    std::cout << std::get<1>(_current) << std::endl;
     if (std::get<1>(_current) != "None")
         _scenes[std::get<0>(_current)]->deLoad();
     setCurrent(name);
