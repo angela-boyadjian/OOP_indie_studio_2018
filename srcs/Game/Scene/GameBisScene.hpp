@@ -80,6 +80,9 @@ class GameBisScene : public IScene {
         ACharacter::Action
         pressKeyAction(const AGame::Event &, const std::size_t &);
         void addSfEffect(const std::string &, const std::string &);
+        void    editPos(std::shared_ptr<ACharacter>, std::tuple<int, int>,
+            float, std::tuple<float, float>);
+
 
     private:
         bool _isPlaying;

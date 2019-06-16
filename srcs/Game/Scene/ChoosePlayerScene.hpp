@@ -39,4 +39,5 @@ private:
     std::vector<irr::gui::IGUIComboBox *> _box;
     std::vector<irr::gui::IGUIButton *> _buttons;
     SceneInfo _info;
+    bool _canPlay;
 };

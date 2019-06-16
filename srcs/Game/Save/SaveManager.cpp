@@ -42,10 +42,7 @@ std::string const SaveManager::getPos(ACharacter const &c)
     auto line = std::to_string(std::get<0>(pos)) + " " +
         std::to_string(std::get<1>(pos)) +  " " +
             std::to_string(std::get<2>(pos)) + ":";
-    std::cout << "IN SAVE :\n";
-    std::cout << "Pos = " << std::get<0>(pos) << " "
-        << std::get<1>(pos) << " " << std::get<2>(pos) << "\n";
-    std::cout << "Result = " << line << std::endl;
+
     return line;
 }
 
@@ -80,9 +77,18 @@ void SaveManager::addRules()
     }
     _file << "RulesGround" << std::endl;
     for (auto const &ground : _mapData._rulesGround) {
-        _file << ground.first << ":";
-        addSpriteInfo(ground.second);
-        _file << std::endl;
+        if (ground.first == '0') {
+            _file << ground.first << ":";
+            addSpriteInfo(ground.second);
+            _file << std::endl;
+        }
+    }
+    for (auto const &ground : _mapData._rulesGround) {
+        if (ground.first == '1') {
+            _file << ground.first << ":";
+            addSpriteInfo(ground.second);
+            _file << std::endl;
+        }
     }
 }
 

@@ -198,6 +198,8 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB and _map->getMapData()._mapWall[a.y][a.x] != '1'
                                                      and _map->getMapData()._mapWall[a.y][a.x] != '2') {
+            // auto s = SaveManager(*_game.get(), _map->getMapData());
+            // s.save();
             if (!isRunning)
                 _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
@@ -398,24 +400,8 @@ void GameBisScene::loadScene(SceneInfo &info)
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     _pause = std::make_unique<PauseMenu>(_master.get(), _manager, _device->getVideoDriver()->getScreenSize(), _event, _device);
     // auto l = LoadManager();
-    // auto game = l.loadGame();
     // info._map = l.getMap();
-
-    // for (auto &i : info._map->getMapData()._mapWall)
-    //     std::cout << i << std::endl;
     auto game = std::unique_ptr<AGame>(new BombermanGame(info._players, info._bot));
-    // std::cout << "Player pos IN SCENE\n";
-    // for (auto &i : game->getPlayers()) {
-    //     auto pos = i->getMapPos();
-    //     std::cout << "Pos = " << std::get<0>(pos) << " "
-    //     << std::get<1>(pos) << " " << std::get<2>(pos) << "\n";
-    // }
-    // std::cout << "BOT pos IN SCENE\n";
-    // for (auto &i : game->getBots()) {
-    //     auto pos = i->getMapPos();
-    //     std::cout << "Pos = " << std::get<0>(pos) << " "
-    //     << std::get<1>(pos) << " " << std::get<2>(pos) << "\n";
-    // }
     _master->setVisible(true);
     loadGame("./../resources/maps/3", game, info);
     camera->addAnimator(_manager->createFlyStraightAnimator(
@@ -435,7 +421,6 @@ void GameBisScene::deLoad()
 }
 
 // LOGIC
-
 irr::core::vector3df GameBisScene::pos3dToVector(const IDisplay::pos3d &pos)
 {
     return irr::core::vector3df(std::get<0>(pos), std::get<1>(pos),
