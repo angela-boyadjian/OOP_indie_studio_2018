@@ -61,6 +61,7 @@ public:
     KeyMap              &getKeyMap();
     const MapPos        &getMapPos() const;
     const std::size_t   &getEntityNb() const;
+    const std::tuple<int, int>  &get2dPos() const { return _2dPos; }
 
     // DEPLACEMENT
     virtual move_t  move(std::vector<std::string> &, IDisplay *) = 0;

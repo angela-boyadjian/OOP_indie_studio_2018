@@ -103,6 +103,28 @@ void    GameBisScene::exploseBlock(const int &x, const int &y)
     exploseEmpty(x, y);
 }
 
+void GameBisScene::killPlayers(const int &x, const int &y)
+{
+    for (std::size_t i {0}; i < _game->getPlayers().size(); ++i) {
+        auto p = _game->getPlayers()[i]->get2dPos();
+        if (std::get<0>(p) == x and std::get<1>(p) == y) {
+            _game->getPlayers()[i]->setPosZ(1000);
+            changeModelPos(_game->getPlayers()[i]->getEntityNb(), _game->getPlayers()[i]->getMapPos());
+            _game->getPlayers().erase(_game->getPlayers().begin() + i);
+            return killPlayers(x, y);
+        }
+    }
+    for (std::size_t i {0}; i < _game->getBots().size(); ++i) {
+        auto p = _game->getBots()[i]->get2dPos();
+        if (std::get<0>(p) == x and std::get<1>(p) == y) {
+            _game->getBots()[i]->setPosZ(1000);
+            changeModelPos(_game->getBots()[i]->getEntityNb(), _game->getBots()[i]->getMapPos());
+            _game->getBots().erase(_game->getBots().begin() + i);
+            return killPlayers(x, y);
+        }
+    }
+}
+
 void GameBisScene::exploseEmpty(const int &x, const int &y)
 {
     auto tmp_x = x;
@@ -110,20 +132,24 @@ void GameBisScene::exploseEmpty(const int &x, const int &y)
 
     while (--tmp_x >= 0 and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
+        killPlayers(tmp_x, y);
         setExplosion(tmp_x, y);
     }
     tmp_x = x;
     while (++tmp_x < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
+        killPlayers(tmp_x, y);
         setExplosion(tmp_x, y);
     }
     while (--tmp_y >= 0 and _map->getMapData()._mapWall[tmp_y][x] == '3') {
         _map->getMapData()._mapWall[tmp_y][x] = '0';
+        killPlayers(x, tmp_y);
         setExplosion(x, tmp_y);
     }
     tmp_y = y;
     while (++tmp_y < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[tmp_y][x] == '3') {
         _map->getMapData()._mapWall[tmp_y][x] = '0';
+        killPlayers(x, tmp_y);
         setExplosion(x, tmp_y);
     }
     _map->getMapData()._mapWall[y][x] = '0';
