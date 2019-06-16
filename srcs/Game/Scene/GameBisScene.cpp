@@ -175,9 +175,9 @@ void GameBisScene::exploseBomb()
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
         if (elapsedTime.count() >= 2) {
             std::cout << "EXPLOSION BOMB" << std::endl;
-            for (auto &m : _map->getMapData()._mapWall)
-                std::cout << m << std::endl;
-            std::cout << std::endl;
+            // for (auto &m : _map->getMapData()._mapWall)
+            //     std::cout << m << std::endl;
+            // std::cout << std::endl;
             bombs_pos.size() > 1 ? explosion(bombs_pos[i].x, bombs_pos[i].y, false)
                 : explosion(bombs_pos[i].x, bombs_pos[i].y, true);
             _display->visiBomb(bombs_pos[i].x, bombs_pos[i].y, false);
@@ -199,6 +199,8 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
         if (a.action == ACharacter::Action::BOMB and _map->getMapData()._mapWall[a.y][a.x] != '1'
                                                      and _map->getMapData()._mapWall[a.y][a.x] != '2') {
             std::cout << "PUT BOMB" << std::endl;
+            // auto save = SaveManager(*_game.get(), _map->getMapData());
+            // save.save();
             for (auto &m : _map->getMapData()._mapWall)
                 std::cout << m << std::endl;
             std::cout << std::endl;
@@ -335,8 +337,8 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
 {
     //_map = std::shared_ptr<IMap>(new Map);
     _map = info._map;
-    for (auto &lines : _map->getMapData()._mapWall)
-        std::cout << lines << std::endl;
+    // for (auto &lines : _map->getMapData()._mapWall)
+    //     std::cout << lines << std::endl;
     //_map->load(mapPath);
     _game = std::move(game);
     _dispLoader->loadGame(_game);
@@ -381,8 +383,9 @@ void GameBisScene::loadScene(SceneInfo &info)
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     // auto l = LoadManager();
     // auto game = l.loadGame();
-    // auto s = SaveManager(*game.get(), info._map->getMapData());
-    // s.save();
+    // info._map = l.getMap();
+    // for (auto &i : info._map->getMapData()._mapWall)
+    //     std::cout << i << std::endl;
     auto game = std::unique_ptr<AGame>(new BombermanGame(info._players, info._bot));
     _master->setVisible(true);
     loadGame("./../resources/maps/3", game, info);

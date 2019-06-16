@@ -9,8 +9,9 @@
 
 #include <Bomberman/BombermanGame.hpp>
 #include "LoadManager.hpp"
+#include <Map.hpp>
 
-LoadManager::LoadManager() : _index(0), _isMapWall(false),
+LoadManager::LoadManager() : _map(new Map()), _index(0), _isMapWall(false),
     _isRulesWall(false), _isGameLoaded(false), _isRulesGround(false)
 {
     _file.open("../srcs/Game/Save/save.txt");
@@ -25,27 +26,28 @@ LoadManager::~LoadManager()
         _file.close();
 }
 
-MapData &LoadManager::getMapData()
+std::shared_ptr<IMap> LoadManager::getMap()
 {
     if (!_isGameLoaded)
         std::cerr << "Careful ! Game not loaded. Problems incoming !" << std::endl;
-    return _mapData;
+    printMap();
+    return _map;
 }
 
 void LoadManager::getMapWall(std::string const &line)
 {
-    _mapData._mapWall.push_back(line);
+    _map->getMapData()._mapWall.push_back(line);
 }
 
 void LoadManager::getRulesWall(std::string const &line)
 {
-    _mapData._rulesWall.insert({line[_index], getSpriteInfo(line)});
+    _map->getMapData()._rulesWall.insert({line[_index], getSpriteInfo(line)});
     _index = 0;
 }
 
 void LoadManager::getRulesGround(std::string const &line)
 {
-    _mapData._rulesGround.insert({line[_index], getSpriteInfo(line)});
+    _map->getMapData()._rulesGround.insert({line[_index], getSpriteInfo(line)});
     _index = 0;
 }
 
@@ -53,9 +55,14 @@ std::string const LoadManager::getPath(std::string const &line)
 {
     std::string path;
 
-    while (line[_index++] != ':')
-        path.push_back(line[_index]);
     ++_index;
+    std::cout << line[_index] << std::endl;
+    while (line[_index] != ':') {
+        path.push_back(line[_index]);
+        ++_index;
+    }
+    ++_index;
+    std::cout << "path = " << path << std::endl;
     return path;
 }
 
@@ -82,7 +89,7 @@ irr::core::vector3df LoadManager::getSize(std::string const &line)
 
 SpriteInfo &LoadManager::getSpriteInfo(std::string const &line)
 {
-    _index = 4;
+    _index = 3;
     auto sprite = new SpriteInfo(SpriteInfo(std::to_string(line[0]), getPath(line),
         getPath(line), getSize(line), line[_index] == '1' ? true : false));
 
@@ -91,6 +98,7 @@ SpriteInfo &LoadManager::getSpriteInfo(std::string const &line)
 
 void LoadManager::getInfo(std::string const &line)
 {
+    std::cout << "line = " << line << std::endl;
     switch (line[0]) {
         case 'P' :
             addPlayer(line);
@@ -99,10 +107,10 @@ void LoadManager::getInfo(std::string const &line)
             addBot(line);
             break;
         case 'T' :
-            _mapData._time = line[2] - 48;
+            _map->getMapData()._time = line[2] - 48;
             break;
         case 'E' :
-            _mapData._nbEnnemie = line[2] - 48;
+            _map->getMapData()._nbEnnemie = line[2] - 48;
             break;
         default :
             if (_isMapWall)
@@ -120,16 +128,17 @@ std::unique_ptr<AGame> LoadManager::loadGame()
     std::string line;
 
     while (std::getline(_file, line)) {
-        if (!_isMapWall && !_isRulesWall && !_isRulesGround) {
-            if (line.compare("MapWall") == 0)
-                _isMapWall = true;
-            else if (line.compare("RulesWall")) {
-                _isRulesWall = true;
-                _isMapWall = false;
-            } else if (line.compare("RulesGround")) {
-                _isRulesGround = true;
-                _isRulesWall = false;
-            }
+        if (line.compare("MapWall") == 0) {
+            _isMapWall = true;
+            continue;
+        } else if (line.compare("RulesWall") == 0) {
+            _isRulesWall = true;
+            _isMapWall = false;
+            continue;
+        } else if (line.compare("RulesGround") == 0) {
+            _isRulesGround = true;
+            _isRulesWall = false;
+            continue;
         } else {
             getInfo(line);
         }
@@ -206,4 +215,19 @@ void LoadManager::printPos(ACharacter::MapPos const &pos) const
 {
     std::cout << "Pos = " << std::get<0>(pos) << " "
         << std::get<1>(pos) << " " << std::get<2>(pos) << std::endl;
+}
+
+void LoadManager::printMap() const
+{
+    auto map = _map->getMapData();
+
+    std::cout << "Map walls:" << std::endl;
+    for (auto &i : map._mapWall)
+        std::cout << i << std::endl;
+    std::cout << "Rules wall first:" << std::endl;
+    for (auto &i : map._rulesWall) {
+        std::cout << i.first << ":" << i.second._messPath << ":" << i.second._texPath << ":";
+        auto pos = i.second._size;
+        std::cout << pos.X << " " << pos.Y << " " << pos.Z << std::endl;
+    }
 }

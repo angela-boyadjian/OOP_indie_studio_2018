@@ -8,6 +8,7 @@
 #pragma once
 
 #include "AGame.hpp"
+#include "IMap.hpp"
 
 class ILoad {
 public:
@@ -15,7 +16,7 @@ public:
     virtual ~ILoad() {};
 
 public:
-    virtual MapData &getMapData() = 0;
+    virtual std::shared_ptr<IMap> getMap() = 0;
     virtual std::unique_ptr<AGame> loadGame() = 0;
 
 private:
