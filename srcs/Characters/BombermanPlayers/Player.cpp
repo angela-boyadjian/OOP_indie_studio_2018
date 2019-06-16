@@ -12,10 +12,67 @@ Player::Player(const std::size_t &enb, ACharacter::Color color, MapPos const &po
     ABombermanPlayer(enb, pos, color)
 {
     _action = ACharacter::Action::WAIT;
+    createKeyMap(_entityNb);
 }
 
 Player::~Player()
 {
+}
+
+void    Player::getFirstKeyMap()
+{
+    _keyMap["UP"] = irr::EKEY_CODE::KEY_KEY_Z;
+    _keyMap["DOWN"] = irr::EKEY_CODE::KEY_KEY_S;
+    _keyMap["LEFT"] = irr::EKEY_CODE::KEY_KEY_Q;
+    _keyMap["RIGHT"] = irr::EKEY_CODE::KEY_KEY_D;
+    _keyMap["BOMB"] = irr::EKEY_CODE::KEY_KEY_C;
+}
+
+void    Player::getSecondKeyMap()
+{
+    _keyMap["UP"] = irr::EKEY_CODE::KEY_KEY_T;
+    _keyMap["DOWN"] = irr::EKEY_CODE::KEY_KEY_G;
+    _keyMap["LEFT"] = irr::EKEY_CODE::KEY_KEY_F;
+    _keyMap["RIGHT"] = irr::EKEY_CODE::KEY_KEY_H;
+    _keyMap["BOMB"] = irr::EKEY_CODE::KEY_KEY_B;
+}
+
+void    Player::getThirdKeyMap()
+{
+    _keyMap["UP"] = irr::EKEY_CODE::KEY_UP;
+    _keyMap["DOWN"] = irr::EKEY_CODE::KEY_DOWN;
+    _keyMap["LEFT"] = irr::EKEY_CODE::KEY_LEFT;
+    _keyMap["RIGHT"] = irr::EKEY_CODE::KEY_RIGHT;
+    _keyMap["BOMB"] = irr::EKEY_CODE::KEY_SPACE;
+}
+
+void    Player::getFourthKeyMap()
+{
+    _keyMap["UP"] = irr::EKEY_CODE::KEY_UP;
+    _keyMap["DOWN"] = irr::EKEY_CODE::KEY_DOWN;
+    _keyMap["LEFT"] = irr::EKEY_CODE::KEY_LEFT;
+    _keyMap["RIGHT"] = irr::EKEY_CODE::KEY_RIGHT;
+    _keyMap["BOMB"] = irr::EKEY_CODE::KEY_SPACE;
+}
+
+void    Player::createKeyMap(const std::size_t &i)
+{
+    switch (i) {
+        case 0:
+            getFirstKeyMap();
+            break;
+        case 1:
+            getSecondKeyMap();
+            break;
+        case 2:
+            getThirdKeyMap();
+            break;
+        case 3:
+            getFourthKeyMap();
+            break;
+        default:
+            break;
+    }
 }
 
 void    Player::putBomb(std::vector<std::string> &map)
@@ -45,8 +102,6 @@ void    Player::putBomb(std::vector<std::string> &map)
 
 void    Player::takeBonus(std::vector<std::string> &map)
 {
-    std::cout << "posX = " << std::get<0>(_2dPos) << std::endl;
-    std::cout << "posY = " << std::get<1>(_2dPos) << std::endl;
     auto b = map[std::get<1>(_2dPos)][std::get<0>(_2dPos)];
     if (b >= '7') {
         auto pu = PowerUp(b - 7 - 48);
@@ -56,6 +111,7 @@ void    Player::takeBonus(std::vector<std::string> &map)
             _maxBombNumber += 1;
             increaseBombNumber();
         }
+        map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] = '0';
     }
 }
 
@@ -63,9 +119,6 @@ ACharacter::move_t  Player::move(std::vector<std::string> &map, IDisplay *d)
 {
     isWalls(d);
     takeBonus(map);
-    if (map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] != '3'
-        and map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] != '5')
-        map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] = '0';
     switch (_action) {
         case ACharacter::Action::UP:
             moveUp();
@@ -90,9 +143,5 @@ ACharacter::move_t  Player::move(std::vector<std::string> &map, IDisplay *d)
         default:
             break;
     }
-//    map.at(std::get<1>(_2dPos)).at(std::get<0>(_2dPos)) = '4';
-//    for (auto &m : map)
-//        std::cout << m << std::endl;
-//    std::cout << std::endl;
     return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _action, .itself = this};
 }

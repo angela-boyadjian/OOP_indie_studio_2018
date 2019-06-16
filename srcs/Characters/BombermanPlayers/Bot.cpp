@@ -5,11 +5,9 @@
 ** Bot
 */
 
-#include <chrono>
 #include <cstdlib>
 #include <iostream>
 #include <algorithm>
-#include <chrono>
 
 #include "Bot.hpp"
 
@@ -47,7 +45,7 @@ bool            Bot::isInDanger(std::vector<std::string> &map)
 {
     auto    posX {std::get<0>(_2dPos)};
     auto    posY {std::get<1>(_2dPos)};
-    return map[posY][posX] == -1 or map[posY][posX] == -2;
+    return map[posY][posX] == '5' or map[posY][posX] == '3';
 }
 
 std::size_t Bot::getDistanceUp(float x, float y, std::vector<std::string> &map)
@@ -117,10 +115,6 @@ ACharacter::Action  Bot::getOutOfDanger(std::vector<std::string> &map)
     auto            minElement = std::max_element(distances.begin(), distances.end());
     for (auto tmp {distances.begin()}; tmp != minElement; ++tmp)
         index += 1;
-/*    std::cout << "distances:" << std::endl;
-    for (auto d : distances)
-        std::cout << d << std::endl;*/
-//    std::cout << std::endl;
     if (distances[index] == 0) {
         auto posX = std::get<0>(_2dPos);
         auto posY = std::get<1>(_2dPos);
@@ -159,11 +153,6 @@ ACharacter::Action  Bot::chooseDirection(std::vector<std::string> &map)
         directions.push_back(ACharacter::Action::LEFT);
     if (isSafe(posX + 1, posY, map))
         directions.push_back(ACharacter::Action::RIGHT);
-    if (directions.empty()) {
-//        std::cout << "X: " << posX << std::endl;
-//        std::cout << "Y: " << posY << std::endl;
-//        std::cout << "B: " << _bombNumber << std::endl;
-    }
     auto randDirection = std::rand() / (RAND_MAX + directions.size());
     return directions.empty() ? ACharacter::Action::WAIT : directions[randDirection];
 }
@@ -209,9 +198,6 @@ void    Bot::putBomb(std::vector<std::string> &map)
 {
     auto    posX {std::get<0>(_2dPos)};
     auto    posY {std::get<1>(_2dPos)};
-
-    //std::cout << "Pos X = " << posX << std::endl;
-    //std::cout << "Pos Y = " << posY << std::endl;
 
     map[posY][posX] = '5';
     for (auto i {1}; i < _fireRange + 1; ++i) {
@@ -316,7 +302,6 @@ std::tuple<bool, ACharacter::Action>    Bot::isPower(std::vector<std::string> &m
     auto minElement = std::min_element(distances.begin(), distances.end());
     for (auto tmp {distances.begin()}; tmp != minElement; ++tmp)
         index += 1;
-    //std::cout << "ACTIONS = " << (int)ACharacter::Action(index) << std::endl;
     return std::get<0>(directions[index]) ? std::make_tuple(true, ACharacter::Action(index))
         : std::make_tuple(false, ACharacter::Action::WAIT);
 }
@@ -331,6 +316,8 @@ bool    Bot::takeBonus(std::vector<std::string> &map)
         else if (pu == PowerUp::BOMB) {
             _maxBombNumber += 1;
             increaseBombNumber();
+        } else if (pu == PowerUp::SPEED) {
+            _speed -= 0.03;
         }
         map[std::get<1>(_2dPos)][std::get<0>(_2dPos)] = '0';
         return true;
@@ -355,7 +342,7 @@ void    Bot::otherMove(std::vector<std::string> &map)
     if (_bombNumber == 0) {
         a = getOutOfDanger(map);
         changePosition(a);
-    } else if (isMomentForBomb(map)) {
+    } else if (isMomentForBomb(map) and !isInDanger(map)) {
         a = ACharacter::Action::BOMB;
         putBomb(map);
         decreaseBombNumber();
@@ -368,28 +355,21 @@ void    Bot::otherMove(std::vector<std::string> &map)
 
 ACharacter::move_t  Bot::move(std::vector<std::string> &map, IDisplay *d)
 {
-    static auto c = std::chrono::system_clock::now();
-
     if (_movement > 0) {
         animation();
         if (_lastDirection != ACharacter::Action::BOMB)
             return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this};
         return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = ACharacter::Action::WAIT, .itself = this};
     }
-    std::chrono::duration<double> diff = std::chrono::system_clock::now() - c;
+    std::chrono::duration<double> diff = std::chrono::system_clock::now() - _c;
 
-    if (diff.count() > 0.3)
-        c = std::chrono::system_clock::now();
+    if (diff.count() > _speed)
+        _c = std::chrono::system_clock::now();
     else {
         if (_lastDirection != ACharacter::Action::BOMB)
             return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this};
         return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = ACharacter::Action::WAIT, .itself = this };
     }
-
-//    for (auto &t : map)
-//        std::cout << t << std::endl;
-//    std::cout << std::endl;
-
     if (takeBonus(map))
         return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this };
     if (goToBonus(map))

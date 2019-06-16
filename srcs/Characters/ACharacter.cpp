@@ -16,11 +16,6 @@ ACharacter::ACharacter(const std::size_t &enb, const MapPos &pos,
     "../resources/models/Character/WhiteBombermanTextures.png"}),
     _pos(pos), _color(color), _speed(1), _entityNb(enb)
 {
-    _keyMap["UP"] = irr::EKEY_CODE::KEY_KEY_Z;
-    _keyMap["DOWN"] = irr::EKEY_CODE::KEY_KEY_S;
-    _keyMap["LEFT"] = irr::EKEY_CODE::KEY_KEY_Q;
-    _keyMap["RIGHT"] = irr::EKEY_CODE::KEY_KEY_D;
-    _keyMap["BOMB"] = irr::EKEY_CODE::KEY_KEY_B;
 }
 
 // SETTERS

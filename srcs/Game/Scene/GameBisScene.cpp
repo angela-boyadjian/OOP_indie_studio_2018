@@ -18,6 +18,7 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
                            irr::scene::ISceneNode *father,
                            const std::string &name,
                            std::shared_ptr<Events> event,  std::shared_ptr<IDisplay> display) :
+    _isPlaying(false),
     _master(device->getSceneManager()->addEmptySceneNode(father)),
     _manager(device->getSceneManager()),
     _name(name),
@@ -25,7 +26,6 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
     _device(device),
     _event(event),
     _display(display),
-    _isPlaying(false),
     _powerUpPath({"../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"}),
     _pause(_master.get(), _manager, device->getVideoDriver()->getScreenSize(), event)
 {
@@ -50,7 +50,7 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
     auto count {0};
 
     for (auto j {0}; j < y; ++j)
-        for (auto i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
+        for (std::size_t i {0}; i < _map->getMapData()._mapWall[j].size(); ++i)
             if (_map->getMapData()._mapWall[j][i] == '2')
                 ++count;
     for (auto i {0}; i <= x; ++i)
@@ -61,7 +61,7 @@ std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
 
 void    GameBisScene::checkPowerUp()
 {
-    for (auto i {0}; i < _powerUpPos.size(); ++i) {
+    for (std::size_t i {0}; i < _powerUpPos.size(); ++i) {
         if (_map->getMapData()._mapWall[std::get<1>(_powerUpPos[i])][std::get<0>(_powerUpPos[i])] < '7')
             _powerUp[i]->setVisible(false);
     }
@@ -100,11 +100,11 @@ void    GameBisScene::exploseBlock(const int &x, const int &y)
 {
     if (x > 0 and _map->getMapData()._mapWall[y][x - 1] == '2')
         removeBlock(x - 1, y, true);
-    if (x + 1 < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][x + 1] == '2')
+    if (x + 1 < static_cast<int>(_map->getMapData()._mapWall[y].size()) and _map->getMapData()._mapWall[y][x + 1] == '2')
         removeBlock(x + 1, y, true);
     if (y > 0 and _map->getMapData()._mapWall[y - 1][x] == '2')
         removeBlock(x, y - 1, true);
-    if (y + 1 < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[y + 1][x] == '2')
+    if (y + 1 < static_cast<int>(_map->getMapData()._mapWall.size()) and _map->getMapData()._mapWall[y + 1][x] == '2')
         removeBlock(x, y + 1, true);
     setExplosion(x, y);
     exploseEmpty(x, y);
@@ -145,7 +145,7 @@ void GameBisScene::exploseEmpty(const int &x, const int &y)
         setExplosion(tmp_x, y);
     }
     tmp_x = x;
-    while (++tmp_x < _map->getMapData()._mapWall[y].size() and _map->getMapData()._mapWall[y][tmp_x] == '3') {
+    while (++tmp_x < static_cast<int>(_map->getMapData()._mapWall[y].size()) and _map->getMapData()._mapWall[y][tmp_x] == '3') {
         _map->getMapData()._mapWall[y][tmp_x] = '0';
         killPlayers(tmp_x, y);
         setExplosion(tmp_x, y);
@@ -156,7 +156,7 @@ void GameBisScene::exploseEmpty(const int &x, const int &y)
         setExplosion(x, tmp_y);
     }
     tmp_y = y;
-    while (++tmp_y < _map->getMapData()._mapWall.size() and _map->getMapData()._mapWall[tmp_y][x] == '3') {
+    while (++tmp_y < static_cast<int>(_map->getMapData()._mapWall.size()) and _map->getMapData()._mapWall[tmp_y][x] == '3') {
         _map->getMapData()._mapWall[tmp_y][x] = '0';
         killPlayers(x, tmp_y);
         setExplosion(x, tmp_y);
@@ -176,7 +176,7 @@ void GameBisScene::explosion(const int &x, const int &y, const bool &b)
 
 void GameBisScene::exploseBomb()
 {
-    for (auto i {0}; i < bombs_pos.size(); ++i) {
+    for (std::size_t i {0}; i < bombs_pos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - bombs_time[i];
         if (elapsedTime.count() >= 2) {
             bombs_pos.size() > 1 ? explosion(bombs_pos[i].x, bombs_pos[i].y, false)
@@ -211,7 +211,7 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
 
 void GameBisScene::stopExplosion()
 {
-    for (auto i {0}; i < _explosionPos.size(); ++i) {
+    for (std::size_t i {0}; i < _explosionPos.size(); ++i) {
         std::chrono::duration<double>   elapsedTime = std::chrono::system_clock::now() - _explosionTime[i];
         if (elapsedTime.count() >= 1) {
             _display->getExplosionMap()[std::get<1>(_explosionPos[i])][std::get<0>(_explosionPos[i])]->setVisible(false);
@@ -231,6 +231,10 @@ SceneInfo GameBisScene::runScene()
         _isPlaying = true;
         _sfEffects["MUSIC"]->play();
     }
+    if (_game->getBots().empty() and _game->getPlayers().size() == 1)
+        return SceneInfo("win");
+    else if (_game->getPlayers().empty())
+        return SceneInfo("lose");
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
     exploseBomb();
@@ -315,7 +319,7 @@ void GameBisScene::placePlayer()
 {
     auto player = _game->getPlayers();
     auto bot = _game->getBots();
-    int idx = 0;
+    std::size_t idx = 0;
 
     while (idx != 4) {
         for (auto &play : player) {
@@ -358,21 +362,6 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
 
 void GameBisScene::loadScene(SceneInfo &info)
 {
-    /*std::cout << "load Game" << std::endl;
-    irr::SKeyMap keyMap[5];                             // re-assigne les commandes
-    keyMap[0].Action = irr::EKA_MOVE_FORWARD;           // avancer
-    keyMap[0].KeyCode = irr::KEY_KEY_W;                 // w
-    keyMap[1].Action = irr::EKA_MOVE_BACKWARD;          // reculer
-    keyMap[1].KeyCode = irr::KEY_KEY_S;                 // s
-    keyMap[2].Action = irr::EKA_STRAFE_LEFT;            // a gauche
-    keyMap[2].KeyCode = irr::KEY_KEY_A;                 // a
-    keyMap[3].Action = irr::EKA_STRAFE_RIGHT;           // a droite
-    keyMap[3].KeyCode = irr::KEY_KEY_D;                 // d
-    keyMap[4].Action = irr::EKA_JUMP_UP;                // saut
-    keyMap[4].KeyCode = irr::KEY_SPACE;                 // barre espace
-
-    _manager->addCameraSceneNodeFPS(                // ajout de la camera FPS
-        0, 100.0f, 0.1f, -1, keyMap, 5);*/
     auto camera = _manager->addCameraSceneNode(_master.get());
     camera->setPosition(irr::core::vector3df(192.264, 53.8758, 112.409));
     camera->setTarget(irr::core::vector3df(-3, -15, 15));
@@ -381,9 +370,23 @@ void GameBisScene::loadScene(SceneInfo &info)
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     // auto l = LoadManager();
     // auto game = l.loadGame();
-    // auto s = SaveManager(*game.get(), info._map->getMapData());
-    // s.save();
+    // info._map = l.getMap();
+
+    // for (auto &i : info._map->getMapData()._mapWall)
+    //     std::cout << i << std::endl;
     auto game = std::unique_ptr<AGame>(new BombermanGame(info._players, info._bot));
+    // std::cout << "Player pos IN SCENE\n";
+    // for (auto &i : game->getPlayers()) {
+    //     auto pos = i->getMapPos();
+    //     std::cout << "Pos = " << std::get<0>(pos) << " "
+    //     << std::get<1>(pos) << " " << std::get<2>(pos) << "\n";
+    // }
+    // std::cout << "BOT pos IN SCENE\n";
+    // for (auto &i : game->getBots()) {
+    //     auto pos = i->getMapPos();
+    //     std::cout << "Pos = " << std::get<0>(pos) << " "
+    //     << std::get<1>(pos) << " " << std::get<2>(pos) << "\n";
+    // }
     _master->setVisible(true);
     loadGame("./../resources/maps/3", game, info);
     camera->addAnimator(_manager->createFlyStraightAnimator(
@@ -480,7 +483,7 @@ void GameBisScene::changeAnimation(const std::size_t &i,
 std::vector<ACharacter::move_t> GameBisScene::playersAction()
 {
     auto playersMove = _game->movePlayers(_event, _map->getMapData()._mapWall, _display.get());
-    for (auto i {0}; i < _game->getPlayers().size(); ++i) {
+    for (std::size_t i {0}; i < _game->getPlayers().size(); ++i) {
         changeFrameAndPos(_game->getPlayers()[i].get(), playersMove[i].action, _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         changeAnimation(_game->getPlayers()[i]->getEntityNb(), playersMove[i].action, _lastActions[_game->getPlayers()[i]->getEntityNb()]);
         _lastActions[_game->getPlayers()[i]->getEntityNb()] = playersMove[i].action;
@@ -491,7 +494,7 @@ std::vector<ACharacter::move_t> GameBisScene::playersAction()
 std::vector<ACharacter::move_t> GameBisScene::botsAction()
 {
     auto botsMove = _game->moveBots(_map->getMapData()._mapWall, _display.get());
-    for (auto i {0}; i < _game->getBots().size(); ++i) {
+    for (std::size_t i {0}; i < _game->getBots().size(); ++i) {
         changeFrameAndPos(_game->getBots()[i].get(), botsMove[i].action, _lastActions[_game->getBots()[i]->getEntityNb()]);
         changeAnimation(_game->getBots()[i]->getEntityNb(), botsMove[i].action, _lastActions[_game->getBots()[i]->getEntityNb()]);
         _lastActions[_game->getBots()[i]->getEntityNb()] = botsMove[i].action;

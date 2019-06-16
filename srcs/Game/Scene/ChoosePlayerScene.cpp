@@ -106,7 +106,7 @@ void ChoosePlayerScene::setBackground()
     _terrain->setTriangleSelector(_selector.get());
 }
 
-void ChoosePlayerScene::addPlayer(char *rsc, irr::core::vector3df pos, irr::core::vector3df rotation)
+void ChoosePlayerScene::addPlayer(const std::string &rsc, irr::core::vector3df pos, irr::core::vector3df rotation)
 {
     auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Character/Bomberman.MD3"), _master.get());
     newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
@@ -120,16 +120,16 @@ void ChoosePlayerScene::addPlayer(char *rsc, irr::core::vector3df pos, irr::core
     newScene->setAnimationSpeed(30);
     newScene->setLoopMode(true);
     newScene->setFrameLoop(27, 75);
-    newScene->setMaterialTexture(0, _device->getVideoDriver()->getTexture(rsc));//textures[static_cast<int>(color)].c_str()));
+    newScene->setMaterialTexture(0, _device->getVideoDriver()->getTexture(rsc.c_str()));//textures[static_cast<int>(color)].c_str()));
 }
 
-SceneInfo ChoosePlayerScene::createInfo(char *scene)
+SceneInfo ChoosePlayerScene::createInfo(const std::string &scene)
 {
     int id = 0;
     int color = 0;
 
     for (auto box : _box) {
-        std::cout << "ID  " << box->getSelected() << std::endl;
+        // std::cout << "ID  " << box->getSelected() << std::endl;
         if (box->getSelected() == 1) {
             _info._players.push_back(std::make_shared<Player>(
                 Player(id, static_cast<ACharacter::Color>(color),

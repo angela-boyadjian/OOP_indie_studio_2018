@@ -42,7 +42,10 @@ std::string const SaveManager::getPos(ACharacter const &c)
     auto line = std::to_string(std::get<0>(pos)) + " " +
         std::to_string(std::get<1>(pos)) +  " " +
             std::to_string(std::get<2>(pos)) + ":";
-
+    std::cout << "IN SAVE :\n";
+    std::cout << "Pos = " << std::get<0>(pos) << " "
+        << std::get<1>(pos) << " " << std::get<2>(pos) << "\n";
+    std::cout << "Result = " << line << std::endl;
     return line;
 }
 

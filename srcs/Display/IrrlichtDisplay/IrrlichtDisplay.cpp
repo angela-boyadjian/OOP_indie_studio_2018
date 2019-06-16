@@ -10,7 +10,7 @@ IrrlichtDisplay::IrrlichtDisplay()
 void    IrrlichtDisplay::setDisplay(Events *events)
 {
     _device = std::unique_ptr<irr::IrrlichtDevice>(irr::createDevice(irr::video::EDT_OPENGL,
-                                         irr::core::dimension2d<irr::u32>(1200, 800), 16, false, false, false, events));
+                                         irr::core::dimension2d<irr::u32>(1600, 800), 16, false, false, false, events));
     if (!_device)
         throw DeviceCreationError();
     _device->setWindowCaption(L"Bomberman");
@@ -60,8 +60,8 @@ void    IrrlichtDisplay::draw()
 {
     _driver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
     _sceneManagers.at(_currentScene)->getSceneManager()->drawAll();
-    auto pos = _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera()->getPosition();
-    std::cout << "pos" << pos.X << " " << pos.Y << "  " << pos.Z << std::endl;
+    _sceneManagers.at(_currentScene)->getSceneManager()->getActiveCamera()->getPosition();
+    // std::cout << "pos" << pos.X << " " << pos.Y << "  " << pos.Z << std::endl;
 //    std::cout << _currentScene << std::endl;
     _gui->drawAll();
     _driver->endScene();
@@ -131,9 +131,9 @@ void    IrrlichtDisplay::changeModelFrame(const std::size_t &i, const std::size_
 
 bool    IrrlichtDisplay::isCollisionFromMap(irr::core::aabbox3d<irr::f32> &b) const
 {
-    for (auto i {0}; i < _coliMap.size(); ++i) {
-        std::cout << i << std::endl;
-        std::cout <<  _coliMap.size() << std::endl;
+    for (std::size_t i {0}; i < _coliMap.size(); ++i) {
+        // std::cout << i << std::endl;
+        // std::cout <<  _coliMap.size() << std::endl;
         auto b2 = _coliMap[i]->getBoundingBox();
         _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
         if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())
@@ -144,7 +144,7 @@ bool    IrrlichtDisplay::isCollisionFromMap(irr::core::aabbox3d<irr::f32> &b) co
 
 bool    IrrlichtDisplay::isCollisionFromObstacles(irr::core::aabbox3d<irr::f32> &b) const
 {
-    for (auto i {0}; i < _noncoliMap.size(); ++i) {
+    for (std::size_t i {0}; i < _noncoliMap.size(); ++i) {
         auto b2 = _noncoliMap[i]->getBoundingBox();
         _noncoliMap[i]->getRelativeTransformation().transformBoxEx(b2);
         if (b.intersectsWithBox(b2) && _noncoliMap[i]->isVisible())
@@ -167,7 +167,7 @@ void    IrrlichtDisplay::destroyCollision(std::shared_ptr<irr::scene::IAnimatedM
     // auto b = meshsScene[target]->getBoundingBox();
     auto b = scene->getBoundingBox();
     scene->getRelativeTransformation().transformBoxEx(b);
-    for (auto i {0}; i < _coliMap.size(); ++i) {
+    for (std::size_t i {0}; i < _coliMap.size(); ++i) {
         auto b2 = _coliMap[i]->getBoundingBox();
         _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
         if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())

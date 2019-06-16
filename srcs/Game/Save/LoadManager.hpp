@@ -23,7 +23,7 @@ public:
     LoadManager();
     ~LoadManager();
 
-    MapData &getMapData();
+    std::shared_ptr<IMap> getMap();
     std::unique_ptr<AGame> loadGame();
 
 private:
@@ -44,15 +44,17 @@ private:
     ACharacter::MapPos      getMapPos(std::string const &, int);
 
     // NOTE Display
+    void printMap() const;
+    void printCharacter() const;
     void printPos(ACharacter::MapPos const &) const;
 private:
-    BotVec          _bots;
-    std::ifstream   _file;
-    std::size_t     _index;
-    PlayerVec       _players;
-    MapData         _mapData;
-    bool            _isMapWall;
-    bool            _isRulesWall;
-    bool            _isGameLoaded;
-    bool            _isRulesGround;
+    std::shared_ptr<IMap>   _map;
+    BotVec                  _bots;
+    std::ifstream           _file;
+    std::size_t             _index;
+    PlayerVec               _players;
+    bool                    _isMapWall;
+    bool                    _isRulesWall;
+    bool                    _isGameLoaded;
+    bool                    _isRulesGround;
 };
