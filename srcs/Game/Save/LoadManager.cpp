@@ -41,13 +41,13 @@ void LoadManager::getMapWall(std::string const &line)
 
 void LoadManager::getRulesWall(std::string const &line)
 {
-    _map->getMapData()._rulesWall.insert({line[_index], getSpriteInfo(line)});
+    _map->getMapData()._rulesWall.insert({line[0], getSpriteInfo(line)});
     _index = 0;
 }
 
 void LoadManager::getRulesGround(std::string const &line)
 {
-    _map->getMapData()._rulesGround.insert({line[_index], getSpriteInfo(line)});
+    _map->getMapData()._rulesGround.insert({line[0], getSpriteInfo(line)});
     _index = 0;
 }
 
@@ -61,8 +61,6 @@ std::string const LoadManager::getPath(std::string const &line)
         path.push_back(line[_index]);
         ++_index;
     }
-    ++_index;
-    std::cout << "path = " << path << std::endl;
     return path;
 }
 
@@ -98,7 +96,6 @@ SpriteInfo &LoadManager::getSpriteInfo(std::string const &line)
 
 void LoadManager::getInfo(std::string const &line)
 {
-    std::cout << "line = " << line << std::endl;
     switch (line[0]) {
         case 'P' :
             addPlayer(line);
@@ -130,15 +127,12 @@ std::unique_ptr<AGame> LoadManager::loadGame()
     while (std::getline(_file, line)) {
         if (line.compare("MapWall") == 0) {
             _isMapWall = true;
-            continue;
         } else if (line.compare("RulesWall") == 0) {
             _isRulesWall = true;
             _isMapWall = false;
-            continue;
         } else if (line.compare("RulesGround") == 0) {
             _isRulesGround = true;
             _isRulesWall = false;
-            continue;
         } else {
             getInfo(line);
         }
@@ -163,6 +157,7 @@ ACharacter::MapPos LoadManager::getMapPos(std::string const &line, int i)
     float x = 0, y = 0, z = 0;
     auto count {0};
 
+    --i;
     while (line[i++]) {
         if (line[i] == ' ' && count == 0) {
             x = convertVal(tmp, count);
@@ -200,7 +195,7 @@ void LoadManager::addPlayer(std::string const &line)
     auto pos {getMapPos(line, 2)};
 
     _players.push_back(std::make_unique<Player>(Player(0,
-        getSkin(line), pos)));
+        ACharacter::Color::RED, pos)));
     _index = 0;
 }
 
@@ -214,7 +209,25 @@ void LoadManager::addBot(std::string const &line)
 void LoadManager::printPos(ACharacter::MapPos const &pos) const
 {
     std::cout << "Pos = " << std::get<0>(pos) << " "
-        << std::get<1>(pos) << " " << std::get<2>(pos) << std::endl;
+        << std::get<1>(pos) << " " << std::get<2>(pos) << ":";
+}
+
+void LoadManager::printCharacter() const
+{
+    std::cout << "Players" << std::endl;
+    if (_players.empty())
+        std::cout << "player empty" << std::endl;
+    if (_bots.empty())
+        std::cout << "bots empty" << std::endl;
+    for (auto & i : _players) {
+        printPos(i->getMapPos());
+        std::cout << std::endl;
+    }
+    std::cout << "Bots" << std::endl;
+    for (auto & i : _bots) {
+        printPos(i->getMapPos());
+        std::cout << std::endl;
+    }
 }
 
 void LoadManager::printMap() const
@@ -226,6 +239,12 @@ void LoadManager::printMap() const
         std::cout << i << std::endl;
     std::cout << "Rules wall first:" << std::endl;
     for (auto &i : map._rulesWall) {
+        std::cout << i.first << ":" << i.second._messPath << ":" << i.second._texPath << ":";
+        auto pos = i.second._size;
+        std::cout << pos.X << " " << pos.Y << " " << pos.Z << std::endl;
+    }
+    std::cout << "Rules Ground first:" << std::endl;
+    for (auto &i : map._rulesGround) {
         std::cout << i.first << ":" << i.second._messPath << ":" << i.second._texPath << ":";
         auto pos = i.second._size;
         std::cout << pos.X << " " << pos.Y << " " << pos.Z << std::endl;

@@ -198,6 +198,8 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB and _map->getMapData()._mapWall[a.y][a.x] != '1'
                                                      and _map->getMapData()._mapWall[a.y][a.x] != '2') {
+            // auto s = SaveManager(*_game.get(), _map->getMapData());
+            // s.save();
             if (!isRunning)
                 _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
@@ -342,8 +344,8 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
     _dispLoader->loadGame(_game);
     std::cout << "game" << std::endl;
     _dispLoader->loadMap(_map->getMapData());
-    std::cout << _display->getColiMap().size() << std::endl;
-    std::cout << _display->getNonColiMap().size() << std::endl;
+    // std::cout << _display->getColiMap().size() << std::endl;
+    // std::cout << _display->getNonColiMap().size() << std::endl;
     _dispLoader->setExplosionPos();
     _dispLoader->setBombsPos();
     //    _dispLoader->loadMap(_map->getMapData());
@@ -384,9 +386,22 @@ void GameBisScene::loadScene(SceneInfo &info)
     // auto l = LoadManager();
     // auto game = l.loadGame();
     // info._map = l.getMap();
+
     // for (auto &i : info._map->getMapData()._mapWall)
     //     std::cout << i << std::endl;
     auto game = std::unique_ptr<AGame>(new BombermanGame(info._players, info._bot));
+    // std::cout << "Player pos IN SCENE\n";
+    // for (auto &i : game->getPlayers()) {
+    //     auto pos = i->getMapPos();
+    //     std::cout << "Pos = " << std::get<0>(pos) << " "
+    //     << std::get<1>(pos) << " " << std::get<2>(pos) << "\n";
+    // }
+    // std::cout << "BOT pos IN SCENE\n";
+    // for (auto &i : game->getBots()) {
+    //     auto pos = i->getMapPos();
+    //     std::cout << "Pos = " << std::get<0>(pos) << " "
+    //     << std::get<1>(pos) << " " << std::get<2>(pos) << "\n";
+    // }
     _master->setVisible(true);
     loadGame("./../resources/maps/3", game, info);
     camera->addAnimator(_manager->createFlyStraightAnimator(
