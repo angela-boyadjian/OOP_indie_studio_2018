@@ -83,5 +83,8 @@ private:
     std::vector<std::tuple<int, int>>   _explosionPos;
     std::vector<std::chrono::time_point<std::chrono::system_clock>> _explosionTime;
     std::vector<std::size_t> _rm;
+    bool                        _isPlaying;
+    std::unique_ptr<sf::Sound> _music;
+    std::unique_ptr<sf::SoundBuffer> _buf;
 //    std::vector<IDisplay::Scenes> _sceneManager;
 };
