@@ -349,7 +349,7 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
     _game = std::move(game);
     _display->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
     _manager->addSkyDomeSceneNode
-    (_display->_driver->getTexture("../lib/irrLicht/media/skydome.jpg"),16,8,0.95f,2.0f);
+    (_display->_driver->getTexture("./../resources/textures/skyboxes/skybox1.jpg"),16,8,0.95f,2.0f);
     _display->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
     _dispLoader->loadGame(_game);
     std::cout << "game" << std::endl;
