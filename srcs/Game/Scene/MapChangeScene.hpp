@@ -40,7 +40,6 @@ class MapChangeScene : public IScene {
         irr::scene::ISceneManager *_manager;
         std::string _name;
         bool _is_load;
-        std::vector<std::shared_ptr<irr::scene::ISceneNode>> _cubes;
         std::vector<irr::gui::IGUIButton *> _buttons;
         const irr::core::dimension2du &_win_size;
         std::shared_ptr<irr::IrrlichtDevice> _device;

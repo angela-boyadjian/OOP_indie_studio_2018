@@ -64,6 +64,7 @@ set(SOURCE_FILES
         srcs/Game/Save/LoadManager.cpp srcs/Game/Save/LoadManager.hpp
         srcs/Game/Scene/SettingsScene.cpp srcs/Game/Scene/SettingsScene.hpp srcs/Game/Scene/ChoosePlayerScene.cpp srcs/Game/Scene/ChoosePlayerScene.hpp
         srcs/Game/Scene/SceneInfo.hpp
+        srcs/Game/PauseMenu.cpp srcs/Game/PauseMenu.hpp
         )
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}")

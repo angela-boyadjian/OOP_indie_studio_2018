@@ -27,27 +27,6 @@ bool    Events::OnEvent(const Event& event)
             return true;
         }
     }
-/*    if (isGuiEvent(event)) {
-        index id = event.GUIEvent.Caller->getID();
-        // std::cout << id << std::endl;
-        if (event.GUIEvent.EventType == irr::gui::EGET_BUTTON_CLICKED) {
-            switch (id) {
-            case (GUI_ID_QUIT_BUTTON):
-//                _display->_sceneManagers.at(
-//                    "game")->getSceneManager()->saveScene("test.irr");
-                _device->closeDevice();
-                return true;
-            case (GUI_ID_START_BUTTON):
-                _display->changeScene("game");
-                return true;
-            case (GUI_ID_LOAD_BUTTON):
-                break;
-            case (GUI_ID_SETTING_BUTTON):
-                _display->changeScene("settings");
-                break;
-            }
-        }
-    }*/
     return false;
 }
 
