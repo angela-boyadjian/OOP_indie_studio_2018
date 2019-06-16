@@ -54,7 +54,7 @@ void IntroScene::loadImg() noexcept
     _images[0]->setImage(_textures[0]);
     _images[0]->setScaleImage(true);
     _images[1]->setImage(_textures[1]);
-    _images[1]->setRelativePosition(irr::core::position2di(250, 450));
+    _images[1]->setRelativePosition(irr::core::position2di(420, 470));
     _images[1]->setVisible(false);
     _isVisible = false;
     _manager->addSkyDomeSceneNode
