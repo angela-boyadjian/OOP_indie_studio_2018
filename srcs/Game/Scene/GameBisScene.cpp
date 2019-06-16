@@ -29,6 +29,7 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
 {
     addSfEffect("PUT_BOMB", "./../resources/sounds/Bomb/BombClock.wav");
     addSfEffect("BOMB_EXP", "./../resources/sounds/Bomb/BombExplode.wav");
+    addSfEffect("DEATH", "./../resources/sounds/Character/CharacterDeath.wav");
     _master->setVisible(false);
 }
 
@@ -36,6 +37,7 @@ GameBisScene::~GameBisScene()
 {
     _sfEffects["BOMB_EXP"]->stop();
     _sfEffects["PUT_BOMB"]->stop();
+    _sfEffects["DEATH"]->stop();
 }
 
 std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
@@ -111,6 +113,7 @@ void GameBisScene::killPlayers(const int &x, const int &y)
             _game->getPlayers()[i]->setPosZ(1000);
             changeModelPos(_game->getPlayers()[i]->getEntityNb(), _game->getPlayers()[i]->getMapPos());
             _game->getPlayers().erase(_game->getPlayers().begin() + i);
+            _sfEffects["DEATH"]->play();
             return killPlayers(x, y);
         }
     }
@@ -120,6 +123,7 @@ void GameBisScene::killPlayers(const int &x, const int &y)
             _game->getBots()[i]->setPosZ(1000);
             changeModelPos(_game->getBots()[i]->getEntityNb(), _game->getBots()[i]->getMapPos());
             _game->getBots().erase(_game->getBots().begin() + i);
+            _sfEffects["DEATH"]->play();
             return killPlayers(x, y);
         }
     }
@@ -153,6 +157,7 @@ void GameBisScene::exploseEmpty(const int &x, const int &y)
         setExplosion(x, tmp_y);
     }
     _map->getMapData()._mapWall[y][x] = '0';
+    killPlayers(x, y);
 }
 
 void GameBisScene::explosion(const int &x, const int &y, const bool &b)
