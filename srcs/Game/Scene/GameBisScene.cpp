@@ -231,6 +231,10 @@ SceneInfo GameBisScene::runScene()
         _isPlaying = true;
         _sfEffects["MUSIC"]->play();
     }
+    if (_game->getBots().empty() and _game->getPlayers().size() == 1)
+        return SceneInfo("win");
+    else if (_game->getPlayers().empty())
+        return SceneInfo("lose");
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
     exploseBomb();
