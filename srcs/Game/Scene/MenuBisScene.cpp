@@ -21,10 +21,13 @@ MenuBisScene::MenuBisScene(std::shared_ptr<IDisplay> display, irr::scene::IScene
 
 SceneInfo MenuBisScene::runScene()
 {
+    SceneInfo info("player_choose");
+
+    info.load = false;
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str()); // A CHANGER
     if (_buttons[0]->isPressed())
-        return SceneInfo("player_choose");
+        return info;
     if (_buttons[1]->isPressed())
         return SceneInfo("settings");
     if (_buttons[2]->isPressed())

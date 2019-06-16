@@ -299,12 +299,12 @@ void core::Bomberman::Trun()
 
 void core::Bomberman::initScene()
 {
-    _manager.addScenes(std::make_unique<MenuBisScene>(_display, _manager.getMaster(), "menu"));
-    _manager.addScenes(std::make_unique<MapChangeScene>(_display, _manager.getMaster(), "map_choose"));
-    _manager.addScenes(std::make_unique<GameBisScene>(_display->getDevice(), _manager.getMaster(), "game", _event, _display));
     _manager.addScenes(std::make_unique<IntroScene>(_display, _manager.getMaster(), "intro", _event));
+    _manager.addScenes(std::make_unique<MenuBisScene>(_display, _manager.getMaster(), "menu"));
     _manager.addScenes(std::make_unique<SettingsScene>(_display, _manager.getMaster(), "settings", _event));
     _manager.addScenes(std::make_unique<ChoosePlayerScene>(_display, _manager.getMaster(), "player_choose", _event));
+    _manager.addScenes(std::make_unique<MapChangeScene>(_display, _manager.getMaster(), "map_choose"));
+    _manager.addScenes(std::make_unique<GameBisScene>(_display->getDevice(), _manager.getMaster(), "game", _event, _display));
     _manager.changeCurrent("intro");
 }
 

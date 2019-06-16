@@ -147,7 +147,10 @@ SceneInfo ChoosePlayerScene::createInfo(const std::string &scene)
         id++;
         color++;
     }
-    info._dest = scene;
+    if (info.load)
+        info._dest = "game";
+    else
+        info._dest = scene;
     if (info._players.size() != 0)
         _canPlay = true;
     return info;

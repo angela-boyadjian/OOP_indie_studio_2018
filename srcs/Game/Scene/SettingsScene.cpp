@@ -21,19 +21,20 @@ SettingsScene::SettingsScene(std::shared_ptr<IDisplay> display,
 
 SceneInfo SettingsScene::runScene()
 {
+    SceneInfo info("player_choose");
+    auto load = LoadManager();
+    std::cout << "load settings" << std::endl;
+
+    info._map = load.getMap();
+    info.load = true;
     if (!_is_load)
         throw SceneException("Scene is not load", _name.c_str());
-    return SceneInfo("player_choose");
+    return info;
 }
 
 void SettingsScene::loadScene(SceneInfo &info)
 {
-    // auto load = LoadManager();
     std::cout << "load settings" << std::endl;
-
-    // info._map = load.getMap();
-    // info.load = true;
-    // info._dest = "player_choose";
     _is_load = true;
 }
 

@@ -20,6 +20,7 @@ SceneInfo(const std::string dest) : _dest(dest) {};
         std::shared_ptr<IMap> _map;
         std::vector<std::shared_ptr<Player>> _players;
         std::vector<std::shared_ptr<Bot>> _bot;
+        bool load;
 };
 
 
