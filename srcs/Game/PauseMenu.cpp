@@ -8,14 +8,20 @@
 #include <chrono>
 #include <ctime>
 
+#include "SaveManager.hpp"
 #include "PauseMenu.hpp"
 
-PauseMenu::PauseMenu(irr::scene::ISceneNode *father,  irr::scene::ISceneManager *manager, const irr::core::dimension2du &win_size, std::shared_ptr<Events> event, std::shared_ptr<irr::IrrlichtDevice> device) :
+PauseMenu::PauseMenu(irr::scene::ISceneNode *father,  irr::scene::ISceneManager *manager,
+    const irr::core::dimension2du &win_size, std::shared_ptr<Events> event,
+    std::shared_ptr<irr::IrrlichtDevice> device, AGame &game, MapData &data) :
     _win_size(win_size),
     _back(manager->addCubeSceneNode(30, father)),
     _status(false),
     _event(event),
-    _start(std::chrono::system_clock::now())
+    _start(std::chrono::system_clock::now()),
+    _device(device),
+    _game(game),
+    _data(data)
 {
     _back->setScale(irr::core::vector3df(0.75, 0.1, 1));
     _back->setPosition(irr::core::vector3df(-2.5, -10, 15));
@@ -54,6 +60,11 @@ std::string PauseMenu::runPause(const std::string &from)
     if (_buttons[static_cast<int>(BUTTON::MENU)]->isPressed()) {
         switchStatus();
         return "menu";
+    }
+    if (_buttons[static_cast<int>(BUTTON::SAVE)]->isPressed()) {
+        auto s = SaveManager(_game, _data);
+        s.save();
+        _device->closeDevice();
     }
     return from;
 }

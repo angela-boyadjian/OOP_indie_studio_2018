@@ -23,7 +23,7 @@ class PauseMenu {
                 RESUME,
         };
 
-        PauseMenu(irr::scene::ISceneNode *,  irr::scene::ISceneManager *, const irr::core::dimension2du &, std::shared_ptr<Events>, std::shared_ptr<irr::IrrlichtDevice>);
+        PauseMenu(irr::scene::ISceneNode *,  irr::scene::ISceneManager *, const irr::core::dimension2du &, std::shared_ptr<Events>, std::shared_ptr<irr::IrrlichtDevice>, AGame &, MapData &);
         ~PauseMenu() = default;
 
         void switchStatus();
@@ -38,7 +38,7 @@ class PauseMenu {
         bool _status;
         int _delay;
         std::chrono::time_point<std::chrono::system_clock> _start;
+        std::shared_ptr<irr::IrrlichtDevice> _device;
+        AGame   &_game;
+        MapData &_data;
 };
-
-
-

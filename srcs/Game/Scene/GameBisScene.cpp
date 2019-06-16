@@ -198,8 +198,6 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB and _map->getMapData()._mapWall[a.y][a.x] != '1'
                                                      and _map->getMapData()._mapWall[a.y][a.x] != '2') {
-            auto s = SaveManager(*_game.get(), _map->getMapData());
-            s.save();
             if (!isRunning)
                 _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
@@ -398,8 +396,9 @@ void GameBisScene::loadScene(SceneInfo &info)
 
     _is_load = true;
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
-    _pause = std::make_unique<PauseMenu>(_master.get(), _manager, _device->getVideoDriver()->getScreenSize(), _event, _device);
     auto game = std::unique_ptr<AGame>(new BombermanGame(info._players, info._bot));
+    _pause = std::make_unique<PauseMenu>(_master.get(), _manager, _device->getVideoDriver()->getScreenSize(),
+        _event, _device, *game.get(), info._map->getMapData());
     _master->setVisible(true);
     loadGame("./../resources/maps/3", game, info);
     camera->addAnimator(_manager->createFlyStraightAnimator(
