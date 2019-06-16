@@ -16,6 +16,7 @@ ChoosePlayerScene::ChoosePlayerScene(std::shared_ptr<IDisplay> display,
     _win_size(display->getDevice()->getVideoDriver()->getScreenSize()),
     _device(display->getDevice()),
     _event(event),
+    _canPlay(false),
     _info({})
 {
 }
@@ -26,8 +27,11 @@ SceneInfo ChoosePlayerScene::runScene()
         throw SceneException("Scene is not load", _name.c_str());
     if (_buttons[1]->isPressed())
         return SceneInfo("menu");
-    if (_buttons[0]->isPressed())
-        return createInfo("map_choose");
+    if (_buttons[0]->isPressed()) {
+        auto info = createInfo("map_choose");
+        if (_canPlay == true)
+            return info;
+    }
     return _info;
 }
 
@@ -127,21 +131,24 @@ SceneInfo ChoosePlayerScene::createInfo(const std::string &scene)
 {
     int id = 0;
     int color = 0;
+    SceneInfo info = _info;
 
     for (auto box : _box) {
         // std::cout << "ID  " << box->getSelected() << std::endl;
         if (box->getSelected() == 1) {
-            _info._players.push_back(std::make_shared<Player>(
+            info._players.push_back(std::make_shared<Player>(
                 Player(id, static_cast<ACharacter::Color>(color),
                     std::make_tuple(std::size_t(0), std::size_t(50000),
                         std::size_t(0)))));
        } else {
-            _info._bot.push_back(std::make_shared<Bot>(Bot(id, static_cast<ACharacter::Color>(color),
+            info._bot.push_back(std::make_shared<Bot>(Bot(id, static_cast<ACharacter::Color>(color),
                 std::make_tuple(std::size_t(0), std::size_t(0), std::size_t(0)))));
         }
         id++;
         color++;
     }
-    _info._dest = scene;
-    return _info;
+    info._dest = scene;
+    if (info._players.size() != 0)
+        _canPlay = true;
+    return info;
 }
