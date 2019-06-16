@@ -173,28 +173,10 @@ void    core::Bomberman::putBomb(const std::vector<ACharacter::move_t> &actions)
 
 void core::Bomberman::run()
 {
-    // TEMPO - REPLACE IT BY GENERIC METHOD
-    _game->getPlayers()[0]->setPosZ(
-        std::get<2>(_game->getPlayers()[0]->getMapPos()) + 30);
-    _display->changeModelPos(_game->getPlayers()[0]->getEntityNb(),
-                             std::make_tuple(
-                                 std::get<0>(
-                                     _game->getPlayers()[0]->getMapPos()),
-                                 std::get<1>(
-                                     _game->getPlayers()[0]->getMapPos()),
-                                 std::get<2>(
-                                     _game->getPlayers()[0]->getMapPos())));
-
-    // TEMPO - REPLACE IT BY GENERIC METHOD
-    _game->getBots()[0]->setPosZ(
-        std::get<2>(_game->getPlayers()[0]->getMapPos()) - 100);
-    _display->changeModelPos(_game->getBots()[0]->getEntityNb(),
-                             std::make_tuple(
-                                 std::get<0>(_game->getBots()[0]->getMapPos()),
-                                 std::get<1>(_game->getBots()[0]->getMapPos()),
-                                 std::get<2>(
-                                     _game->getBots()[0]->getMapPos())));
+    _map->getMapData()._mapWall[0][0] = '0';
     _map->getMapData()._mapWall[10][0] = '0';
+    _map->getMapData()._mapWall[0][10] = '0';
+    _map->getMapData()._mapWall[10][12] = '0';
 
     while (_display->isRunning()) {
         if (_mainMusic->getStatus() != sf::Sound::Playing)
