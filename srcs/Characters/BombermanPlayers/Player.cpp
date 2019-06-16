@@ -12,10 +12,67 @@ Player::Player(const std::size_t &enb, ACharacter::Color color, MapPos const &po
     ABombermanPlayer(enb, pos, color)
 {
     _action = ACharacter::Action::WAIT;
+    createKeyMap(_entityNb);
 }
 
 Player::~Player()
 {
+}
+
+void    Player::getFirstKeyMap()
+{
+    _keyMap["UP"] = irr::EKEY_CODE::KEY_KEY_Z;
+    _keyMap["DOWN"] = irr::EKEY_CODE::KEY_KEY_S;
+    _keyMap["LEFT"] = irr::EKEY_CODE::KEY_KEY_Q;
+    _keyMap["RIGHT"] = irr::EKEY_CODE::KEY_KEY_D;
+    _keyMap["BOMB"] = irr::EKEY_CODE::KEY_KEY_C;
+}
+
+void    Player::getSecondKeyMap()
+{
+    _keyMap["UP"] = irr::EKEY_CODE::KEY_KEY_T;
+    _keyMap["DOWN"] = irr::EKEY_CODE::KEY_KEY_G;
+    _keyMap["LEFT"] = irr::EKEY_CODE::KEY_KEY_F;
+    _keyMap["RIGHT"] = irr::EKEY_CODE::KEY_KEY_H;
+    _keyMap["BOMB"] = irr::EKEY_CODE::KEY_KEY_B;
+}
+
+void    Player::getThirdKeyMap()
+{
+    _keyMap["UP"] = irr::EKEY_CODE::KEY_UP;
+    _keyMap["DOWN"] = irr::EKEY_CODE::KEY_DOWN;
+    _keyMap["LEFT"] = irr::EKEY_CODE::KEY_LEFT;
+    _keyMap["RIGHT"] = irr::EKEY_CODE::KEY_RIGHT;
+    _keyMap["BOMB"] = irr::EKEY_CODE::KEY_SPACE;
+}
+
+void    Player::getFourthKeyMap()
+{
+    _keyMap["UP"] = irr::EKEY_CODE::KEY_UP;
+    _keyMap["DOWN"] = irr::EKEY_CODE::KEY_DOWN;
+    _keyMap["LEFT"] = irr::EKEY_CODE::KEY_LEFT;
+    _keyMap["RIGHT"] = irr::EKEY_CODE::KEY_RIGHT;
+    _keyMap["BOMB"] = irr::EKEY_CODE::KEY_SPACE;
+}
+
+void    Player::createKeyMap(const std::size_t &i)
+{
+    switch (i) {
+        case 0:
+            getFirstKeyMap();
+            break;
+        case 1:
+            getSecondKeyMap();
+            break;
+        case 2:
+            getThirdKeyMap();
+            break;
+        case 3:
+            getFourthKeyMap();
+            break;
+        default:
+            break;
+    }
 }
 
 void    Player::putBomb(std::vector<std::string> &map)
