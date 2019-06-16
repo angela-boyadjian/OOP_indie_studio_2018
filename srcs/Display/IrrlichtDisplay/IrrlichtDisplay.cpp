@@ -16,7 +16,6 @@ void    IrrlichtDisplay::setDisplay(Events *events)
     _device->setWindowCaption(L"Bomberman");
     _gui = std::unique_ptr<irr::gui::IGUIEnvironment>(_device->getGUIEnvironment());
     _driver = _device->getVideoDriver();
-
    // _sceneManagers.insert(std::pair<std::string, Scenes>("menu", std::shared_ptr<ISceneManager>(new MenuScene(_device, _driver))));
     //_sceneManagers.insert(std::pair<std::string, Scenes>("game", std::shared_ptr<ISceneManager>(new GameScene(_device, _driver))));
    // _sceneManagers.insert(std::pair<std::string, Scenes>("map select", std::shared_ptr<ISceneManager>(new MapSelectionScene(_device, _driver))));
@@ -133,6 +132,8 @@ void    IrrlichtDisplay::changeModelFrame(const std::size_t &i, const std::size_
 bool    IrrlichtDisplay::isCollisionFromMap(irr::core::aabbox3d<irr::f32> &b) const
 {
     for (auto i {0}; i < _coliMap.size(); ++i) {
+        std::cout << i << std::endl;
+        std::cout <<  _coliMap.size() << std::endl;
         auto b2 = _coliMap[i]->getBoundingBox();
         _coliMap[i]->getRelativeTransformation().transformBoxEx(b2);
         if (b.intersectsWithBox(b2) && _coliMap[i]->isVisible())

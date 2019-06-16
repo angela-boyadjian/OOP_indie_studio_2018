@@ -45,8 +45,6 @@ void    Player::putBomb(std::vector<std::string> &map)
 
 void    Player::takeBonus(std::vector<std::string> &map)
 {
-    std::cout << "posX = " << std::get<0>(_2dPos) << std::endl;
-    std::cout << "posY = " << std::get<1>(_2dPos) << std::endl;
     auto b = map[std::get<1>(_2dPos)][std::get<0>(_2dPos)];
     if (b >= '7') {
         auto pu = PowerUp(b - 7 - 48);
@@ -90,9 +88,5 @@ ACharacter::move_t  Player::move(std::vector<std::string> &map, IDisplay *d)
         default:
             break;
     }
-//    map.at(std::get<1>(_2dPos)).at(std::get<0>(_2dPos)) = '4';
-//    for (auto &m : map)
-//        std::cout << m << std::endl;
-//    std::cout << std::endl;
     return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _action, .itself = this};
 }

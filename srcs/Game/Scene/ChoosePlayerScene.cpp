@@ -54,6 +54,7 @@ void ChoosePlayerScene::deLoad()
     _buttons.clear();
     _box.clear();
     _is_load = false;
+
 }
 
 void ChoosePlayerScene::loadImg() noexcept

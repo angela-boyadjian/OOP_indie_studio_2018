@@ -23,8 +23,14 @@
 #include "SettingsScene.hpp"
 #include "ChoosePlayerScene.hpp"
 
-core::Bomberman::Bomberman()
+core::Bomberman::Bomberman() :
+    _isPlaying(true)
 {
+    _buf = std::make_unique<sf::SoundBuffer>(sf::SoundBuffer());
+    _buf->loadFromFile("./../resources/sounds/aulos.wav");
+    _music = std::make_unique<sf::Sound>(sf::Sound());
+    _music->setBuffer(*_buf.get());
+    _music->play();
 }
 
 core::Bomberman::~Bomberman()
@@ -281,6 +287,10 @@ void core::Bomberman::Trun()
 {
     while (_display->isRunning()) {
         _display->getDevice()->getVideoDriver()->beginScene(true, true,  irr::video::SColor(255, 100, 101, 140));
+        if (std::get<1>(_manager.getCurrent()) == "game" and _isPlaying)
+            _music->stop();
+        else if (!_isPlaying)
+            _music->play();
         _manager.runCurrentScene();
         _display->getDevice()->getVideoDriver()->endScene();
     }
