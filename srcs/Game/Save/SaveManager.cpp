@@ -53,7 +53,6 @@ std::string const SaveManager::getColor(ACharacter const &c)
 
 void SaveManager::addMap()
 {
-    _file << "M" << std::endl;
     addMapWall();
     addRules();
     _file << "T:" << std::to_string(_mapData._time) << std::endl;
@@ -86,11 +85,10 @@ void SaveManager::addRules()
 
 void SaveManager::addSpriteInfo(SpriteInfo const &info)
 {
-    _file << info._is_destructible << ":" << info._messPath
-        << ":" << info._referTo << ":";
+    _file << info._referTo << ":" << info._messPath << ":" << info._texPath << ":";
     _file << std::to_string(info._size.X) << " " <<
         std::to_string(info._size.Y) << " " << std::to_string(info._size.Z) << ":";
-    _file << info._texPath;
+    _file << std::to_string(info._is_destructible);
 }
 
 void SaveManager::addCharacters()
