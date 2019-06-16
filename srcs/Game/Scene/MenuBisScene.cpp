@@ -37,7 +37,7 @@ void MenuBisScene::loadButtons()
     _buttons.emplace_back(_manager->getGUIEnvironment()->addButton(irr::core::rect<irr::s32>(_win_size.Width / 2 - 300, 440,
                                                                                              _win_size.Width / 2 + 300, 440 + 42), nullptr, 102, L"Start Game"));
     _buttons.emplace_back(_manager->getGUIEnvironment()->addButton(irr::core::rect<irr::s32>(_win_size.Width / 2 - 300, 440 + 42 + 10,
-                                                                                             _win_size.Width / 2 + 300, 440 + 42 + 10 + 42), nullptr, 103, L"Settings"));
+                                                                                             _win_size.Width / 2 + 300, 440 + 42 + 10 + 42), nullptr, 103, L"Continue"));
     _buttons.emplace_back(_manager->getGUIEnvironment()->addButton(irr::core::rect<irr::s32>(_win_size.Width / 2 - 300, 440 + 84 + 20,
                                                                                              _win_size.Width / 2 + 300, 440 + 84 + 20 + 42), nullptr, 101, L"Exit"));
 }

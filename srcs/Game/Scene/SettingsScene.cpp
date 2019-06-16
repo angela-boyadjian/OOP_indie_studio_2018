@@ -5,6 +5,7 @@
 #include "DisplayExceptions.hpp"
 #include "SettingsScene.hpp"
 #include "SceneException.hpp"
+#include "LoadManager.hpp"
 
 SettingsScene::SettingsScene(std::shared_ptr<IDisplay> display,
     irr::scene::ISceneNode *father, std::string const &name, std::shared_ptr<Events> event) :
