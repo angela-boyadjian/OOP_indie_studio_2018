@@ -331,8 +331,8 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
 {
     //_map = std::shared_ptr<IMap>(new Map);
     _map = info._map;
-    for (auto &lines : _map->getMapData()._mapWall)
-        std::cout << lines << std::endl;
+    // for (auto &lines : _map->getMapData()._mapWall)
+    //     std::cout << lines << std::endl;
     //_map->load(mapPath);
     _game = std::move(game);
     _display->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
@@ -383,8 +383,9 @@ void GameBisScene::loadScene(SceneInfo &info)
     _dispLoader = std::make_unique<IrrlichtDisplayLoader>(_display, _master, _manager);
     // auto l = LoadManager();
     // auto game = l.loadGame();
-    // auto s = SaveManager(*game.get(), info._map->getMapData());
-    // s.save();
+    // info._map = l.getMap();
+    // for (auto &i : info._map->getMapData()._mapWall)
+    //     std::cout << i << std::endl;
     auto game = std::unique_ptr<AGame>(new BombermanGame(info._players, info._bot));
     _master->setVisible(true);
     loadGame("./../resources/maps/3", game, info);

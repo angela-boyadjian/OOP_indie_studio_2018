@@ -85,6 +85,7 @@ void SaveManager::addRules()
 
 void SaveManager::addSpriteInfo(SpriteInfo const &info)
 {
+    std::cout << "Refer to = " << info._referTo << std::endl;
     _file << info._referTo << ":" << info._messPath << ":" << info._texPath << ":";
     _file << std::to_string(info._size.X) << " " <<
         std::to_string(info._size.Y) << " " << std::to_string(info._size.Z) << ":";
