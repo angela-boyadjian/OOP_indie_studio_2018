@@ -7,13 +7,14 @@
 
 #pragma once
 
+#include <chrono>
 #include "ABombermanPlayer.hpp"
 
 class Bot : public ABombermanPlayer {
 public:
     // CONSTRUCTOR / DESTRUCTOR
     Bot(const std::size_t &enb, ACharacter::Color color, const MapPos &pos) : ABombermanPlayer(enb, pos, color),
-    _lastDirection(ACharacter::Action::WAIT), _movement(0) {};
+    _lastDirection(ACharacter::Action::WAIT), _movement(0), _c(std::chrono::system_clock::now()) {};
     ~Bot() = default;
 
     // BLOCKS
@@ -49,6 +50,7 @@ public:
     bool        isSafe(const float &, const float &, std::vector<std::string> &);
     void        animation();
 
+    std::chrono::time_point<std::chrono::system_clock> _c;
     Action                      _lastDirection;
     std::size_t                 _movement;
 };

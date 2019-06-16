@@ -5,11 +5,9 @@
 ** Bot
 */
 
-#include <chrono>
 #include <cstdlib>
 #include <iostream>
 #include <algorithm>
-#include <chrono>
 
 #include "Bot.hpp"
 
@@ -47,7 +45,7 @@ bool            Bot::isInDanger(std::vector<std::string> &map)
 {
     auto    posX {std::get<0>(_2dPos)};
     auto    posY {std::get<1>(_2dPos)};
-    return map[posY][posX] == -1 or map[posY][posX] == -2;
+    return map[posY][posX] == '5' or map[posY][posX] == '3';
 }
 
 std::size_t Bot::getDistanceUp(float x, float y, std::vector<std::string> &map)
@@ -342,7 +340,7 @@ void    Bot::otherMove(std::vector<std::string> &map)
     if (_bombNumber == 0) {
         a = getOutOfDanger(map);
         changePosition(a);
-    } else if (isMomentForBomb(map)) {
+    } else if (isMomentForBomb(map) and !isInDanger(map)) {
         a = ACharacter::Action::BOMB;
         putBomb(map);
         decreaseBombNumber();
@@ -355,18 +353,16 @@ void    Bot::otherMove(std::vector<std::string> &map)
 
 ACharacter::move_t  Bot::move(std::vector<std::string> &map, IDisplay *d)
 {
-    static auto c = std::chrono::system_clock::now();
-
     if (_movement > 0) {
         animation();
         if (_lastDirection != ACharacter::Action::BOMB)
             return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this};
         return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = ACharacter::Action::WAIT, .itself = this};
     }
-    std::chrono::duration<double> diff = std::chrono::system_clock::now() - c;
+    std::chrono::duration<double> diff = std::chrono::system_clock::now() - _c;
 
     if (diff.count() > 0.3)
-        c = std::chrono::system_clock::now();
+        _c = std::chrono::system_clock::now();
     else {
         if (_lastDirection != ACharacter::Action::BOMB)
             return { .x = std::get<0>(_2dPos), .y = std::get<1>(_2dPos), .action = _lastDirection, .itself = this};
