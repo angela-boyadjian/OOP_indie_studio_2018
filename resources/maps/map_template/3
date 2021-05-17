@@ -11,5 +11,5 @@
 0000000000000
 .10101010101.
 ..000000000..
-./../resources/maps/1Ground
-./../resources/maps/1Wall
+./resources/maps/1Ground
+./resources/maps/1Wall

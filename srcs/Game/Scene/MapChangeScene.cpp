@@ -102,14 +102,18 @@ void MapChangeScene::loadScene(SceneInfo &info)
     _camera = _manager->addCameraSceneNode(_master.get());
     _camera->setTarget(irr::core::vector3df(0, -15, 25));
     _camera->setPosition(irr::core::vector3df(0, 120, -20));
+    std::cout << "still here" << std::endl;
     loadButton();
-/*    camera->bindTargetAndRotation(true);
-    camera->setRotation(irr::core::vector3df(0, 90, 0));
-    auto animation = _manager->createRotationAnimator(irr::core::vector3df(1, 0, 0));
-    camera->addAnimator(animation);*/
+//    camera->bindTargetAndRotation(true);
+//    camera->setRotation(irr::core::vector3df(0, 90, 0));
+//    auto animation = _manager->createRotationAnimator(irr::core::vector3df(1, 0, 0));
+//    camera->addAnimator(animation);
+    std::cout << "still here wooow" << std::endl;
     _is_load = true;
      _map->generate3dMap(-1, 80, -1);
+    std::cout << "still here wooow" << std::endl;
     _dispLoader->loadMap(_map->getMapData());
+    std::cout << "load maaaap" << std::endl;
     _manager->addSkyDomeSceneNode
             (_manager->getVideoDriver()->getTexture("./media/skydome2.jpg"),16,8,0.95f,2.0f);
     _manager->getVideoDriver()->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);

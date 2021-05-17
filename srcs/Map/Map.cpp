@@ -30,7 +30,9 @@ void Map::load(const std::string &filename)
 
     _filename = filename;
     _data._mapWall = _reader.vectorRead(filename);
+    std::cout << "break on infosWall" << std::endl;
     auto infosWall = _reader.readSpriteInfo(_data._mapWall.back());
+    std::cout << "break on infoSGround" << std::endl;
     auto infosGround = _reader.readSpriteInfo(
         _data._mapWall[_data._mapWall.size() - 2]);
     _data._rulesWall = loadRules(infosWall);
@@ -64,6 +66,7 @@ std::vector<std::string> Map::DigStart(std::vector<std::string> &map)
 
 void Map::generate3dMap(int template_index, int range, long seed)
 {
+    std::cout << "load map templaate " << std::endl;
     auto files_names = _reader.readDir("./resources/maps/map_template/");
     auto default_template = loadDefaultTemplate(files_names);
 
@@ -73,7 +76,9 @@ void Map::generate3dMap(int template_index, int range, long seed)
         std::srand(seed);
     if (template_index == -1)
         template_index = std::rand() % default_template.size();
+    std::cout << "before load " << files_names[template_index] << std::endl;
     load(files_names[template_index]);
+    std::cout << "after load " << std::endl;
     for (auto &line : _data._mapWall) {
         for (auto &tile : line) {
             if (tile == '0') {

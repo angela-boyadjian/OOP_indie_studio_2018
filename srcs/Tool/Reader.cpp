@@ -23,7 +23,16 @@ std::vector<std::string> Reader::vectorRead(const std::string &filename)
     if (file.fail()) {
         std::cerr << "Reader : " << filename <<
                   ": No such file or directory" << std::endl;
-        throw std::exception();  // A changer
+        std::stringstream errMsg;
+        errMsg << "Could not load config file '" << filename << "'";
+        std::cout << "fail here" << std::endl;
+        throw std::runtime_error(
+            (std::ostringstream()
+                << "Could not load file '"
+                << filename
+                << "'"
+            ).str()
+        );
     }
     while (std::getline(file, line))
         vector.push_back(line);
@@ -58,6 +67,15 @@ std::vector<std::string> Reader::readDir(const std::string &dirname)
     return read;
 }
 
+std::vector<std::string> &splitStrA(const std::string &InputString, char delimiterChar, std::vector<std::string> &ResultVec) {
+    std::stringstream sStream(InputString);
+    std::string item;
+    while (std::getline(sStream, item, delimiterChar)) {
+        ResultVec.push_back(item);
+    }
+    return ResultVec;
+}
+
 std::vector<SpriteInfo> Reader::readSpriteInfo(const std::string &filename)
 {
     auto v = vectorRead(filename);
@@ -65,7 +83,7 @@ std::vector<SpriteInfo> Reader::readSpriteInfo(const std::string &filename)
 
     for (auto &line : v) {
         std::vector<std::string> splitLine;
-//        boost::split(splitLine, line, boost::is_any_of(";"));
+        splitStrA(line, ';', splitLine);
         vec.emplace_back(splitLine[0], splitLine[1], splitLine[2],
                          irr::core::vector3df(std::stof(splitLine[3]),
                                               std::stof(splitLine[4]),
