@@ -39,14 +39,14 @@ void GameScene::setTerrain()
 void   GameScene::setSkyDome()
 {
     _driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
-    getSceneManager()->addSkyDomeSceneNode(_driver->getTexture("../lib/irrLicht/media/skydome.jpg"),16,8,0.95f,2.0f);
+    getSceneManager()->addSkyDomeSceneNode(_driver->getTexture("./media/skydome.jpg"),16,8,0.95f,2.0f);
     _driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 
 void   GameScene::initTerrain()
 {
     _terrain = std::unique_ptr<irr::scene::ITerrainSceneNode>(getSceneManager()->addTerrainSceneNode(
-            "../lib/irrLicht/media/terrain-heightmap.bmp",
+            "./media/terrain-heightmap.bmp",
             nullptr, -1, irr::core::vector3df(0.f, 0.f, 0.f),
             irr::core::vector3df(0.f, 0.f, 0.f), irr::core::vector3df(40.f, 4.4f, 40.f),
             irr::video::SColor ( 255, 255, 255, 255 ), 5, irr::scene::ETPS_17, 4
@@ -66,8 +66,8 @@ void    GameScene::initAnimTerrain()
 void    GameScene::setTerrainMaterial()
 {
     _terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    _terrain->setMaterialTexture(0, _driver->getTexture("../lib/irrLicht/media/terrain-texture.jpg"));
-    _terrain->setMaterialTexture(1, _driver->getTexture("../lib/irrLicht/media/detailmap3.jpg"));
+    _terrain->setMaterialTexture(0, _driver->getTexture("./media/terrain-texture.jpg"));
+    _terrain->setMaterialTexture(1, _driver->getTexture("./media/detailmap3.jpg"));
     _terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
 }
 

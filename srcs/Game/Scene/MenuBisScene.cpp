@@ -60,7 +60,7 @@ void MenuBisScene::loadScene(SceneInfo &info)
     _cubes.back()->setMaterialFlag(irr::video::EMF_WIREFRAME, true);
     loadButtons();
     _manager->addSkyDomeSceneNode
-            (_manager->getVideoDriver()->getTexture("./../lib/irrLicht/media/skydome.jpg"),16,8,0.95f,2.0f);
+            (_manager->getVideoDriver()->getTexture("./media/skydome.jpg"),16,8,0.95f,2.0f);
     _manager->getVideoDriver()->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 

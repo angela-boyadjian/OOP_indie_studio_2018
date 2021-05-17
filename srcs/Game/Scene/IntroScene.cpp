@@ -57,8 +57,8 @@ void IntroScene::loadImg() noexcept
     _images[1]->setRelativePosition(irr::core::position2di(420, 470));
     _images[1]->setVisible(false);
     _isVisible = false;
-//    _manager->addSkyDomeSceneNode
-//            (_manager->getVideoDriver()->getTexture("./../lib/irrLicht/media/skydome.jpg"),16,8,0.95f,2.0f);
+    _manager->addSkyDomeSceneNode
+            (_manager->getVideoDriver()->getTexture("./media/skydome.jpg"),16,8,0.95f,2.0f);
     _manager->getVideoDriver()->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 

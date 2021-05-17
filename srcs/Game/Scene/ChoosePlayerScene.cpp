@@ -94,15 +94,17 @@ void ChoosePlayerScene::loadButton()
 
 void ChoosePlayerScene::setBackground()
 {
+    // TODO C3PM change
     auto _terrain = std::unique_ptr<irr::scene::ITerrainSceneNode>(_device->getSceneManager()->addTerrainSceneNode(
-            "../lib/irrLicht/media/terrain-heightmap.bmp",
+            "./media/terrain-heightmap.bmp",
             nullptr, -1, irr::core::vector3df(0.f, 0.f, 0.f),
             irr::core::vector3df(0.f, 0.f, 0.f), irr::core::vector3df(40.f, 4.4f, 40.f),
             irr::video::SColor ( 255, 255, 255, 255 ), 5, irr::scene::ETPS_17, 4
     ));
     _terrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    _terrain->setMaterialTexture(0, _device->getVideoDriver()->getTexture("../lib/irrLicht/media/terrain-texture.jpg"));
-    _terrain->setMaterialTexture(1, _device->getVideoDriver()->getTexture("../lib/irrLicht/media/detailmap3.jpg"));
+    // TODO C3PM change
+    _terrain->setMaterialTexture(0, _device->getVideoDriver()->getTexture("./media/terrain-texture.jpg"));
+    _terrain->setMaterialTexture(1, _device->getVideoDriver()->getTexture("./media/detailmap3.jpg"));
     _terrain->setMaterialType(irr::video::EMT_DETAIL_MAP);
     _terrain->scaleTexture(1.0f, 20.0f);
     auto _selector = std::unique_ptr<irr::scene::ITriangleSelector>

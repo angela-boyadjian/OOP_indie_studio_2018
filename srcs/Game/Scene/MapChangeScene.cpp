@@ -111,7 +111,7 @@ void MapChangeScene::loadScene(SceneInfo &info)
      _map->generate3dMap(-1, 80, -1);
     _dispLoader->loadMap(_map->getMapData());
     _manager->addSkyDomeSceneNode
-            (_manager->getVideoDriver()->getTexture("./../lib/irrLicht/media/skydome2.jpg"),16,8,0.95f,2.0f);
+            (_manager->getVideoDriver()->getTexture("./media/skydome2.jpg"),16,8,0.95f,2.0f);
     _manager->getVideoDriver()->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 
