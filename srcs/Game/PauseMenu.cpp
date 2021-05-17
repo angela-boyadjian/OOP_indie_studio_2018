@@ -26,7 +26,7 @@ PauseMenu::PauseMenu(irr::scene::ISceneNode *father,  irr::scene::ISceneManager 
     _back->setScale(irr::core::vector3df(0.75, 0.1, 1));
     _back->setPosition(irr::core::vector3df(-2.5, -10, 15));
     _back->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    _back->setMaterialTexture(0, device->getVideoDriver()->getTexture("../resources/textures/menuPause.jpg"));
+    _back->setMaterialTexture(0, device->getVideoDriver()->getTexture("./resources/textures/menuPause.jpg"));
     _back->setVisible(false);
     auto rec = irr::core::rect<irr::s32>(_win_size.Width / 2 - 200, _win_size.Height - (_win_size.Height / 5), _win_size.Width / 2 + 200, _win_size.Height - (_win_size.Height / 5) + 42);
     _buttons.emplace_back(manager->getGUIEnvironment()->addButton(rec, nullptr, -1, L"Menu !!"));

@@ -26,22 +26,12 @@ GameBisScene::GameBisScene(std::shared_ptr<irr::IrrlichtDevice> device,
     _device(device),
     _event(event),
     _display(display),
-    _powerUpPath({"../resources/textures/powerup/powerup.png", "../resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"})
+    _powerUpPath({"./resources/textures/powerup/powerup.png", "./resources/textures/powerup/speedMore.png", "../resources/textures/powerup/morebomb.png"})
 {
-    addSfEffect("PUT_BOMB", "./../resources/sounds/Bomb/BombClock.wav");
-    addSfEffect("BOMB_EXP", "./../resources/sounds/Bomb/BombExplode.wav");
-    addSfEffect("DEATH", "./../resources/sounds/Character/CharacterDeath.wav");
-    addSfEffect("MUSIC", "./../resources/sounds/rasputin.wav");
-    _sfEffects["MUSIC"]->setVolume(50);
-    _master->setVisible(false);
 }
 
 GameBisScene::~GameBisScene()
 {
-    _sfEffects["BOMB_EXP"]->stop();
-    _sfEffects["PUT_BOMB"]->stop();
-    _sfEffects["DEATH"]->stop();
-    _sfEffects["MUSIC"]->stop();
 }
 
 std::size_t GameBisScene::getColiIndex(const int &x, const int &y)
@@ -117,7 +107,6 @@ void GameBisScene::killPlayers(const int &x, const int &y)
             _game->getPlayers()[i]->setPosZ(1000);
             changeModelPos(_game->getPlayers()[i]->getEntityNb(), _game->getPlayers()[i]->getMapPos());
             _game->getPlayers().erase(_game->getPlayers().begin() + i);
-            _sfEffects["DEATH"]->play();
             return killPlayers(x, y);
         }
     }
@@ -127,7 +116,6 @@ void GameBisScene::killPlayers(const int &x, const int &y)
             _game->getBots()[i]->setPosZ(1000);
             changeModelPos(_game->getBots()[i]->getEntityNb(), _game->getBots()[i]->getMapPos());
             _game->getBots().erase(_game->getBots().begin() + i);
-            _sfEffects["DEATH"]->play();
             return killPlayers(x, y);
         }
     }
@@ -166,9 +154,6 @@ void GameBisScene::exploseEmpty(const int &x, const int &y)
 
 void GameBisScene::explosion(const int &x, const int &y, const bool &b)
 {
-    if (b)
-        _sfEffects["PUT_BOMB"]->stop();
-    _sfEffects["BOMB_EXP"]->play();
     exploseBlock(x, y);
     exploseEmpty(x, y);
 }
@@ -198,8 +183,6 @@ void GameBisScene::putBomb(const std::vector<ACharacter::move_t> &actions)
     for (auto a : actions) {
         if (a.action == ACharacter::Action::BOMB and _map->getMapData()._mapWall[a.y][a.x] != '1'
                                                      and _map->getMapData()._mapWall[a.y][a.x] != '2') {
-            if (!isRunning)
-                _sfEffects["PUT_BOMB"]->play();
             _display->visiBomb(a.x, a.y, true);
             bombs_pos.emplace_back(a);
             bombs_time.emplace_back(std::chrono::system_clock::now());
@@ -241,7 +224,6 @@ SceneInfo GameBisScene::runScene()
         return SceneInfo(_name);
     if (!_isPlaying) {
         _isPlaying = true;
-        _sfEffects["MUSIC"]->play();
     }
     if (_game->getBots().empty() and _game->getPlayers().size() == 1)
         return SceneInfo("win");
@@ -352,7 +334,7 @@ void GameBisScene::loadGame(const std::string &mapPath, std::unique_ptr<AGame> &
     _game = std::move(game);
     _display->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, false);
     _manager->addSkyDomeSceneNode
-    (_display->_driver->getTexture("./../resources/textures/skyboxes/skybox1.jpg"),16,8,0.95f,2.0f);
+    (_display->_driver->getTexture("./resources/textures/skyboxes/skybox1.jpg"),16,8,0.95f,2.0f);
     _display->_driver->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
     _dispLoader->loadGame(_game);
     _dispLoader->loadMap(_map->getMapData());
@@ -400,7 +382,7 @@ void GameBisScene::loadScene(SceneInfo &info)
     _pause = std::make_unique<PauseMenu>(_master.get(), _manager, _device->getVideoDriver()->getScreenSize(),
         _event, _device, *game.get(), info._map->getMapData());
     _master->setVisible(true);
-    loadGame("./../resources/maps/3", game, info);
+    loadGame("./resources/maps/3", game, info);
     camera->addAnimator(_manager->createFlyStraightAnimator(
             camera->getPosition(), irr::core::vector3df(-3.18643, 10.1158, 4.47983),
             1000, false, false));
@@ -523,8 +505,4 @@ std::vector<ACharacter::move_t> GameBisScene::action()
 
 void GameBisScene::addSfEffect(const std::string &key, const std::string &path)
 {
-    _sfBuf.emplace_back(std::make_unique<sf::SoundBuffer>(sf::SoundBuffer()));
-    _sfBuf.back()->loadFromFile(path);
-    _sfEffects[key] = std::make_unique<sf::Sound>(sf::Sound());
-    _sfEffects[key]->setBuffer(*_sfBuf.back().get());
 }

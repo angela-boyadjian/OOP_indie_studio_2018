@@ -8,7 +8,7 @@
 #include <fstream>
 #include <numeric>
 #include <algorithm>
-#include <boost/algorithm/string.hpp>
+//#include <boost/algorithm/string.hpp>
 #include <sstream>
 
 #include "Reader.hpp"
@@ -65,7 +65,7 @@ std::vector<SpriteInfo> Reader::readSpriteInfo(const std::string &filename)
 
     for (auto &line : v) {
         std::vector<std::string> splitLine;
-        boost::split(splitLine, line, boost::is_any_of(";"));
+//        boost::split(splitLine, line, boost::is_any_of(";"));
         vec.emplace_back(splitLine[0], splitLine[1], splitLine[2],
                          irr::core::vector3df(std::stof(splitLine[3]),
                                               std::stof(splitLine[4]),

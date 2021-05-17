@@ -35,7 +35,7 @@ private:
     std::shared_ptr<irr::IrrlichtDevice> _device;
     std::shared_ptr<Events> _event;
     bool _isVisible;
-    std::array<irr::gui::IGUIImage *, 2>    _images;
+//    std::array<irr::gui::IGUIImage *, 2>    _images;
     std::vector<irr::gui::IGUIComboBox *> _box;
     std::vector<irr::gui::IGUIButton *> _buttons;
     SceneInfo _info;

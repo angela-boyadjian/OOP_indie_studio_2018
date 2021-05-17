@@ -46,19 +46,19 @@ SceneInfo IntroScene::runScene()
 void IntroScene::loadImg() noexcept
 {
     auto const &gui {_device->getGUIEnvironment()};
-    for (auto i {0}; i < 2; ++i)
+    for (auto i{0}; i < 2; ++i)
         _images[i] = gui->addImage(irr::core::rect<irr::s32>(0, 0,
                                                              _win_size.Width, _win_size.Height));
-    _textures[0] = _device->getVideoDriver()->getTexture("./../resources/ui/MainMenuBackground.jpg");
-    _textures[1] = _device->getVideoDriver()->getTexture("./../resources/ui/press_start.png");
+    _textures[0] = _device->getVideoDriver()->getTexture("/resources/ui/MainMenuBackground.jpg");
+    _textures[1] = _device->getVideoDriver()->getTexture("./resources/ui/press_start.png");
     _images[0]->setImage(_textures[0]);
     _images[0]->setScaleImage(true);
     _images[1]->setImage(_textures[1]);
     _images[1]->setRelativePosition(irr::core::position2di(420, 470));
     _images[1]->setVisible(false);
     _isVisible = false;
-    _manager->addSkyDomeSceneNode
-            (_manager->getVideoDriver()->getTexture("./../lib/irrLicht/media/skydome.jpg"),16,8,0.95f,2.0f);
+//    _manager->addSkyDomeSceneNode
+//            (_manager->getVideoDriver()->getTexture("./../lib/irrLicht/media/skydome.jpg"),16,8,0.95f,2.0f);
     _manager->getVideoDriver()->setTextureCreationFlag(irr::video::ETCF_CREATE_MIP_MAPS, true);
 }
 

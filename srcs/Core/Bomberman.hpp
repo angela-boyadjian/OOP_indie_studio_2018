@@ -8,7 +8,6 @@
 #pragma once
 
 #include <memory>
-#include <SFML/Audio.hpp>
 
 #include "Map.hpp"
 #include "Bomberman/BombermanGame.hpp"
@@ -73,7 +72,7 @@ private:
     std::shared_ptr<IDisplay>       _display;
     std::shared_ptr<IDisplayLoader> _dispLoader;
     std::map<std::size_t, ACharacter::Action>   _lastActions;
-    std::unique_ptr<sf::Music>      _mainMusic;
+//    std::unique_ptr<sf::Music>      _mainMusic;
     SceneManager _manager;
     // BOMBS
     std::vector<ACharacter::move_t>     bombs_pos;
@@ -84,7 +83,7 @@ private:
     std::vector<std::chrono::time_point<std::chrono::system_clock>> _explosionTime;
     std::vector<std::size_t> _rm;
     bool                        _isPlaying;
-    std::unique_ptr<sf::Sound> _music;
-    std::unique_ptr<sf::SoundBuffer> _buf;
+//    std::unique_ptr<sf::Sound> _music;
+//    std::unique_ptr<sf::SoundBuffer> _buf;
 //    std::vector<IDisplay::Scenes> _sceneManager;
 };

@@ -10,10 +10,10 @@
 // NOTE CONSTRUCTOR / DESTRUCTOR
 ACharacter::ACharacter(const std::size_t &enb, const MapPos &pos,
         const Color &color) :
-    _textures({"../resources/models/Character/BlackBombermanTextures.png",
-    "../resources/models/Character/PinkBombermanTextures.png", 
-    "../resources/models/Character/RedBombermanTextures.png",
-    "../resources/models/Character/WhiteBombermanTextures.png"}),
+    _textures({"./resources/models/Character/BlackBombermanTextures.png",
+    "./resources/models/Character/PinkBombermanTextures.png",
+    "./resources/models/Character/RedBombermanTextures.png",
+    "./resources/models/Character/WhiteBombermanTextures.png"}),
     _pos(pos), _color(color), _speed(1), _entityNb(enb)
 {
 }

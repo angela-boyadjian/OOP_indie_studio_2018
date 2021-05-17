@@ -11,10 +11,10 @@ ABombermanPlayer::ABombermanPlayer(const std::size_t &enb, const MapPos &pos,
                        const Color &color) : ACharacter(enb, pos, color),
             _speed(0.3), _fireRange(1), _bombNumber(1), _maxBombNumber(1)
 {
-    _textures = std::vector<std::string>({"../resources/models/Character/BlackBombermanTextures.png",
-               "../resources/models/Character/PinkBombermanTextures.png",
-               "../resources/models/Character/RedBombermanTextures.png",
-               "../resources/models/Character/WhiteBombermanTextures.png"});
+    _textures = std::vector<std::string>({"./resources/models/Character/BlackBombermanTextures.png",
+               "./resources/models/Character/PinkBombermanTextures.png",
+               "./resources/models/Character/RedBombermanTextures.png",
+               "./resources/models/Character/WhiteBombermanTextures.png"});
     // _bombs.push_back(std::make_unique<Bomb>());
     _bombs.emplace_back(Bomb());
 }

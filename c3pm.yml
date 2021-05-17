@@ -1,0 +1,42 @@
+c3pm_version: v1
+type: executable
+name: indie_studio
+description: bomberman with irrlicht
+version: 1.0.0
+publish:
+  include:
+  - '**/**'
+build:
+  adapter:
+    name: c3pm
+    version: 0.0.1
+  config:
+    headers:
+    - 'srcs/**/*.hpp'
+    include_dirs:
+    - srcs/Map
+    - srcs/Logic
+    - srcs/Events
+    - srcs/Display
+    - srcs/Display/IrrlichtDisplay
+    - srcs/Characters
+    - srcs/Characters/BombermanPlayers
+    - srcs/Objects
+    - srcs/Tool
+    - srcs/Core
+    - srcs/Menu
+    - srcs/Menu/BombermanMenu
+    - srcs/Game
+    - srcs/Game/SceneManager
+    - srcs/Game/Scene
+    - srcs/Game/Save
+    sources:
+    - 'srcs/**/*.cpp'
+documentation: ""
+website: ""
+repository: ""
+contributors: ""
+standard: "20"
+license: UNLICENSED
+dependencies:
+  Irrlicht: 1.0.1

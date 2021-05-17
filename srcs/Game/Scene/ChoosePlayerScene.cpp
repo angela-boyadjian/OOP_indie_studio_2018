@@ -70,10 +70,10 @@ void ChoosePlayerScene::loadImg() noexcept
 //    _images[0]->setScaleImage(true);
     auto _camera = _manager->addCameraSceneNode(_master.get());
     _camera->setPosition(irr::core::vector3df(0, 0, -4));
-    addPlayer("../resources/models/Character/PinkBombermanTextures.png", irr::core::vector3df(-2.2, -0.5, 0), irr::core::vector3df(0, 90, 0));
-    addPlayer("../resources/models/Character/RedBombermanTextures.png", irr::core::vector3df(-0.8, -0.5, 0), irr::core::vector3df(0, 50, 0));
-    addPlayer("../resources/models/Character/WhiteBombermanTextures.png", irr::core::vector3df(0.8, -0.5, 0), irr::core::vector3df(0, 0, 0));
-    addPlayer("../resources/models/Character/BlackBombermanTextures.png", irr::core::vector3df(2.2, -0.5, 0), irr::core::vector3df(0, 180, 0));
+    addPlayer("./resources/models/Character/PinkBombermanTextures.png", irr::core::vector3df(-2.2, -0.5, 0), irr::core::vector3df(0, 90, 0));
+    addPlayer("./resources/models/Character/RedBombermanTextures.png", irr::core::vector3df(-0.8, -0.5, 0), irr::core::vector3df(0, 50, 0));
+    addPlayer("./resources/models/Character/WhiteBombermanTextures.png", irr::core::vector3df(0.8, -0.5, 0), irr::core::vector3df(0, 0, 0));
+    addPlayer("./resources/models/Character/BlackBombermanTextures.png", irr::core::vector3df(2.2, -0.5, 0), irr::core::vector3df(0, 180, 0));
 }
 
 void ChoosePlayerScene::loadButton()
@@ -112,7 +112,7 @@ void ChoosePlayerScene::setBackground()
 
 void ChoosePlayerScene::addPlayer(const std::string &rsc, irr::core::vector3df pos, irr::core::vector3df rotation)
 {
-    auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("../resources/models/Character/Bomberman.MD3"), _master.get());
+    auto newScene = _manager->addAnimatedMeshSceneNode(_manager->getMesh("./resources/models/Character/Bomberman.MD3"), _master.get());
     newScene->setMaterialFlag(irr::video::EMF_LIGHTING, false);
     newScene->setMD2Animation(irr::scene::EMAT_ATTACK);
 //    newScene->setScale(irr::core::vector3df(6,6,6));

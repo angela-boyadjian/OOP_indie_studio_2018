@@ -64,7 +64,7 @@ std::vector<std::string> Map::DigStart(std::vector<std::string> &map)
 
 void Map::generate3dMap(int template_index, int range, long seed)
 {
-    auto files_names = _reader.readDir("./../resources/maps/map_template/");
+    auto files_names = _reader.readDir("./resources/maps/map_template/");
     auto default_template = loadDefaultTemplate(files_names);
 
     if (seed == -1)

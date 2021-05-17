@@ -26,7 +26,7 @@ void MapSelectionScene::setCameraScene()
 
 void MapSelectionScene::setTerrain()
 {
-    irr::video::ITexture *images = _driver->getTexture("./../resources/ui/bombermanTitle.png");
+    irr::video::ITexture *images = _driver->getTexture("./resources/ui/bombermanTitle.png");
 
     _driver->enableMaterial2D();
     _driver->draw2DImage(images, irr::core::rect<irr::s32>(10, 10, 108, 48),

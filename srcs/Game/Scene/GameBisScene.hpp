@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include <SFML/Audio.hpp>
 #include <memory>
 #include <vector>
 #include <iostream>
@@ -102,8 +101,8 @@ class GameBisScene : public IScene {
         std::vector<ABombermanPlayer *> bombs_player;
         std::vector<std::chrono::time_point<std::chrono::system_clock>> bombs_time;
         // EXPLOSION
-        std::unordered_map<std::string, std::unique_ptr<sf::Sound>> _sfEffects;
-        std::vector<std::unique_ptr<sf::SoundBuffer>> _sfBuf;
+//        std::unordered_map<std::string, std::unique_ptr<sf::Sound>> _sfEffects;
+//        std::vector<std::unique_ptr<sf::SoundBuffer>> _sfBuf;
         std::vector<std::tuple<int, int>> _explosionPos;
         std::vector<std::chrono::time_point<std::chrono::system_clock>> _explosionTime;
         std::vector<std::size_t> _rm;

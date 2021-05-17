@@ -8,7 +8,6 @@
 #include <unistd.h>
 #include <chrono>
 #include <iostream>
-#include <SFML/Audio.hpp>
 #include <IrrlichtDisplayLoader.hpp>
 #include <Scene/MapChangeScene.hpp>
 
@@ -26,11 +25,11 @@
 core::Bomberman::Bomberman() :
     _isPlaying(true)
 {
-    _buf = std::make_unique<sf::SoundBuffer>(sf::SoundBuffer());
-    _buf->loadFromFile("./../resources/sounds/aulos.wav");
-    _music = std::make_unique<sf::Sound>(sf::Sound());
-    _music->setBuffer(*_buf.get());
-    _music->play();
+//    _buf = std::make_unique<sf::SoundBuffer>(sf::SoundBuffer());
+//    _buf->loadFromFile("./../resources/sounds/aulos.wav");
+//    _music = std::make_unique<sf::Sound>(sf::Sound());
+//    _music->setBuffer(*_buf.get());
+//    _music->play();
 }
 
 core::Bomberman::~Bomberman()
@@ -52,8 +51,8 @@ void core::Bomberman::setDisplayer(std::shared_ptr<IDisplay> &d,
 
 void core::Bomberman::setMusic()
 {
-    _mainMusic = std::make_unique<sf::Music>();
-    _mainMusic->openFromFile("./../resources/sounds/BombermanSong.wav");
+//    _mainMusic = std::make_unique<sf::Music>();
+//    _mainMusic->openFromFile("./../resources/sounds/BombermanSong.wav");
 }
 
 // ATTTET
@@ -186,8 +185,8 @@ void core::Bomberman::run()
     _map->getMapData()._mapWall[10][12] = '0';
 
     while (_display->isRunning()) {
-        if (_mainMusic->getStatus() != sf::Sound::Playing)
-            _mainMusic->play();
+//        if (_mainMusic->getStatus() != sf::Sound::Playing)
+//            _mainMusic->play();
         exploseBomb();
         auto actions = action();
         putBomb(actions);
@@ -288,10 +287,10 @@ void core::Bomberman::Trun()
 {
     while (_display->isRunning()) {
         _display->getDevice()->getVideoDriver()->beginScene(true, true,  irr::video::SColor(255, 100, 101, 140));
-        if (std::get<1>(_manager.getCurrent()) == "game" and _isPlaying)
-            _music->stop();
-        else if (!_isPlaying)
-            _music->play();
+//        if (std::get<1>(_manager.getCurrent()) == "game" and _isPlaying)
+//            _music->stop();
+//        else if (!_isPlaying)
+//            _music->play();
         _manager.runCurrentScene();
         _display->getDevice()->getVideoDriver()->endScene();
     }
@@ -308,22 +307,6 @@ void core::Bomberman::initScene()
     _manager.changeCurrent("intro");
 }
 
-void core::Bomberman::lauch()
-{
-    auto disp = std::shared_ptr<IDisplay>(new IrrlichtDisplay());
-    _event = std::make_unique<Events>(Events(disp->_device, _display));
-    disp->setDisplay(_event.get());
-    auto tempo = std::shared_ptr<irr::scene::ISceneNode>(disp->getDevice()->getSceneManager()->addEmptySceneNode());
-    auto dispLoader = std::shared_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp, tempo, disp->getDevice()->getSceneManager()));
-    setDisplayer(disp, dispLoader);
-    _manager.initManager(_display->getDevice()->getSceneManager());
-    initScene();
-    Trun();
-     /*setMusic();
-     initGame(_event.get());
-     run();*/
-}
-
 void core::Bomberman::initGame(Events *event)
 {
     auto players = std::vector<std::shared_ptr<Player>>();
@@ -338,5 +321,22 @@ void core::Bomberman::initGame(Events *event)
                                                                 std::size_t(
                                                                     0)))));
     auto game = std::unique_ptr<AGame>(new BombermanGame(players, bots));
-    loadGame("./../resources/maps/3", game);
+    std::cout << "LOAD GAME" << std::endl;
+    loadGame("./resources/maps/3", game);
+}
+
+void core::Bomberman::lauch()
+{
+    auto disp = std::shared_ptr<IDisplay>(new IrrlichtDisplay());
+    _event = std::make_unique<Events>(Events(disp->_device, _display));
+    disp->setDisplay(_event.get());
+    auto tempo = std::shared_ptr<irr::scene::ISceneNode>(disp->getDevice()->getSceneManager()->addEmptySceneNode());
+    auto dispLoader = std::shared_ptr<IDisplayLoader>(new IrrlichtDisplayLoader(disp, tempo, disp->getDevice()->getSceneManager()));
+    setDisplayer(disp, dispLoader);
+    _manager.initManager(_display->getDevice()->getSceneManager());
+    initScene();
+    Trun();
+    /*setMusic(); */
+    initGame(_event.get());
+    run();
 }
